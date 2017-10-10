@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TestSuite</title>
+
+  <link rel="stylesheet" href="../../../lib/qunitjs/qunit-2.4.0.css">
+
+  <script src="../../../lib/requirejs/require-2.3.5.js" data-main="../../../src/main"></script>
+
+  <script>
+    "use strict";
+
+    var prefix = "../test/common/js/";
+    var suffix = "Test";
+    var testModules = ["InputValidator", "TimePrinter"];
+    testModules = testModules.map(function(testModule)
+    {
+      return prefix + testModule + suffix;
+    });
+    testModules.unshift("common/js/Logger");
+
+    require(testModules, function(Logger)
+    {
+      window.LOGGER = new Logger();
+      LOGGER.setTraceEnabled(false);
+      LOGGER.setDebugEnabled(false);
+      LOGGER.setInfoEnabled(false);
+
+      QUnit.start();
+    });
+  </script>
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+</body>
+
+</html>
