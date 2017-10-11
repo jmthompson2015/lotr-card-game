@@ -1,0 +1,14 @@
+body {
+  background-image: url(../resource/wallpaper/MiddleEarthMap.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  vertical-align: middle;
+}

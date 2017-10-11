@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Event Card Gallery</title>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
+  <link rel="stylesheet" href="../../view/css/style.css">
+
+  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
+  <script>
+    require.config(
+    {
+      "baseUrl": "../../../src",
+    });
+  </script>
+  <script src="../../../src/main.js"></script>
+
+</head>
+<body>
+  <h1>Event Card Gallery</h1>
+  <div id="mainPanel"></div>
+  <script>
+    "use strict";
+
+    require(["create-react-class", "react", "react-dom", "react-dom-factories",
+        "common/js/Logger", "artifact/js/EventCard", "view/js/EventCardImage"
+      ],
+      function(createReactClass, React, ReactDOM, DOM, Logger, EventCard, EventCardImage)
+      {
+        window.LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var HeroGallery = createReactClass(
+        {
+          render: function()
+          {
+            var cardKeys = EventCard.keys();
+
+            var cells = [];
+
+            cardKeys.forEach(function(cardKey)
+            {
+              var element = React.createElement(EventCardImage,
+              {
+                key: "cardInstance" + cardKey,
+                card: EventCard.properties[cardKey],
+                width: 200,
+              });
+              cells.push(element);
+            });
+
+            return DOM.div(
+            {}, cells);
+          },
+        });
+
+        var rows = [];
+
+        rows.push(React.createElement(HeroGallery,
+        {
+          key: "cardGallery" + rows.length,
+        }));
+
+        var mainPanel = DOM.div(
+        {}, rows);
+        ReactDOM.render(mainPanel, document.getElementById("mainPanel"));
+      });
+  </script>
+</body>
+
+</html>

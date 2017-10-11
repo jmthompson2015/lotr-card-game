@@ -149,6 +149,30 @@ define(["artifact/js/CardSetType"], function(CardSetType)
    {
       var card = CardSet.properties[cardKey];
       card.type = CardSetType.properties[card.typeKey];
+
+      var imagePath;
+
+      switch (cardKey)
+      {
+         case CardSet.CORE:
+            imagePath = "Core-Set/";
+            break;
+         case CardSet.KHAZAD_DUM:
+            imagePath = "Khazad-dum/";
+            break;
+         case CardSet.ON_THE_DOORSTEP:
+            imagePath = "The-Hobbit-On-the-Doorstep/";
+            break;
+         case CardSet.OVER_HILL_AND_UNDER_HILL:
+            imagePath = "The-Hobbit-Over-Hill-and-Under-Hill/";
+            break;
+         default:
+            imagePath = card.name + "/";
+            imagePath = imagePath.replace(/ /g, "-");
+            imagePath = imagePath.replace(/ú/g, "u");
+      }
+
+      card.imagePath = imagePath;
    });
 
    if (Object.freeze)

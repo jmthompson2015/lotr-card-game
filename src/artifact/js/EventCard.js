@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/ImageNameCreator", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, ImageNameCreator, Sphere, Trait)
+define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var EventCard = {
          A_ELBERETH_GILTHONIEL: "aElberethGilthoniel",
@@ -148,8 +148,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                sphereKey: Sphere.SPIRIT,
                cardSetKey: CardSet.DWARROWDELF,
                cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
-               // This is spelled wrong at cardgamedb.com
-               image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_o-elbereth-gilthonial-saf.jpg",
                key: "aElberethGilthoniel",
             },
             "aGoodHarvest":
@@ -590,7 +588,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "hobbitSense":
             {
-               name: "Hobbit-Sense",
+               name: "Hobbit-sense",
                cost: 2,
                sphereKey: Sphere.NEUTRAL,
                cardSetKey: CardSet.AGAINST_THE_SHADOW,
@@ -696,7 +694,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "legacyOfNumenor":
             {
-               name: "Legacy of Numenor",
+               name: "Legacy of Númenor",
                cost: 0,
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
@@ -1135,7 +1133,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "tasteItAgain":
             {
-               name: "Taste It Again!",
+               name: "Taste it Again!",
                cost: 1,
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
@@ -1180,7 +1178,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "theHammerStroke":
             {
-               name: "The Hammer-Stroke",
+               name: "The Hammer-stroke",
                cost: 2,
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.AGAINST_THE_SHADOW,
@@ -1197,7 +1195,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "theSeeingStone":
             {
-               name: "The Seeing-Stone",
+               name: "The Seeing-stone",
                cost: 0,
                sphereKey: Sphere.NEUTRAL,
                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
@@ -1230,8 +1228,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
                cardSetNumber: 13,
-               // This is spelled wrong at cardgamedb.com
-               image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_the-wizardss-voice-voi.jpg",
                key: "theWizardsVoice",
             },
             "tightenOurBelts":
@@ -1264,7 +1260,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "toMeOMyKinsfolk":
             {
-               name: "To Me! O My Kinsfolk!",
+               name: "To me! O my kinsfolk!",
                cost: 1,
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.ON_THE_DOORSTEP,
@@ -1379,10 +1375,22 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
 
-         if (!card.image)
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+         imagePath = imagePath.replace(/,/g, "");
+         imagePath = imagePath.replace(/!/g, "");
+
+         switch (card.key)
          {
-            card.image = ImageNameCreator.create(card);
+            case EventCard.A_ELBERETH_GILTHONIEL:
+               imagePath = imagePath.replace("Gilthoniel", "Gilthonial");
+               break;
+            case EventCard.THE_WIZARDS_VOICE:
+               imagePath = "The-Wizards's-Voice";
+               break;
          }
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

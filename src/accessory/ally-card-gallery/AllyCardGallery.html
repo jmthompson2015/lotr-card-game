@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ally Card Gallery</title>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
+  <link rel="stylesheet" href="../../view/css/style.css">
+
+  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
+  <script>
+    require.config(
+    {
+      "baseUrl": "../../../src",
+    });
+  </script>
+  <script src="../../../src/main.js"></script>
+
+</head>
+<body>
+  <h1>Ally Card Gallery</h1>
+  <div id="mainPanel"></div>
+  <script>
+    "use strict";
+
+    require(["create-react-class", "react", "react-dom", "react-dom-factories",
+        "common/js/Logger", "artifact/js/AllyCard", "view/js/AllyCardImage"
+      ],
+      function(createReactClass, React, ReactDOM, DOM, Logger, AllyCard, AllyCardImage)
+      {
+        window.LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var cardGallery = createReactClass(
+        {
+          render: function()
+          {
+            var cardKeys = AllyCard.keys();
+
+            var cells = [];
+
+            cardKeys.forEach(function(cardKey)
+            {
+              var element = React.createElement(AllyCardImage,
+              {
+                key: "cardInstance" + cardKey,
+                card: AllyCard.properties[cardKey],
+                width: 200,
+              });
+              cells.push(element);
+            });
+
+            return DOM.div(
+            {}, cells);
+          },
+        });
+
+        var rows = [];
+
+        rows.push(React.createElement(cardGallery,
+        {
+          key: "cardGallery" + rows.length,
+        }));
+
+        var mainPanel = DOM.div(
+        {}, rows);
+        ReactDOM.render(mainPanel, document.getElementById("mainPanel"));
+      });
+  </script>
+</body>
+
+</html>

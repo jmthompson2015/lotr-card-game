@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/ImageNameCreator", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, ImageNameCreator, Sphere, Trait)
+define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var HeroCard = {
          AMARTHIUL: "amarthiul",
@@ -95,8 +95,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                cardSetKey: CardSet.ANGMAR_AWAKENED,
                cardSubsetKey: CardSubset.AA5_THE_BATTLE_OF_CARN_DUM,
                cardSetNumber: 107,
-               // card missing from cardgamedb.com
-               image: "https://s3.amazonaws.com/hallofbeorn-resources/Images/Cards/The-Battle-of-Carn-Dum/Amarthiúl.jpg",
                key: "amarthiul",
             },
             "aragornCore":
@@ -343,7 +341,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "brandSonOfBain":
             {
-               name: "Brand Son of Bain",
+               name: "Brand son of Bain",
                threatCost: 10,
                willpower: 2,
                attack: 3,
@@ -1185,10 +1183,17 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
 
-         if (!card.image)
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         switch (cardKey)
          {
-            card.image = ImageNameCreator.create(card);
+            case HeroCard.GRIMA:
+               imagePath += "-Hero";
+               break;
          }
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

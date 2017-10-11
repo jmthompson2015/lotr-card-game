@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/ImageNameCreator", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, ImageNameCreator, Sphere, Trait)
+define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var AllyCard = {
          ANBORN_TBOG: "anbornTBoG",
@@ -525,7 +525,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                cardSetKey: CardSet.THE_RING_MAKER,
                cardSubsetKey: CardSubset.TRM3_TROUBLE_IN_THARBAD,
                cardSetNumber: 65,
-               image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_defender-of-naith-trouble-in-tharbad-65.jpg",
                key: "defenderOfTheNaith",
             },
             "denethor":
@@ -845,7 +844,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "errandRider":
             {
-               name: "Errand-Rider",
+               name: "Errand-rider",
                cost: 1,
                willpower: 0,
                attack: 0,
@@ -1265,7 +1264,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "hama":
             {
-               name: "Hama",
+               name: "Háma",
                isUnique: true,
                cost: 3,
                willpower: 1,
@@ -1334,7 +1333,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                cardSetKey: CardSet.THE_RING_MAKER,
                cardSubsetKey: CardSubset.TRM3_TROUBLE_IN_THARBAD,
                cardSetNumber: 57,
-               image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_hearld-of-anorien-trouble-in-tharbad-57.jpg",
                key: "heraldOfAnorien",
             },
             "honourGuard":
@@ -1466,7 +1464,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "keenEyedTook":
             {
-               name: "Keen-Eyed Took",
+               name: "Keen-eyed Took",
                cost: 2,
                willpower: 1,
                attack: 0,
@@ -1749,7 +1747,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "mithlondSeaWatcher":
             {
-               name: "Mithlond Sea-Watcher",
+               name: "Mithlond Sea-watcher",
                cost: 2,
                willpower: 1,
                attack: 1,
@@ -2359,7 +2357,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "westfoldHorseBreeder":
             {
-               name: "Westfold Horse Breeder",
+               name: "Westfold Horse-breeder",
                cost: 1,
                willpower: 1,
                attack: 0,
@@ -2458,10 +2456,10 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
 
-         if (!card.image)
-         {
-            card.image = ImageNameCreator.create(card);
-         }
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

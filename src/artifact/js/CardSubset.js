@@ -143,7 +143,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSetType"],
             },
             "d2RoadToRivendell":
             {
-               name: "Road To Rivendell",
+               name: "Road to Rivendell",
                shortName: "RtR",
                cardSetKey: CardSet.DWARROWDELF,
                number: 2,
@@ -291,6 +291,23 @@ define(["artifact/js/CardSet", "artifact/js/CardSetType"],
          card.cardSet = CardSet.properties[card.cardSetKey];
          card.typeKey = CardSetType.ADVENTURE_PACK;
          card.type = CardSetType.properties[card.typeKey];
+
+         var imagePath;
+
+         switch (cardKey)
+         {
+            case CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL:
+               imagePath = "A-Journey-To-Rhosgobel/";
+               break;
+            default:
+               imagePath = card.name + "/";
+               imagePath = imagePath.replace(/ /g, "-");
+               imagePath = imagePath.replace(/î/g, "i");
+               imagePath = imagePath.replace(/û/g, "u");
+               imagePath = imagePath.replace(/ú/g, "u");
+         }
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)
