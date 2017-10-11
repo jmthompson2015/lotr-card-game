@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMode", "artifact/js/ImageNameCreator", "artifact/js/Trait"],
-   function(CardType, EncounterSet, GameMode, ImageNameCreator, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Trait)
    {
       var LocationCard = {
          BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
@@ -27,7 +27,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "banksOfTheAnduin",
             },
             "enchantedStream":
@@ -37,7 +37,11 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 2,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     text: "While Enchanted Stream is the active location, players cannot draw cards.",
+                  }],
                key: "enchantedStream",
             },
             "forestGate":
@@ -47,7 +51,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 4,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.RESPONSE,
+                     text: "After you travel to Forest Gate, the first player may draw 2 cards.",
+                  }],
                key: "forestGate",
             },
             "gladdenFields":
@@ -57,7 +66,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 3,
                traitKeys: [Trait.MARSHLAND],
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "gladdenFields",
             },
             "greatForestWeb":
@@ -67,7 +76,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 2,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.TRAVEL,
+                     text: "Each player must exhaust 1 hero he controls to travel here.",
+                  }],
                key: "greatForestWeb",
             },
             "mountainsOfMirkwood":
@@ -77,9 +91,16 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 3,
                traitKeys: [Trait.FOREST, Trait.MOUNTAIN],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
-               // This image is missing from cardgamedb.com
-               image: "http://talesfromthecards.files.wordpress.com/2013/03/mountains-of-mirkwood.jpg?w=200&h=279",
+               gameModeKeys: [GameMode.EASY, GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.TRAVEL,
+                     text: "Reveal the top card of the encounter deck and add it to the staging area to travel here.",
+                  },
+                  {
+                     headerKey: GameHeader.RESPONSE,
+                     text: "After Mountains of Mirkwood leaves play as an explored location, each player may search the top 5 cards of his deck for 1 card and add it to his hand. Shuffle the rest of the searched cards back into their owners' decks.",
+                  }],
                key: "mountainsOfMirkwood",
             },
             "necromancersPass":
@@ -89,7 +110,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 2,
                traitKeys: [Trait.STRONGHOLD, Trait.DOL_GULDUR],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.EASY, GameMode.STANDARD],
+               gameText: [
+                  {
+                     headerKey: GameHeader.TRAVEL,
+                     text: "The first player must discard 2 cards from his hand at random to travel here.",
+                  }],
                key: "necromancersPass",
             },
             "oldForestRoad":
@@ -99,7 +125,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 3,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.RESPONSE,
+                     text: "After you travel to Old Forest Road, the first player may choose and ready 1 character he controls.",
+                  }],
                key: "oldForestRoad",
             },
             "riverNinglor":
@@ -109,7 +140,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 4,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "riverNinglor",
             },
             "theEastBank":
@@ -119,7 +150,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "theEastBank",
             },
             "theEavesOfMirkwood":
@@ -129,7 +160,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 2,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "theEavesOfMirkwood",
             },
             "theOldFord":
@@ -139,7 +170,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 2,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD],
                key: "theOldFord",
             },
             "theWestBank":
@@ -149,7 +180,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "theWestBank",
             },
          },
@@ -159,17 +190,17 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
             return Object.getOwnPropertyNames(LocationCard.properties);
          },
 
-         valuesByEncounterSet: function(encounterSetKey)
+         keysByEncounterSet: function(encounterSetKey)
          {
             InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
 
-            var values = LocationCard.values();
+            var keys = LocationCard.keys();
 
-            return values.filter(function(cardKey)
+            return keys.filter(function(cardKey)
             {
                var card = LocationCard.properties[cardKey];
 
-               return card.scenarioKey === scenarioKey;
+               return card.encounterSetKey === encounterSetKey;
             });
          },
       };
@@ -182,10 +213,10 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
          card.gameMode = GameMode.properties[card.gameModeKey];
 
-         if (!card.image)
-         {
-            card.image = ImageNameCreator.create(card);
-         }
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

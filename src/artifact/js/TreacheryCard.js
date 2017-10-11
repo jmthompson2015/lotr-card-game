@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMode", "artifact/js/ImageNameCreator", "artifact/js/Trait"],
-   function(CardType, EncounterSet, GameMode, ImageNameCreator, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Trait)
    {
       var TreacheryCard = {
          CAUGHT_IN_A_WEB: "caughtInAWeb",
@@ -22,42 +22,61 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
             {
                name: "Caught in a Web",
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD, GameMode.STANDARD],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "The player with the highest threat level attaches this card to one of his heroes. (Counts as a Condition attachment with the text: \"Attached hero does not ready during the refresh phase unless you pay 2 resources from that hero's pool.\")",
+                  }],
                key: "caughtInAWeb",
             },
             "drivenByShadow":
             {
                name: "Driven by Shadow",
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each enemy and each location currently in the staging area gets +1 Threat until the end of the phase. If there are no cards in the staging area, Driven by Shadow gains surge.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Choose and discard 1 attachment from the defending character. (If this attack is undefended, discard all attachments you control.)",
+                  }],
                key: "drivenByShadow",
             },
             "evilStorm":
             {
                name: "Evil Storm",
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD],
                key: "evilStorm",
             },
             "eyesOfTheForest":
             {
                name: "Eyes of the Forest",
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each player discards all event cards in his hand.",
+                  }],
                key: "eyesOfTheForest",
             },
             "falseLead":
             {
                name: "False Lead",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "falseLead",
             },
             "flooding":
             {
                name: "Flooding",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                traitKeys: [Trait.DISASTER],
                key: "flooding",
             },
@@ -65,14 +84,14 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
             {
                name: "Massing at Night",
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "massingAtNight",
             },
             "oldWivesTales":
             {
                name: "Old Wives' Tales",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                traitKeys: [Trait.GOSSIP],
                key: "oldWivesTales",
             },
@@ -80,23 +99,26 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
             {
                name: "Pursued by Shadow",
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKey: GameMode.EASY,
-               // image missing at cardgamedb.com
-               image: "https://s3.amazonaws.com/hallofbeorn-resources/Images/Cards/Core-Set/Pursued-by-Shadow.png",
+               gameModeKeys: [GameMode.EASY],
                key: "pursuedByShadow",
             },
             "theNecromancersReach":
             {
                name: "The Necromancer's Reach",
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.EASY, GameMode.STANDARD, GameMode.STANDARD],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Deal 1 damage to each exhausted character.",
+                  }],
                key: "theNecromancersReach",
             },
             "treacherousFog":
             {
                name: "Treacherous Fog",
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "treacherousFog",
             },
          },
@@ -104,6 +126,20 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
          keys: function()
          {
             return Object.getOwnPropertyNames(TreacheryCard.properties);
+         },
+
+         keysByEncounterSet: function(encounterSetKey)
+         {
+            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+            var keys = TreacheryCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = TreacheryCard.properties[cardKey];
+
+               return card.encounterSetKey === encounterSetKey;
+            });
          },
       };
 
@@ -115,10 +151,10 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
          card.gameMode = GameMode.properties[card.gameModeKey];
 
-         if (!card.image)
-         {
-            card.image = ImageNameCreator.create(card);
-         }
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

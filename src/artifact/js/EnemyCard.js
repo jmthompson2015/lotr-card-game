@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMode", "artifact/js/ImageNameCreator", "artifact/js/Trait"],
-   function(CardType, EncounterSet, GameMode, ImageNameCreator, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Trait)
    {
       var EnemyCard = {
          BLACK_FOREST_BATS: "blackForestBats",
@@ -31,7 +31,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 2,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each player must choose 1 character currently committed to a quest, and remove that character from the quest. (The chosen character does not ready.)",
+                  }],
                key: "blackForestBats",
             },
             "chieftanUfthak":
@@ -44,7 +49,15 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 6,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD],
+               gameText: [
+                  {
+                     text: "Chieftain Ufthak gets +2 Attack for each resource token on him.",
+                  },
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "After Chieftain Ufthak attacks, place 1 resource token on him.",
+                  }],
                key: "chieftanUfthak",
             },
             "dolGuldurBeastmaster":
@@ -57,7 +70,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 5,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.EASY, GameMode.STANDARD],
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "When Dol Guldur Beastmaster attacks, deal it 1 additional shadow card.",
+                  }],
                key: "dolGuldurBeastmaster",
             },
             "dolGuldurOrcs":
@@ -70,7 +88,16 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 3,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "The first player chooses 1 character currently committed to a quest. Deal 2 damage to that character.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Attacking enemy gets +1 Attack. (+3 Attack instead if this attack is undefended.)",
+                  }],
                key: "dolGuldurOrcs",
             },
             "eastBightPatrol":
@@ -83,7 +110,12 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 2,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Attacking enemy gets +1 Attack. (If this attack is undefended, also raise your threat by 3.)",
+                  }],
                key: "eastBightPatrol",
             },
             "easternCrows":
@@ -96,7 +128,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 1,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "easternCrows",
             },
             "forestSpider":
@@ -109,7 +141,16 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 4,
                traitKeys: [Trait.CREATURE, Trait.SPIDER],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY, GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "After Forest Spider engages a player, it gets +1 Attack until the end of the round.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Defending player must choose and discard 1 attachment he controls.",
+                  }],
                key: "forestSpider",
             },
             "goblinSniper":
@@ -122,7 +163,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 2,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD],
                key: "goblinSniper",
             },
             "goblintownScavengers":
@@ -135,7 +176,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 3,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "goblintownScavengers",
             },
             "hummerhorns":
@@ -148,7 +189,16 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 3,
                traitKeys: [Trait.CREATURE, Trait.INSECT],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.STANDARD,
+               gameModeKeys: [GameMode.STANDARD],
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "After Hummerhorns engages you, deal 5 damage to a single hero you control.",
+                  },
+                  {
+                     gameHeaderKey: GameHeader.SHADOW,
+                     shadowEffect: "Deal 1 damage to each character the defending player controls. (2 damage instead if this attack is undefended.)",
+                  }],
                key: "hummerhorns",
             },
             "huntersFromMordor":
@@ -161,7 +211,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 6,
                traitKeys: [Trait.MORDOR],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
                key: "huntersFromMordor",
             },
             "kingSpider":
@@ -174,7 +224,16 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 3,
                traitKeys: [Trait.CREATURE, Trait.SPIDER],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each player must choose and exhaust 1 character he controls.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Defending player must choose and exhaust 1 character he controls. (2 characters instead if this attack is undefended.)",
+                  }],
                key: "kingSpider",
             },
             "mistyMountainGoblins":
@@ -187,9 +246,7 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 3,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKey: GameMode.EASY,
-               // image missing at cardgamedb.com
-               image: "https://talesfromthecards.files.wordpress.com/2013/03/misty-mountain-goblins.jpg?w=200&h=279",
+               gameModeKeys: [GameMode.EASY],
                key: "mistyMountainGoblins",
             },
             "ungoliantsSpawn":
@@ -202,7 +259,16 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
                hitPoints: 9,
                traitKeys: [Trait.CREATURE, Trait.SPIDER],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKey: GameMode.EASY,
+               gameModeKeys: [GameMode.EASY],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each character currently committed to a quest gets -1 Willpower until the end of the phase.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Raise defending player's threat by 4. (Raise defending player's threat by 8 instead if this attack is undefended.)",
+                  }],
                key: "ungoliantsSpawn",
             },
          },
@@ -210,6 +276,20 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
          keys: function()
          {
             return Object.getOwnPropertyNames(EnemyCard.properties);
+         },
+
+         keysByEncounterSet: function(encounterSetKey)
+         {
+            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+            var keys = EnemyCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = EnemyCard.properties[cardKey];
+
+               return card.encounterSetKey === encounterSetKey;
+            });
          },
       };
 
@@ -221,10 +301,17 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameMod
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
          card.gameMode = GameMode.properties[card.gameModeKey];
 
-         if (!card.image)
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         switch (cardKey)
          {
-            card.image = ImageNameCreator.create(card);
+            case EnemyCard.DOL_GULDUR_ORCS:
+               imagePath += "-Enemy";
+               break;
          }
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)
