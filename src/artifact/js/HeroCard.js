@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, Sphere, Trait)
+define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(InputValidator, CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var HeroCard = {
          AMARTHIUL: "amarthiul",
@@ -348,7 +348,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                defense: 2,
                hitPoints: 3,
                traitKeys: [Trait.DALE],
-               sphereKey: Sphere.LORE,
+               sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
                cardSetNumber: 72,
@@ -1167,6 +1167,20 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          keys: function()
          {
             return Object.getOwnPropertyNames(HeroCard.properties);
+         },
+
+         keysBySphere: function(sphereKey)
+         {
+            InputValidator.validateNotNull("sphereKey", sphereKey);
+
+            var keys = HeroCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = HeroCard.properties[cardKey];
+
+               return card.sphereKey === sphereKey;
+            });
          },
       };
 

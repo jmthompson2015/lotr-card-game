@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, Sphere, Trait)
+define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(InputValidator, CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var EventCard = {
          A_ELBERETH_GILTHONIEL: "aElberethGilthoniel",
@@ -759,7 +759,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             {
                name: "Mithrandir's Advice",
                cost: 0,
-               sphereKey: Sphere.LEADERSHIP,
+               sphereKey: Sphere.LORE,
                cardSetKey: CardSet.AGAINST_THE_SHADOW,
                cardSubsetKey: CardSubset.ATS1_THE_STEWARDS_FEAR,
                key: "mithrandirsAdvice",
@@ -1360,6 +1360,20 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          keys: function()
          {
             return Object.getOwnPropertyNames(EventCard.properties);
+         },
+
+         keysBySphere: function(sphereKey)
+         {
+            InputValidator.validateNotNull("sphereKey", sphereKey);
+
+            var keys = EventCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = EventCard.properties[cardKey];
+
+               return card.sphereKey === sphereKey;
+            });
          },
       };
 

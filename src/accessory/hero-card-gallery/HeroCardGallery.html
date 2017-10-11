@@ -24,9 +24,9 @@
     "use strict";
 
     require(["create-react-class", "react", "react-dom", "react-dom-factories",
-        "common/js/Logger", "artifact/js/HeroCard", "view/js/HeroCardImage"
+        "common/js/Logger", "artifact/js/HeroCard", "artifact/js/Sphere", "view/js/HeroCardImage"
       ],
-      function(createReactClass, React, ReactDOM, DOM, Logger, HeroCard, HeroCardImage)
+      function(createReactClass, React, ReactDOM, DOM, Logger, HeroCard, Sphere, HeroCardImage)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -36,7 +36,7 @@
         {
           render: function()
           {
-            var cardKeys = HeroCard.keys();
+            var cardKeys = HeroCard.keysBySphere(this.props.sphereKey);
 
             var cells = [];
 
@@ -58,10 +58,21 @@
 
         var rows = [];
 
-        rows.push(React.createElement(HeroGallery,
+        Sphere.keys().forEach(function(sphereKey, i)
         {
-          key: "cardGallery" + rows.length,
-        }));
+          var sphere = Sphere.properties[sphereKey];
+
+          rows.push(DOM.h2(
+          {
+            key: "cardHeader" + rows.length,
+          }, sphere.name));
+
+          rows.push(React.createElement(HeroGallery,
+          {
+            key: "cardGallery" + rows.length,
+            sphereKey: sphereKey,
+          }));
+        });
 
         var mainPanel = DOM.div(
         {}, rows);

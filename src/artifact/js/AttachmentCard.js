@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/ImageNameCreator", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, ImageNameCreator, Sphere, Trait)
+define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(InputValidator, CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var AttachmentCard = {
          A_BURNING_BRAND: "aBurningBrand",
@@ -420,7 +420,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "elfFriend":
             {
-               name: "Elf-Friend",
+               name: "Elf-friend",
                cost: 1,
                traitKeys: [Trait.TITLE],
                sphereKey: Sphere.NEUTRAL,
@@ -431,7 +431,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "elfStone":
             {
-               name: "Elf-Stone",
+               name: "Elf-stone",
                isUnique: true,
                cost: 1,
                traitKeys: [Trait.ARTIFACT, Trait.ITEM],
@@ -483,7 +483,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "expertTreasureHunter":
             {
-               name: "Expert Treasure-Hunter",
+               name: "Expert Treasure-hunter",
                cost: 0,
                traitKeys: [Trait.SKILL],
                sphereKey: Sphere.LORE,
@@ -687,7 +687,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "hornOfGondor":
             {
-               name: "Horn Of Gondor",
+               name: "Horn of Gondor",
                cost: 1,
                traitKeys: [Trait.ITEM, Trait.ARTIFACT],
                sphereKey: Sphere.TACTICS,
@@ -984,7 +984,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
             },
             "ravenWingedHelm":
             {
-               name: "Raven-Winged Helm",
+               name: "Raven-winged Helm",
                cost: 2,
                traitKeys: [Trait.ITEM, Trait.ARMOR],
                sphereKey: Sphere.TACTICS,
@@ -1335,7 +1335,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                cardSetKey: CardSet.THE_RING_MAKER,
                cardSubsetKey: CardSubset.TRM1_THE_DUNLAND_TRAP,
                cardSetNumber: 7,
-               image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_the-fall-of-gil--galad_the-dunland-trap_7.jpg",
                key: "theFallOfGilGalad",
             },
             "theFavorOfTheLady":
@@ -1438,7 +1437,6 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                cardSetKey: CardSet.THE_RING_MAKER,
                cardSubsetKey: CardSubset.TRM2_THE_THREE_TRIALS,
                cardSetNumber: 31,
-               image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_warden-of-anor-the-three-trials-31.jpg",
                key: "wardenOfArnor",
             },
             "weatherStainedCloak":
@@ -1479,6 +1477,20 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          {
             return Object.getOwnPropertyNames(AttachmentCard.properties);
          },
+
+         keysBySphere: function(sphereKey)
+         {
+            InputValidator.validateNotNull("sphereKey", sphereKey);
+
+            var keys = AttachmentCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = AttachmentCard.properties[cardKey];
+
+               return card.sphereKey === sphereKey;
+            });
+         },
       };
 
       AttachmentCard.keys().forEach(function(cardKey)
@@ -1493,10 +1505,12 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
 
-         if (!card.image)
-         {
-            card.image = ImageNameCreator.create(card);
-         }
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+         imagePath = imagePath.replace(/,/g, "");
+         imagePath = imagePath.replace(/!/g, "");
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Ally Card Gallery</title>
+  <title>Attachment Card Gallery</title>
   <meta charset="utf-8">
 
   <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
@@ -18,34 +18,34 @@
 
 </head>
 <body>
-  <h1>Ally Card Gallery</h1>
+  <h1>Attachment Card Gallery</h1>
   <div id="mainPanel"></div>
   <script>
     "use strict";
 
     require(["create-react-class", "react", "react-dom", "react-dom-factories",
-        "common/js/Logger", "artifact/js/AllyCard", "artifact/js/Sphere", "view/js/AllyCardImage"
+        "common/js/Logger", "artifact/js/AttachmentCard", "artifact/js/Sphere", "view/js/AttachmentCardImage"
       ],
-      function(createReactClass, React, ReactDOM, DOM, Logger, AllyCard, Sphere, AllyCardImage)
+      function(createReactClass, React, ReactDOM, DOM, Logger, AttachmentCard, Sphere, AttachmentCardImage)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var AllyGallery = createReactClass(
+        var AttachmentGallery = createReactClass(
         {
           render: function()
           {
-            var cardKeys = AllyCard.keysBySphere(this.props.sphereKey);
+            var cardKeys = AttachmentCard.keysBySphere(this.props.sphereKey);
 
             var cells = [];
 
             cardKeys.forEach(function(cardKey)
             {
-              var element = React.createElement(AllyCardImage,
+              var element = React.createElement(AttachmentCardImage,
               {
                 key: "cardInstance" + cardKey,
-                card: AllyCard.properties[cardKey],
+                card: AttachmentCard.properties[cardKey],
                 width: 200,
               });
               cells.push(element);
@@ -67,7 +67,7 @@
             key: "cardHeader" + rows.length,
           }, sphere.name));
 
-          rows.push(React.createElement(AllyGallery,
+          rows.push(React.createElement(AttachmentGallery,
           {
             key: "cardGallery" + rows.length,
             sphereKey: sphereKey,

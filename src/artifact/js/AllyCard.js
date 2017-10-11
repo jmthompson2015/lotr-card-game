@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(CardSet, CardSubset, CardType, Sphere, Trait)
+define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(InputValidator, CardSet, CardSubset, CardType, Sphere, Trait)
    {
       var AllyCard = {
          ANBORN_TBOG: "anbornTBoG",
@@ -2350,7 +2350,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                defense: 1,
                hitPoints: 1,
                traitKeys: [Trait.ROHAN],
-               sphereKey: Sphere.LORE,
+               sphereKey: Sphere.SPIRIT,
                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                key: "westfoldHorseBreaker",
@@ -2418,7 +2418,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
                defense: 4,
                hitPoints: 1,
                traitKeys: [Trait.CREATURE, Trait.EAGLE],
-               sphereKey: Sphere.LORE,
+               sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                key: "wingedGuardian",
@@ -2441,6 +2441,20 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType",
          keys: function()
          {
             return Object.getOwnPropertyNames(AllyCard.properties);
+         },
+
+         keysBySphere: function(sphereKey)
+         {
+            InputValidator.validateNotNull("sphereKey", sphereKey);
+
+            var keys = AllyCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = AllyCard.properties[cardKey];
+
+               return card.sphereKey === sphereKey;
+            });
          },
       };
 
