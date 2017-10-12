@@ -41,6 +41,14 @@ define(["common/js/InputValidator", "artifact/js/CardResolver", "model/js/Action
       }
 
       //////////////////////////////////////////////////////////////////////////
+      // Accessor methods.
+
+      CardInstance.prototype.toString = function()
+      {
+         return "CardInstance " + this.id() + " " + this.card().name;
+      };
+
+      //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
       CardInstance.prototype._save = function()

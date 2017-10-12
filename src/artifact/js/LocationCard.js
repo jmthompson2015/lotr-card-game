@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Trait"],
-   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Scenario", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var LocationCard = {
          BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
@@ -27,7 +27,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "If Banks of the Anduin leaves play, return it to the top of the encounter deck instead of placing it in the discard pile.",
+                  }],
                key: "banksOfTheAnduin",
             },
             "enchantedStream":
@@ -37,7 +42,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 2,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
                gameText: [
                   {
                      text: "While Enchanted Stream is the active location, players cannot draw cards.",
@@ -51,7 +56,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 4,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
                gameText: [
                   {
                      headerKey: GameHeader.RESPONSE,
@@ -66,7 +71,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                traitKeys: [Trait.MARSHLAND],
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1, 2),
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "While Gladden Fields is the active location, each player must raise his threat by an additional point during the refresh phase.",
+                  }],
                key: "gladdenFields",
             },
             "greatForestWeb":
@@ -76,7 +86,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 2,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
                gameText: [
                   {
                      headerKey: GameHeader.TRAVEL,
@@ -91,7 +101,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                traitKeys: [Trait.FOREST, Trait.MOUNTAIN],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(3),
                gameText: [
                   {
                      headerKey: GameHeader.TRAVEL,
@@ -110,7 +120,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 2,
                traitKeys: [Trait.STRONGHOLD, Trait.DOL_GULDUR],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.EASY, GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(1, 1),
                gameText: [
                   {
                      headerKey: GameHeader.TRAVEL,
@@ -125,7 +135,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
                gameText: [
                   {
                      headerKey: GameHeader.RESPONSE,
@@ -140,7 +150,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 4,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     text: "While River Ninglor is the active location, remove 1 progress token from it and from the current quest at the end of each round.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Remove 1 progress token from the current quest. (2 progress tokens instead if this attack is undefended.)",
+                  }],
                key: "riverNinglor",
             },
             "theEastBank":
@@ -150,7 +168,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     text: "While The East Bank is the active location, ally cards cost 1 additional matching resource to play from hand.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "If you do not control at least 1 hero with a Clue card attached, return this enemy to the staging area after its attack resolves.",
+                  }],
                key: "theEastBank",
             },
             "theEavesOfMirkwood":
@@ -160,7 +186,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 2,
                traitKeys: [Trait.FOREST],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(3),
+               gameText: [
+                  {
+                     text: "While The Eaves of Mirkwood is the active location, encounter card effects cannot be canceled.",
+                  }],
                key: "theEavesOfMirkwood",
             },
             "theOldFord":
@@ -170,7 +200,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 2,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(0, 2),
+               gameText: [
+                  {
+                     text: "X is the number of ally cards in play."
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Discard from play all allies with a printed cost lower than the number of Riverland locations in play.",
+                  }],
                key: "theOldFord",
             },
             "theWestBank":
@@ -180,7 +218,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     text: "While The West Bank is the active location, attachment and event cards cost 1 additional matching resource to play from hand.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "If you do not control at least 1 hero with a Clue card attached, double this enemy's base Attack for this attack.",
+                  }],
                key: "theWestBank",
             },
          },
@@ -201,6 +247,22 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                var card = LocationCard.properties[cardKey];
 
                return card.encounterSetKey === encounterSetKey;
+            });
+         },
+
+         keysByScenario: function(scenarioKey)
+         {
+            InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+            var scenario = Scenario.properties[scenarioKey];
+            var encounterSetKeys = scenario.encounterSetKeys;
+            var keys = LocationCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = LocationCard.properties[cardKey];
+
+               return encounterSetKeys.includes(card.encounterSetKey);
             });
          },
       };

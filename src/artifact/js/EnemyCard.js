@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Trait"],
-   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Scenario", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var EnemyCard = {
          BLACK_FOREST_BATS: "blackForestBats",
@@ -31,7 +31,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 2,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -49,7 +49,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 6,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(0, 1),
                gameText: [
                   {
                      text: "Chieftain Ufthak gets +2 Attack for each resource token on him.",
@@ -70,7 +70,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 5,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.EASY, GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(1, 1),
                gameText: [
                   {
                      headerKey: GameHeader.FORCED,
@@ -88,7 +88,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 3,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(3),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -110,7 +110,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 2,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1),
                gameText: [
                   {
                      headerKey: GameHeader.SHADOW,
@@ -128,7 +128,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 1,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1, 2),
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "After Eastern Crows is defeated, shuffle it back into the encounter deck.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Attacking enemy gets +1 Attack. (+2 Attack instead if defending player's threat is 35 or higher.)",
+                  }],
                key: "easternCrows",
             },
             "forestSpider":
@@ -141,7 +150,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 4,
                traitKeys: [Trait.CREATURE, Trait.SPIDER],
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY, GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(4),
                gameText: [
                   {
                      headerKey: GameHeader.FORCED,
@@ -176,7 +185,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 3,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1, 1),
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Discard the top card of each player's deck. Until the end of the phase, increase Goblintown Scavenger's Threat by the total printed cost of all cards discarded in this way.",
+                  }],
                key: "goblintownScavengers",
             },
             "hummerhorns":
@@ -189,7 +203,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 3,
                traitKeys: [Trait.CREATURE, Trait.INSECT],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(0, 1),
                gameText: [
                   {
                      headerKey: GameHeader.FORCED,
@@ -211,7 +225,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 6,
                traitKeys: [Trait.MORDOR],
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2, 3),
+               gameText: [
+                  {
+                     text: "Hunters from Mordor get +2 Attack and +2 Threat for each Clue card in play.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Deal 1 damage to each hero with a Clue card attached. (3 damage instead if this attack is undefended.)",
+                  }],
                key: "huntersFromMordor",
             },
             "kingSpider":
@@ -224,7 +246,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 3,
                traitKeys: [Trait.CREATURE, Trait.SPIDER],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY, GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -246,7 +268,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 3,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(3),
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "After Misty Mountain Goblins attacks, remove 1 progress token from the current quest.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Remove 1 progress token from the current quest. (3 progress tokens instead if this attack is undefended.)",
+                  }],
                key: "mistyMountainGoblins",
             },
             "ungoliantsSpawn":
@@ -259,7 +290,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 9,
                traitKeys: [Trait.CREATURE, Trait.SPIDER],
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -289,6 +320,22 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                var card = EnemyCard.properties[cardKey];
 
                return card.encounterSetKey === encounterSetKey;
+            });
+         },
+
+         keysByScenario: function(scenarioKey)
+         {
+            InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+            var scenario = Scenario.properties[scenarioKey];
+            var encounterSetKeys = scenario.encounterSetKeys;
+            var keys = EnemyCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = EnemyCard.properties[cardKey];
+
+               return encounterSetKeys.includes(card.encounterSetKey);
             });
          },
       };

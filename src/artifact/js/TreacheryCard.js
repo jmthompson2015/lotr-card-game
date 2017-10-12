@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Trait"],
-   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/GameMode", "artifact/js/Scenario", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var TreacheryCard = {
          CAUGHT_IN_A_WEB: "caughtInAWeb",
@@ -22,7 +22,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             {
                name: "Caught in a Web",
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.STANDARD, GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(0, 2),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -34,7 +34,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             {
                name: "Driven by Shadow",
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -50,14 +50,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             {
                name: "Evil Storm",
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKeys: [GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(2, 1),
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Deal 1 damage to each character controlled by each player with a threat of 35 or higher.",
+                  }],
                key: "evilStorm",
             },
             "eyesOfTheForest":
             {
                name: "Eyes of the Forest",
                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
-               gameModeKeys: [GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(0, 1),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -69,44 +74,81 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             {
                name: "False Lead",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "The first player chooses and shuffles a card with the printed Clue trait back into the encounter deck. If there are no Clue cards in play, False Lead gains surge.",
+                  }],
                key: "falseLead",
             },
             "flooding":
             {
                name: "Flooding",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
                traitKeys: [Trait.DISASTER],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Remove all progress tokens from all Riverland locations.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Resolve the 'when revealed' effect of this card.",
+                  }],
                key: "flooding",
             },
             "massingAtNight":
             {
                name: "Massing at Night",
                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(0, 1),
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Reveal X additional cards from the encounter deck. X is the number of players in the game.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Deal X shadow cards to this attacker. X is the number of players in the game.",
+                  }],
                key: "massingAtNight",
             },
             "oldWivesTales":
             {
                name: "Old Wives' Tales",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(1, 2),
                traitKeys: [Trait.GOSSIP],
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Discard 1 resource from each hero's resource pool, if able. Exhaust any hero that could not discard a resource from its pool.",
+                  }],
                key: "oldWivesTales",
             },
             "pursuedByShadow":
             {
                name: "Pursued by Shadow",
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each player raises his threat by 1 for each character he controls that is not currently committed to a quest.",
+                  },
+                  {
+                     headerKey: GameHeader.SHADOW,
+                     text: "Defending player chooses and returns 1 exhausted ally he controls to its owner's hand. If he controls no exhausted allies, raise his threat by 3.",
+                  }],
                key: "pursuedByShadow",
             },
             "theNecromancersReach":
             {
                name: "The Necromancer's Reach",
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
-               gameModeKeys: [GameMode.EASY, GameMode.STANDARD, GameMode.STANDARD],
+               gameModeMap: GameMode.createMap(1, 2),
                gameText: [
                   {
                      headerKey: GameHeader.WHEN_REVEALED,
@@ -118,7 +160,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             {
                name: "Treacherous Fog",
                encounterSetKey: EncounterSet.SAURONS_REACH,
-               gameModeKeys: [GameMode.EASY],
+               gameModeMap: GameMode.createMap(2),
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each location in the staging area gets +1 Threat until the end of the phase. Then, each player with a threat of 35 or higher chooses and discards 1 card from his hand.",
+                  }],
                key: "treacherousFog",
             },
          },
@@ -139,6 +186,22 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                var card = TreacheryCard.properties[cardKey];
 
                return card.encounterSetKey === encounterSetKey;
+            });
+         },
+
+         keysByScenario: function(scenarioKey)
+         {
+            InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+            var scenario = Scenario.properties[scenarioKey];
+            var encounterSetKeys = scenario.encounterSetKeys;
+            var keys = TreacheryCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = TreacheryCard.properties[cardKey];
+
+               return encounterSetKeys.includes(card.encounterSetKey);
             });
          },
       };

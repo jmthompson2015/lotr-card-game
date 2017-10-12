@@ -108,6 +108,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.THE_HUNT_FOR_GOLLUM,
                sequence: "1A",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+               gameText: [
+                  {
+                     headerKey: GameHeader.SETUP,
+                     text: "Reveal 1 card per player from the encounter deck, and add it to the staging area.",
+                  }],
                key: "thfg1aTheHuntBegins",
             },
             "thfg1bTheHuntBegins":
@@ -117,6 +122,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "1B",
                questPoints: 8,
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "After the players quest successfully, the first player looks at the top 3 cards of the encounter deck. Reveal and add 1 of those cards to the staging area, and discard the other 2 cards.",
+                  }],
                key: "thfg1bTheHuntBegins",
             },
             "thfg2aANewTerrorAbroad":
@@ -134,6 +144,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "2B",
                questPoints: 10,
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "At the beginning of the quest phase, the first player looks at the top 2 cards of the encounter deck. Reveal and add 1 of those cards to the staging area, and discard the other.",
+                  }],
                key: "thfg2bANewTerrorAbroad",
             },
             "thfg3aOnTheTrail":
@@ -151,6 +166,10 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "3B",
                questPoints: 8,
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+               gameText: [
+                  {
+                     text: "Any player who does not control a hero with at least 1 Clue objective attached cannot commit characters to this quest. If there are ever no heroes with Clue objectives attached in play, reset the quest deck to stage 2B. If the players defeat this stage, the players have once again found a true sign of Gollum's passing, and won the game.",
+                  }],
                key: "thfg3bOnTheTrail",
             },
          },

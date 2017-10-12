@@ -19,7 +19,6 @@ define(["qunit", "redux", "artifact/js/HeroCard", "model/js/CardInstance", "mode
          assert.ok(result);
          assert.equal(result.id(), 1);
          assert.equal(result.card().key, cardKey);
-         LOGGER.info("store.getState().cardInstances = " + store.getState().cardInstances);
          assert.equal(store.getState().cardInstances.size, 1);
       });
 
