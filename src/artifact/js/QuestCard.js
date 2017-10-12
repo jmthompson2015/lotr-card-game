@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/ImageNameCreator", "artifact/js/Scenario"],
-   function(InputValidator, CardType, EncounterSet, ImageNameCreator, Scenario)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/GameHeader", "artifact/js/Scenario"],
+   function(InputValidator, CardType, EncounterSet, GameHeader, Scenario)
    {
       var QuestCard = {
          PTM1A_FLIES_AND_SPIDERS: "ptm1aFliesAndSpiders",
@@ -26,6 +26,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.PASSAGE_THROUGH_MIRKWOOD,
                sequence: "1A",
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+               gameText: [
+                  {
+                     headerKey: GameHeader.SETUP,
+                     text: "Search the encounter deck for 1 copy of the Forest Spider and 1 copy of the Old Forest Road, and add them to the staging area. Then, shuffle the encounter deck.",
+                  }],
                key: "ptm1aFliesAndSpiders",
             },
             "ptm1bFliesAndSpiders":
@@ -52,6 +57,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "2B",
                questPoints: 2,
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+               gameText: [
+                  {
+                     headerKey: GameHeader.FORCED,
+                     text: "When you defeat this state, proceed to one of the 2 \"A Chosen Path\" stages, at random.",
+                  }],
                key: "ptm2bAForkInTheRoad",
             },
             "ptm3aAChosenPath":
@@ -60,7 +70,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.PASSAGE_THROUGH_MIRKWOOD,
                sequence: "3A",
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               image: "http://s3.amazonaws.com/hallofbeorn-resources/Images/Cards/Core-Set/A-Chosen-Path-Beorn's-Path-3A.png",
                key: "ptm3aAChosenPath",
             },
             "ptm3b1BeornsPath":
@@ -70,7 +79,10 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "3B",
                questPoints: 10,
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               image: "http://s3.amazonaws.com/hallofbeorn-resources/Images/Cards/Core-Set/A-Chosen-Path-Beorn's-Path-3B.png",
+               gameText: [
+                  {
+                     text: "Players cannot defeat this stage while Ungoliant's Spawn is in play. If players defeat this stage, they have won the game.",
+                  }],
                key: "ptm3b1BeornsPath",
             },
             "ptm3b2DontLeaveThePath":
@@ -80,7 +92,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "3B",
                questPoints: 0,
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-               image: "http://s3.amazonaws.com/hallofbeorn-resources/Images/Cards/Core-Set/A-Chosen-Path-Don't-Leave-the-Path-3B.png",
+               gameText: [
+                  {
+                     headerKey: GameHeader.WHEN_REVEALED,
+                     text: "Each player must search the encounter deck and discard pile for 1 Spider card of his choice, and add it to the staging area.",
+                  },
+                  {
+                     text: "The players must find and defeat Ungoliant's Spawn to win this game.",
+                  }],
                key: "ptm3b2DontLeaveThePath",
             },
             "thfg1aTheHuntBegins":
@@ -141,6 +160,20 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             return Object.getOwnPropertyNames(QuestCard.properties);
          },
 
+         keysByEncounterSet: function(encounterSetKey)
+         {
+            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+            var keys = QuestCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = QuestCard.properties[cardKey];
+
+               return card.encounterSetKey === encounterSetKey;
+            });
+         },
+
          keysByScenario: function(scenarioKey)
          {
             InputValidator.validateNotNull("scenarioKey", scenarioKey);
@@ -163,10 +196,23 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
 
-         if (!card.image)
+         var imagePath = card.name + "-" + card.sequence;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         switch (cardKey)
          {
-            card.image = ImageNameCreator.create(card);
+            case QuestCard.PTM3A_A_CHOSEN_PATH:
+               imagePath = "A-Chosen-Path-Don't-Leave-the-Path-3A";
+               break;
+            case QuestCard.PTM3B1_BEORNS_PATH:
+               imagePath = "A-Chosen-Path-Beorn's-Path-3B";
+               break;
+            case QuestCard.PTM3B2_DONT_LEAVE_THE_PATH:
+               imagePath = "A-Chosen-Path-Don't-Leave-the-Path-3B";
+               break;
          }
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)

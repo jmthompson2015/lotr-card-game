@@ -4,6 +4,7 @@ define(function()
 {
    var GameHeader = {
       FORCED: "forced",
+      SETUP: "setup",
       SHADOW: "shadow",
       TRAVEL: "travel",
       WHEN_REVEALED: "whenRevealed",
@@ -14,6 +15,11 @@ define(function()
          {
             name: "Forced",
             key: "forced",
+         },
+         "setup":
+         {
+            name: "Setup",
+            key: "setup",
          },
          "shadow":
          {

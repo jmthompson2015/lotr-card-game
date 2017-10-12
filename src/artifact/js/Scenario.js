@@ -11,15 +11,13 @@ define(["artifact/js/EncounterSet"], function(EncounterSet)
          "passageThroughMirkwood":
          {
             name: "Passage Through Mirkwood",
-            encounterSetKeys: [EncounterSet.PASSAGE_THROUGH_MIRKWOOD, EncounterSet.SPIDERS_OF_MIRKWOOD,
-                        EncounterSet.DOL_GULDUR_ORCS],
+            encounterSetKeys: [EncounterSet.PASSAGE_THROUGH_MIRKWOOD, EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS],
             key: "passageThroughMirkwood",
          },
          "theHuntForGollum":
          {
             name: "The Hunt for Gollum",
-            encounterSetKeys: [EncounterSet.THE_HUNT_FOR_GOLLUM, EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
-                        EncounterSet.SAURONS_REACH],
+            encounterSetKeys: [EncounterSet.THE_HUNT_FOR_GOLLUM, EncounterSet.JOURNEY_DOWN_THE_ANDUIN, EncounterSet.SAURONS_REACH],
             key: "theHuntForGollum",
          },
       },

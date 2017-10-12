@@ -1,7 +1,7 @@
 "use strict";
 
-define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/ImageNameCreator", "artifact/js/Trait"],
-   function(CardType, EncounterSet, ImageNameCreator, Trait)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/Trait"],
+   function(InputValidator, CardType, EncounterSet, Trait)
    {
       var ObjectiveCard = {
          SIGNS_OF_GOLLUM: "signsOfGollum",
@@ -21,6 +21,20 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/ImageNa
          {
             return Object.getOwnPropertyNames(ObjectiveCard.properties);
          },
+
+         keysByEncounterSet: function(encounterSetKey)
+         {
+            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+            var keys = ObjectiveCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = ObjectiveCard.properties[cardKey];
+
+               return card.encounterSetKey === encounterSetKey;
+            });
+         },
       };
 
       ObjectiveCard.keys().forEach(function(cardKey)
@@ -30,10 +44,10 @@ define(["artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/ImageNa
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
 
-         if (!card.image)
-         {
-            card.image = ImageNameCreator.create(card);
-         }
+         var imagePath = card.name;
+         imagePath = imagePath.replace(/ /g, "-");
+
+         card.imagePath = imagePath;
       });
 
       if (Object.freeze)
