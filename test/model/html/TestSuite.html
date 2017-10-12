@@ -11,12 +11,9 @@
   <script>
     "use strict";
 
-    var prefix = "../test/artifact/js/";
+    var prefix = "../test/model/js/";
     var suffix = "Test";
-    var testModules = ["AllyCard", "AttachmentCard", "CardResolver", "CardSet", "CardSetType", "CardSubset", "CardType", "EncounterSet", "EnemyCard",
-      "EventCard", "GameMode", "HeroCard", "ImageNameCreator", "LocationCard", "ObjectiveCard", "Phase", "QuestCard", "Scenario", "Sphere", "Trait",
-      "TreacheryCard",
-    ];
+    var testModules = ["Action", "CardInstance", "InitialState", "Reducer"];
     testModules = testModules.map(function(testModule)
     {
       return prefix + testModule + suffix;
