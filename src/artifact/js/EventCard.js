@@ -13,11 +13,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          AGAINST_THE_SHADOW: "againstTheShadow",
          ASTONISHING_SPEED: "astonishingSpeed",
          BEHIND_STRONG_WALLS: "behindStrongWalls",
+         BEORNS_HOSPITALITY: "beornsHospitality",
+         BLADE_MASTERY: "bladeMastery",
          BOOMED_AND_TRUMPETED: "boomedAndTrumpeted",
          CAMPFIRE_TALES: "campfireTales",
          CHARGE_OF_THE_ROHIRRIM: "chargeOfTheRohirrim",
          CHILDREN_OF_THE_SEA: "childrenOfTheSea",
          CLOSE_CALL: "closeCall",
+         COMMON_CAUSE: "commonCause",
          COURAGE_AWAKENED: "courageAwakened",
          DAERONS_RUNES: "daeronsRunes",
          DAWN_TAKE_YOU_ALL: "dawnTakeYouAll",
@@ -31,6 +34,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          DWARVEN_TOMB: "dwarvenTomb",
          ELRONDS_COUNSEL: "elrondsCounsel",
          ELVEN_LIGHT: "elvenLight",
+         EVER_VIGILANT: "everVigilant",
          EXPERT_TRACKERS: "expertTrackers",
          FAIR_AND_PERILOUS: "fairAndPerilous",
          FEIGNED_VOICES: "feignedVoices",
@@ -40,13 +44,16 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          FOR_GONDOR: "forGondor",
          FOREST_PATROL: "forestPatrol",
          FORTH_EORLINGAS: "forthEorlingas",
+         FORTUNE_OR_FATE: "fortuneOrFate",
          FREE_TO_CHOOSE: "freeToChoose",
          FRESH_TRACKS: "freshTracks",
          FRODOS_INTUITION: "frodosIntuition",
          GAINING_STRENGTH: "gainingStrength",
+         GANDALFS_SEARCH: "gandalfsSearch",
          GILDORS_COUNSEL: "gildorsCounsel",
          GONDORIAN_DISCIPLINE: "gondorianDiscipline",
          GRAVE_CAIRN: "graveCairn",
+         GRIM_RESOLVE: "grimResolve",
          HAIL_OF_STONES: "hailOfStones",
          HALFLING_DETERMINATION: "halflingDetermination",
          HANDS_UPON_THE_BOW: "handsUponTheBow",
@@ -67,6 +74,8 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          LEGACY_OF_NUMENOR: "legacyOfNumenor",
          LIGHT_THE_BEACONS: "lightTheBeacons",
          LORDS_OF_THE_ELDAR: "lordsOfTheEldar",
+         LORE_OF_IMLADRIS: "loreOfImladris",
+         LORIENS_WEALTH: "loriensWealth",
          LURE_OF_MORIA: "lureOfMoria",
          MEN_OF_THE_WEST: "menOfTheWest",
          MENELDORS_FLIGHT: "meneldorsFlight",
@@ -86,6 +95,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          QUICK_EARS: "quickEars",
          QUICK_STRIKE: "quickStrike",
          RADAGASTS_CUNNING: "radagastsCunning",
+         RAIN_OF_ARROWS: "rainOfArrows",
          RALLYING_CRY: "rallyingCry",
          RANGER_SUMMONS: "rangerSummons",
          RAVENS_OF_THE_MOUNTAIN: "ravensOfTheMountain",
@@ -97,6 +107,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          RISK_SOME_LIGHT: "riskSomeLight",
          RUMOUR_FROM_THE_EARTH: "rumourFromTheEarth",
          SECOND_BREAKFAST: "secondBreakfast",
+         SECRET_PATHS: "secretPaths",
          SHADOW_OF_THE_PAST: "shadowOfThePast",
          SHADOWS_GIVE_WAY: "shadowsGiveWay",
          SHORT_CUT: "shortCut",
@@ -105,8 +116,10 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          SNEAK_ATTACK: "sneakAttack",
          SPEAK_YOUR_PROMISE: "speakYourPromise",
          STAND_AND_FIGHT: "standAndFight",
+         STAND_TOGETHER: "standTogether",
          STRAIGHT_SHOT: "straightShot",
          STRENGTH_OF_ARMS: "strengthOfArms",
+         STRENGTH_OF_WILL: "strengthOfWill",
          STRIDERS_PATH: "stridersPath",
          SWIFT_AND_SILENT: "swiftAndSilent",
          SWIFT_STRIKE: "swiftStrike",
@@ -124,6 +137,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          THE_TREE_PEOPLE: "theTreePeople",
          THE_WHITE_COUNCIL: "theWhiteCouncil",
          THE_WIZARDS_VOICE: "theWizardsVoice",
+         THICKET_OF_SPEARS: "thicketOfSpears",
          TIGHTEN_OUR_BELTS: "tightenOurBelts",
          TIMELY_AID: "timelyAid",
          TIRELESS_HUNTERS: "tirelessHunters",
@@ -137,6 +151,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          WE_DO_NOT_SLEEP: "weDoNotSleep",
          WEALTH_OF_GONDOR: "wealthOfGondor",
          WELL_EQUIPPED: "wellEquipped",
+         WILL_OF_THE_WEST: "willOfTheWest",
          WORD_OF_COMMAND: "wordOfCommand",
 
          properties:
@@ -218,6 +233,22 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
                key: "behindStrongWalls",
             },
+            "beornsHospitality":
+            {
+               name: "Beorn's Hospitality",
+               cost: 5,
+               sphereKey: Sphere.LORE,
+               cardSetKey: CardSet.CORE,
+               key: "beornsHospitality",
+            },
+            "bladeMastery":
+            {
+               name: "Blade Mastery",
+               cost: 1,
+               sphereKey: Sphere.TACTICS,
+               cardSetKey: CardSet.CORE,
+               key: "bladeMastery",
+            },
             "boomedAndTrumpeted":
             {
                name: "Boomed and Trumpeted",
@@ -266,6 +297,15 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSubsetKey: CardSubset.TRM1_THE_DUNLAND_TRAP,
                cardSetNumber: 5,
                key: "closeCall",
+            },
+            "commonCause":
+            {
+               name: "Common Cause",
+               cost: 0,
+               sphereKey: Sphere.LEADERSHIP,
+               cardSetKey: CardSet.CORE,
+               cardSetNumber: 21,
+               key: "commonCause",
             },
             "courageAwakened":
             {
@@ -388,6 +428,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
                key: "elvenLight",
             },
+            "everVigilant":
+            {
+               name: "Ever Vigilant",
+               cost: 1,
+               sphereKey: Sphere.LEADERSHIP,
+               cardSetKey: CardSet.CORE,
+               key: "everVigilant",
+            },
             "expertTrackers":
             {
                name: "Expert Trackers",
@@ -471,6 +519,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSubsetKey: CardSubset.ATS6_THE_MORGUL_VALE,
                key: "forthEorlingas",
             },
+            "fortuneOrFate":
+            {
+               name: "Fortune or Fate",
+               cost: 5,
+               sphereKey: Sphere.SPIRIT,
+               cardSetKey: CardSet.CORE,
+               key: "fortuneOrFate",
+            },
             "freeToChoose":
             {
                name: "Free to Choose",
@@ -507,6 +563,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSubsetKey: CardSubset.ATS1_THE_STEWARDS_FEAR,
                key: "gainingStrength",
             },
+            "gandalfsSearch":
+            {
+               name: "Gandalf's Search",
+               cost: undefined,
+               sphereKey: Sphere.LORE,
+               cardSetKey: CardSet.CORE,
+               key: "gandalfsSearch",
+            },
             "gildorsCounsel":
             {
                name: "Gildor's Counsel",
@@ -533,6 +597,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetKey: CardSet.DWARROWDELF,
                cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
                key: "graveCairn",
+            },
+            "grimResolve":
+            {
+               name: "Grim Resolve",
+               cost: 5,
+               sphereKey: Sphere.LEADERSHIP,
+               cardSetKey: CardSet.CORE,
+               key: "grimResolve",
             },
             "hailOfStones":
             {
@@ -718,6 +790,22 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetNumber: 121,
                key: "lordsOfTheEldar",
             },
+            "loreOfImladris":
+            {
+               name: "Lore of Imladris",
+               cost: 2,
+               sphereKey: Sphere.LORE,
+               cardSetKey: CardSet.CORE,
+               key: "loreOfImladris",
+            },
+            "loriensWealth":
+            {
+               name: "Lórien's Wealth",
+               cost: 3,
+               sphereKey: Sphere.LORE,
+               cardSetKey: CardSet.CORE,
+               key: "loriensWealth",
+            },
             "lureOfMoria":
             {
                name: "Lure of Moria",
@@ -890,6 +978,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetKey: CardSet.CORE,
                key: "radagastsCunning",
             },
+            "rainOfArrows":
+            {
+               name: "Rain of Arrows",
+               cost: 1,
+               sphereKey: Sphere.TACTICS,
+               cardSetKey: CardSet.CORE,
+               key: "rainOfArrows",
+            },
             "rallyingCry":
             {
                name: "Rallying Cry",
@@ -991,6 +1087,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                key: "secondBreakfast",
             },
+            "secretPaths":
+            {
+               name: "Secret Paths",
+               cost: 1,
+               sphereKey: Sphere.LORE,
+               cardSetKey: CardSet.CORE,
+               key: "secretPaths",
+            },
             "shadowOfThePast":
             {
                name: "Shadow of the Past",
@@ -1061,6 +1165,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetKey: CardSet.CORE,
                key: "standAndFight",
             },
+            "standTogether":
+            {
+               name: "Stand Together",
+               cost: 0,
+               sphereKey: Sphere.TACTICS,
+               cardSetKey: CardSet.CORE,
+               key: "standTogether",
+            },
             "straightShot":
             {
                name: "Straight Shot",
@@ -1077,6 +1189,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetKey: CardSet.AGAINST_THE_SHADOW,
                cardSubsetKey: CardSubset.ATS2_THE_DRUADAN_FOREST,
                key: "strengthOfArms",
+            },
+            "strengthOfWill":
+            {
+               name: "Strength of Will",
+               cost: 0,
+               sphereKey: Sphere.SPIRIT,
+               cardSetKey: CardSet.CORE,
+               key: "strengthOfWill",
             },
             "stridersPath":
             {
@@ -1230,6 +1350,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSetNumber: 13,
                key: "theWizardsVoice",
             },
+            "thicketOfSpears":
+            {
+               name: "Thicket of Spears",
+               cost: 3,
+               sphereKey: Sphere.TACTICS,
+               cardSetKey: CardSet.CORE,
+               key: "thicketOfSpears",
+            },
             "tightenOurBelts":
             {
                name: "Tighten Our Belts",
@@ -1346,6 +1474,14 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
                key: "wellEquipped",
             },
+            "willOfTheWest":
+            {
+               name: "Will of the West",
+               cost: 1,
+               sphereKey: Sphere.SPIRIT,
+               cardSetKey: CardSet.CORE,
+               key: "willOfTheWest",
+            },
             "wordOfCommand":
             {
                name: "Word of Command",
@@ -1360,6 +1496,21 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          keys: function()
          {
             return Object.getOwnPropertyNames(EventCard.properties);
+         },
+
+         keysByCardSetSphere: function(cardSetKey, sphereKey)
+         {
+            InputValidator.validateNotNull("cardSetKey", cardSetKey);
+            InputValidator.validateNotNull("sphereKey", sphereKey);
+
+            var keys = EventCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = EventCard.properties[cardKey];
+
+               return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
+            });
          },
 
          keysBySphere: function(sphereKey)

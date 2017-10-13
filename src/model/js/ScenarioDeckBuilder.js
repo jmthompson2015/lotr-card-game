@@ -1,36 +1,51 @@
 "use strict";
 
-define(["common/js/InputValidator",
-  "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/Scenario", "artifact/js/TreacheryCard",
+define(["common/js/ArrayAugments", "common/js/InputValidator",
+  "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/Scenario", "artifact/js/TreacheryCard",
   "model/js/CardInstance"],
-   function(InputValidator, CardResolver, CardType, EnemyCard, GameMode, LocationCard, ObjectiveCard, Scenario, TreacheryCard, CardInstance)
+   function(ArrayAugments, InputValidator, CardResolver, CardType, EnemyCard, GameMode, LocationCard, ObjectiveCard, QuestCard, Scenario, TreacheryCard, CardInstance)
    {
       var DeckBuilders = [];
 
-      var PassageThroughMirkwoodDeckBuilder = new EncounterDeckBuilder("Passage Through Mirkwood (Core #1)", 2011, "Passage Through Mirkwood",
+      var PassageThroughMirkwoodDeckBuilder = new ScenarioDeckBuilder("Passage Through Mirkwood (Core #1)", 2011, "Passage Through Mirkwood",
+         function(store)
+         {
+            var questKeys = QuestCard.keysByScenario(Scenario.PASSAGE_THROUGH_MIRKWOOD);
+
+            // Choose one of the 3B paths randomly.
+            var removeMe = [QuestCard.PTM3B1_BEORNS_PATH, QuestCard.PTM3B2_DONT_LEAVE_THE_PATH].lotrRandomElement();
+            questKeys.lotrRemove(removeMe);
+
+            return questKeys.map(function(cardKey)
+            {
+               var card = QuestCard.properties[cardKey];
+               return new CardInstance(store, card);
+            });
+         },
          function(store, gameModeKey)
          {
-            var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
-
-            return encounterBuildFunction(store, gameModeKey, scenarioKey);
+            return encounterBuildFunction(store, gameModeKey, Scenario.PASSAGE_THROUGH_MIRKWOOD);
          });
       DeckBuilders.push(PassageThroughMirkwoodDeckBuilder);
 
-      var TheHuntForGollumDeckBuilder = new EncounterDeckBuilder("The Hunt for Gollum", 2011, "The Hunt for Gollum",
+      var TheHuntForGollumDeckBuilder = new ScenarioDeckBuilder("The Hunt for Gollum", 2011, "The Hunt for Gollum",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.THE_HUNT_FOR_GOLLUM);
+         },
          function(store, gameModeKey)
          {
-            var scenarioKey = Scenario.THE_HUNT_FOR_GOLLUM;
-
-            return encounterBuildFunction(store, gameModeKey, scenarioKey);
+            return encounterBuildFunction(store, gameModeKey, Scenario.THE_HUNT_FOR_GOLLUM);
          });
       DeckBuilders.push(TheHuntForGollumDeckBuilder);
 
-      function EncounterDeckBuilder(name, year, description, buildFunction)
+      function ScenarioDeckBuilder(name, year, description, questBuildFunction, encounterBuildFunction)
       {
          InputValidator.validateNotNull("name", name);
          InputValidator.validateNotNull("year", year);
          InputValidator.validateNotNull("description", description);
-         InputValidator.validateNotNull("buildFunction", buildFunction);
+         InputValidator.validateNotNull("questBuildFunction", questBuildFunction);
+         InputValidator.validateNotNull("encounterBuildFunction", encounterBuildFunction);
 
          this.name = function()
          {
@@ -54,7 +69,14 @@ define(["common/js/InputValidator",
 
             var gameModeKey = (gameModeKeyIn !== undefined ? gameModeKeyIn : GameMode.STANDARD);
 
-            return buildFunction(store, gameModeKey);
+            var questInstances = questBuildFunction(store);
+            var encounterInstances = encounterBuildFunction(store, gameModeKey);
+
+            return (
+            {
+               questInstances: questInstances,
+               encounterInstances: encounterInstances
+            });
          };
       }
 
@@ -67,7 +89,6 @@ define(["common/js/InputValidator",
 
          var card = CardResolver.get(cardTypeKey, cardKey);
          var gameModeMap = card.gameModeMap;
-
          var count = determineCount(gameModeMap, gameModeKey);
          var answer = [];
 
@@ -132,11 +153,22 @@ define(["common/js/InputValidator",
          return enemyTokens.concat(locationTokens.concat(objectiveTokens.concat(treacheryTokens)));
       }
 
+      function questBuildFunction(store, scenarioKey)
+      {
+         var questKeys = QuestCard.keysByScenario(scenarioKey);
+
+         return questKeys.map(function(cardKey)
+         {
+            var card = QuestCard.properties[cardKey];
+            return new CardInstance(store, card);
+         });
+      }
+
       return (
       {
          PassageThroughMirkwoodDeckBuilder: PassageThroughMirkwoodDeckBuilder,
          TheHuntForGollumDeckBuilder: TheHuntForGollumDeckBuilder,
          DeckBuilders: DeckBuilders,
-         EncounterDeckBuilder: EncounterDeckBuilder,
+         ScenarioDeckBuilder: ScenarioDeckBuilder,
       });
    });

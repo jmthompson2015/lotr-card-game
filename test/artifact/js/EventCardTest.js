@@ -49,7 +49,7 @@ define(["qunit", "artifact/js/EventCard"], function(QUnit, EventCard)
 
       // Verify.
       assert.ok(result);
-      var length = 134;
+      var length = 149;
       assert.equal(result.length, length);
       assert.equal(result[0], EventCard.A_ELBERETH_GILTHONIEL);
       assert.equal(result[length - 1], EventCard.WORD_OF_COMMAND);

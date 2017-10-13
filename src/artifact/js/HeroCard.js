@@ -1169,6 +1169,21 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
             return Object.getOwnPropertyNames(HeroCard.properties);
          },
 
+         keysByCardSetSphere: function(cardSetKey, sphereKey)
+         {
+            InputValidator.validateNotNull("cardSetKey", cardSetKey);
+            InputValidator.validateNotNull("sphereKey", sphereKey);
+
+            var keys = HeroCard.keys();
+
+            return keys.filter(function(cardKey)
+            {
+               var card = HeroCard.properties[cardKey];
+
+               return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
+            });
+         },
+
          keysBySphere: function(sphereKey)
          {
             InputValidator.validateNotNull("sphereKey", sphereKey);
