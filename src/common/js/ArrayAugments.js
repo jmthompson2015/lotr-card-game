@@ -34,6 +34,18 @@ define(function()
    }
 
    // Note: This function modifies array.
+   if (!Array.prototype.lotrRotate)
+   {
+      Array.prototype.lotrRotate = function(count)
+      {
+         count -= this.length * Math.floor(count / this.length);
+         this.push.apply(this, this.splice(0, count));
+
+         return this;
+      };
+   }
+
+   // Note: This function modifies array.
    if (!Array.prototype.lotrShuffle)
    {
       Array.prototype.lotrShuffle = function()

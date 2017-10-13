@@ -5,13 +5,13 @@ define(["qunit", "model/js/Action"],
    {
       QUnit.module("Action");
 
-      QUnit.test("addRound()", function(assert)
+      QUnit.test("incrementRound()", function(assert)
       {
          // Run.
-         var result = Action.addRound();
+         var result = Action.incrementRound();
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.type, Action.ADD_ROUND);
+         assert.equal(result.type, Action.INCREMENT_ROUND);
       });
    });

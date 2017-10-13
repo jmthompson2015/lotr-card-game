@@ -1,12 +1,12 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "model/js/Action"],
-   function(Immutable, InputValidator, CardResolver, Action)
+define(["immutable", "common/js/InputValidator", "model/js/Action"],
+   function(Immutable, InputValidator, Action)
    {
-      function CardInstance(store, card, idIn, isNewIn)
+      function SimpleAgent(store, name, idIn, isNewIn)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("card", card);
+         InputValidator.validateIsString("name", name);
          // idIn optional. default: determined from store
          // isNewIn optional. default: true
 
@@ -14,8 +14,8 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
 
          if (isNaN(id))
          {
-            id = store.getState().nextCardId;
-            store.dispatch(Action.incrementNextCardId());
+            id = store.getState().nextAgentId;
+            store.dispatch(Action.incrementNextAgentId());
          }
 
          this.store = function()
@@ -23,14 +23,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
             return store;
          };
 
+         this.name = function()
+         {
+            return name;
+         };
+
          this.id = function()
          {
             return id;
-         };
-
-         this.card = function()
-         {
-            return card;
          };
 
          var isNew = (isNewIn !== undefined ? isNewIn : true);
@@ -44,52 +44,51 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
-      CardInstance.prototype.toString = function()
+      SimpleAgent.prototype.agentClass = SimpleAgent;
+
+      SimpleAgent.prototype.toString = function()
       {
-         return "CardInstance " + this.id() + " " + this.card().name;
+         return "SimpleAgent " + this.id() + " " + this.name();
       };
 
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
-      CardInstance.prototype._save = function()
+      SimpleAgent.prototype._save = function()
       {
          var store = this.store();
          var id = this.id();
-         var card = this.card();
          var values = Immutable.Map(
          {
             id: id,
-            cardKey: card.key,
-            cardTypeKey: card.cardTypeKey,
+            name: this.name(),
+            agentClass: SimpleAgent,
          });
 
-         store.dispatch(Action.setCardInstance(id, values));
+         store.dispatch(Action.setAgent(id, values));
       };
 
       //////////////////////////////////////////////////////////////////////////
       // Utility methods.
 
-      CardInstance.get = function(store, id)
+      SimpleAgent.get = function(store, id)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsNumber("id", id);
 
-         var values = store.getState().cardInstances.get(id);
+         var values = store.getState().agents.get(id);
          var answer;
 
          if (values !== undefined)
          {
-            var cardTypeKey = values.get("cardTypeKey");
-            var cardKey = values.get("cardKey");
-            var card = CardResolver.get(cardTypeKey, cardKey);
+            var name = values.get("name");
             var isNew = false;
 
-            answer = new CardInstance(store, card, id, isNew);
+            answer = new SimpleAgent(store, name, id, isNew);
          }
 
          return answer;
       };
 
-      return CardInstance;
+      return SimpleAgent;
    });
