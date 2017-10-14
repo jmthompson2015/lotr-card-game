@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere", "model/js/Action", "model/js/CardInstance", "model/js/Reducer", "model/js/SimpleAgent"],
-   function(Immutable, QUnit, Redux, HeroCard, Sphere, Action, CardInstance, Reducer, SimpleAgent)
+define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere", "model/js/Action", "model/js/CardInstance", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
+   function(Immutable, QUnit, Redux, HeroCard, Sphere, Action, CardInstance, Reducer, ScenarioDeckBuilder, SimpleAgent)
    {
       QUnit.module("Reducer");
 
@@ -68,6 +68,43 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
 
          // Verify.
          assert.equal(store.getState().agentThreat.get(agent.id()), 6);
+      });
+
+      QUnit.test("drawEncounterCard()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
+         assert.equal(store.getState().encounterDeck.size, 36);
+         assert.equal(store.getState().stagingArea.size, 0);
+
+         // Run.
+         store.dispatch(Action.drawEncounterCard());
+
+         // Verify.
+         assert.equal(store.getState().encounterDeck.size, 35);
+         assert.equal(store.getState().stagingArea.size, 1);
+      });
+
+      QUnit.test("drawEncounterCard() index", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
+         assert.equal(store.getState().encounterDeck.size, 36);
+         assert.equal(store.getState().stagingArea.size, 0);
+         var index = 5;
+         var cardInstance = store.getState().encounterDeck.get(index);
+
+         // Run.
+         store.dispatch(Action.drawEncounterCard(index));
+
+         // Verify.
+         assert.equal(store.getState().encounterDeck.size, 35);
+         assert.equal(store.getState().stagingArea.size, 1);
+         assert.equal(store.getState().stagingArea.get(0), cardInstance);
       });
 
       QUnit.test("setCardResource()", function(assert)

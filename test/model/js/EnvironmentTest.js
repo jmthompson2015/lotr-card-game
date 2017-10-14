@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/GameMode",
-  "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(QUnit, Redux, GameMode, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
+define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard",
+  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
+   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
    {
       QUnit.module("Environment");
 
@@ -48,6 +48,85 @@ define(["qunit", "redux", "artifact/js/GameMode",
          assert.equal(result.size, 2);
          assert.equal(result.get(0).name(), "agent1");
          assert.equal(result.get(1).name(), "agent2");
+      });
+
+      QUnit.test("drawEncounterCard()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         assert.equal(store.getState().encounterDeck.size, 27);
+         assert.equal(store.getState().stagingArea.size, 0);
+
+         // Run.
+         environment.drawEncounterCard(EnemyCard.FOREST_SPIDER);
+
+         // Verify.
+         assert.equal(store.getState().encounterDeck.size, 26);
+         assert.equal(store.getState().stagingArea.size, 1);
+         assert.equal(store.getState().stagingArea.get(0).card().key, EnemyCard.FOREST_SPIDER);
+
+         // Run.
+         environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
+
+         // Verify.
+         assert.equal(store.getState().encounterDeck.size, 25);
+         assert.equal(store.getState().stagingArea.size, 2);
+         assert.equal(store.getState().stagingArea.get(0).card().key, EnemyCard.FOREST_SPIDER);
+         assert.equal(store.getState().stagingArea.get(1).card().key, LocationCard.OLD_FOREST_ROAD);
+      });
+
+      QUnit.test("stagingArea()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var result = environment.stagingArea();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 1);
+
+         // Run.
+         store.dispatch(Action.drawEncounterCard());
+         result = environment.stagingArea();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 2);
+      });
+
+      QUnit.test("stagingArea() Location", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.drawEncounterCard());
+         var cardTypeKey = CardType.LOCATION;
+
+         // Run.
+         var result = environment.stagingArea(cardTypeKey);
+
+         // Verify.
+         assert.ok(result);
+         result.forEach(function(cardInstance)
+         {
+            assert.equal(cardInstance.card().cardTypeKey, cardTypeKey);
+         });
+
+         // Run.
+         store.dispatch(Action.drawEncounterCard());
+         result = environment.stagingArea(cardTypeKey);
+
+         // Verify.
+         assert.ok(result);
+         result.forEach(function(cardInstance)
+         {
+            assert.equal(cardInstance.card().cardTypeKey, cardTypeKey);
+         });
       });
 
       function createEnvironment()

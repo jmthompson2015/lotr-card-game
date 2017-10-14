@@ -14,7 +14,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var id, newPhaseData, newPhaseQueue, newResources, oldResources;
+         var card, id, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, oldResources;
 
          switch (action.type)
          {
@@ -48,9 +48,27 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   phaseKey: newPhaseData.get("phaseKey"),
                   phaseQueue: newPhaseQueue,
                });
+            case Action.DRAW_ENCOUNTER_CARD:
+               if (action.index === undefined)
+               {
+                  card = state.encounterDeck.first();
+                  newEncounterDeck = state.encounterDeck.shift();
+               }
+               else
+               {
+                  card = state.encounterDeck.get(action.index);
+                  newEncounterDeck = state.encounterDeck.delete(action.index);
+               }
+               var oldStagingArea = (state.stagingArea !== undefined ? state.stagingArea : Immutable.List());
+               return Object.assign(
+               {}, state,
+               {
+                  encounterDeck: newEncounterDeck,
+                  stagingArea: oldStagingArea.push(card),
+               });
             case Action.DRAW_PLAYER_CARD:
                id = action.agent.id();
-               var card = state.agentPlayerDeck.get(id).first();
+               card = state.agentPlayerDeck.get(id).first();
                var newPlayerDeck = state.agentPlayerDeck.get(id).shift();
                var oldAgentHand = (state.agentHand.get(id) !== undefined ? state.agentHand.get(id) : Immutable.List());
                var newAgentHand = oldAgentHand.push(card);
@@ -95,6 +113,13 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   activeAgentId: (action.agent !== undefined ? action.agent.id() : undefined),
+               });
+            case Action.SET_ACTIVE_LOCATION:
+               LOGGER.info("Active Location: " + action.cardInstance);
+               return Object.assign(
+               {}, state,
+               {
+                  activeLocationId: (action.cardInstance !== undefined ? action.cardInstance.id() : undefined),
                });
             case Action.SET_AGENT:
                return Object.assign(

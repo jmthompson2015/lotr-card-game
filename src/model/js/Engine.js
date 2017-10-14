@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/ResourceTask"],
-   function(InputValidator, Phase, Action, ResourceTask)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/ResourceTask", "model/js/TravelTask"],
+   function(InputValidator, Phase, Action, ResourceTask, TravelTask)
    {
       function Engine(store, environment, delayIn, callback)
       {
@@ -177,31 +177,21 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.TRAVEL_START));
-            this.queue(this.agents());
-            this.processTravelQueue();
+            var task = new TravelTask(store, this.finishTravelPhase.bind(this));
+
+            setTimeout(function()
+            {
+               task.doIt();
+            }, this.delay());
          }
       };
 
-      Engine.prototype.processTravelQueue = function()
+      Engine.prototype.finishTravelPhase = function()
       {
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
 
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
-            var phaseCallback = this.performEncounterPhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         this.processTravelQueue();
+         this.performEncounterPhase();
       };
 
       Engine.prototype.performEncounterPhase = function()

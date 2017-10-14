@@ -22,7 +22,7 @@ define(["immutable", "artifact/js/Phase"],
          this.agentThreat = Immutable.Map();
 
          // cardInstance IDs.
-         this.activeLocation = undefined;
+         this.activeLocationId = undefined;
          this.encounterDeck = Immutable.List();
          this.encounterDiscard = Immutable.List();
          this.questDeck = Immutable.List();

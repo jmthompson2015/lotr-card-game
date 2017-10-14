@@ -1,11 +1,12 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/GameMode", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(QUnit, Redux, GameMode, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
+define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard",
+  "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
+   function(QUnit, Redux, EnemyCard, GameMode, LocationCard, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
    {
       QUnit.module("Game");
 
-      QUnit.test("Game()", function(assert)
+      QUnit.test("Game() Passage through Mirkwood Easy", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
@@ -30,5 +31,12 @@ define(["qunit", "redux", "artifact/js/GameMode", "model/js/Game", "model/js/Pla
          assert.ok(engine);
          var environment = engine.environment();
          assert.ok(environment);
+         var encounterDeck = store.getState().encounterDeck;
+         assert.ok(encounterDeck);
+         assert.equal(encounterDeck.size, 25);
+         var stagingArea = store.getState().stagingArea;
+         assert.equal(stagingArea.size, 2);
+         assert.equal(stagingArea.get(0).card().key, EnemyCard.FOREST_SPIDER);
+         assert.equal(stagingArea.get(1).card().key, LocationCard.OLD_FOREST_ROAD);
       });
    });

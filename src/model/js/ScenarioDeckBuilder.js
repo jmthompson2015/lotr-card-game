@@ -7,7 +7,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
    {
       var DeckBuilders = [];
 
-      var PassageThroughMirkwoodDeckBuilder = new ScenarioDeckBuilder("Passage Through Mirkwood (Core #1)", 2011, "Passage Through Mirkwood",
+      var PassageThroughMirkwoodDeckBuilder = new ScenarioDeckBuilder(Scenario.PASSAGE_THROUGH_MIRKWOOD, "Passage Through Mirkwood (Core #1)", 2011, "Passage Through Mirkwood",
          function(store)
          {
             var questKeys = QuestCard.keysByScenario(Scenario.PASSAGE_THROUGH_MIRKWOOD);
@@ -28,7 +28,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
          });
       DeckBuilders.push(PassageThroughMirkwoodDeckBuilder);
 
-      var TheHuntForGollumDeckBuilder = new ScenarioDeckBuilder("The Hunt for Gollum", 2011, "The Hunt for Gollum",
+      var TheHuntForGollumDeckBuilder = new ScenarioDeckBuilder(Scenario.THE_HUNT_FOR_GOLLUM, "The Hunt for Gollum", 2011, "The Hunt for Gollum",
          function(store)
          {
             return questBuildFunction(store, Scenario.THE_HUNT_FOR_GOLLUM);
@@ -39,13 +39,19 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
          });
       DeckBuilders.push(TheHuntForGollumDeckBuilder);
 
-      function ScenarioDeckBuilder(name, year, description, questBuildFunction, encounterBuildFunction)
+      function ScenarioDeckBuilder(scenarioKey, name, year, description, questBuildFunction, encounterBuildFunction)
       {
-         InputValidator.validateNotNull("name", name);
-         InputValidator.validateNotNull("year", year);
-         InputValidator.validateNotNull("description", description);
-         InputValidator.validateNotNull("questBuildFunction", questBuildFunction);
-         InputValidator.validateNotNull("encounterBuildFunction", encounterBuildFunction);
+         InputValidator.validateIsString("scenarioKey", scenarioKey);
+         InputValidator.validateIsString("name", name);
+         InputValidator.validateIsNumber("year", year);
+         InputValidator.validateIsString("description", description);
+         InputValidator.validateIsFunction("questBuildFunction", questBuildFunction);
+         InputValidator.validateIsFunction("encounterBuildFunction", encounterBuildFunction);
+
+         this.scenarioKey = function()
+         {
+            return scenarioKey;
+         };
 
          this.name = function()
          {
@@ -74,6 +80,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
 
             return (
             {
+               scenarioKey: scenarioKey,
                questInstances: questInstances,
                encounterInstances: encounterInstances
             });

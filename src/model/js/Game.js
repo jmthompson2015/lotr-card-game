@@ -1,7 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action", "model/js/Engine", "model/js/Environment"],
-   function(InputValidator, Action, Engine, Environment)
+define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/LocationCard", "artifact/js/Scenario",
+  "model/js/Action", "model/js/Engine", "model/js/Environment"],
+   function(InputValidator, EnemyCard, LocationCard, Scenario, Action, Engine, Environment)
    {
       function Game(store, scenarioDeck, playerData)
       {
@@ -43,6 +44,18 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/Engine", "model
          // 6. Set Quest Cards
 
          // 7. Follow Scenario Setup Instructions
+         if (scenarioDeck.scenarioKey === Scenario.PASSAGE_THROUGH_MIRKWOOD)
+         {
+            // Setup: Search the encounter deck for 1 copy of the Forest Spider
+            // and 1 copy of the Old Forest Road, and add them to the staging area.
+            // Then Shuffle the encounter deck.
+            environment.drawEncounterCard(EnemyCard.FOREST_SPIDER);
+            environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
+
+            var encounterDeck = store.getState().encounterDeck.toJS();
+            encounterDeck.lotrShuffle();
+            store.dispatch(Action.setEncounterDeck(encounterDeck));
+         }
 
          var engine = new Engine(store, environment);
 

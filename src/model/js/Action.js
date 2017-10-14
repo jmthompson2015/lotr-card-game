@@ -7,12 +7,14 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.ADD_AGENT_THREAT = "addAgentThreat";
    Action.ADD_CARD_RESOURCE = "addCardResource";
    Action.DEQUEUE_PHASE = "dequeuePhase";
+   Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
    Action.DRAW_PLAYER_CARD = "drawPlayerCard";
    Action.ENQUEUE_PHASE = "enqueuePhase";
    Action.INCREMENT_NEXT_AGENT_ID = "incrementNextAgentId";
    Action.INCREMENT_NEXT_CARD_ID = "incrementNextCardId";
    Action.INCREMENT_ROUND = "incrementRound";
    Action.SET_ACTIVE_AGENT = "setActiveAgent";
+   Action.SET_ACTIVE_LOCATION = "setActiveLocation";
    Action.SET_AGENT = "setAgent";
    Action.SET_AGENT_HERO_DECK = "setAgentHeroDeck";
    Action.SET_AGENT_PLAYER_DECK = "setAgentPlayerDeck";
@@ -61,6 +63,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: Action.DEQUEUE_PHASE,
+      });
+   };
+
+   Action.drawEncounterCard = function(index)
+   {
+      // index optional.
+
+      return (
+      {
+         type: Action.DRAW_ENCOUNTER_CARD,
+         index: index,
       });
    };
 
@@ -118,12 +131,23 @@ define(["common/js/InputValidator"], function(InputValidator)
 
    Action.setActiveAgent = function(agent)
    {
-      // InputValidator.validateNotNull("agent", agent);
+      // agent optional.
 
       return (
       {
          type: Action.SET_ACTIVE_AGENT,
          agent: agent,
+      });
+   };
+
+   Action.setActiveLocation = function(cardInstance)
+   {
+      // cardInstance optional.
+
+      return (
+      {
+         type: Action.SET_ACTIVE_LOCATION,
+         cardInstance: cardInstance,
       });
    };
 
