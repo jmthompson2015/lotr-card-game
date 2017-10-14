@@ -32,82 +32,16 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return callback;
          };
 
-         var resourceQueue = [];
-         var planningQueue = [];
-         var questQueue = [];
-         var travelQueue = [];
-         var encounterQueue = [];
-         var combatQueue = [];
-         var refreshQueue = [];
+         var queue = [];
 
-         this.resourceQueue = function(queue)
+         this.queue = function(queueIn)
          {
-            if (queue !== undefined)
+            if (queueIn !== undefined)
             {
-               resourceQueue = queue;
+               queue = queueIn;
             }
 
-            return resourceQueue;
-         };
-
-         this.planningQueue = function(queue)
-         {
-            if (queue !== undefined)
-            {
-               planningQueue = queue;
-            }
-
-            return planningQueue;
-         };
-
-         this.questQueue = function(queue)
-         {
-            if (queue !== undefined)
-            {
-               questQueue = queue;
-            }
-
-            return questQueue;
-         };
-
-         this.travelQueue = function(queue)
-         {
-            if (queue !== undefined)
-            {
-               travelQueue = queue;
-            }
-
-            return travelQueue;
-         };
-
-         this.encounterQueue = function(queue)
-         {
-            if (queue !== undefined)
-            {
-               encounterQueue = queue;
-            }
-
-            return encounterQueue;
-         };
-
-         this.combatQueue = function(queue)
-         {
-            if (queue !== undefined)
-            {
-               combatQueue = queue;
-            }
-
-            return combatQueue;
-         };
-
-         this.refreshQueue = function(queue)
-         {
-            if (queue !== undefined)
-            {
-               refreshQueue = queue;
-            }
-
-            return refreshQueue;
+            return queue;
          };
       }
 
@@ -127,7 +61,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             store.dispatch(Action.enqueuePhase(Phase.RESOURCE_START));
 
-            this.resourceQueue(this.agents());
+            this.queue(this.agents());
             this.processResourceQueue();
          }
       };
@@ -136,7 +70,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.resourceQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.RESOURCE_END));
@@ -148,7 +82,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.resourceQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          var task = new ResourceTask(store, agent, this.processResourceQueue.bind(this));
@@ -169,7 +103,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.PLANNING_START));
-            this.planningQueue(this.agents());
+            this.queue(this.agents());
             this.processPlanningQueue();
          }
       };
@@ -178,7 +112,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.planningQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
@@ -190,7 +124,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.planningQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          this.processPlanningQueue();
@@ -206,7 +140,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.QUEST_START));
-            this.questQueue(this.agents());
+            this.queue(this.agents());
             this.processQuestQueue();
          }
       };
@@ -215,7 +149,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.questQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.QUEST_END));
@@ -227,7 +161,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.questQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          this.processQuestQueue();
@@ -243,7 +177,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.TRAVEL_START));
-            this.travelQueue(this.agents());
+            this.queue(this.agents());
             this.processTravelQueue();
          }
       };
@@ -252,7 +186,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.travelQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
@@ -264,7 +198,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.travelQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          this.processTravelQueue();
@@ -280,7 +214,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_START));
-            this.encounterQueue(this.agents());
+            this.queue(this.agents());
             this.processEncounterQueue();
          }
       };
@@ -289,7 +223,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.encounterQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
@@ -301,7 +235,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.encounterQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          this.processEncounterQueue();
@@ -317,7 +251,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
-            this.combatQueue(this.agents());
+            this.queue(this.agents());
             this.processCombatQueue();
          }
       };
@@ -326,7 +260,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.combatQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
@@ -338,7 +272,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.combatQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          this.processCombatQueue();
@@ -354,7 +288,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.REFRESH_START));
-            this.refreshQueue(this.agents());
+            this.queue(this.agents());
             this.processRefreshQueue();
          }
       };
@@ -363,7 +297,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
       {
          var store = this.store();
 
-         if (this.refreshQueue().length === 0)
+         if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.REFRESH_END));
@@ -375,7 +309,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             return;
          }
 
-         var agent = this.refreshQueue().shift();
+         var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
          this.processRefreshQueue();
