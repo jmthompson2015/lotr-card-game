@@ -27,6 +27,8 @@ define(["immutable", "artifact/js/Phase"],
          this.encounterDiscard = Immutable.List();
          this.questDeck = Immutable.List();
          this.questDiscard = Immutable.List();
+         // card instance id: sphereKey: resource count
+         this.resources = Immutable.Map();
          this.stagingArea = Immutable.List();
 
          // id: agent

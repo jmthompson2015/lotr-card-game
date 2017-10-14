@@ -5,6 +5,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    var Action = {};
 
    Action.ADD_AGENT_THREAT = "addAgentThreat";
+   Action.ADD_CARD_RESOURCE = "addCardResource";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DRAW_PLAYER_CARD = "drawPlayerCard";
    Action.ENQUEUE_PHASE = "enqueuePhase";
@@ -17,6 +18,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_AGENT_PLAYER_DECK = "setAgentPlayerDeck";
    Action.SET_AGENT_THREAT = "setAgentThreat";
    Action.SET_CARD_INSTANCE = "setCardInstance";
+   Action.SET_CARD_RESOURCE = "setCardResource";
    Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
@@ -33,6 +35,23 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.ADD_AGENT_THREAT,
          agent: agent,
+         value: myValue,
+      });
+   };
+
+   Action.addCardResource = function(cardInstance, sphereKey, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsString("sphereKey", sphereKey);
+      // value optional. default: 1
+
+      var myValue = (value !== undefined ? value : 1);
+
+      return (
+      {
+         type: Action.ADD_CARD_RESOURCE,
+         cardInstance: cardInstance,
+         sphereKey: sphereKey,
          value: myValue,
       });
    };
@@ -172,6 +191,23 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.SET_CARD_INSTANCE,
          id: id,
          values: values,
+      });
+   };
+
+   Action.setCardResource = function(cardInstance, sphereKey, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsString("sphereKey", sphereKey);
+      // value optional. default: 0
+
+      var myValue = (value !== undefined ? value : 0);
+
+      return (
+      {
+         type: Action.SET_CARD_RESOURCE,
+         cardInstance: cardInstance,
+         sphereKey: sphereKey,
+         value: myValue,
       });
    };
 

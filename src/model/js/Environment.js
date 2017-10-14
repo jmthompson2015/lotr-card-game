@@ -33,18 +33,17 @@ define(["common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action"
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
-      Environment.prototype.agentHeroDeck = function(agent)
+      Environment.prototype.agents = function()
       {
          var store = this.store();
+         var agentValues = store.getState().agents;
 
-         return store.getState().agentHeroDeck.get(agent.id());
-      };
-
-      Environment.prototype.agentPlayerDeck = function(agent)
-      {
-         var store = this.store();
-
-         return store.getState().agentPlayerDeck.get(agent.id());
+         return agentValues.valueSeq().map(function(values)
+         {
+            var id = values.get("id");
+            var agentClass = values.get("agentClass");
+            return agentClass.get(store, id);
+         });
       };
 
       Environment.prototype.encounterDeck = function()

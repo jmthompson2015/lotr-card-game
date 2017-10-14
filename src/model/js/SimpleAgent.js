@@ -46,6 +46,29 @@ define(["immutable", "common/js/InputValidator", "model/js/Action"],
 
       SimpleAgent.prototype.agentClass = SimpleAgent;
 
+      SimpleAgent.prototype.hand = function()
+      {
+         var store = this.store();
+
+         var answer = store.getState().agentHand.get(this.id());
+
+         return (answer !== undefined ? answer : Immutable.List());
+      };
+
+      SimpleAgent.prototype.heroDeck = function()
+      {
+         var store = this.store();
+
+         return store.getState().agentHeroDeck.get(this.id());
+      };
+
+      SimpleAgent.prototype.playerDeck = function()
+      {
+         var store = this.store();
+
+         return store.getState().agentPlayerDeck.get(this.id());
+      };
+
       SimpleAgent.prototype.toString = function()
       {
          return "SimpleAgent " + this.id() + " " + this.name();

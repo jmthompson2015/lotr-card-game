@@ -14,7 +14,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var id, newPhaseData, newPhaseQueue;
+         var id, newPhaseData, newPhaseQueue, newResources, oldResources;
 
          switch (action.type)
          {
@@ -25,6 +25,17 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   agentThreat: state.agentThreat.set(id, oldThreat + action.value),
+               });
+            case Action.ADD_CARD_RESOURCE:
+               id = action.cardInstance.id();
+               // LOGGER.info("Add agent resource: " + id + " " + action.sphereKey + " " + action.value);
+               oldResources = (state.resources.get(id) !== undefined ? state.resources.get(id) : Immutable.Map());
+               var oldCount = (oldResources.get(action.sphereKey) ? oldResources.get(action.sphereKey) : 0);
+               newResources = oldResources.set(action.sphereKey, oldCount + action.value);
+               return Object.assign(
+               {}, state,
+               {
+                  resources: state.resources.set(id, newResources),
                });
             case Action.DEQUEUE_PHASE:
                // LOGGER.info("PhaseQueue: (dequeue)");
@@ -41,14 +52,13 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                id = action.agent.id();
                var card = state.agentPlayerDeck.get(id).first();
                var newPlayerDeck = state.agentPlayerDeck.get(id).shift();
-               var newAgentPlayerDeck = state.agentPlayerDeck.set(id, newPlayerDeck);
                var oldAgentHand = (state.agentHand.get(id) !== undefined ? state.agentHand.get(id) : Immutable.List());
                var newAgentHand = oldAgentHand.push(card);
                return Object.assign(
                {}, state,
                {
-                  agentPlayerDeck: newAgentPlayerDeck,
-                  agentHand: newAgentHand,
+                  agentPlayerDeck: state.agentPlayerDeck.set(id, newPlayerDeck),
+                  agentHand: state.agentHand.set(id, newAgentHand),
                });
             case Action.ENQUEUE_PHASE:
                LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", token = " + action.phaseToken + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
@@ -60,7 +70,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   phaseQueue: newPhaseQueue,
                });
             case Action.INCREMENT_NEXT_AGENT_ID:
-               //  LOGGER.info("increment next agent ID: " + state.nextAgentId);
+               // LOGGER.info("increment next agent ID: " + state.nextAgentId);
                return Object.assign(
                {}, state,
                {
@@ -115,6 +125,15 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   cardInstances: state.cardInstances.set(action.id, action.values),
+               });
+            case Action.SET_CARD_RESOURCE:
+               id = action.cardInstance.id();
+               oldResources = (state.resources.get(id) !== undefined ? state.resources.get(id) : Immutable.Map());
+               newResources = oldResources.set(action.sphereKey, action.value);
+               return Object.assign(
+               {}, state,
+               {
+                  resources: state.resources.set(id, newResources),
                });
             case Action.SET_ENCOUNTER_DECK:
                return Object.assign(

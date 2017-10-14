@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
-   function(InputValidator, Phase, Action)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/ResourceTask"],
+   function(InputValidator, Phase, Action, ResourceTask)
    {
       function Engine(store, environment, delayIn, callback)
       {
@@ -151,7 +151,12 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
          var agent = this.resourceQueue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         this.processResourceQueue();
+         var task = new ResourceTask(store, agent, this.processResourceQueue.bind(this));
+
+         setTimeout(function()
+         {
+            task.doIt();
+         }, this.delay());
       };
 
       Engine.prototype.performPlanningPhase = function()
