@@ -1,22 +1,15 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance"],
-   function(Immutable, InputValidator, Action, CardInstance)
+define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
+   function(Immutable, InputValidator, Action, CardInstance, SimpleAgentStrategy)
    {
-      function Agent(store, name, idIn, isNewIn)
+      function Agent(store, name, idIn, strategyIn, isNewIn)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsString("name", name);
          // idIn optional. default: determined from store
+         // strategyIn optional. default: SimpleAgentStrategy
          // isNewIn optional. default: true
-
-         var id = idIn;
-
-         if (isNaN(id))
-         {
-            id = store.getState().nextAgentId;
-            store.dispatch(Action.incrementNextAgentId());
-         }
 
          this.store = function()
          {
@@ -28,9 +21,24 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
             return name;
          };
 
+         var id = idIn;
+
+         if (isNaN(id))
+         {
+            id = store.getState().nextAgentId;
+            store.dispatch(Action.incrementNextAgentId());
+         }
+
          this.id = function()
          {
             return id;
+         };
+
+         var strategy = (strategyIn !== undefined ? strategyIn : SimpleAgentStrategy);
+
+         this.strategy = function()
+         {
+            return strategy;
          };
 
          var isNew = (isNewIn !== undefined ? isNewIn : true);
@@ -40,17 +48,6 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
             this._save();
          }
       }
-
-      //////////////////////////////////////////////////////////////////////////
-      // Behavior methods.
-
-      Agent.prototype.chooseOptionalEngagementEnemy = function(enemies)
-      {
-         InputValidator.validateNotNull("enemies", enemies);
-
-         // TODO: choose an optional engagement enemy.
-         return undefined;
-      };
 
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
@@ -121,7 +118,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          {
             id: id,
             name: this.name(),
-            agentClass: Agent,
+            strategy: this.strategy(),
          });
 
          store.dispatch(Action.setAgent(id, values));
@@ -141,9 +138,10 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          if (values !== undefined)
          {
             var name = values.get("name");
+            var strategy = values.get("strategy");
             var isNew = false;
 
-            answer = new Agent(store, name, id, isNew);
+            answer = new Agent(store, name, id, strategy, isNew);
          }
 
          return answer;

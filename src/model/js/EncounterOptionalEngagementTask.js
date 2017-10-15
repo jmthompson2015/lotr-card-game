@@ -21,7 +21,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
 
       EncounterOptionalEngagementTask.prototype.doIt = function(callback)
       {
-         InputValidator.validateNotNull("callback", callback);
+         InputValidator.validateIsFunction("callback", callback);
 
          var store = this.store();
          var agent = this.agent();
@@ -30,12 +30,29 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
 
          if (enemies.size > 0)
          {
-            var enemy = agent.chooseOptionalEngagementEnemy(enemies);
-
-            if (enemy)
+            var myFinishFunction = this.finish;
+            var finishCallback = function(enemy)
             {
-               store.dispatch(Action.agentEngageCard(agent, enemy));
-            }
+               myFinishFunction(callback, enemy);
+            };
+            agent.strategy().chooseOptionalEngagementEnemy(enemies, finishCallback);
+         }
+         else
+         {
+            callback();
+         }
+      };
+
+      EncounterOptionalEngagementTask.prototype.finish = function(callback, enemy)
+      {
+         InputValidator.validateIsFunction("callback", callback);
+         // enemy optional.
+
+         if (enemy)
+         {
+            var store = this.store();
+            var agent = this.agent();
+            store.dispatch(Action.agentEngageCard(agent, enemy));
          }
 
          callback();

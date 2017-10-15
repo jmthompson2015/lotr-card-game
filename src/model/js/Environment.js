@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance"],
-   function(Immutable, ArrayAugments, InputValidator, Action, CardInstance)
+define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action", "model/js/Agent", "model/js/CardInstance"],
+   function(Immutable, ArrayAugments, InputValidator, Action, Agent, CardInstance)
    {
       function Environment(store, scenarioDeck, playerData)
       {
@@ -56,8 +56,8 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
          return agentValues.valueSeq().map(function(values)
          {
             var id = values.get("id");
-            var agentClass = values.get("agentClass");
-            return agentClass.get(store, id);
+
+            return Agent.get(store, id);
          });
       };
 
