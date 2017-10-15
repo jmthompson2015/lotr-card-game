@@ -15,6 +15,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
          store.dispatch(Action.drawEncounterCard());
          store.dispatch(Action.drawEncounterCard());
          var locationCount = environment.stagingArea(CardType.LOCATION).size;
+         var task = new TravelTask(store);
          var callback = function()
          {
             // Verify.
@@ -27,10 +28,9 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
                assert.ok(Number.isInteger(store.getState().activeLocationId));
             }
          };
-         var task = new TravelTask(store, callback);
 
          // Run.
-         task.doIt();
+         task.doIt(callback);
       });
 
       function createEnvironment()

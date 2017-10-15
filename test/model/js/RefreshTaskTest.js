@@ -31,6 +31,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
          assert.equal(agent1.threatLevel(), 29);
          assert.equal(agent2.threatLevel(), 30);
          assert.equal(store.getState().firstAgentId, 1);
+         var task = new RefreshTask(store, agent1);
          var callback = function()
          {
             // Verify.
@@ -46,10 +47,9 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
             assert.equal(agent2.threatLevel(), 30);
             assert.equal(store.getState().firstAgentId, 2);
          };
-         var task = new RefreshTask(store, agent1, callback);
 
          // Run.
-         task.doIt();
+         task.doIt(callback);
       });
 
       function createGame()

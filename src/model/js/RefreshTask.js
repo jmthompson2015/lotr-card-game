@@ -3,11 +3,10 @@
 define(["common/js/InputValidator", "model/js/Action"],
    function(InputValidator, Action)
    {
-      function RefreshTask(store, agent, callback)
+      function RefreshTask(store, agent)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("agent", agent);
-         InputValidator.validateNotNull("callback", callback);
 
          this.store = function()
          {
@@ -18,15 +17,12 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             return agent;
          };
-
-         this.callback = function()
-         {
-            return callback;
-         };
       }
 
-      RefreshTask.prototype.doIt = function()
+      RefreshTask.prototype.doIt = function(callback)
       {
+         InputValidator.validateNotNull("callback", callback);
+
          // 1. All exhausted cards ready.
          var store = this.store();
          var agent = this.agent();
@@ -60,7 +56,6 @@ define(["common/js/InputValidator", "model/js/Action"],
             store.dispatch(Action.setFirstAgent(nextAgent));
          }
 
-         var callback = this.callback();
          callback();
       };
 

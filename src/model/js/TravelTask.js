@@ -3,24 +3,20 @@
 define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
    function(InputValidator, CardType, Action)
    {
-      function TravelTask(store, callback)
+      function TravelTask(store)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("callback", callback);
 
          this.store = function()
          {
             return store;
          };
-
-         this.callback = function()
-         {
-            return callback;
-         };
       }
 
-      TravelTask.prototype.doIt = function()
+      TravelTask.prototype.doIt = function(callback)
       {
+         InputValidator.validateNotNull("callback", callback);
+
          var store = this.store();
 
          if (store.getState().activeLocationId === undefined)
@@ -38,7 +34,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
             }
          }
 
-         var callback = this.callback();
          callback();
       };
 

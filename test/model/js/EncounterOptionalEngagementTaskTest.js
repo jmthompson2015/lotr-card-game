@@ -17,6 +17,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
          assert.equal(environment.stagingArea().size, 2);
          assert.equal(agent1.engagementArea().size, 0);
          assert.equal(agent2.engagementArea().size, 0);
+         var task = new EncounterOptionalEngagementTask(store, agent1);
          var callback = function()
          {
             // Verify.
@@ -25,10 +26,9 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
             assert.equal(agent1.engagementArea().size, 0);
             assert.equal(agent2.engagementArea().size, 0);
          };
-         var task = new EncounterOptionalEngagementTask(store, agent1, callback);
 
          // Run.
-         task.doIt();
+         task.doIt(callback);
       });
 
       function createGame()

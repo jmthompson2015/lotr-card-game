@@ -3,11 +3,10 @@
 define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
    function(InputValidator, CardType, Action)
    {
-      function EncounterOptionalEngagementTask(store, agent, callback)
+      function EncounterOptionalEngagementTask(store, agent)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("agent", agent);
-         InputValidator.validateNotNull("callback", callback);
 
          this.store = function()
          {
@@ -18,15 +17,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
          {
             return agent;
          };
-
-         this.callback = function()
-         {
-            return callback;
-         };
       }
 
-      EncounterOptionalEngagementTask.prototype.doIt = function()
+      EncounterOptionalEngagementTask.prototype.doIt = function(callback)
       {
+         InputValidator.validateNotNull("callback", callback);
+
          var store = this.store();
          var agent = this.agent();
          var environment = store.getState().environment;
@@ -42,7 +38,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
             }
          }
 
-         var callback = this.callback();
          callback();
       };
 

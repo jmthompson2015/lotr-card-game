@@ -86,11 +86,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var task = new ResourceTask(store, agent, this.processResourceQueue.bind(this));
+         var task = new ResourceTask(store, agent);
+         var callback = this.processResourceQueue.bind(this);
 
          setTimeout(function()
          {
-            task.doIt();
+            task.doIt(callback);
          }, this.delay());
       };
 
@@ -178,11 +179,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.TRAVEL_START));
-            var task = new TravelTask(store, this.finishTravelPhase.bind(this));
+            var task = new TravelTask(store);
+            var callback = this.finishTravelPhase.bind(this);
 
             setTimeout(function()
             {
-               task.doIt();
+               task.doIt(callback);
             }, this.delay());
          }
       };
@@ -243,11 +245,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var task = new EncounterOptionalEngagementTask(store, agent, this.processEncounterQueue1.bind(this));
+         var task = new EncounterOptionalEngagementTask(store, agent);
+         var callback = this.processEncounterQueue1.bind(this);
 
          setTimeout(function()
          {
-            task.doIt();
+            task.doIt(callback);
          }, this.delay());
       };
 
@@ -285,11 +288,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var task = new EncounterEngagementCheckTask(store, agent, this.processEncounterQueue2.bind(this));
+         var task = new EncounterEngagementCheckTask(store, agent);
+         var callback = this.processEncounterQueue2.bind(this);
 
          setTimeout(function()
          {
-            task.doIt();
+            task.doIt(callback);
          }, this.delay());
       };
 
@@ -372,11 +376,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var task = new RefreshTask(store, agent, this.processRefreshQueue.bind(this));
+         var task = new RefreshTask(store, agent);
+         var callback = this.processRefreshQueue.bind(this);
 
          setTimeout(function()
          {
-            task.doIt();
+            task.doIt(callback);
          }, this.delay());
       };
 

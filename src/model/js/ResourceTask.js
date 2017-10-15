@@ -3,11 +3,10 @@
 define(["common/js/InputValidator", "model/js/Action"],
    function(InputValidator, Action)
    {
-      function ResourceTask(store, agent, callback)
+      function ResourceTask(store, agent)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("agent", agent);
-         InputValidator.validateNotNull("callback", callback);
 
          this.store = function()
          {
@@ -18,16 +17,11 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             return agent;
          };
-
-         this.callback = function()
-         {
-            return callback;
-         };
       }
 
-      ResourceTask.prototype.doIt = function()
+      ResourceTask.prototype.doIt = function(callback)
       {
-         LOGGER.trace("ResourceTask.doIt() start");
+         InputValidator.validateNotNull("callback", callback);
 
          // Add one resource to each hero's pool.
          var store = this.store();
@@ -43,10 +37,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          // Draw one card.
          store.dispatch(Action.drawPlayerCard(agent));
 
-         var callback = this.callback();
          callback();
-
-         LOGGER.trace("ResourceTask.doIt() end");
       };
 
       return ResourceTask;

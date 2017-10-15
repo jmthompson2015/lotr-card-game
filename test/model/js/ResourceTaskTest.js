@@ -12,6 +12,11 @@ define(["qunit", "redux", "artifact/js/GameMode",
          var environment = createEnvironment();
          var store = environment.store();
          var agent = environment.agents().get(0);
+         var task = new ResourceTask(store, agent);
+         var cardResources = store.getState().cardResources.get(agent.id());
+         assert.equal(cardResources, undefined);
+         var agentHand = store.getState().agentHand.get(agent.id());
+         assert.equal(agentHand, undefined);
          var callback = function()
          {
             // Verify.
@@ -24,14 +29,9 @@ define(["qunit", "redux", "artifact/js/GameMode",
             agentHand = store.getState().agentHand.get(agent.id());
             assert.equal(agentHand.size, 1);
          };
-         var task = new ResourceTask(store, agent, callback);
-         var cardResources = store.getState().cardResources.get(agent.id());
-         assert.equal(cardResources, undefined);
-         var agentHand = store.getState().agentHand.get(agent.id());
-         assert.equal(agentHand, undefined);
 
          // Run.
-         task.doIt();
+         task.doIt(callback);
       });
 
       function createEnvironment()
