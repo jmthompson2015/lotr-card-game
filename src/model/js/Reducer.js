@@ -63,6 +63,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   cardResources: state.cardResources.set(id, newResources),
                });
             case Action.AGENT_ENGAGE_CARD:
+               LOGGER.info("Agent engage card: " + action.cardInstance);
                id = action.agent.id();
                cardId = action.cardInstance.id();
                index = state.stagingArea.indexOf(cardId);
@@ -74,6 +75,15 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agentEngagementArea: state.agentEngagementArea.set(id, newEngagementArea),
                   stagingArea: state.stagingArea.delete(index),
                });
+            case Action.DEAL_SHADOW_CARD:
+               cardId = state.encounterDeck.first();
+               newEncounterDeck = state.encounterDeck.shift();
+               return Object.assign(
+               {}, state,
+               {
+                  encounterDeck: newEncounterDeck,
+                  cardShadowCard: state.cardShadowCard.set(action.cardInstance.id(), cardId),
+               });
             case Action.DEQUEUE_PHASE:
                // LOGGER.info("PhaseQueue: (dequeue)");
                newPhaseData = state.phaseQueue.first();
@@ -84,6 +94,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   phaseData: newPhaseData,
                   phaseKey: newPhaseData.get("phaseKey"),
                   phaseQueue: newPhaseQueue,
+               });
+            case Action.DISCARD_SHADOW_CARDS:
+               var newEncounterDiscard = state.encounterDiscard.push(state.cardShadowCard.toIndexedSeq().toArray());
+               return Object.assign(
+               {}, state,
+               {
+                  encounterDiscard: newEncounterDiscard,
+                  cardShadowCard: Immutable.Map(),
                });
             case Action.DRAW_ENCOUNTER_CARD:
                if (action.index === undefined)

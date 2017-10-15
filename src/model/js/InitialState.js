@@ -43,6 +43,7 @@ define(["immutable", "artifact/js/Phase"],
          this.cardProgress = Immutable.Map();
          // card instance id: sphereKey: resource count
          this.cardResources = Immutable.Map();
+         this.cardShadowCard = Immutable.Map();
       }
 
       if (Object.freeze)

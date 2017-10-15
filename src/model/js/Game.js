@@ -4,11 +4,25 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
   "model/js/Action", "model/js/Engine", "model/js/Environment"],
    function(InputValidator, EnemyCard, LocationCard, Scenario, Action, Engine, Environment)
    {
-      function Game(store, scenarioDeck, playerData)
+      function Game(store, scenarioDeck, playerData, delayIn, engineCallback)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("scenarioDeck", scenarioDeck);
          InputValidator.validateIsArray("playerData", playerData);
+         // delayIn optional. default: 1000 ms
+         // engineCallback optional.
+
+         this.store = function()
+         {
+            return store;
+         };
+
+         var delay = (delayIn !== undefined ? delayIn : 1000);
+
+         this.delay = function()
+         {
+            return delay;
+         };
 
          // Setup.
          // 1. Shuffle Decks
@@ -57,12 +71,7 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
             store.dispatch(Action.setEncounterDeck(encounterDeck));
          }
 
-         var engine = new Engine(store, environment);
-
-         this.store = function()
-         {
-            return store;
-         };
+         var engine = new Engine(store, environment, delay, engineCallback);
 
          this.engine = function()
          {

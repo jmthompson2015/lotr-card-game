@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
-   function(Immutable, InputValidator, Action, CardInstance, SimpleAgentStrategy)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
+   function(Immutable, InputValidator, CardType, Action, CardInstance, SimpleAgentStrategy)
    {
       function Agent(store, name, idIn, strategyIn, isNewIn)
       {
@@ -36,7 +36,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
 
          var strategy = (strategyIn !== undefined ? strategyIn : SimpleAgentStrategy);
 
-         this.strategy = function()
+         this._strategy = function()
          {
             return strategy;
          };
@@ -53,6 +53,25 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
       // Accessor methods.
 
       Agent.prototype.agentClass = Agent;
+
+      Agent.prototype.characters = function(isReady)
+      {
+         var answer = this.tableau().filter(function(cardInstance)
+         {
+            return cardInstance.card().cardTypeKey === CardType.ALLY;
+         });
+         answer = answer.concat(this.heroDeck());
+
+         if (isReady !== undefined)
+         {
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.isReady() === isReady;
+            });
+         }
+
+         return answer;
+      };
 
       Agent.prototype.engagementArea = function()
       {
@@ -108,6 +127,39 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
       };
 
       //////////////////////////////////////////////////////////////////////////
+      // Behavior methods.
+
+      Agent.prototype.chooseCharacterAttackers = function(characters, defender, callback)
+      {
+         this._strategy().chooseCharacterAttackers(characters, defender, callback);
+      };
+
+      Agent.prototype.chooseCharacterDefender = function(attacker, characters, callback)
+      {
+         return this._strategy().chooseCharacterDefender(attacker, characters, callback);
+      };
+
+      Agent.prototype.chooseEnemyAttacker = function(enemies, callback)
+      {
+         return this._strategy().chooseEnemyAttacker(enemies, callback);
+      };
+
+      Agent.prototype.chooseEnemyDefender = function(enemies, callback)
+      {
+         return this._strategy().chooseEnemyDefender(enemies, callback);
+      };
+
+      Agent.prototype.chooseOptionalEngagementEnemy = function(enemies, callback)
+      {
+         return this._strategy().chooseOptionalEngagementEnemy(enemies, callback);
+      };
+
+      Agent.prototype.chooseUndefendedAttackHero = function(heroes, callback)
+      {
+         return this._strategy().chooseUndefendedAttackHero(heroes, callback);
+      };
+
+      //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
       Agent.prototype._save = function()
@@ -118,7 +170,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          {
             id: id,
             name: this.name(),
-            strategy: this.strategy(),
+            strategy: this._strategy(),
          });
 
          store.dispatch(Action.setAgent(id, values));

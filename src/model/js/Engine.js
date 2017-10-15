@@ -1,14 +1,16 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/Phase",
-  "model/js/Action", "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
-   function(InputValidator, Phase, Action, EncounterEngagementCheckTask, EncounterOptionalEngagementTask, RefreshTask, ResourceTask, TravelTask)
+  "model/js/Action", "model/js/CombatAttackTask", "model/js/CombatDealShadowCardsTask", "model/js/CombatDefendTask",
+  "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
+   function(InputValidator, Phase, Action, CombatAttackTask, CombatDealShadowCardsTask, CombatDefendTask,
+      EncounterEngagementCheckTask, EncounterOptionalEngagementTask, RefreshTask, ResourceTask, TravelTask)
    {
       function Engine(store, environment, delayIn, callback)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("environment", environment);
-         // delayIn optional.
+         // delayIn optional. default: 1000 ms
          // callback optional.
 
          this.store = function()
@@ -315,20 +317,27 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
-            this.queue(this.agents());
-            this.processCombatQueue();
+            this.performCombatPhase1();
          }
       };
 
-      Engine.prototype.processCombatQueue = function()
+      Engine.prototype.performCombatPhase1 = function()
+      {
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_SHADOW_CARDS_START));
+         this.queue(this.agents());
+         this.processCombatQueue1();
+      };
+
+      Engine.prototype.processCombatQueue1 = function()
       {
          var store = this.store();
 
          if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
-            var phaseCallback = this.performRefreshPhase.bind(this);
+            store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_SHADOW_CARDS_END));
+            var phaseCallback = this.performCombatPhase2.bind(this);
             setTimeout(function()
             {
                phaseCallback();
@@ -339,7 +348,96 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         this.processCombatQueue();
+         var task = new CombatDealShadowCardsTask(store, agent);
+         var callback = this.processCombatQueue1.bind(this);
+
+         setTimeout(function()
+         {
+            task.doIt(callback);
+         }, this.delay());
+      };
+
+      Engine.prototype.performCombatPhase2 = function()
+      {
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEFEND_START));
+         this.queue(this.agents());
+         this.processCombatQueue2();
+      };
+
+      Engine.prototype.processCombatQueue2 = function()
+      {
+         var store = this.store();
+
+         if (this.queue().length === 0)
+         {
+            store.dispatch(Action.setActiveAgent(undefined));
+            store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEFEND_END));
+            var phaseCallback = this.performCombatPhase3.bind(this);
+            setTimeout(function()
+            {
+               phaseCallback();
+            }, this.delay());
+            return;
+         }
+
+         var agent = this.queue().shift();
+         store.dispatch(Action.setActiveAgent(agent));
+
+         var task = new CombatDefendTask(store, agent);
+         var callback = this.processCombatQueue2.bind(this);
+
+         setTimeout(function()
+         {
+            task.doIt(callback);
+         }, this.delay());
+      };
+
+      Engine.prototype.performCombatPhase3 = function()
+      {
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ATTACK_START));
+         this.queue(this.agents());
+         this.processCombatQueue3();
+      };
+
+      Engine.prototype.processCombatQueue3 = function()
+      {
+         var store = this.store();
+
+         if (this.queue().length === 0)
+         {
+            store.dispatch(Action.setActiveAgent(undefined));
+            store.dispatch(Action.enqueuePhase(Phase.COMBAT_ATTACK_END));
+            var phaseCallback = this.finishCombatPhase.bind(this);
+            setTimeout(function()
+            {
+               phaseCallback();
+            }, this.delay());
+            return;
+         }
+
+         var agent = this.queue().shift();
+         store.dispatch(Action.setActiveAgent(agent));
+
+         var task = new CombatAttackTask(store, agent);
+         var callback = this.processCombatQueue3.bind(this);
+
+         setTimeout(function()
+         {
+            task.doIt(callback);
+         }, this.delay());
+      };
+
+      Engine.prototype.finishCombatPhase = function()
+      {
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
+         var phaseCallback = this.performRefreshPhase.bind(this);
+         setTimeout(function()
+         {
+            phaseCallback();
+         }, this.delay());
       };
 
       Engine.prototype.performRefreshPhase = function()

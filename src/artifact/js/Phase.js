@@ -28,7 +28,8 @@ define(function()
       ENCOUNTER_END: "encounterEnd",
 
       COMBAT_START: "combatStart",
-      COMBAT_DEAL_SHADOW_CARDS: "combatDealShadowCards",
+      COMBAT_DEAL_SHADOW_CARDS_START: "combatDealShadowCardsStart",
+      COMBAT_DEAL_SHADOW_CARDS_END: "combatDealShadowCardsEnd",
       COMBAT_DEFEND_START: "combatDefendStart",
       COMBAT_DEFEND_DECLARE_ATTACKER: "combatDefendDeclareAttacker",
       COMBAT_DEFEND_EXHAUST_DEFENDER: "combatDefendExhaustDefender",
@@ -142,10 +143,15 @@ define(function()
             name: "Combat (start)",
             key: "combatStart",
          },
-         "combatDealShadowCards":
+         "combatDealShadowCardsStart":
          {
-            name: "Combat (deal shadow cards)",
-            key: "combatDealShadowCards",
+            name: "Combat (deal shadow cards start)",
+            key: "combatDealShadowCardsStart",
+         },
+         "combatDealShadowCardsEnd":
+         {
+            name: "Combat (deal shadow cards end)",
+            key: "combatDealShadowCardsEnd",
          },
          "combatDefendStart":
          {

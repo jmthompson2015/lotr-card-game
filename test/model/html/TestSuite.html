@@ -13,8 +13,9 @@
 
     var prefix = "../test/model/js/";
     var suffix = "Test";
-    var testModules = ["Action", "Agent", "CardInstance", "EncounterEngagementCheckTask", "EncounterOptionalEngagementTask", "Engine", "Environment", "Game",
-      "InitialState", "PlayerDeckBuilder", "Reducer", "RefreshTask", "ResourceTask", "ScenarioDeckBuilder", "TravelTask"
+    var testModules = ["Action", "Agent", "CardInstance", "CombatAttackTask", "CombatDealShadowCardsTask", "CombatDefendTask", "EncounterEngagementCheckTask",
+      "EncounterOptionalEngagementTask", "Engine", "Environment", "Game", "InitialState", "PlayerDeckBuilder", "Reducer", "RefreshTask", "ResourceTask",
+      "ScenarioDeckBuilder", "TravelTask"
     ];
     testModules = testModules.map(function(testModule)
     {
@@ -27,7 +28,7 @@
       window.LOGGER = new Logger();
       LOGGER.setTraceEnabled(false);
       LOGGER.setDebugEnabled(false);
-      LOGGER.setInfoEnabled(false);
+      // LOGGER.setInfoEnabled(false);
 
       QUnit.start();
     });

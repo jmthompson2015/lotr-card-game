@@ -76,6 +76,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
          var store = this.store();
          var ids = store.getState().stagingArea;
          var answer = CardInstance.idsToCardInstances(store, ids);
+         LOGGER.debug("0 Environment.stagingArea() answer = " + answer);
 
          if (cardTypeKey !== undefined)
          {
@@ -84,6 +85,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
                return cardInstance.card().cardTypeKey === cardTypeKey;
             });
          }
+         LOGGER.debug("1 Environment.stagingArea() answer = " + answer);
 
          return answer;
       };

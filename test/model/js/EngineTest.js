@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/GameMode",
-  "model/js/Action", "model/js/Engine", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, GameMode, Action, Engine, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/Engine", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, GameMode, Action, Engine, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Engine");
 
@@ -17,7 +17,13 @@ define(["qunit", "redux", "artifact/js/GameMode",
             assert.equal(store.getState().round, 2);
             done();
          };
-         var engine = createEngine(callback);
+
+         var game = createGame(callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
 
          // Run.
          var done = assert.async();
@@ -27,18 +33,18 @@ define(["qunit", "redux", "artifact/js/GameMode",
       QUnit.test("agents()", function(assert)
       {
          // Setup.
-         var engine = createEngine();
+         var game = createGame();
+         var engine = game.engine();
 
          // Run.
          var result = engine.agents();
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 4);
+         assert.equal(result.length, 3);
          assert.equal(result[0].name(), "agent1");
          assert.equal(result[1].name(), "agent2");
          assert.equal(result[2].name(), "agent3");
-         assert.equal(result[3].name(), "agent4");
 
          // Run.
          var store = engine.store();
@@ -47,23 +53,10 @@ define(["qunit", "redux", "artifact/js/GameMode",
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 4);
+         assert.equal(result.length, 3);
          assert.equal(result[0].name(), "agent2");
          assert.equal(result[1].name(), "agent3");
-         assert.equal(result[2].name(), "agent4");
-         assert.equal(result[3].name(), "agent1");
-
-         // Run.
-         store.dispatch(Action.setFirstAgent(result[1]));
-         result = engine.agents();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.length, 4);
-         assert.equal(result[0].name(), "agent3");
-         assert.equal(result[1].name(), "agent4");
          assert.equal(result[2].name(), "agent1");
-         assert.equal(result[3].name(), "agent2");
 
          // Run.
          store.dispatch(Action.setFirstAgent(result[1]));
@@ -71,11 +64,10 @@ define(["qunit", "redux", "artifact/js/GameMode",
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 4);
-         assert.equal(result[0].name(), "agent4");
+         assert.equal(result.length, 3);
+         assert.equal(result[0].name(), "agent3");
          assert.equal(result[1].name(), "agent1");
          assert.equal(result[2].name(), "agent2");
-         assert.equal(result[3].name(), "agent3");
 
          // Run.
          store.dispatch(Action.setFirstAgent(result[1]));
@@ -83,14 +75,13 @@ define(["qunit", "redux", "artifact/js/GameMode",
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 4);
+         assert.equal(result.length, 3);
          assert.equal(result[0].name(), "agent1");
          assert.equal(result[1].name(), "agent2");
          assert.equal(result[2].name(), "agent3");
-         assert.equal(result[3].name(), "agent4");
       });
 
-      function createEngine(callback)
+      function createGame(callback)
       {
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
@@ -107,13 +98,8 @@ define(["qunit", "redux", "artifact/js/GameMode",
                agent: new Agent(store, "agent3"),
                playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
             },
-            {
-               agent: new Agent(store, "agent4"),
-               playerDeck: PlayerDeckBuilder.CoreTacticsDeckBuilder.buildDeck(store),
-            },
-          ];
-         var environment = new Environment(store, scenarioDeck, playerData);
+         ];
 
-         return new Engine(store, environment, 10, callback);
+         return new Game(store, scenarioDeck, playerData, 10, callback);
       }
    });

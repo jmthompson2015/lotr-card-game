@@ -10,7 +10,9 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.ADD_CARD_PROGRESS = "addCardProgress";
    Action.ADD_CARD_RESOURCE = "addCardResource";
    Action.AGENT_ENGAGE_CARD = "agentEngageCard";
+   Action.DEAL_SHADOW_CARD = "dealShadowCard";
    Action.DEQUEUE_PHASE = "dequeuePhase";
+   Action.DISCARD_SHADOW_CARDS = "discardShadowCards";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
    Action.DRAW_PLAYER_CARD = "drawPlayerCard";
    Action.ENQUEUE_PHASE = "enqueuePhase";
@@ -122,11 +124,30 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.dealShadowCard = function(cardInstance)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.DEAL_SHADOW_CARD,
+         cardInstance: cardInstance,
+      });
+   };
+
    Action.dequeuePhase = function()
    {
       return (
       {
          type: Action.DEQUEUE_PHASE,
+      });
+   };
+
+   Action.discardShadowCards = function()
+   {
+      return (
+      {
+         type: Action.DISCARD_SHADOW_CARDS,
       });
    };
 
