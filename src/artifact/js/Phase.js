@@ -21,8 +21,10 @@ define(function()
       TRAVEL_END: "travelEnd",
 
       ENCOUNTER_START: "encounterStart",
-      ENCOUNTER_PLAYER_ENGAGEMENT: "encounterPlayerEngagement",
-      ENCOUNTER_ENGAGEMENT_CHECKS: "encounterEngagementChecks",
+      ENCOUNTER_OPTIONAL_ENGAGEMENT_START: "encounterOptionalEngagementStart",
+      ENCOUNTER_OPTIONAL_ENGAGEMENT_END: "encounterOptionalEngagementEnd",
+      ENCOUNTER_ENGAGEMENT_CHECK_START: "encounterEngagementCheckStart",
+      ENCOUNTER_ENGAGEMENT_CHECK_END: "encounterEngagementCheckEnd",
       ENCOUNTER_END: "encounterEnd",
 
       COMBAT_START: "combatStart",
@@ -110,15 +112,25 @@ define(function()
             name: "Encounter (start)",
             key: "encounterStart",
          },
-         "encounterPlayerEngagement":
+         "encounterOptionalEngagementStart":
          {
-            name: "Encounter (player engagement)",
-            key: "encounterPlayerEngagement",
+            name: "Encounter (optional engagement start)",
+            key: "encounterOptionalEngagementStart",
          },
-         "encounterEngagementChecks":
+         "encounterOptionalEngagementEnd":
          {
-            name: "Encounter (engagement checks)",
-            key: "encounterEngagementChecks",
+            name: "Encounter (optional engagement end)",
+            key: "encounterOptionalEngagementEnd",
+         },
+         "encounterEngagementCheckStart":
+         {
+            name: "Encounter (engagement check start)",
+            key: "encounterEngagementCheckStart",
+         },
+         "encounterEngagementCheckEnd":
+         {
+            name: "Encounter (engagement check end)",
+            key: "encounterEngagementCheckEnd",
          },
          "encounterEnd":
          {

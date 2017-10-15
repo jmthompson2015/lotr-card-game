@@ -57,7 +57,7 @@ define(["qunit", "artifact/js/Phase"], function(QUnit, Phase)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 32);
+      assert.equal(result.length, 34);
       var i = 0;
       assert.equal(result[i++], Phase.SETUP);
       assert.equal(result[i++], Phase.RESOURCE_START);
@@ -72,8 +72,10 @@ define(["qunit", "artifact/js/Phase"], function(QUnit, Phase)
       assert.equal(result[i++], Phase.TRAVEL_START);
       assert.equal(result[i++], Phase.TRAVEL_END);
       assert.equal(result[i++], Phase.ENCOUNTER_START);
-      assert.equal(result[i++], Phase.ENCOUNTER_PLAYER_ENGAGEMENT);
-      assert.equal(result[i++], Phase.ENCOUNTER_ENGAGEMENT_CHECKS);
+      assert.equal(result[i++], Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_START);
+      assert.equal(result[i++], Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END);
+      assert.equal(result[i++], Phase.ENCOUNTER_ENGAGEMENT_CHECK_START);
+      assert.equal(result[i++], Phase.ENCOUNTER_ENGAGEMENT_CHECK_END);
       assert.equal(result[i++], Phase.ENCOUNTER_END);
       assert.equal(result[i++], Phase.COMBAT_START);
       assert.equal(result[i++], Phase.COMBAT_DEAL_SHADOW_CARDS);

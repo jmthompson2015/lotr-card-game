@@ -42,6 +42,17 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
       }
 
       //////////////////////////////////////////////////////////////////////////
+      // Behavior methods.
+
+      SimpleAgent.prototype.chooseOptionalEngagementEnemy = function(enemies)
+      {
+         InputValidator.validateNotNull("enemies", enemies);
+
+         // TODO: choose an optional engagement enemy.
+         return undefined;
+      };
+
+      //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
       SimpleAgent.prototype.agentClass = SimpleAgent;

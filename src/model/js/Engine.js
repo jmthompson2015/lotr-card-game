@@ -1,7 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
-   function(InputValidator, Phase, Action, RefreshTask, ResourceTask, TravelTask)
+define(["common/js/InputValidator", "artifact/js/Phase",
+  "model/js/Action", "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
+   function(InputValidator, Phase, Action, EncounterEngagementCheckTask, EncounterOptionalEngagementTask, RefreshTask, ResourceTask, TravelTask)
    {
       function Engine(store, environment, delayIn, callback)
       {
@@ -204,20 +205,34 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_START));
-            this.queue(this.agents());
-            this.processEncounterQueue();
+            this.performEncounterPhase1();
          }
       };
 
-      Engine.prototype.processEncounterQueue = function()
+      Engine.prototype.performEncounterPhase1 = function()
+      {
+         if (this.isGameOver())
+         {
+            this.processGameOver();
+         }
+         else
+         {
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_START));
+            this.queue(this.agents());
+            this.processEncounterQueue1();
+         }
+      };
+
+      Engine.prototype.processEncounterQueue1 = function()
       {
          var store = this.store();
 
          if (this.queue().length === 0)
          {
             store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
-            var phaseCallback = this.performCombatPhase.bind(this);
+            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END));
+            var phaseCallback = this.performEncounterPhase2.bind(this);
             setTimeout(function()
             {
                phaseCallback();
@@ -228,7 +243,62 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         this.processEncounterQueue();
+         var task = new EncounterOptionalEngagementTask(store, agent, this.processEncounterQueue1.bind(this));
+
+         setTimeout(function()
+         {
+            task.doIt();
+         }, this.delay());
+      };
+
+      Engine.prototype.performEncounterPhase2 = function()
+      {
+         if (this.isGameOver())
+         {
+            this.processGameOver();
+         }
+         else
+         {
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START));
+            this.queue(this.agents());
+            this.processEncounterQueue2();
+         }
+      };
+
+      Engine.prototype.processEncounterQueue2 = function()
+      {
+         var store = this.store();
+
+         if (this.queue().length === 0)
+         {
+            store.dispatch(Action.setActiveAgent(undefined));
+            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_END));
+            var phaseCallback = this.finishEncounterPhase.bind(this);
+            setTimeout(function()
+            {
+               phaseCallback();
+            }, this.delay());
+            return;
+         }
+
+         var agent = this.queue().shift();
+         store.dispatch(Action.setActiveAgent(agent));
+
+         var task = new EncounterEngagementCheckTask(store, agent, this.processEncounterQueue2.bind(this));
+
+         setTimeout(function()
+         {
+            task.doIt();
+         }, this.delay());
+      };
+
+      Engine.prototype.finishEncounterPhase = function()
+      {
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
+
+         this.performCombatPhase();
       };
 
       Engine.prototype.performCombatPhase = function()
