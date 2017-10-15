@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/InitialState"],
-   function(Immutable, InputValidator, Phase, Action, InitialState)
+define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/CardInstance", "model/js/InitialState"],
+   function(Immutable, InputValidator, Phase, Action, CardInstance, InitialState)
    {
       var Reducer = {};
 
@@ -14,7 +14,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var card, id, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, oldResources;
+         var cardId, cardInstanceIds, id, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, oldResources;
 
          switch (action.type)
          {
@@ -51,12 +51,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             case Action.DRAW_ENCOUNTER_CARD:
                if (action.index === undefined)
                {
-                  card = state.encounterDeck.first();
+                  cardId = state.encounterDeck.first();
                   newEncounterDeck = state.encounterDeck.shift();
                }
                else
                {
-                  card = state.encounterDeck.get(action.index);
+                  cardId = state.encounterDeck.get(action.index);
                   newEncounterDeck = state.encounterDeck.delete(action.index);
                }
                var oldStagingArea = (state.stagingArea !== undefined ? state.stagingArea : Immutable.List());
@@ -64,14 +64,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   encounterDeck: newEncounterDeck,
-                  stagingArea: oldStagingArea.push(card),
+                  stagingArea: oldStagingArea.push(cardId),
                });
             case Action.DRAW_PLAYER_CARD:
                id = action.agent.id();
-               card = state.agentPlayerDeck.get(id).first();
+               cardId = state.agentPlayerDeck.get(id).first();
                var newPlayerDeck = state.agentPlayerDeck.get(id).shift();
                var oldAgentHand = (state.agentHand.get(id) !== undefined ? state.agentHand.get(id) : Immutable.List());
-               var newAgentHand = oldAgentHand.push(card);
+               var newAgentHand = oldAgentHand.push(cardId);
                return Object.assign(
                {}, state,
                {
@@ -128,16 +128,18 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agents: state.agents.set(action.id, action.values),
                });
             case Action.SET_AGENT_HERO_DECK:
+               cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                return Object.assign(
                {}, state,
                {
-                  agentHeroDeck: state.agentHeroDeck.set(action.agent.id(), Immutable.List(action.deck)),
+                  agentHeroDeck: state.agentHeroDeck.set(action.agent.id(), Immutable.List(cardInstanceIds)),
                });
             case Action.SET_AGENT_PLAYER_DECK:
+               cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                return Object.assign(
                {}, state,
                {
-                  agentPlayerDeck: state.agentPlayerDeck.set(action.agent.id(), Immutable.List(action.deck)),
+                  agentPlayerDeck: state.agentPlayerDeck.set(action.agent.id(), Immutable.List(cardInstanceIds)),
                });
             case Action.SET_AGENT_THREAT:
                return Object.assign(
@@ -161,10 +163,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   resources: state.resources.set(id, newResources),
                });
             case Action.SET_ENCOUNTER_DECK:
+               cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                return Object.assign(
                {}, state,
                {
-                  encounterDeck: Immutable.List(action.deck),
+                  encounterDeck: Immutable.List(cardInstanceIds),
                });
             case Action.SET_ENVIRONMENT:
                return Object.assign(
@@ -179,10 +182,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   firstAgentId: action.agent.id(),
                });
             case Action.SET_QUEST_DECK:
+               cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                return Object.assign(
                {}, state,
                {
-                  questDeck: Immutable.List(action.deck),
+                  questDeck: Immutable.List(cardInstanceIds),
                });
             default:
                LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);

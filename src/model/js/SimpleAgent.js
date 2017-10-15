@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/Action"],
-   function(Immutable, InputValidator, Action)
+define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance"],
+   function(Immutable, InputValidator, Action, CardInstance)
    {
       function SimpleAgent(store, name, idIn, isNewIn)
       {
@@ -49,24 +49,25 @@ define(["immutable", "common/js/InputValidator", "model/js/Action"],
       SimpleAgent.prototype.hand = function()
       {
          var store = this.store();
+         var ids = store.getState().agentHand.get(this.id());
 
-         var answer = store.getState().agentHand.get(this.id());
-
-         return (answer !== undefined ? answer : Immutable.List());
+         return CardInstance.idsToCardInstances(store, ids);
       };
 
       SimpleAgent.prototype.heroDeck = function()
       {
          var store = this.store();
+         var ids = store.getState().agentHeroDeck.get(this.id());
 
-         return store.getState().agentHeroDeck.get(this.id());
+         return CardInstance.idsToCardInstances(store, ids);
       };
 
       SimpleAgent.prototype.playerDeck = function()
       {
          var store = this.store();
+         var ids = store.getState().agentPlayerDeck.get(this.id());
 
-         return store.getState().agentPlayerDeck.get(this.id());
+         return CardInstance.idsToCardInstances(store, ids);
       };
 
       SimpleAgent.prototype.toString = function()

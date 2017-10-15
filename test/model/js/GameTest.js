@@ -36,7 +36,7 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameMode", "arti
          assert.equal(encounterDeck.size, 25);
          var stagingArea = store.getState().stagingArea;
          assert.equal(stagingArea.size, 2);
-         assert.equal(stagingArea.get(0).card().key, EnemyCard.FOREST_SPIDER);
-         assert.equal(stagingArea.get(1).card().key, LocationCard.OLD_FOREST_ROAD);
+         assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
+         assert.equal(environment.stagingArea().get(1).card().key, LocationCard.OLD_FOREST_ROAD);
       });
    });

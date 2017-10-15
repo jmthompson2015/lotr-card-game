@@ -52,7 +52,7 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
             environment.drawEncounterCard(EnemyCard.FOREST_SPIDER);
             environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
 
-            var encounterDeck = store.getState().encounterDeck.toJS();
+            var encounterDeck = environment.encounterDeck().toJS();
             encounterDeck.lotrShuffle();
             store.dispatch(Action.setEncounterDeck(encounterDeck));
          }

@@ -64,7 +64,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          // Verify.
          assert.equal(store.getState().encounterDeck.size, 26);
          assert.equal(store.getState().stagingArea.size, 1);
-         assert.equal(store.getState().stagingArea.get(0).card().key, EnemyCard.FOREST_SPIDER);
+         assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
 
          // Run.
          environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
@@ -72,8 +72,8 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          // Verify.
          assert.equal(store.getState().encounterDeck.size, 25);
          assert.equal(store.getState().stagingArea.size, 2);
-         assert.equal(store.getState().stagingArea.get(0).card().key, EnemyCard.FOREST_SPIDER);
-         assert.equal(store.getState().stagingArea.get(1).card().key, LocationCard.OLD_FOREST_ROAD);
+         assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
+         assert.equal(environment.stagingArea().get(1).card().key, LocationCard.OLD_FOREST_ROAD);
       });
 
       QUnit.test("stagingArea()", function(assert)

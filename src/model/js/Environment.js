@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action"],
-   function(ArrayAugments, InputValidator, Action)
+define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance"],
+   function(Immutable, ArrayAugments, InputValidator, Action, CardInstance)
    {
       function Environment(store, scenarioDeck, playerData)
       {
@@ -49,8 +49,9 @@ define(["common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action"
       Environment.prototype.encounterDeck = function()
       {
          var store = this.store();
+         var ids = store.getState().encounterDeck;
 
-         return store.getState().encounterDeck;
+         return CardInstance.idsToCardInstances(store, ids);
       };
 
       Environment.prototype.stagingArea = function(cardTypeKey)
@@ -58,16 +59,12 @@ define(["common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action"
          // cardTypeKey optional.
 
          var store = this.store();
-         var stagingArea = store.getState().stagingArea;
-         var answer = [];
+         var ids = store.getState().stagingArea;
+         var answer = CardInstance.idsToCardInstances(store, ids);
 
-         if (cardTypeKey === undefined)
+         if (cardTypeKey !== undefined)
          {
-            answer = stagingArea;
-         }
-         else
-         {
-            answer = stagingArea.filter(function(cardInstance)
+            answer = answer.filter(function(cardInstance)
             {
                return cardInstance.card().cardTypeKey === cardTypeKey;
             });
@@ -79,8 +76,9 @@ define(["common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action"
       Environment.prototype.questDeck = function()
       {
          var store = this.store();
+         var ids = store.getState().questDeck;
 
-         return store.getState().questDeck;
+         return CardInstance.idsToCardInstances(store, ids);
       };
 
       //////////////////////////////////////////////////////////////////////////
@@ -91,7 +89,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action"
          InputValidator.validateIsString("cardKey", cardKey);
 
          var store = this.store();
-         var encounterDeck = store.getState().encounterDeck.toJS();
+         var encounterDeck = this.encounterDeck();
          var cardKeys = encounterDeck.map(function(cardInstance)
          {
             return cardInstance.card().key;
