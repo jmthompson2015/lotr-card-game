@@ -33,6 +33,21 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
+      Environment.prototype.agentQueue = function()
+      {
+         var store = this.store();
+         var agents = this.agents();
+         var agentIds = agents.map(function(agent)
+         {
+            return agent.id();
+         });
+
+         var firstAgentId = (store.getState().firstAgentId ? store.getState().firstAgentId : agents.get(0).id());
+         var index = agentIds.indexOf(firstAgentId);
+
+         return agents.toJS().lotrRotate(index);
+      };
+
       Environment.prototype.agents = function()
       {
          var store = this.store();

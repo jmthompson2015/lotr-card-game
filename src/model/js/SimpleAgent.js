@@ -70,6 +70,22 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return CardInstance.idsToCardInstances(store, ids);
       };
 
+      SimpleAgent.prototype.tableau = function()
+      {
+         var store = this.store();
+         var ids = store.getState().agentTableau.get(this.id());
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      SimpleAgent.prototype.threatLevel = function()
+      {
+         var store = this.store();
+         var answer = store.getState().agentThreat.get(this.id());
+
+         return (answer !== undefined ? answer : 0);
+      };
+
       SimpleAgent.prototype.toString = function()
       {
          return "SimpleAgent " + this.id() + " " + this.name();

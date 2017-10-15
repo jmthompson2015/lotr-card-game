@@ -44,6 +44,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
+      CardInstance.prototype.isExhausted = function()
+      {
+         var store = this.store();
+         var answer = store.getState().isExhausted.get(this.id());
+
+         return (answer !== undefined ? answer : false);
+      };
+
       CardInstance.prototype.toString = function()
       {
          return "CardInstance " + this.id() + " " + this.card().name;

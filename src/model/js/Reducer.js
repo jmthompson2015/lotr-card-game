@@ -14,7 +14,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var cardId, cardInstanceIds, id, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, oldResources;
+         var cardId, cardInstanceIds, id, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, newTableau, oldResources, oldTableau;
 
          switch (action.type)
          {
@@ -25,6 +25,15 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   agentThreat: state.agentThreat.set(id, oldThreat + action.value),
+               });
+            case Action.ADD_AGENT_CARD:
+               id = action.agent.id();
+               oldTableau = (state.agentTableau.get(id) !== undefined ? state.agentTableau.get(id) : Immutable.List());
+               newTableau = oldTableau.push(action.cardInstance.id());
+               return Object.assign(
+               {}, state,
+               {
+                  agentTableau: state.agentTableau.set(id, newTableau),
                });
             case Action.ADD_CARD_RESOURCE:
                id = action.cardInstance.id();
@@ -107,6 +116,16 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   round: state.round + 1,
                });
+            case Action.REMOVE_AGENT_CARD:
+               id = action.agent.id();
+               oldTableau = (state.agentTableau.get(id) !== undefined ? state.agentTableau.get(id) : Immutable.List());
+               var index = oldTableau.indexOf(action.cardInstance.id());
+               newTableau = oldTableau.delete(index);
+               return Object.assign(
+               {}, state,
+               {
+                  agentTableau: state.agentTableau.set(id, newTableau),
+               });
             case Action.SET_ACTIVE_AGENT:
                LOGGER.info("Active Agent: " + action.agent);
                return Object.assign(
@@ -146,6 +165,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   agentThreat: state.agentThreat.set(action.agent.id(), action.value),
+               });
+            case Action.SET_CARD_EXHAUSTED:
+               return Object.assign(
+               {}, state,
+               {
+                  isExhausted: state.isExhausted.set(action.cardInstance.id(), action.isExhausted),
                });
             case Action.SET_CARD_INSTANCE:
                return Object.assign(

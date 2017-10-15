@@ -5,6 +5,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    var Action = {};
 
    Action.ADD_AGENT_THREAT = "addAgentThreat";
+   Action.ADD_AGENT_CARD = "addAgentCard";
    Action.ADD_CARD_RESOURCE = "addCardResource";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
@@ -13,12 +14,14 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.INCREMENT_NEXT_AGENT_ID = "incrementNextAgentId";
    Action.INCREMENT_NEXT_CARD_ID = "incrementNextCardId";
    Action.INCREMENT_ROUND = "incrementRound";
+   Action.REMOVE_AGENT_CARD = "removeAgentCard";
    Action.SET_ACTIVE_AGENT = "setActiveAgent";
    Action.SET_ACTIVE_LOCATION = "setActiveLocation";
    Action.SET_AGENT = "setAgent";
    Action.SET_AGENT_HERO_DECK = "setAgentHeroDeck";
    Action.SET_AGENT_PLAYER_DECK = "setAgentPlayerDeck";
    Action.SET_AGENT_THREAT = "setAgentThreat";
+   Action.SET_CARD_EXHAUSTED = "setCardExhausted";
    Action.SET_CARD_INSTANCE = "setCardInstance";
    Action.SET_CARD_RESOURCE = "setCardResource";
    Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
@@ -38,6 +41,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.ADD_AGENT_THREAT,
          agent: agent,
          value: myValue,
+      });
+   };
+
+   Action.addAgentCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsString("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.ADD_AGENT_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
       });
    };
 
@@ -129,6 +145,19 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.removeAgentCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsString("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.REMOVE_AGENT_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+      });
+   };
+
    Action.setActiveAgent = function(agent)
    {
       // agent optional.
@@ -202,6 +231,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.SET_AGENT_THREAT,
          agent: agent,
          value: myValue,
+      });
+   };
+
+   Action.setCardExhausted = function(cardInstance, isExhausted)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsBoolean("isExhausted", isExhausted);
+
+      return (
+      {
+         type: Action.SET_CARD_EXHAUSTED,
+         cardInstance: cardInstance,
+         isExhausted: isExhausted,
       });
    };
 

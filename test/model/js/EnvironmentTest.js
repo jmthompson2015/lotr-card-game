@@ -35,6 +35,42 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          assert.equal(result.encounterDeck().size, 27);
       });
 
+      QUnit.test("agentQueue()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+
+         // Run.
+         var result = environment.agentQueue();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         assert.equal(result[0].name(), "agent1");
+         assert.equal(result[1].name(), "agent2");
+
+         // Run.
+         var store = environment.store();
+         store.dispatch(Action.setFirstAgent(result[1]));
+         result = environment.agentQueue();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         assert.equal(result[0].name(), "agent2");
+         assert.equal(result[1].name(), "agent1");
+
+         // Run.
+         store.dispatch(Action.setFirstAgent(result[1]));
+         result = environment.agentQueue();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         assert.equal(result[0].name(), "agent1");
+         assert.equal(result[1].name(), "agent2");
+      });
+
       QUnit.test("agents()", function(assert)
       {
          // Setup.

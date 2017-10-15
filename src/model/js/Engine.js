@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/ResourceTask", "model/js/TravelTask"],
-   function(InputValidator, Phase, Action, ResourceTask, TravelTask)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
+   function(InputValidator, Phase, Action, RefreshTask, ResourceTask, TravelTask)
    {
       function Engine(store, environment, delayIn, callback)
       {
@@ -302,7 +302,12 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         this.processRefreshQueue();
+         var task = new RefreshTask(store, agent, this.processRefreshQueue.bind(this));
+
+         setTimeout(function()
+         {
+            task.doIt();
+         }, this.delay());
       };
 
       //////////////////////////////////////////////////////////////////////////
@@ -310,26 +315,9 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
 
       Engine.prototype.agents = function()
       {
-         var store = this.store();
-         var agentValues = store.getState().agents;
-         var agents = agentValues.valueSeq().reduce(function(accumulator, values)
-         {
-            var id = values.get("id");
-            var agentClass = values.get("agentClass");
-            accumulator.push(agentClass.get(store, id));
-            return accumulator;
-         }, []);
-         var agentIds = agentValues.valueSeq().reduce(function(accumulator, values)
-         {
-            accumulator.push(values.get("id"));
-            return accumulator;
-         }, []);
+         var environment = this.environment();
 
-         var firstAgentId = (store.getState().firstAgentId ? store.getState().firstAgentId : agents[0].id());
-         var index = agentIds.indexOf(firstAgentId);
-         var answer = agents.lotrRotate(index);
-
-         return answer;
+         return environment.agentQueue();
       };
 
       Engine.prototype.isGameOver = function()

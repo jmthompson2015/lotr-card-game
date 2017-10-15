@@ -19,11 +19,11 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
          {
             var agent = data.agent;
             var heroInstances = data.playerDeck.heroInstances;
-            var threat = heroInstances.reduce(function(accumulator, card)
+            var initialThreat = heroInstances.reduce(function(accumulator, cardInstance)
             {
-               return accumulator + card.threatCost;
-            });
-            store.dispatch(Action.setAgentThreat(agent, threat));
+               return accumulator + cardInstance.card().threatCost;
+            }, 0);
+            store.dispatch(Action.setAgentThreat(agent, initialThreat));
          });
 
          // 3. Setup Token Bank
