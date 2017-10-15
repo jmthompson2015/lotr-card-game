@@ -88,10 +88,10 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   Action.enqueuePhase = function(phaseKey, phaseToken, phaseCallback, phaseContext)
+   Action.enqueuePhase = function(phaseKey, phaseAgent, phaseCallback, phaseContext)
    {
       InputValidator.validateNotNull("phaseKey", phaseKey);
-      // phaseToken optional.
+      // phaseAgent optional.
       // phaseCallback optional.
       // phaseContext optional.
 
@@ -99,7 +99,7 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.ENQUEUE_PHASE,
          phaseKey: phaseKey,
-         phaseToken: phaseToken,
+         phaseAgent: phaseAgent,
          phaseCallback: phaseCallback,
          phaseContext: phaseContext,
       });

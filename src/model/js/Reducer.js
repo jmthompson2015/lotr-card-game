@@ -79,8 +79,8 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agentHand: state.agentHand.set(id, newAgentHand),
                });
             case Action.ENQUEUE_PHASE:
-               LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", token = " + action.phaseToken + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
-               newPhaseData = createPhaseData(action.phaseKey, action.phaseToken, action.phaseCallback, action.phaseContext);
+               LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", agent = " + action.phaseAgent + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
+               newPhaseData = createPhaseData(action.phaseKey, action.phaseAgent, action.phaseCallback, action.phaseContext);
                newPhaseQueue = state.phaseQueue.push(newPhaseData);
                return Object.assign(
                {}, state,
@@ -194,17 +194,17 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
          }
       };
 
-      function createPhaseData(phaseKey, phaseToken, phaseCallback, phaseContext)
+      function createPhaseData(phaseKey, phaseAgent, phaseCallback, phaseContext)
       {
          InputValidator.validateNotNull("phaseKey", phaseKey);
-         // phaseToken optional.
+         // phaseAgent optional.
          // phaseCallback optional.
          // phaseContext optional.
 
          return Immutable.Map(
          {
             phaseKey: phaseKey,
-            phaseToken: phaseToken,
+            phaseAgent: phaseAgent,
             phaseCallback: phaseCallback,
             phaseContext: phaseContext,
          });
