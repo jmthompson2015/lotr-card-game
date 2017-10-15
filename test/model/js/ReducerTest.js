@@ -1,7 +1,8 @@
 "use strict";
 
-define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere", "model/js/Action", "model/js/CardInstance", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(Immutable, QUnit, Redux, HeroCard, Sphere, Action, CardInstance, Reducer, ScenarioDeckBuilder, SimpleAgent)
+define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
+  "model/js/Action", "model/js/CardInstance", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
+   function(Immutable, QUnit, Redux, HeroCard, Sphere, Action, CardInstance, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
    {
       QUnit.module("Reducer");
 
@@ -33,21 +34,21 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
          store.dispatch(Action.setAgentHeroDeck(agent, heroDeck));
          var cardInstance = heroDeck[0];
          var sphereKey = Sphere.LEADERSHIP;
-         assert.equal(store.getState().resources.get(cardInstance.id()), undefined);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
 
          // Run.
          store.dispatch(Action.addCardResource(cardInstance, sphereKey));
 
          // Verify.
-         assert.ok(store.getState().resources);
-         assert.ok(store.getState().resources.get(cardInstance.id()));
-         assert.equal(store.getState().resources.get(cardInstance.id()).get(sphereKey), 1);
+         assert.ok(store.getState().cardResources);
+         assert.ok(store.getState().cardResources.get(cardInstance.id()));
+         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 1);
 
          // Run.
          store.dispatch(Action.addCardResource(cardInstance, sphereKey, 5));
 
          // Verify.
-         assert.equal(store.getState().resources.get(cardInstance.id()).get(sphereKey), 6);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 6);
       });
 
       QUnit.test("addAgentThreat()", function(assert)
@@ -68,6 +69,27 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
 
          // Verify.
          assert.equal(store.getState().agentThreat.get(agent.id()), 6);
+      });
+
+      QUnit.test("agentEngageCard()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         var agent = environment.agents().get(0);
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         var cardInstance = environment.stagingArea().get(0);
+         assert.equal(store.getState().stagingArea.size, 3);
+         assert.equal(store.getState().agentEngagementArea.size, 0);
+
+         // Run.
+         store.dispatch(Action.agentEngageCard(agent, cardInstance));
+
+         // Verify.
+         assert.equal(store.getState().stagingArea.size, 2);
+         assert.equal(store.getState().agentEngagementArea.size, 1);
       });
 
       QUnit.test("drawEncounterCard()", function(assert)
@@ -116,20 +138,35 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
          store.dispatch(Action.setAgentHeroDeck(agent, heroDeck));
          var cardInstance = heroDeck[0];
          var sphereKey = cardInstance.card().sphereKey;
-         assert.equal(store.getState().resources.get(cardInstance.id()), undefined);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
 
          // Run.
          store.dispatch(Action.setCardResource(cardInstance, sphereKey));
 
          // Verify.
-         assert.ok(store.getState().resources);
-         assert.ok(store.getState().resources.get(cardInstance.id()));
-         assert.equal(store.getState().resources.get(cardInstance.id()).get(sphereKey), 0);
+         assert.ok(store.getState().cardResources);
+         assert.ok(store.getState().cardResources.get(cardInstance.id()));
+         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 0);
 
          // Run.
          store.dispatch(Action.setCardResource(cardInstance, sphereKey, 5));
 
          // Verify.
-         assert.equal(store.getState().resources.get(cardInstance.id()).get(sphereKey), 5);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 5);
       });
+
+      function createEnvironment()
+      {
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         var agent = new SimpleAgent(store, "agent");
+         var playerData = [
+            {
+               agent: agent,
+               playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+                  },
+               ];
+
+         return new Environment(store, scenarioDeck, playerData);
+      }
    });

@@ -44,12 +44,33 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
-      CardInstance.prototype.isExhausted = function()
+      CardInstance.prototype.damage = function()
       {
          var store = this.store();
-         var answer = store.getState().isExhausted.get(this.id());
+         var answer = store.getState().cardDamage.get(this.id());
 
-         return (answer !== undefined ? answer : false);
+         return (answer !== undefined ? answer : 0);
+      };
+
+      CardInstance.prototype.isExhausted = function()
+      {
+         return !this.isReady();
+      };
+
+      CardInstance.prototype.isReady = function()
+      {
+         var store = this.store();
+         var answer = store.getState().cardIsReady.get(this.id());
+
+         return (answer !== undefined ? answer : true);
+      };
+
+      CardInstance.prototype.progress = function()
+      {
+         var store = this.store();
+         var answer = store.getState().cardProgress.get(this.id());
+
+         return (answer !== undefined ? answer : 0);
       };
 
       CardInstance.prototype.toString = function()

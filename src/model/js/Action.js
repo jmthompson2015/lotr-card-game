@@ -6,7 +6,10 @@ define(["common/js/InputValidator"], function(InputValidator)
 
    Action.ADD_AGENT_THREAT = "addAgentThreat";
    Action.ADD_AGENT_CARD = "addAgentCard";
+   Action.ADD_CARD_DAMAGE = "addCardDamage";
+   Action.ADD_CARD_PROGRESS = "addCardProgress";
    Action.ADD_CARD_RESOURCE = "addCardResource";
+   Action.AGENT_ENGAGE_CARD = "agentEngageCard";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
    Action.DRAW_PLAYER_CARD = "drawPlayerCard";
@@ -21,8 +24,10 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_AGENT_HERO_DECK = "setAgentHeroDeck";
    Action.SET_AGENT_PLAYER_DECK = "setAgentPlayerDeck";
    Action.SET_AGENT_THREAT = "setAgentThreat";
-   Action.SET_CARD_EXHAUSTED = "setCardExhausted";
+   Action.SET_CARD_DAMAGE = "setCardDamage";
+   Action.SET_CARD_PROGRESS = "setCardProgress";
    Action.SET_CARD_INSTANCE = "setCardInstance";
+   Action.SET_CARD_READY = "setCardReady";
    Action.SET_CARD_RESOURCE = "setCardResource";
    Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
    Action.SET_ENVIRONMENT = "setEnvironment";
@@ -57,6 +62,36 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.addCardDamage = function(cardInstance, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      // value optional. default: 1
+
+      var myValue = (value !== undefined ? value : 1);
+
+      return (
+      {
+         type: Action.ADD_CARD_DAMAGE,
+         cardInstance: cardInstance,
+         value: myValue,
+      });
+   };
+
+   Action.addCardProgress = function(cardInstance, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      // value optional. default: 1
+
+      var myValue = (value !== undefined ? value : 1);
+
+      return (
+      {
+         type: Action.ADD_CARD_PROGRESS,
+         cardInstance: cardInstance,
+         value: myValue,
+      });
+   };
+
    Action.addCardResource = function(cardInstance, sphereKey, value)
    {
       InputValidator.validateNotNull("cardInstance", cardInstance);
@@ -71,6 +106,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          cardInstance: cardInstance,
          sphereKey: sphereKey,
          value: myValue,
+      });
+   };
+
+   Action.agentEngageCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.AGENT_ENGAGE_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
       });
    };
 
@@ -234,16 +282,18 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   Action.setCardExhausted = function(cardInstance, isExhausted)
+   Action.setCardDamage = function(cardInstance, value)
    {
       InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateIsBoolean("isExhausted", isExhausted);
+      // value optional. default: 0
+
+      var myValue = (value !== undefined ? value : 0);
 
       return (
       {
-         type: Action.SET_CARD_EXHAUSTED,
+         type: Action.SET_CARD_DAMAGE,
          cardInstance: cardInstance,
-         isExhausted: isExhausted,
+         value: myValue,
       });
    };
 
@@ -257,6 +307,34 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.SET_CARD_INSTANCE,
          id: id,
          values: values,
+      });
+   };
+
+   Action.setCardProgress = function(cardInstance, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      // value optional. default: 0
+
+      var myValue = (value !== undefined ? value : 0);
+
+      return (
+      {
+         type: Action.SET_CARD_PROGRESS,
+         cardInstance: cardInstance,
+         value: myValue,
+      });
+   };
+
+   Action.setCardReady = function(cardInstance, isReady)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsBoolean("isReady", isReady);
+
+      return (
+      {
+         type: Action.SET_CARD_READY,
+         cardInstance: cardInstance,
+         isReady: isReady,
       });
    };
 

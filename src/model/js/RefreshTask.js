@@ -35,7 +35,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             if (cardInstance.isExhausted())
             {
-               store.dispatch(Action.setCardExhausted(cardInstance, false));
+               store.dispatch(Action.setCardReady(cardInstance, true));
             }
          });
 
@@ -43,7 +43,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             if (cardInstance.isExhausted())
             {
-               store.dispatch(Action.setCardExhausted(cardInstance, false));
+               store.dispatch(Action.setCardReady(cardInstance, true));
             }
          });
 

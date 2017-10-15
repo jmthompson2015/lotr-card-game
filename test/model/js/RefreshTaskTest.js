@@ -22,11 +22,11 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
          store.dispatch(Action.drawPlayerCard(agent2));
          agent1.tableau().forEach(function(cardInstance)
          {
-            store.dispatch(Action.setCardExhausted(cardInstance, true));
+            store.dispatch(Action.setCardReady(cardInstance, false));
          });
          agent2.tableau().forEach(function(cardInstance)
          {
-            store.dispatch(Action.setCardExhausted(cardInstance, true));
+            store.dispatch(Action.setCardReady(cardInstance, false));
          });
          assert.equal(agent1.threatLevel(), 29);
          assert.equal(agent2.threatLevel(), 30);
@@ -36,11 +36,11 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
             // Verify.
             agent1.tableau().forEach(function(cardInstance)
             {
-               assert.ok(!cardInstance.isExhausted());
+               assert.ok(cardInstance.cardIsReady());
             });
             agent2.tableau().forEach(function(cardInstance)
             {
-               assert.ok(cardInstance.isExhausted());
+               assert.ok(cardInstance.cardIsExhausted());
             });
             assert.equal(agent1.threatLevel(), 30);
             assert.equal(agent2.threatLevel(), 30);

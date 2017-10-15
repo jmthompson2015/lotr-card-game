@@ -14,7 +14,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var cardId, cardInstanceIds, id, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, newTableau, oldResources, oldTableau;
+         var cardId, cardInstanceIds, id, index, newEncounterDeck, newPhaseData, newPhaseQueue, newResources, newTableau, oldResources, oldTableau;
 
          switch (action.type)
          {
@@ -35,16 +35,44 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   agentTableau: state.agentTableau.set(id, newTableau),
                });
+            case Action.ADD_CARD_DAMAGE:
+               id = action.cardInstance.id();
+               var oldDamage = (state.cardDamage.get(id) !== undefined ? state.cardDamage.get(id) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardDamage: state.cardDamage.set(id, oldDamage + action.value),
+               });
+            case Action.ADD_CARD_PROGRESS:
+               id = action.cardInstance.id();
+               var oldProgress = (state.cardProgress.get(id) !== undefined ? state.cardProgress.get(id) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardProgress: state.cardProgress.set(id, oldProgress + action.value),
+               });
             case Action.ADD_CARD_RESOURCE:
                id = action.cardInstance.id();
                // LOGGER.info("Add agent resource: " + id + " " + action.sphereKey + " " + action.value);
-               oldResources = (state.resources.get(id) !== undefined ? state.resources.get(id) : Immutable.Map());
+               oldResources = (state.cardResources.get(id) !== undefined ? state.cardResources.get(id) : Immutable.Map());
                var oldCount = (oldResources.get(action.sphereKey) ? oldResources.get(action.sphereKey) : 0);
                newResources = oldResources.set(action.sphereKey, oldCount + action.value);
                return Object.assign(
                {}, state,
                {
-                  resources: state.resources.set(id, newResources),
+                  cardResources: state.cardResources.set(id, newResources),
+               });
+            case Action.AGENT_ENGAGE_CARD:
+               id = action.agent.id();
+               cardId = action.cardInstance.id();
+               index = state.stagingArea.indexOf(cardId);
+               var oldEngagementArea = (state.agentEngagementArea.get(id) !== undefined ? state.agentEngagementArea.get(id) : Immutable.List());
+               var newEngagementArea = oldEngagementArea.push(cardId);
+               return Object.assign(
+               {}, state,
+               {
+                  agentEngagementArea: state.agentEngagementArea.set(id, newEngagementArea),
+                  stagingArea: state.stagingArea.delete(index),
                });
             case Action.DEQUEUE_PHASE:
                // LOGGER.info("PhaseQueue: (dequeue)");
@@ -68,12 +96,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   cardId = state.encounterDeck.get(action.index);
                   newEncounterDeck = state.encounterDeck.delete(action.index);
                }
-               var oldStagingArea = (state.stagingArea !== undefined ? state.stagingArea : Immutable.List());
                return Object.assign(
                {}, state,
                {
                   encounterDeck: newEncounterDeck,
-                  stagingArea: oldStagingArea.push(cardId),
+                  stagingArea: state.stagingArea.push(cardId),
                });
             case Action.DRAW_PLAYER_CARD:
                id = action.agent.id();
@@ -119,7 +146,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             case Action.REMOVE_AGENT_CARD:
                id = action.agent.id();
                oldTableau = (state.agentTableau.get(id) !== undefined ? state.agentTableau.get(id) : Immutable.List());
-               var index = oldTableau.indexOf(action.cardInstance.id());
+               index = oldTableau.indexOf(action.cardInstance.id());
                newTableau = oldTableau.delete(index);
                return Object.assign(
                {}, state,
@@ -166,11 +193,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   agentThreat: state.agentThreat.set(action.agent.id(), action.value),
                });
-            case Action.SET_CARD_EXHAUSTED:
+            case Action.SET_CARD_DAMAGE:
                return Object.assign(
                {}, state,
                {
-                  isExhausted: state.isExhausted.set(action.cardInstance.id(), action.isExhausted),
+                  cardDamage: state.cardDamage.set(action.cardInstance.id(), action.value),
                });
             case Action.SET_CARD_INSTANCE:
                return Object.assign(
@@ -178,14 +205,26 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   cardInstances: state.cardInstances.set(action.id, action.values),
                });
+            case Action.SET_CARD_PROGRESS:
+               return Object.assign(
+               {}, state,
+               {
+                  cardProgress: state.cardProgress.set(action.cardInstance.id(), action.value),
+               });
+            case Action.SET_CARD_READY:
+               return Object.assign(
+               {}, state,
+               {
+                  cardIsReady: state.cardIsReady.set(action.cardInstance.id(), action.isReady),
+               });
             case Action.SET_CARD_RESOURCE:
                id = action.cardInstance.id();
-               oldResources = (state.resources.get(id) !== undefined ? state.resources.get(id) : Immutable.Map());
+               oldResources = (state.cardResources.get(id) !== undefined ? state.cardResources.get(id) : Immutable.Map());
                newResources = oldResources.set(action.sphereKey, action.value);
                return Object.assign(
                {}, state,
                {
-                  resources: state.resources.set(id, newResources),
+                  cardResources: state.cardResources.set(id, newResources),
                });
             case Action.SET_ENCOUNTER_DECK:
                cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);

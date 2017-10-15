@@ -17,16 +17,16 @@ define(["qunit", "redux", "artifact/js/GameMode",
             // Verify.
             agent.heroDeck().forEach(function(cardInstance)
             {
-               resources = store.getState().resources.get(cardInstance.id());
+               cardResources = store.getState().cardResources.get(cardInstance.id());
                var sphereKey = cardInstance.card().sphereKey;
-               assert.equal(resources.get(sphereKey), 1);
+               assert.equal(cardResources.get(sphereKey), 1);
             });
             agentHand = store.getState().agentHand.get(agent.id());
             assert.equal(agentHand.size, 1);
          };
          var task = new ResourceTask(store, agent, callback);
-         var resources = store.getState().resources.get(agent.id());
-         assert.equal(resources, undefined);
+         var cardResources = store.getState().cardResources.get(agent.id());
+         assert.equal(cardResources, undefined);
          var agentHand = store.getState().agentHand.get(agent.id());
          assert.equal(agentHand, undefined);
 

@@ -46,6 +46,14 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
 
       SimpleAgent.prototype.agentClass = SimpleAgent;
 
+      SimpleAgent.prototype.engagementArea = function()
+      {
+         var store = this.store();
+         var ids = store.getState().agentEngagementArea.get(this.id());
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
       SimpleAgent.prototype.hand = function()
       {
          var store = this.store();
