@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard",
-  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
+  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Environment");
 
@@ -11,8 +11,8 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
-         var agent1 = new SimpleAgent(store, "agent1");
-         var agent2 = new SimpleAgent(store, "agent2");
+         var agent1 = new Agent(store, "agent1");
+         var agent2 = new Agent(store, "agent2");
          var playerData = [
             {
                agent: agent1,
@@ -169,8 +169,8 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
       {
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
-         var agent1 = new SimpleAgent(store, "agent1");
-         var agent2 = new SimpleAgent(store, "agent2");
+         var agent1 = new Agent(store, "agent1");
+         var agent2 = new Agent(store, "agent2");
          var playerData = [
             {
                agent: agent1,

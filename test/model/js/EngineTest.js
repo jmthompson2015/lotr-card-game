@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/GameMode",
-  "model/js/Action", "model/js/Engine", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(QUnit, Redux, GameMode, Action, Engine, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
+  "model/js/Action", "model/js/Engine", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, GameMode, Action, Engine, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Engine");
 
@@ -96,19 +96,19 @@ define(["qunit", "redux", "artifact/js/GameMode",
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
          var playerData = [
             {
-               agent: new SimpleAgent(store, "agent1"),
+               agent: new Agent(store, "agent1"),
                playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
             },
             {
-               agent: new SimpleAgent(store, "agent2"),
+               agent: new Agent(store, "agent2"),
                playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
             },
             {
-               agent: new SimpleAgent(store, "agent3"),
+               agent: new Agent(store, "agent3"),
                playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
             },
             {
-               agent: new SimpleAgent(store, "agent4"),
+               agent: new Agent(store, "agent4"),
                playerDeck: PlayerDeckBuilder.CoreTacticsDeckBuilder.buildDeck(store),
             },
           ];

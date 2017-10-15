@@ -3,7 +3,7 @@
 define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/CardInstance"],
    function(Immutable, InputValidator, Action, CardInstance)
    {
-      function SimpleAgent(store, name, idIn, isNewIn)
+      function Agent(store, name, idIn, isNewIn)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsString("name", name);
@@ -44,7 +44,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
       //////////////////////////////////////////////////////////////////////////
       // Behavior methods.
 
-      SimpleAgent.prototype.chooseOptionalEngagementEnemy = function(enemies)
+      Agent.prototype.chooseOptionalEngagementEnemy = function(enemies)
       {
          InputValidator.validateNotNull("enemies", enemies);
 
@@ -55,9 +55,9 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
-      SimpleAgent.prototype.agentClass = SimpleAgent;
+      Agent.prototype.agentClass = Agent;
 
-      SimpleAgent.prototype.engagementArea = function()
+      Agent.prototype.engagementArea = function()
       {
          var store = this.store();
          var ids = store.getState().agentEngagementArea.get(this.id());
@@ -65,7 +65,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return CardInstance.idsToCardInstances(store, ids);
       };
 
-      SimpleAgent.prototype.hand = function()
+      Agent.prototype.hand = function()
       {
          var store = this.store();
          var ids = store.getState().agentHand.get(this.id());
@@ -73,7 +73,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return CardInstance.idsToCardInstances(store, ids);
       };
 
-      SimpleAgent.prototype.heroDeck = function()
+      Agent.prototype.heroDeck = function()
       {
          var store = this.store();
          var ids = store.getState().agentHeroDeck.get(this.id());
@@ -81,7 +81,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return CardInstance.idsToCardInstances(store, ids);
       };
 
-      SimpleAgent.prototype.playerDeck = function()
+      Agent.prototype.playerDeck = function()
       {
          var store = this.store();
          var ids = store.getState().agentPlayerDeck.get(this.id());
@@ -89,7 +89,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return CardInstance.idsToCardInstances(store, ids);
       };
 
-      SimpleAgent.prototype.tableau = function()
+      Agent.prototype.tableau = function()
       {
          var store = this.store();
          var ids = store.getState().agentTableau.get(this.id());
@@ -97,7 +97,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return CardInstance.idsToCardInstances(store, ids);
       };
 
-      SimpleAgent.prototype.threatLevel = function()
+      Agent.prototype.threatLevel = function()
       {
          var store = this.store();
          var answer = store.getState().agentThreat.get(this.id());
@@ -105,15 +105,15 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          return (answer !== undefined ? answer : 0);
       };
 
-      SimpleAgent.prototype.toString = function()
+      Agent.prototype.toString = function()
       {
-         return "SimpleAgent " + this.id() + " " + this.name();
+         return "Agent " + this.id() + " " + this.name();
       };
 
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
-      SimpleAgent.prototype._save = function()
+      Agent.prototype._save = function()
       {
          var store = this.store();
          var id = this.id();
@@ -121,7 +121,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
          {
             id: id,
             name: this.name(),
-            agentClass: SimpleAgent,
+            agentClass: Agent,
          });
 
          store.dispatch(Action.setAgent(id, values));
@@ -130,7 +130,7 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
       //////////////////////////////////////////////////////////////////////////
       // Utility methods.
 
-      SimpleAgent.get = function(store, id)
+      Agent.get = function(store, id)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsNumber("id", id);
@@ -143,11 +143,11 @@ define(["immutable", "common/js/InputValidator", "model/js/Action", "model/js/Ca
             var name = values.get("name");
             var isNew = false;
 
-            answer = new SimpleAgent(store, name, id, isNew);
+            answer = new Agent(store, name, id, isNew);
          }
 
          return answer;
       };
 
-      return SimpleAgent;
+      return Agent;
    });

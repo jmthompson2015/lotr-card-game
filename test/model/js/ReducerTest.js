@@ -1,8 +1,8 @@
 "use strict";
 
 define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
-  "model/js/Action", "model/js/CardInstance", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(Immutable, QUnit, Redux, HeroCard, Sphere, Action, CardInstance, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
+  "model/js/Action", "model/js/CardInstance", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(Immutable, QUnit, Redux, HeroCard, Sphere, Action, CardInstance, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Reducer");
 
@@ -29,7 +29,7 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var agent = new SimpleAgent(store, "agent");
+         var agent = new Agent(store, "agent");
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
          store.dispatch(Action.setAgentHeroDeck(agent, heroDeck));
          var cardInstance = heroDeck[0];
@@ -55,7 +55,7 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var agent = new SimpleAgent(store, "agent");
+         var agent = new Agent(store, "agent");
          assert.equal(store.getState().agentThreat.get(agent.id()), undefined);
 
          // Run.
@@ -133,7 +133,7 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var agent = new SimpleAgent(store, "agent");
+         var agent = new Agent(store, "agent");
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
          store.dispatch(Action.setAgentHeroDeck(agent, heroDeck));
          var cardInstance = heroDeck[0];
@@ -159,7 +159,7 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphe
       {
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
-         var agent = new SimpleAgent(store, "agent");
+         var agent = new Agent(store, "agent");
          var playerData = [
             {
                agent: agent,

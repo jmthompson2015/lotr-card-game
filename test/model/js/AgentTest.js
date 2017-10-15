@@ -1,19 +1,19 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
-  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgent"],
-   function(QUnit, Redux, GameMode, Sphere, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgent)
+  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, GameMode, Sphere, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
-      QUnit.module("SimpleAgent");
+      QUnit.module("Agent");
 
-      QUnit.test("SimpleAgent()", function(assert)
+      QUnit.test("Agent()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var name = "agent1";
 
          // Run.
-         var result = new SimpleAgent(store, name);
+         var result = new Agent(store, name);
 
          // Verify.
          assert.ok(result);
@@ -113,8 +113,8 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
       {
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
-         var agent1 = new SimpleAgent(store, "agent1");
-         var agent2 = new SimpleAgent(store, "agent2");
+         var agent1 = new Agent(store, "agent1");
+         var agent2 = new Agent(store, "agent2");
          var playerData = [
             {
                agent: agent1,
