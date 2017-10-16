@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestTokenPanel</title>
+
+	<link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
+	<link rel="stylesheet" href="../../../src/view/css/style.css">
+
+	<script src="../../../lib/requirejs/require-2.3.5.js"></script>
+	<script src="../js/require-config.js"></script>
+	<script src="../../../src/main.js"></script>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+		"use strict";
+
+		require(["react", "react-dom", "react-dom-factories", "common/js/Logger", "artifact/js/Sphere", "view/js/TokenPanel"],
+			function(React, ReactDOM, DOM, Logger, Sphere, TokenPanel)
+			{
+				window.LOGGER = new Logger();
+				LOGGER.setTraceEnabled(false);
+				LOGGER.setDebugEnabled(false);
+
+				var resourceBase = "../../../src/view/resource/";
+				var element = React.createElement(TokenPanel,
+				{
+					resourceBase: resourceBase,
+
+					progressCount: 2,
+
+					bagginsCount: 1,
+					fellowshipCount: 2,
+					leadershipCount: 3,
+					loreCount: 4,
+					neutralCount: 5,
+					spiritCount: 6,
+					tacticsCount: 7,
+
+					woundCount: 3,
+				});
+
+				ReactDOM.render(element, document.getElementById("panel"));
+			});
+	</script>
+</body>
+
+</html>
