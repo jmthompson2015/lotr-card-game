@@ -18,44 +18,45 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
             var rows = [];
             var label = this.props.label;
 
-            if (label)
+            if (label !== undefined)
             {
-               rows.push(DOM.tr(
+               rows.push(DOM.div(
                {
                   key: "labelRow" + rows.length,
-               }, DOM.td(
-               {
-                  className: "b f5",
-               }, label)));
+                  className: "b dt-row f5 tc",
+               }, label));
             }
 
             var cardInstance = this.props.cardInstance;
+            var width = (this.state.hover ? 250 : 150);
             var image = React.createElement(CardImageContainer,
             {
                cardInstance: cardInstance,
+               width: width,
             });
 
-            var cell1 = DOM.td(
-            {}, image);
-            rows.push(DOM.tr(
+            rows.push(DOM.div(
             {
                key: "imageRow" + rows.length,
-            }, cell1));
+               className: "dt-row",
+               onMouseOut: this.mouseOut,
+               onMouseOver: this.mouseOver,
+            }, image));
 
-            var cell2 = DOM.td(
-            {}, React.createElement(TokenPanelContainer,
+            rows.push(DOM.div(
+            {
+               key: "tokenRow" + rows.length,
+               className: "dt-row",
+            }, React.createElement(TokenPanelContainer,
             {
                cardInstance: cardInstance,
                resourceBase: this.props.resourceBase,
-            }));
-            rows.push(DOM.tr(
-            {
-               key: "tokenRow" + rows.length,
-            }, cell2));
+            })));
 
-            return DOM.table(
-            {}, DOM.tbody(
-            {}, rows));
+            return DOM.div(
+            {
+               className: "bg-cornsilk dt ma0 pa0",
+            }, rows);
          },
 
          mouseOver: function()

@@ -27,7 +27,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             return DOM.div(
             {
                key: this.props.myKey,
-               className: "bg-near-white w-100",
+               className: "w-100",
             }, centerCell);
          },
       });

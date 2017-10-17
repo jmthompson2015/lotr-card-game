@@ -14,6 +14,7 @@ define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sph
          {
             card: cardInstance.card(),
             isReady: isReady,
+            width: ownProps.width,
          });
       }
 
