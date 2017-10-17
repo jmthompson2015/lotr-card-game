@@ -44,7 +44,7 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
 
       CardImage.prototype.canvasId = function()
       {
-         return this.props.card.key + this.props.isReady + "CardImageCanvas";
+         return this.props.card.key + this.props.isReady + "CardImageCanvas" + this.props.myKey;
       };
 
       CardImage.prototype.createSrc = function()
@@ -122,6 +122,7 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
          card: PropTypes.object.isRequired,
 
          isReady: PropTypes.bool,
+         myKey: PropTypes.string,
          width: PropTypes.number,
       };
 

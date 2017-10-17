@@ -27,3 +27,13 @@ table {
   /* Beige */
   background-color: #F5F5DC;
 }
+
+.bg-lotr-green {
+  /* DarkSeaGreen */
+  background-color: #8FBC8F;
+}
+
+.lotr-light {
+  /* Beige */
+  color: #F5F5DC;
+}

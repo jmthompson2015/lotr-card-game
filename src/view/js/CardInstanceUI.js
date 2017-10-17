@@ -23,14 +23,15 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
                rows.push(DOM.div(
                {
                   key: "labelRow" + rows.length,
-                  className: "b dt-row f5 tc",
+                  className: "b bg-lotr-dark dt-row f5 lotr-light c",
                }, label));
             }
 
             var cardInstance = this.props.cardInstance;
-            var width = (this.state.hover ? 250 : 150);
+            var width = (this.state.hover ? 275 : 125);
             var image = React.createElement(CardImageContainer,
             {
+               myKey: cardInstance.toString(),
                cardInstance: cardInstance,
                width: width,
             });

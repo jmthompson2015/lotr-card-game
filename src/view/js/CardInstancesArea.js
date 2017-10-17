@@ -14,6 +14,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             {
                var cardInstanceUI = React.createElement(CardInstanceUI,
                {
+                  key: cardInstance.toString() + i,
                   cardInstance: cardInstance,
                   resourceBase: resourceBase,
                });
@@ -33,7 +34,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
                rows.push(DOM.div(
                {
                   key: "labelRow",
-                  className: "b bg-lotr-dark f5 tc",
+                  className: "b bg-lotr-dark f5 lotr-light tc",
                }, label));
             }
 
@@ -46,7 +47,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
             return DOM.div(
             {
-               className: "bg-lotr-light fl",
+               className: "bg-lotr-light",
             }, rows);
          },
       });

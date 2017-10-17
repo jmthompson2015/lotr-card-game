@@ -54,7 +54,9 @@
         }));
 
         ReactDOM.render(DOM.div(
-        {}, element0), document.getElementById("panel0"));
+        {
+          className: "center dt tc",
+        }, element0), document.getElementById("panel0"));
 
         var enemyInstance = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
         store.dispatch(Action.addCardDamage(enemyInstance));
@@ -75,7 +77,9 @@
         }));
 
         ReactDOM.render(DOM.div(
-        {}, element1), document.getElementById("panel1"));
+        {
+          className: "center dt tc",
+        }, element1), document.getElementById("panel1"));
       });
   </script>
 </body>
