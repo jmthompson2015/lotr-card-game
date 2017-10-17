@@ -11,7 +11,7 @@ require.config(
       "react": "../lib/react/react-15.6.1.min",
       "react-dom": "../lib/react-dom/react-dom-15.6.1.min",
       "react-dom-factories": "../lib/react-dom-factories/react-dom-factories-1.0.1",
-      // "react-redux": "../lib/react-redux/react-redux-5.0.6.min",
+      "react-redux": "../lib/react-redux/react-redux-5.0.6.min",
       "redux": "../lib/redux/redux-3.7.2.min",
    },
 });

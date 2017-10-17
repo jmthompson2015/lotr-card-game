@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyTestCardInstanceUI</title>
+
+  <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
+  <link rel="stylesheet" href="../../../src/view/css/style.css">
+
+  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
+  <script src="../js/require-config.js"></script>
+  <script src="../../../src/main.js"></script>
+
+</head>
+<body>
+  <div id="panel"></div>
+  <script>
+    "use strict";
+
+    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/AllyCard", "artifact/js/AttachmentCard",
+        "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard",
+        "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/Action", "model/js/CardInstance", "model/js/Reducer",
+        "view/js/CardInstanceUI"
+      ],
+      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard,
+        QuestCard, Sphere, TreacheryCard, Action, CardInstance, Reducer, CardInstanceUI)
+      {
+        window.LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "../../../src/view/resource/";
+        var store = Redux.createStore(Reducer.root);
+
+        var locationInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+        store.dispatch(Action.addCardProgress(locationInstance, 2));
+
+        var questInstance = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
+        store.dispatch(Action.addCardProgress(questInstance, 4));
+
+        var heroInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+        heroInstance.isQuesting = true;
+        store.dispatch(Action.setCardReady(heroInstance, false));
+        store.dispatch(Action.addCardResource(heroInstance, Sphere.LEADERSHIP));
+        store.dispatch(Action.addCardDamage(heroInstance, 2));
+
+        var allyInstance = new CardInstance(store, AllyCard.properties[AllyCard.GANDALF_CORE]);
+        allyInstance.isQuesting = true;
+        store.dispatch(Action.setCardReady(allyInstance, false));
+        store.dispatch(Action.addCardDamage(allyInstance, 2));
+
+        var attachmentInstance = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
+        store.dispatch(Action.setCardReady(attachmentInstance, false));
+        store.dispatch(Action.addCardResource(attachmentInstance, Sphere.LORE));
+
+        var eventInstance = new CardInstance(store, EventCard.properties[EventCard.SNEAK_ATTACK]);
+
+        var enemyInstance = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
+        store.dispatch(Action.addCardDamage(enemyInstance));
+
+        var objectiveInstance = new CardInstance(store, ObjectiveCard.properties[ObjectiveCard.SIGNS_OF_GOLLUM]);
+
+        var treacheryInstance = new CardInstance(store, TreacheryCard.properties[TreacheryCard.CAUGHT_IN_A_WEB]);
+
+        var cells = [];
+
+        addCardInstanceUI(cells, locationInstance, "Active Location");
+        addCardInstanceUI(cells, questInstance, "Active Quest");
+        addCardInstanceUI(cells, enemyInstance);
+        addCardInstanceUI(cells, objectiveInstance);
+        addCardInstanceUI(cells, treacheryInstance);
+
+        addCardInstanceUI(cells, heroInstance);
+        addCardInstanceUI(cells, allyInstance);
+        addCardInstanceUI(cells, attachmentInstance);
+        addCardInstanceUI(cells, eventInstance);
+
+        ReactDOM.render(DOM.div(
+        {}, cells), document.getElementById("panel"));
+
+        function addCardInstanceUI(cells, cardInstance, label)
+        {
+          var element = React.createElement(ReactRedux.Provider,
+          {
+            store: store,
+          }, React.createElement(CardInstanceUI,
+          {
+            label: label,
+            cardInstance: cardInstance,
+            resourceBase: resourceBase,
+          }));
+
+          cells.push(DOM.div(
+          {
+            key: "card" + cells.length,
+            className: "fl v-top",
+          }, element));
+        }
+      });
+  </script>
+</body>
+
+</html>

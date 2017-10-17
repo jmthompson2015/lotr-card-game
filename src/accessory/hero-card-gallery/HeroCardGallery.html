@@ -24,9 +24,9 @@
     "use strict";
 
     require(["create-react-class", "react", "react-dom", "react-dom-factories",
-        "common/js/Logger", "artifact/js/HeroCard", "artifact/js/Sphere", "view/js/HeroCardImage"
+        "common/js/Logger", "artifact/js/HeroCard", "artifact/js/Sphere", "view/js/CardImage"
       ],
-      function(createReactClass, React, ReactDOM, DOM, Logger, HeroCard, Sphere, HeroCardImage)
+      function(createReactClass, React, ReactDOM, DOM, Logger, HeroCard, Sphere, CardImage)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -42,7 +42,7 @@
 
             cardKeys.forEach(function(cardKey)
             {
-              var element = React.createElement(HeroCardImage,
+              var element = React.createElement(CardImage,
               {
                 key: "cardInstance" + cardKey,
                 card: HeroCard.properties[cardKey],

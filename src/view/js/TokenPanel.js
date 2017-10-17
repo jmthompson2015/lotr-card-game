@@ -19,32 +19,38 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             this.maybeAddToken(cells, this.props.fellowshipCount, "token/Resource32.png", "Fellowship Resource");
             this.maybeAddToken(cells, this.props.woundCount, "token/Wound32.png", "Wound");
 
+            var centerCell = DOM.div(
+            {
+               className: "center dt tc v-mid",
+            }, cells);
+
             return DOM.div(
             {
                key: this.props.myKey,
-               className: "bg-near-white center dt",
-            }, cells);
+               className: "bg-near-white w-100",
+            }, centerCell);
          },
-
-         maybeAddToken: function(cells, count, src, title)
-         {
-            if (count !== undefined)
-            {
-               var cell = React.createElement(LabeledImage,
-               {
-                  src: src,
-                  label: "" + count,
-                  labelClass: "b tc white",
-                  resourceBase: this.props.resourceBase,
-                  title: title,
-               });
-               cells.push(DOM.div(
-               {
-                  className: "dtc",
-               }, cell));
-            }
-         }
       });
+
+      TokenPanel.prototype.maybeAddToken = function(cells, count, src, title)
+      {
+         if (count !== undefined)
+         {
+            var cell = React.createElement(LabeledImage,
+            {
+               src: src,
+               label: "" + count,
+               labelClass: "b white",
+               resourceBase: this.props.resourceBase,
+               title: title,
+            });
+            cells.push(DOM.div(
+            {
+               key: "tokenCell" + title + cells.length,
+               className: "dtc",
+            }, cell));
+         }
+      };
 
       TokenPanel.propTypes = {
          resourceBase: PropTypes.string.isRequired,

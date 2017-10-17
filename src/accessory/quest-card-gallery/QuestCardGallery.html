@@ -24,9 +24,9 @@
     "use strict";
 
     require(["create-react-class", "react", "react-dom", "react-dom-factories",
-        "common/js/Logger", "artifact/js/EncounterSet", "artifact/js/QuestCard", "view/js/QuestCardImage"
+        "common/js/Logger", "artifact/js/EncounterSet", "artifact/js/QuestCard", "view/js/CardImage"
       ],
-      function(createReactClass, React, ReactDOM, DOM, Logger, EncounterSet, QuestCard, QuestCardImage)
+      function(createReactClass, React, ReactDOM, DOM, Logger, EncounterSet, QuestCard, CardImage)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -42,11 +42,11 @@
 
             cardKeys.forEach(function(cardKey)
             {
-              var element = React.createElement(QuestCardImage,
+              var element = React.createElement(CardImage,
               {
                 key: "cardInstance" + cardKey,
                 card: QuestCard.properties[cardKey],
-                width: 300,
+                width: 200,
               });
               cells.push(element);
             });
