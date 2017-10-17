@@ -14,6 +14,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DISCARD_SHADOW_CARDS = "discardShadowCards";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
+   Action.DRAW_QUEST_CARD = "drawQuestCard";
    Action.DRAW_PLAYER_CARD = "drawPlayerCard";
    Action.ENQUEUE_PHASE = "enqueuePhase";
    Action.INCREMENT_NEXT_AGENT_ID = "incrementNextAgentId";
@@ -159,6 +160,14 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.DRAW_ENCOUNTER_CARD,
          index: index,
+      });
+   };
+
+   Action.drawQuestCard = function()
+   {
+      return (
+      {
+         type: Action.DRAW_QUEST_CARD,
       });
    };
 

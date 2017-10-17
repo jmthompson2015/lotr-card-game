@@ -120,6 +120,15 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   encounterDeck: newEncounterDeck,
                   stagingArea: state.stagingArea.push(cardId),
                });
+            case Action.DRAW_QUEST_CARD:
+               cardId = state.questDeck.first();
+               var newQuestDeck = state.questDeck.shift();
+               return Object.assign(
+               {}, state,
+               {
+                  questDeck: newQuestDeck,
+                  questDiscard: state.questDiscard.push(cardId),
+               });
             case Action.DRAW_PLAYER_CARD:
                id = action.agent.id();
                cardId = state.agentPlayerDeck.get(id).first();

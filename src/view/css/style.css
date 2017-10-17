@@ -13,6 +13,17 @@ table {
   vertical-align: middle;
 }
 
-.bg-cornsilk {
-  background-color: #FFF8DC;
+.bg-lotr-dark {
+  /* SaddleBrown */
+  background-color: #8B4513;
+}
+
+.bg-lotr-medium {
+  /* Tan */
+  background-color: #D2B48C;
+}
+
+.bg-lotr-light {
+  /* Beige */
+  background-color: #F5F5DC;
 }

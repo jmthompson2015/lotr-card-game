@@ -55,7 +55,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
 
             return DOM.div(
             {
-               className: "bg-cornsilk dt ma0 pa0",
+               className: "bg-lotr-light dt ma0 pa0",
             }, rows);
          },
 

@@ -33,6 +33,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
+      Environment.prototype.activeLocation = function()
+      {
+         var store = this.store();
+         var activeLocationId = store.getState().activeLocationId;
+
+         return (activeLocationId !== undefined ? CardInstance.get(store, activeLocationId) : undefined);
+      };
+
       Environment.prototype.agentQueue = function()
       {
          var store = this.store();
@@ -65,6 +73,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
       {
          var store = this.store();
          var ids = store.getState().encounterDeck;
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      Environment.prototype.questDeck = function()
+      {
+         var store = this.store();
+         var ids = store.getState().questDeck;
 
          return CardInstance.idsToCardInstances(store, ids);
       };

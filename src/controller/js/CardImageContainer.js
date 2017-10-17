@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sphere", "view/js/CardImage"],
-   function(Immutable, ReactRedux, InputValidator, Sphere, CardImage)
+define(["immutable", "react-redux", "common/js/InputValidator", "view/js/CardImage"],
+   function(Immutable, ReactRedux, InputValidator, CardImage)
    {
       function mapStateToProps(state, ownProps)
       {
