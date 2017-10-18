@@ -112,6 +112,36 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          assert.equal(environment.stagingArea().get(1).card().key, LocationCard.OLD_FOREST_ROAD);
       });
 
+      QUnit.test("questers()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         var agent0 = environment.agents().get(0);
+         var cardInstance0 = agent0.heroDeck().get(0);
+         store.dispatch(Action.setCardQuesting(cardInstance0, true));
+
+         // Run.
+         var result = environment.questers();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 1);
+         assert.equal(result.get(0).id(), cardInstance0.id());
+
+         // Run.
+         var agent1 = environment.agents().get(1);
+         var cardInstance1 = agent1.heroDeck().get(0);
+         store.dispatch(Action.setCardQuesting(cardInstance1, true));
+         result = environment.questers();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 2);
+         assert.equal(result.get(0).id(), cardInstance0.id());
+         assert.equal(result.get(1).id(), cardInstance1.id());
+      });
+
       QUnit.test("stagingArea()", function(assert)
       {
          // Setup.

@@ -238,6 +238,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   cardProgress: state.cardProgress.set(action.cardInstance.id(), action.value),
                });
+            case Action.SET_CARD_QUESTING:
+               return Object.assign(
+               {}, state,
+               {
+                  cardIsQuesting: state.cardIsQuesting.set(action.cardInstance.id(), action.isQuesting),
+               });
             case Action.SET_CARD_READY:
                return Object.assign(
                {}, state,

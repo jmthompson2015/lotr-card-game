@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
-  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/TravelTask", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, CardType, GameMode, Action, Environment, PlayerDeckBuilder, Reducer, TravelTask, ScenarioDeckBuilder, Agent)
+define(["qunit", "redux", "artifact/js/CardType",
+  "model/js/Action", "model/js/Agent", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/TravelTask", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, CardType, Action, Agent, Environment, PlayerDeckBuilder, Reducer, TravelTask, ScenarioDeckBuilder)
    {
       QUnit.module("TravelTask");
 
@@ -36,7 +36,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/GameMode",
       function createEnvironment()
       {
          var store = Redux.createStore(Reducer.root);
-         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var agent = new Agent(store, "agent");
          var playerData = [
             {

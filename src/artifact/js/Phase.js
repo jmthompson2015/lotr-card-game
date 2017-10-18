@@ -12,7 +12,8 @@ define(function()
       PLANNING_END: "planningEnd",
 
       QUEST_START: "questStart",
-      QUEST_COMMIT_CHARACTERS: "questCommitCharacters",
+      QUEST_COMMIT_CHARACTERS_START: "questCommitCharactersStart",
+      QUEST_COMMIT_CHARACTERS_END: "questCommitCharactersEnd",
       QUEST_REVEAL_ENCOUNTER_CARDS: "questRevealEncounterCards",
       QUEST_RESOLVE: "questResolve",
       QUEST_END: "questEnd",
@@ -78,10 +79,15 @@ define(function()
             name: "Quest (start)",
             key: "questStart",
          },
-         "questCommitCharacters":
+         "questCommitCharactersStart":
          {
-            name: "Quest (commit characters)",
-            key: "questCommitCharacters",
+            name: "Quest (commit characters start)",
+            key: "questCommitCharactersStart",
+         },
+         "questCommitCharactersEnd":
+         {
+            name: "Quest (commit characters end)",
+            key: "questCommitCharactersEnd",
          },
          "questRevealEncounterCards":
          {

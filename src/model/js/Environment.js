@@ -85,6 +85,19 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
          return CardInstance.idsToCardInstances(store, ids);
       };
 
+      Environment.prototype.questers = function()
+      {
+         var store = this.store();
+         var allIds = Immutable.List(store.getState().cardIsQuesting.keySeq().toArray());
+
+         var ids = allIds.filter(function(id)
+         {
+            return store.getState().cardIsQuesting.get(id) === true;
+         });
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
       Environment.prototype.stagingArea = function(cardTypeKey)
       {
          // cardTypeKey optional.

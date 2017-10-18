@@ -56,6 +56,21 @@ define(["common/js/InputValidator"],
             callback();
          },
 
+         chooseQuesters: function(characters, callback)
+         {
+            InputValidator.validateIsArray("characters", characters);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var answer;
+
+            if (characters.length > 0)
+            {
+               answer = [characters.lotrRandomElement()];
+            }
+
+            callback(answer);
+         },
+
          chooseUndefendedAttackHero: function(heroes, callback)
          {
             InputValidator.validateNotNull("heroes", heroes);

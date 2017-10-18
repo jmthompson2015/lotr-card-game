@@ -149,6 +149,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
          return this._strategy().chooseEnemyDefender(enemies, callback);
       };
 
+      Agent.prototype.chooseQuesters = function(characters, callback)
+      {
+         return this._strategy().chooseQuesters(characters, callback);
+      };
+
       Agent.prototype.chooseOptionalEngagementEnemy = function(enemies, callback)
       {
          return this._strategy().chooseOptionalEngagementEnemy(enemies, callback);

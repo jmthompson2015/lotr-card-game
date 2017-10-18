@@ -30,6 +30,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_CARD_DAMAGE = "setCardDamage";
    Action.SET_CARD_PROGRESS = "setCardProgress";
    Action.SET_CARD_INSTANCE = "setCardInstance";
+   Action.SET_CARD_QUESTING = "setCardQuesting";
    Action.SET_CARD_READY = "setCardReady";
    Action.SET_CARD_RESOURCE = "setCardResource";
    Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
@@ -352,6 +353,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.SET_CARD_PROGRESS,
          cardInstance: cardInstance,
          value: myValue,
+      });
+   };
+
+   Action.setCardQuesting = function(cardInstance, isQuesting)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsBoolean("isQuesting", isQuesting);
+
+      return (
+      {
+         type: Action.SET_CARD_QUESTING,
+         cardInstance: cardInstance,
+         isQuesting: isQuesting,
       });
    };
 
