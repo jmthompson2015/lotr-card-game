@@ -118,7 +118,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          var environment = createEnvironment();
          var store = environment.store();
          var agent0 = environment.agents().get(0);
-         var cardInstance0 = agent0.heroDeck().get(0);
+         var cardInstance0 = agent0.tableauHeroes().get(0);
          store.dispatch(Action.setCardQuesting(cardInstance0, true));
 
          // Run.
@@ -131,7 +131,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
 
          // Run.
          var agent1 = environment.agents().get(1);
-         var cardInstance1 = agent1.heroDeck().get(0);
+         var cardInstance1 = agent1.tableauHeroes().get(0);
          store.dispatch(Action.setCardQuesting(cardInstance1, true));
          result = environment.questers();
 

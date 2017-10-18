@@ -51,7 +51,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          // 1b. Declare attackers.
          var agent = this.agent();
          var isReady = true;
-         var characters = agent.characters(isReady);
+         var characters = agent.tableauCharacters(isReady);
          LOGGER.debug("CombatAttackTask characters = " + characters);
 
          var determineAttackStrengthFunction = this.determineAttackStrength.bind(this);

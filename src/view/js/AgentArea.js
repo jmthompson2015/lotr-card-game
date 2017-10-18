@@ -113,16 +113,14 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
       AgentArea.prototype.createTableauUI = function()
       {
          var agent = this.props.agent;
-         var heroDeck = agent.heroDeck().toJS();
          var tableau = agent.tableau().toJS();
-         var array = heroDeck.concat(tableau);
          var answer;
 
-         if (array.length > 0)
+         if (tableau.length > 0)
          {
             var cardInstancesArea = React.createElement(CardInstancesArea,
             {
-               cardInstances: array,
+               cardInstances: tableau,
                label: "Tableau",
                resourceBase: this.props.resourceBase,
             });

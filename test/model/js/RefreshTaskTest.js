@@ -37,11 +37,13 @@ define(["qunit", "redux", "artifact/js/GameMode",
             // Verify.
             agent1.tableau().forEach(function(cardInstance)
             {
-               assert.ok(cardInstance.cardIsReady());
+               assert.ok(cardInstance.isReady(), "isReady() ? " + cardInstance.toString());
+               assert.ok(!cardInstance.isExhausted(), "isExhausted() ? " + cardInstance.toString());
             });
             agent2.tableau().forEach(function(cardInstance)
             {
-               assert.ok(cardInstance.cardIsExhausted());
+               assert.ok(cardInstance.isReady(), "isReady() ? " + cardInstance.toString());
+               assert.ok(!cardInstance.isExhausted(), "isExhausted() ? " + cardInstance.toString());
             });
             assert.equal(agent1.threatLevel(), 30);
             assert.equal(agent2.threatLevel(), 31);

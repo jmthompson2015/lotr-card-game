@@ -6,6 +6,8 @@ define(["qunit", "redux",
    {
       QUnit.module("CombatTask");
 
+      var delay = 10;
+
       QUnit.test("doIt()", function(assert)
       {
          // Setup.
@@ -16,14 +18,16 @@ define(["qunit", "redux",
          var cardInstance = environment.stagingArea().get(0);
          store.dispatch(Action.agentEngageCard(agent1, cardInstance));
          assert.equal(store.getState().agentEngagementArea.get(agent1.id()).size, 1);
-         var task = new CombatTask(store);
+         var task = new CombatTask(store, delay);
          var callback = function()
          {
             // Verify.
             assert.equal(store.getState().agentEngagementArea.get(agent1.id()).size, 1);
+            done();
          };
 
          // Run.
+         var done = assert.async();
          task.doIt(callback);
       });
 

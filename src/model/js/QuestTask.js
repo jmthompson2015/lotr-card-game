@@ -55,7 +55,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var characters = agent.characters().toJS();
+         var characters = agent.tableauCharacters().toJS();
          var queueCallback = this.setQuesters.bind(this);
          var taskCallback = function(questers)
          {

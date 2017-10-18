@@ -48,34 +48,6 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
          assert.equal(result.get(0).card().sphereKey, Sphere.LORE);
       });
 
-      QUnit.test("heroDeck()", function(assert)
-      {
-         // Setup.
-         var environment = createEnvironment();
-         var agent1 = environment.agents().get(0);
-         var agent2 = environment.agents().get(1);
-
-         // Run.
-         var result = agent1.heroDeck();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.size, 3);
-         assert.equal(result.get(0).card().name, "Aragorn");
-         assert.equal(result.get(1).card().name, "Glóin");
-         assert.equal(result.get(2).card().name, "Théodred");
-
-         // Run.
-         result = agent2.heroDeck();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.size, 3);
-         assert.equal(result.get(0).card().name, "Beravor");
-         assert.equal(result.get(1).card().name, "Denethor");
-         assert.equal(result.get(2).card().name, "Glorfindel");
-      });
-
       QUnit.test("playerDeck()", function(assert)
       {
          // Setup.
@@ -107,6 +79,34 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
          {
             assert.equal(result.get(i).card().sphereKey, Sphere.LORE);
          }
+      });
+
+      QUnit.test("tableauHeroes()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var agent1 = environment.agents().get(0);
+         var agent2 = environment.agents().get(1);
+
+         // Run.
+         var result = agent1.tableauHeroes();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         assert.equal(result.get(0).card().name, "Aragorn");
+         assert.equal(result.get(1).card().name, "Glóin");
+         assert.equal(result.get(2).card().name, "Théodred");
+
+         // Run.
+         result = agent2.tableauHeroes();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         assert.equal(result.get(0).card().name, "Beravor");
+         assert.equal(result.get(1).card().name, "Denethor");
+         assert.equal(result.get(2).card().name, "Glorfindel");
       });
 
       function createEnvironment()

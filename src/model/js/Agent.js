@@ -54,13 +54,80 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
 
       Agent.prototype.agentClass = Agent;
 
-      Agent.prototype.characters = function(isReady)
+      Agent.prototype.engagementArea = function()
       {
-         var answer = this.tableau().filter(function(cardInstance)
+         var store = this.store();
+         var ids = store.getState().agentEngagementArea.get(this.id());
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      Agent.prototype.hand = function(cardTypeKey, sphereKey, maxCost)
+      {
+         var store = this.store();
+         var ids = store.getState().agentHand.get(this.id());
+
+         var answer = CardInstance.idsToCardInstances(store, ids);
+
+         if (cardTypeKey !== undefined)
          {
-            return cardInstance.card().cardTypeKey === CardType.ALLY;
-         });
-         answer = answer.concat(this.heroDeck());
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.card().cardTypeKey === cardTypeKey;
+            });
+         }
+
+         if (sphereKey !== undefined)
+         {
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.card().sphereKey === sphereKey;
+            });
+         }
+
+         if (maxCost !== undefined)
+         {
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.card().cost <= maxCost;
+            });
+         }
+
+         return answer;
+      };
+
+      Agent.prototype.playerDeck = function(cardTypeKey)
+      {
+         var store = this.store();
+         var ids = store.getState().agentPlayerDeck.get(this.id());
+
+         var answer = CardInstance.idsToCardInstances(store, ids);
+
+         if (cardTypeKey !== undefined)
+         {
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.card().cardTypeKey === cardTypeKey;
+            });
+         }
+
+         return answer;
+      };
+
+      Agent.prototype.tableau = function(cardTypeKey, isReady)
+      {
+         var store = this.store();
+         var ids = store.getState().agentTableau.get(this.id());
+
+         var answer = CardInstance.idsToCardInstances(store, ids);
+
+         if (cardTypeKey !== undefined)
+         {
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.card().cardTypeKey === cardTypeKey;
+            });
+         }
 
          if (isReady !== undefined)
          {
@@ -73,44 +140,22 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
          return answer;
       };
 
-      Agent.prototype.engagementArea = function()
+      Agent.prototype.tableauAllies = function(isReady)
       {
-         var store = this.store();
-         var ids = store.getState().agentEngagementArea.get(this.id());
-
-         return CardInstance.idsToCardInstances(store, ids);
+         return this.tableau(CardType.ALLY, isReady);
       };
 
-      Agent.prototype.hand = function()
+      Agent.prototype.tableauCharacters = function(isReady)
       {
-         var store = this.store();
-         var ids = store.getState().agentHand.get(this.id());
+         var heroes = this.tableauHeroes(isReady);
+         var allies = this.tableauAllies(isReady);
 
-         return CardInstance.idsToCardInstances(store, ids);
+         return heroes.concat(allies);
       };
 
-      Agent.prototype.heroDeck = function()
+      Agent.prototype.tableauHeroes = function(isReady)
       {
-         var store = this.store();
-         var ids = store.getState().agentHeroDeck.get(this.id());
-
-         return CardInstance.idsToCardInstances(store, ids);
-      };
-
-      Agent.prototype.playerDeck = function()
-      {
-         var store = this.store();
-         var ids = store.getState().agentPlayerDeck.get(this.id());
-
-         return CardInstance.idsToCardInstances(store, ids);
-      };
-
-      Agent.prototype.tableau = function()
-      {
-         var store = this.store();
-         var ids = store.getState().agentTableau.get(this.id());
-
-         return CardInstance.idsToCardInstances(store, ids);
+         return this.tableau(CardType.HERO, isReady);
       };
 
       Agent.prototype.threatLevel = function()

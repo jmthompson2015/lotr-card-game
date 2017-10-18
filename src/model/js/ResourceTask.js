@@ -24,7 +24,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          agents.forEach(function(agent)
          {
             // Add one resource to each hero's pool.
-            var cardInstances = agent.heroDeck();
+            var cardInstances = agent.tableauHeroes();
 
             cardInstances.forEach(function(cardInstance)
             {

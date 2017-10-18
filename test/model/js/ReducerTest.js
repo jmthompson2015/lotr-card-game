@@ -100,7 +100,7 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          var store = Redux.createStore(Reducer.root);
          var agent = new Agent(store, "agent");
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
-         store.dispatch(Action.setAgentHeroDeck(agent, heroDeck));
+         store.dispatch(Action.setAgentTableau(agent, heroDeck));
          var cardInstance = heroDeck[0];
          var sphereKey = Sphere.LEADERSHIP;
          assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
@@ -407,7 +407,7 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          var store = Redux.createStore(Reducer.root);
          var agent = new Agent(store, "agent");
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
-         store.dispatch(Action.setAgentHeroDeck(agent, heroDeck));
+         store.dispatch(Action.setAgentTableau(agent, heroDeck));
          var cardInstance = heroDeck[0];
          var sphereKey = cardInstance.card().sphereKey;
          assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);

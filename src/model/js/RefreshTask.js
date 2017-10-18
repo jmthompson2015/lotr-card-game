@@ -24,14 +24,6 @@ define(["common/js/InputValidator", "model/js/Action"],
          agents.forEach(function(agent)
          {
             // 1. All exhausted cards ready.
-            agent.heroDeck().forEach(function(cardInstance)
-            {
-               if (cardInstance.isExhausted())
-               {
-                  store.dispatch(Action.setCardReady(cardInstance, true));
-               }
-            });
-
             agent.tableau().forEach(function(cardInstance)
             {
                if (cardInstance.isExhausted())

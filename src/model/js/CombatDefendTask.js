@@ -50,7 +50,7 @@ define(["common/js/InputValidator", "model/js/Action"],
 
          // 2. Declare defender.
          var isReady = true;
-         var characters = agent.characters(isReady);
+         var characters = agent.tableauCharacters(isReady);
          LOGGER.debug("CombatDefendTask characters = " + characters);
 
          if (characters.size > 0)
@@ -104,7 +104,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          else
          {
             // Undefended.
-            var heroes = agent.heroDeck();
+            var heroes = agent.tableauHeroes();
             var finishUndefendedDamageFunction = this.finishUndefendedDamage.bind(this);
             var myCallback = function(hero)
             {

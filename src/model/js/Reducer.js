@@ -200,19 +200,19 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   agents: state.agents.set(action.id, action.values),
                });
-            case Action.SET_AGENT_HERO_DECK:
-               cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
-               return Object.assign(
-               {}, state,
-               {
-                  agentHeroDeck: state.agentHeroDeck.set(action.agent.id(), Immutable.List(cardInstanceIds)),
-               });
             case Action.SET_AGENT_PLAYER_DECK:
                cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                return Object.assign(
                {}, state,
                {
                   agentPlayerDeck: state.agentPlayerDeck.set(action.agent.id(), Immutable.List(cardInstanceIds)),
+               });
+            case Action.SET_AGENT_TABLEAU:
+               cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
+               return Object.assign(
+               {}, state,
+               {
+                  agentTableau: state.agentTableau.set(action.agent.id(), Immutable.List(cardInstanceIds)),
                });
             case Action.SET_AGENT_THREAT:
                return Object.assign(

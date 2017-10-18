@@ -24,7 +24,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
          playerData.forEach(function(player)
          {
             var agent = player.agent;
-            store.dispatch(Action.setAgentHeroDeck(agent, player.playerDeck.heroInstances));
+            store.dispatch(Action.setAgentTableau(agent, player.playerDeck.heroInstances));
             player.playerDeck.playerInstances.lotrShuffle();
             store.dispatch(Action.setAgentPlayerDeck(agent, player.playerDeck.playerInstances));
          });

@@ -33,8 +33,8 @@
 				var environment = game.engine().environment();
 				var cardInstance0 = environment.stagingArea().get(0);
 				var agent0 = environment.agents().get(0);
-				var cardInstance1 = agent0.heroDeck().get(0);
-				var cardInstance2 = agent0.heroDeck().get(1);
+				var cardInstance1 = agent0.tableauHeroes().get(0);
+				var cardInstance2 = agent0.tableauHeroes().get(1);
 				store.dispatch(Action.setCardReady(cardInstance2, false));
 
 				var cells = [];

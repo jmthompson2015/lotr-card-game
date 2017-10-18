@@ -4,8 +4,8 @@ define(["common/js/InputValidator"], function(InputValidator)
 {
    var Action = {};
 
-   Action.ADD_AGENT_THREAT = "addAgentThreat";
    Action.ADD_AGENT_CARD = "addAgentCard";
+   Action.ADD_AGENT_THREAT = "addAgentThreat";
    Action.ADD_CARD_DAMAGE = "addCardDamage";
    Action.ADD_CARD_PROGRESS = "addCardProgress";
    Action.ADD_CARD_RESOURCE = "addCardResource";
@@ -24,12 +24,12 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_ACTIVE_AGENT = "setActiveAgent";
    Action.SET_ACTIVE_LOCATION = "setActiveLocation";
    Action.SET_AGENT = "setAgent";
-   Action.SET_AGENT_HERO_DECK = "setAgentHeroDeck";
    Action.SET_AGENT_PLAYER_DECK = "setAgentPlayerDeck";
+   Action.SET_AGENT_TABLEAU = "setAgentTableau";
    Action.SET_AGENT_THREAT = "setAgentThreat";
    Action.SET_CARD_DAMAGE = "setCardDamage";
-   Action.SET_CARD_PROGRESS = "setCardProgress";
    Action.SET_CARD_INSTANCE = "setCardInstance";
+   Action.SET_CARD_PROGRESS = "setCardProgress";
    Action.SET_CARD_QUESTING = "setCardQuesting";
    Action.SET_CARD_READY = "setCardReady";
    Action.SET_CARD_RESOURCE = "setCardResource";
@@ -37,6 +37,19 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
    Action.SET_QUEST_DECK = "setQuestDeck";
+
+   Action.addAgentCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.ADD_AGENT_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+      });
+   };
 
    Action.addAgentThreat = function(agent, value)
    {
@@ -50,19 +63,6 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.ADD_AGENT_THREAT,
          agent: agent,
          value: myValue,
-      });
-   };
-
-   Action.addAgentCard = function(agent, cardInstance)
-   {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-
-      return (
-      {
-         type: Action.ADD_AGENT_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
       });
    };
 
@@ -272,19 +272,6 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   Action.setAgentHeroDeck = function(agent, deck)
-   {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateIsArray("deck", deck);
-
-      return (
-      {
-         type: Action.SET_AGENT_HERO_DECK,
-         agent: agent,
-         deck: deck,
-      });
-   };
-
    Action.setAgentPlayerDeck = function(agent, deck)
    {
       InputValidator.validateNotNull("agent", agent);
@@ -293,6 +280,19 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: Action.SET_AGENT_PLAYER_DECK,
+         agent: agent,
+         deck: deck,
+      });
+   };
+
+   Action.setAgentTableau = function(agent, deck)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsArray("deck", deck);
+
+      return (
+      {
+         type: Action.SET_AGENT_TABLEAU,
          agent: agent,
          deck: deck,
       });

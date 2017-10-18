@@ -29,7 +29,6 @@ define(["immutable", "artifact/js/Phase"],
          // agent id: cardInstances
          this.agentEngagementArea = Immutable.Map();
          this.agentHand = Immutable.Map();
-         this.agentHeroDeck = Immutable.Map();
          this.agentPlayerDeck = Immutable.Map();
          this.agentPlayerDiscard = Immutable.Map();
          this.agentTableau = Immutable.Map();

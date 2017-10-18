@@ -20,7 +20,7 @@ define(["qunit", "redux", "artifact/js/GameMode",
          var callback = function()
          {
             // Verify.
-            agent.heroDeck().forEach(function(cardInstance)
+            agent.tableauHeroes().forEach(function(cardInstance)
             {
                cardResources = store.getState().cardResources.get(cardInstance.id());
                var sphereKey = cardInstance.card().sphereKey;

@@ -6,6 +6,8 @@ define(["qunit", "redux",
    {
       QUnit.module("EncounterTask");
 
+      var delay = 10;
+
       QUnit.test("doIt()", function(assert)
       {
          // Setup.
@@ -14,14 +16,16 @@ define(["qunit", "redux",
          var store = environment.store();
          var agent1 = environment.agentQueue()[0];
          assert.equal(store.getState().agentEngagementArea.get(agent1.id()), undefined);
-         var task = new EncounterTask(store);
+         var task = new EncounterTask(store, delay);
          var callback = function()
          {
             // Verify.
             assert.equal(store.getState().agentEngagementArea.get(agent1.id()).size, 1);
+            done();
          };
 
          // Run.
+         var done = assert.async();
          task.doIt(callback);
       });
 
