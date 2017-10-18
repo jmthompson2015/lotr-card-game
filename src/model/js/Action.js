@@ -55,7 +55,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.addAgentCard = function(agent, cardInstance)
    {
       InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateIsString("cardInstance", cardInstance);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
 
       return (
       {
@@ -226,7 +226,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.removeAgentCard = function(agent, cardInstance)
    {
       InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateIsString("cardInstance", cardInstance);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
 
       return (
       {
