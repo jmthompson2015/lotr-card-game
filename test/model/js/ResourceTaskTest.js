@@ -12,7 +12,7 @@ define(["qunit", "redux", "artifact/js/GameMode",
          var environment = createEnvironment();
          var store = environment.store();
          var agent = environment.agents().get(0);
-         var task = new ResourceTask(store, agent);
+         var task = new ResourceTask(store);
          var cardResources = store.getState().cardResources.get(agent.id());
          assert.equal(cardResources, undefined);
          var agentHand = store.getState().agentHand.get(agent.id());

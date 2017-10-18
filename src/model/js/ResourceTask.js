@@ -3,19 +3,13 @@
 define(["common/js/InputValidator", "model/js/Action"],
    function(InputValidator, Action)
    {
-      function ResourceTask(store, agent)
+      function ResourceTask(store)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("agent", agent);
 
          this.store = function()
          {
             return store;
-         };
-
-         this.agent = function()
-         {
-            return agent;
          };
       }
 
@@ -23,19 +17,24 @@ define(["common/js/InputValidator", "model/js/Action"],
       {
          InputValidator.validateNotNull("callback", callback);
 
-         // Add one resource to each hero's pool.
          var store = this.store();
-         var agent = this.agent();
-         var cardInstances = agent.heroDeck();
+         var environment = store.getState().environment;
+         var agents = environment.agentQueue();
 
-         cardInstances.forEach(function(cardInstance)
+         agents.forEach(function(agent)
          {
-            var sphereKey = cardInstance.card().sphereKey;
-            store.dispatch(Action.addCardResource(cardInstance, sphereKey));
-         });
+            // Add one resource to each hero's pool.
+            var cardInstances = agent.heroDeck();
 
-         // Draw one card.
-         store.dispatch(Action.drawPlayerCard(agent));
+            cardInstances.forEach(function(cardInstance)
+            {
+               var sphereKey = cardInstance.card().sphereKey;
+               store.dispatch(Action.addCardResource(cardInstance, sphereKey));
+            });
+
+            // Draw one card.
+            store.dispatch(Action.drawPlayerCard(agent));
+         });
 
          callback();
       };

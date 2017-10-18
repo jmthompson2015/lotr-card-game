@@ -1,10 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/Phase",
-  "model/js/Action", "model/js/CombatAttackTask", "model/js/CombatDealShadowCardsTask", "model/js/CombatDefendTask",
-  "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
-   function(InputValidator, Phase, Action, CombatAttackTask, CombatDealShadowCardsTask, CombatDefendTask,
-      EncounterEngagementCheckTask, EncounterOptionalEngagementTask, RefreshTask, ResourceTask, TravelTask)
+  "model/js/Action", "model/js/CombatTask", "model/js/EncounterTask", "model/js/PlanningTask", "model/js/QuestTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
+   function(InputValidator, Phase, Action, CombatTask, EncounterTask, PlanningTask, QuestTask, RefreshTask, ResourceTask, TravelTask)
    {
       function Engine(store, environment, delayIn, callback)
       {
@@ -34,18 +32,6 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             return callback;
          };
-
-         var queue = [];
-
-         this.queue = function(queueIn)
-         {
-            if (queueIn !== undefined)
-            {
-               queue = queueIn;
-            }
-
-            return queue;
-         };
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -64,36 +50,25 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             store.dispatch(Action.enqueuePhase(Phase.RESOURCE_START));
 
-            this.queue(this.agents());
-            this.processResourceQueue();
+            var task = new ResourceTask(store);
+            var callback = this.finishResourceQueue.bind(this);
+
+            setTimeout(function()
+            {
+               task.doIt(callback);
+            }, this.delay());
          }
       };
 
-      Engine.prototype.processResourceQueue = function()
+      Engine.prototype.finishResourceQueue = function()
       {
          var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.RESOURCE_END));
-            var phaseCallback = this.performPlanningPhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new ResourceTask(store, agent);
-         var callback = this.processResourceQueue.bind(this);
+         store.dispatch(Action.enqueuePhase(Phase.RESOURCE_END));
+         var phaseCallback = this.performPlanningPhase.bind(this);
 
          setTimeout(function()
          {
-            task.doIt(callback);
+            phaseCallback();
          }, this.delay());
       };
 
@@ -107,31 +82,27 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.PLANNING_START));
-            this.queue(this.agents());
-            this.processPlanningQueue();
+
+            var task = new PlanningTask(store);
+            var callback = this.finishPlanningQueue.bind(this);
+
+            setTimeout(function()
+            {
+               task.doIt(callback);
+            }, this.delay());
          }
       };
 
-      Engine.prototype.processPlanningQueue = function()
+      Engine.prototype.finishPlanningQueue = function()
       {
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
+         var phaseCallback = this.performQuestPhase.bind(this);
 
-         if (this.queue().length === 0)
+         setTimeout(function()
          {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
-            var phaseCallback = this.performQuestPhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         this.processPlanningQueue();
+            phaseCallback();
+         }, this.delay());
       };
 
       Engine.prototype.performQuestPhase = function()
@@ -144,31 +115,27 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.QUEST_START));
-            this.queue(this.agents());
-            this.processQuestQueue();
+
+            var task = new QuestTask(store);
+            var callback = this.finishQuestQueue.bind(this);
+
+            setTimeout(function()
+            {
+               task.doIt(callback);
+            }, this.delay());
          }
       };
 
-      Engine.prototype.processQuestQueue = function()
+      Engine.prototype.finishQuestQueue = function()
       {
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.QUEST_END));
+         var phaseCallback = this.performTravelPhase.bind(this);
 
-         if (this.queue().length === 0)
+         setTimeout(function()
          {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.QUEST_END));
-            var phaseCallback = this.performTravelPhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         this.processQuestQueue();
+            phaseCallback();
+         }, this.delay());
       };
 
       Engine.prototype.performTravelPhase = function()
@@ -181,6 +148,7 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.TRAVEL_START));
+
             var task = new TravelTask(store);
             var callback = this.finishTravelPhase.bind(this);
 
@@ -195,8 +163,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
       {
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
+         var phaseCallback = this.performEncounterPhase.bind(this);
 
-         this.performEncounterPhase();
+         setTimeout(function()
+         {
+            phaseCallback();
+         }, this.delay());
       };
 
       Engine.prototype.performEncounterPhase = function()
@@ -209,102 +181,27 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_START));
-            this.performEncounterPhase1();
-         }
-      };
 
-      Engine.prototype.performEncounterPhase1 = function()
-      {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_START));
-            this.queue(this.agents());
-            this.processEncounterQueue1();
-         }
-      };
+            var task = new EncounterTask(store, this.delay());
+            var callback = this.finishEncounterPhase.bind(this);
 
-      Engine.prototype.processEncounterQueue1 = function()
-      {
-         var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END));
-            var phaseCallback = this.performEncounterPhase2.bind(this);
             setTimeout(function()
             {
-               phaseCallback();
+               task.doIt(callback);
             }, this.delay());
-            return;
          }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new EncounterOptionalEngagementTask(store, agent);
-         var callback = this.processEncounterQueue1.bind(this);
-
-         setTimeout(function()
-         {
-            task.doIt(callback);
-         }, this.delay());
-      };
-
-      Engine.prototype.performEncounterPhase2 = function()
-      {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START));
-            this.queue(this.agents());
-            this.processEncounterQueue2();
-         }
-      };
-
-      Engine.prototype.processEncounterQueue2 = function()
-      {
-         var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_END));
-            var phaseCallback = this.finishEncounterPhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new EncounterEngagementCheckTask(store, agent);
-         var callback = this.processEncounterQueue2.bind(this);
-
-         setTimeout(function()
-         {
-            task.doIt(callback);
-         }, this.delay());
       };
 
       Engine.prototype.finishEncounterPhase = function()
       {
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
+         var phaseCallback = this.performCombatPhase.bind(this);
 
-         this.performCombatPhase();
+         setTimeout(function()
+         {
+            phaseCallback();
+         }, this.delay());
       };
 
       Engine.prototype.performCombatPhase = function()
@@ -317,116 +214,15 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
-            this.performCombatPhase1();
-         }
-      };
 
-      Engine.prototype.performCombatPhase1 = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_SHADOW_CARDS_START));
-         this.queue(this.agents());
-         this.processCombatQueue1();
-      };
+            var task = new CombatTask(store, this.delay());
+            var callback = this.finishCombatPhase.bind(this);
 
-      Engine.prototype.processCombatQueue1 = function()
-      {
-         var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_SHADOW_CARDS_END));
-            var phaseCallback = this.performCombatPhase2.bind(this);
             setTimeout(function()
             {
-               phaseCallback();
+               task.doIt(callback);
             }, this.delay());
-            return;
          }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new CombatDealShadowCardsTask(store, agent);
-         var callback = this.processCombatQueue1.bind(this);
-
-         setTimeout(function()
-         {
-            task.doIt(callback);
-         }, this.delay());
-      };
-
-      Engine.prototype.performCombatPhase2 = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEFEND_START));
-         this.queue(this.agents());
-         this.processCombatQueue2();
-      };
-
-      Engine.prototype.processCombatQueue2 = function()
-      {
-         var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEFEND_END));
-            var phaseCallback = this.performCombatPhase3.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new CombatDefendTask(store, agent);
-         var callback = this.processCombatQueue2.bind(this);
-
-         setTimeout(function()
-         {
-            task.doIt(callback);
-         }, this.delay());
-      };
-
-      Engine.prototype.performCombatPhase3 = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ATTACK_START));
-         this.queue(this.agents());
-         this.processCombatQueue3();
-      };
-
-      Engine.prototype.processCombatQueue3 = function()
-      {
-         var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_ATTACK_END));
-            var phaseCallback = this.finishCombatPhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new CombatAttackTask(store, agent);
-         var callback = this.processCombatQueue3.bind(this);
-
-         setTimeout(function()
-         {
-            task.doIt(callback);
-         }, this.delay());
       };
 
       Engine.prototype.finishCombatPhase = function()
@@ -434,6 +230,7 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
          var phaseCallback = this.performRefreshPhase.bind(this);
+
          setTimeout(function()
          {
             phaseCallback();
@@ -450,36 +247,26 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.REFRESH_START));
-            this.queue(this.agents());
-            this.processRefreshQueue();
+
+            var task = new RefreshTask(store);
+            var callback = this.finishRefreshPhase.bind(this);
+
+            setTimeout(function()
+            {
+               task.doIt(callback);
+            }, this.delay());
          }
       };
 
-      Engine.prototype.processRefreshQueue = function()
+      Engine.prototype.finishRefreshPhase = function()
       {
          var store = this.store();
-
-         if (this.queue().length === 0)
-         {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.REFRESH_END));
-            var phaseCallback = this.performResourcePhase.bind(this);
-            setTimeout(function()
-            {
-               phaseCallback();
-            }, this.delay());
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new RefreshTask(store, agent);
-         var callback = this.processRefreshQueue.bind(this);
+         store.dispatch(Action.enqueuePhase(Phase.REFRESH_END));
+         var phaseCallback = this.performResourcePhase.bind(this);
 
          setTimeout(function()
          {
-            task.doIt(callback);
+            phaseCallback();
          }, this.delay());
       };
 
