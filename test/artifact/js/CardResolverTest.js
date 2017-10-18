@@ -1,7 +1,7 @@
 "use strict";
 
-define(["qunit", "common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/TreacheryCard"],
-   function(QUnit, InputValidator, AllyCard, AttachmentCard, CardResolver, CardType, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard, QuestCard, TreacheryCard)
+define(["qunit", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/TreacheryCard"],
+   function(QUnit, AllyCard, AttachmentCard, CardResolver, CardType, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard, QuestCard, TreacheryCard)
    {
       QUnit.module("CardResolver");
 

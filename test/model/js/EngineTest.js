@@ -30,57 +30,6 @@ define(["qunit", "redux", "artifact/js/GameMode",
          engine.performResourcePhase();
       });
 
-      QUnit.test("agents()", function(assert)
-      {
-         // Setup.
-         var game = createGame();
-         var engine = game.engine();
-
-         // Run.
-         var result = engine.agents();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.length, 3);
-         assert.equal(result[0].name(), "agent1");
-         assert.equal(result[1].name(), "agent2");
-         assert.equal(result[2].name(), "agent3");
-
-         // Run.
-         var store = engine.store();
-         store.dispatch(Action.setFirstAgent(result[1]));
-         result = engine.agents();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.length, 3);
-         assert.equal(result[0].name(), "agent2");
-         assert.equal(result[1].name(), "agent3");
-         assert.equal(result[2].name(), "agent1");
-
-         // Run.
-         store.dispatch(Action.setFirstAgent(result[1]));
-         result = engine.agents();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.length, 3);
-         assert.equal(result[0].name(), "agent3");
-         assert.equal(result[1].name(), "agent1");
-         assert.equal(result[2].name(), "agent2");
-
-         // Run.
-         store.dispatch(Action.setFirstAgent(result[1]));
-         result = engine.agents();
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.length, 3);
-         assert.equal(result[0].name(), "agent1");
-         assert.equal(result[1].name(), "agent2");
-         assert.equal(result[2].name(), "agent3");
-      });
-
       function createGame(callback)
       {
          var store = Redux.createStore(Reducer.root);

@@ -273,13 +273,6 @@ define(["common/js/InputValidator", "artifact/js/Phase",
       //////////////////////////////////////////////////////////////////////////
       // Utility methods.
 
-      Engine.prototype.agents = function()
-      {
-         var environment = this.environment();
-
-         return environment.agentQueue();
-      };
-
       Engine.prototype.isGameOver = function()
       {
          var store = this.store();
