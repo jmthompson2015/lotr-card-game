@@ -39,13 +39,13 @@ define(["immutable", "artifact/js/Phase"],
 
          // cardInstance IDs.
          this.cardAttachments = Immutable.Map();
-         this.cardDamage = Immutable.Map();
          this.cardIsQuesting = Immutable.Map();
          this.cardIsReady = Immutable.Map();
          this.cardProgress = Immutable.Map();
          // card instance id: sphereKey: resource count
          this.cardResources = Immutable.Map();
          this.cardShadowCard = Immutable.Map();
+         this.cardWounds = Immutable.Map();
       }
 
       if (Object.freeze)

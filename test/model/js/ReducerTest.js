@@ -65,13 +65,13 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          store.dispatch(Action.addCardDamage(cardInstance));
 
          // Verify.
-         assert.equal(store.getState().cardDamage.get(cardInstance.id()), 1);
+         assert.equal(store.getState().cardWounds.get(cardInstance.id()), 1);
 
          // Run.
          store.dispatch(Action.addCardDamage(cardInstance, 5));
 
          // Verify.
-         assert.equal(store.getState().cardDamage.get(cardInstance.id()), 6);
+         assert.equal(store.getState().cardWounds.get(cardInstance.id()), 6);
       });
 
       QUnit.test("addCardProgress()", function(assert)

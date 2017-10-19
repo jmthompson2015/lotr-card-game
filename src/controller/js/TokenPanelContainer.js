@@ -11,7 +11,7 @@ define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sph
          var cardInstance = ownProps.cardInstance;
          var id = cardInstance.id();
          var progressCount = state.cardProgress.get(id);
-         var woundCount = state.cardDamage.get(id);
+         var woundCount = state.cardWounds.get(id);
          var resourceMap = (state.cardResources.get(id) ? state.cardResources.get(id) : Immutable.Map());
 
          return (

@@ -55,7 +55,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
       CardInstance.prototype.damage = function()
       {
          var store = this.store();
-         var answer = store.getState().cardDamage.get(this.id());
+         var answer = store.getState().cardWounds.get(this.id());
 
          return (answer !== undefined ? answer : 0);
       };

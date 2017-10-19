@@ -48,11 +48,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                });
             case Action.ADD_CARD_DAMAGE:
                cardId = action.cardInstance.id();
-               var oldDamage = (state.cardDamage.get(cardId) !== undefined ? state.cardDamage.get(cardId) : 0);
+               var oldDamage = (state.cardWounds.get(cardId) !== undefined ? state.cardWounds.get(cardId) : 0);
                return Object.assign(
                {}, state,
                {
-                  cardDamage: state.cardDamage.set(cardId, oldDamage + action.value),
+                  cardWounds: state.cardWounds.set(cardId, oldDamage + action.value),
                });
             case Action.ADD_CARD_PROGRESS:
                cardId = action.cardInstance.id();
@@ -310,7 +310,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                return Object.assign(
                {}, state,
                {
-                  cardDamage: state.cardDamage.set(action.cardInstance.id(), action.value),
+                  cardWounds: state.cardWounds.set(action.cardInstance.id(), action.value),
                });
             case Action.SET_CARD_INSTANCE:
                return Object.assign(
