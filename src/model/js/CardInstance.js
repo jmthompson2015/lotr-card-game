@@ -105,9 +105,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
 
       CardInstance.prototype.toString = function()
       {
+         var questString = (this.card().questPoints !== undefined ? " {" + this.card().questPoints + "}" : "");
+         var engagementString = (this.card().engagementCost !== undefined ? " (" + this.card().engagementCost + ")" : "");
          var costString = (this.card().cost !== undefined ? " [" + this.card().cost + "]" : "");
 
-         return "CardInstance " + this.id() + " " + this.card().name + costString;
+         return "CardInstance " + this.id() + " " + this.card().name + questString + engagementString + costString;
       };
 
       //////////////////////////////////////////////////////////////////////////

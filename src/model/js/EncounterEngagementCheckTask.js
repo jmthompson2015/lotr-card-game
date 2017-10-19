@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
-   function(InputValidator, CardType, Action)
+define(["common/js/InputValidator", "model/js/Action"],
+   function(InputValidator, Action)
    {
       function EncounterEngagementCheckTask(store, agent)
       {
@@ -26,28 +26,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
          var store = this.store();
          var agent = this.agent();
          var environment = store.getState().environment;
-         var enemies = environment.stagingArea(CardType.ENEMY);
+         var enemies = environment.stagingEnemies();
 
          if (enemies.size > 0)
          {
-            LOGGER.debug("0 EncounterEngagementCheckTask enemies = " + enemies);
-            var agentThreat = agent.threatLevel();
-
-            enemies = enemies.sort(function(a, b)
+            for (var i = 0; i < enemies.size; i++)
             {
-               var engagementCostA = a.card().engagementCost;
-               var engagementCostB = b.card().engagementCost;
-               return engagementCostB - engagementCostA;
-            });
-            LOGGER.debug("1 EncounterEngagementCheckTask enemies = " + enemies);
+               var enemy = enemies.get(i);
 
-            var firstEnemy = enemies.first();
-            LOGGER.debug("EncounterEngagementCheckTask firstEnemy = " + firstEnemy);
-
-            if (firstEnemy.card().engagementCost <= agentThreat)
-            {
-               LOGGER.debug("EncounterEngagementCheckTask engaging");
-               store.dispatch(Action.agentEngageCard(agent, firstEnemy));
+               if (enemy.card().engagementCost <= agent.threatLevel())
+               {
+                  store.dispatch(Action.agentEngageCard(agent, enemy));
+                  break;
+               }
             }
          }
 

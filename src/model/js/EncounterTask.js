@@ -97,14 +97,33 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
 
          if (this.queue().length === 0)
          {
-            store.dispatch(Action.setActiveAgent(undefined));
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_END));
-            var phaseCallback = this.finishEncounterPhase.bind(this);
-
-            setTimeout(function()
+            var environment = store.getState().environment;
+            var enemies = environment.stagingEnemies();
+            var minEnemyEngagement = (enemies.size > 0 ? enemies.last().card().engagementCost : 1000);
+            var maxAgentThreat = environment.agents().reduce(function(accumulator, agent)
             {
-               phaseCallback(callback);
-            }, this.delay());
+               return Math.max(accumulator, agent.threatLevel());
+            }, 0);
+
+            if (minEnemyEngagement > maxAgentThreat)
+            {
+               // We're done.
+               store.dispatch(Action.setActiveAgent(undefined));
+               store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_END));
+               var phaseCallback = this.finishEncounterPhase.bind(this);
+
+               setTimeout(function()
+               {
+                  phaseCallback(callback);
+               }, this.delay());
+            }
+            else
+            {
+               // We're not done yet.
+               this.queue(environment.agentQueue());
+               this.processEncounterQueue2(callback);
+            }
+
             return;
          }
 

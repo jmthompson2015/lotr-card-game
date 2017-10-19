@@ -1,7 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "model/js/Action", "model/js/Agent", "model/js/CardInstance"],
-   function(Immutable, ArrayAugments, InputValidator, Action, Agent, CardInstance)
+define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType",
+  "model/js/Action", "model/js/Agent", "model/js/CardInstance"],
+   function(Immutable, ArrayAugments, InputValidator, CardType, Action, Agent, CardInstance)
    {
       function Environment(store, scenarioDeck, playerData)
       {
@@ -117,6 +118,21 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "mod
          LOGGER.debug("1 Environment.stagingArea() answer = " + answer);
 
          return answer;
+      };
+
+      Environment.prototype.stagingEnemies = function()
+      {
+         var enemies = this.stagingArea(CardType.ENEMY);
+
+         return enemies.sort(function(a, b)
+         {
+            return b.card().engagementCost - a.card().engagementCost;
+         });
+      };
+
+      Environment.prototype.stagingLocations = function()
+      {
+         return this.stagingArea(CardType.LOCATION);
       };
 
       Environment.prototype.questDeck = function()
