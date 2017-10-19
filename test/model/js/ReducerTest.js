@@ -1,8 +1,8 @@
 "use strict";
 
 define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/Phase", "artifact/js/Sphere",
-  "model/js/Action", "model/js/CardInstance", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(Immutable, QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, Phase, Sphere, Action, CardInstance, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/CardInstance", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(Immutable, QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, Phase, Sphere, Action, CardInstance, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Reducer");
 
@@ -120,6 +120,52 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 6);
       });
 
+      QUnit.test("agentDiscardAttachmentCard()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         var store = environment.store();
+         var agent = environment.agents().get(0);
+         var cardInstance = agent.tableau().get(0);
+         var attachmentInstance = agent.hand().get(0);
+         store.dispatch(Action.agentPlayAttachmentCard(agent, cardInstance, attachmentInstance));
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
+         assert.equal(store.getState().agentPlayerDiscard.get(agent.id()), undefined);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
+
+         // Run.
+         store.dispatch(Action.agentDiscardAttachmentCard(agent, cardInstance, attachmentInstance));
+
+         // Verify.
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
+         assert.equal(store.getState().agentPlayerDiscard.get(agent.id()).size, 1);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 0);
+      });
+
+      QUnit.test("agentDiscardCard()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         var store = environment.store();
+         var agent = environment.agents().get(0);
+         var cardInstance = agent.tableau().get(0);
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 6);
+         assert.equal(store.getState().agentPlayerDiscard.get(agent.id()), undefined);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+
+         // Run.
+         store.dispatch(Action.agentDiscardCard(agent, cardInstance));
+
+         // Verify.
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 6);
+         assert.equal(store.getState().agentPlayerDiscard.get(agent.id()).size, 1);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 2);
+      });
+
       QUnit.test("agentEngageCard()", function(assert)
       {
          // Setup.
@@ -139,6 +185,47 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          // Verify.
          assert.equal(store.getState().stagingArea.size, 2);
          assert.equal(store.getState().agentEngagementArea.size, 1);
+      });
+
+      QUnit.test("agentPlayAttachmentCard()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         var store = environment.store();
+         var agent = environment.agents().get(0);
+         var cardInstance = agent.tableau().get(0);
+         var attachmentInstance = agent.hand().get(1);
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 6);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()), undefined);
+
+         // Run.
+         store.dispatch(Action.agentPlayAttachmentCard(agent, cardInstance, attachmentInstance));
+
+         // Verify.
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
+      });
+
+      QUnit.test("agentPlayCard()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         var store = environment.store();
+         var agent = environment.agents().get(0);
+         var cardInstance = agent.hand().get(0);
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 6);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+
+         // Run.
+         store.dispatch(Action.agentPlayCard(agent, cardInstance));
+
+         // Verify.
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 4);
       });
 
       QUnit.test("dealShadowCard() index", function(assert)
@@ -440,5 +527,27 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          ];
 
          return new Environment(store, scenarioDeck, playerData);
+      }
+
+      function createGame(callback)
+      {
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         var playerData = [
+            {
+               agent: new Agent(store, "agent1"),
+               playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+                  },
+            {
+               agent: new Agent(store, "agent2"),
+               playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+                  },
+            {
+               agent: new Agent(store, "agent3"),
+               playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+                  },
+               ];
+
+         return new Game(store, scenarioDeck, playerData, 10, callback);
       }
    });

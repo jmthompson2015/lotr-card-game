@@ -5,6 +5,21 @@ define(["common/js/InputValidator"],
    {
       var SimpleAgentStrategy = {
 
+         chooseCardsToPlay: function(possibleCards, callback)
+         {
+            InputValidator.validateIsArray("possibleCards", possibleCards);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var answer = [];
+
+            if (possibleCards.length > 0)
+            {
+               answer = [possibleCards.lotrRandomElement()];
+            }
+
+            callback(answer);
+         },
+
          chooseCharacterAttackers: function(characters, defender, callback)
          {
             InputValidator.validateNotNull("characters", characters);

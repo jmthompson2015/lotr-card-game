@@ -9,7 +9,11 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.ADD_CARD_DAMAGE = "addCardDamage";
    Action.ADD_CARD_PROGRESS = "addCardProgress";
    Action.ADD_CARD_RESOURCE = "addCardResource";
+   Action.AGENT_DISCARD_ATTACHMENT_CARD = "agentDiscardAttachmentCard";
+   Action.AGENT_DISCARD_CARD = "agentDiscardCard";
    Action.AGENT_ENGAGE_CARD = "agentEngageCard";
+   Action.AGENT_PLAY_ATTACHMENT_CARD = "agentPlayAttachmentCard";
+   Action.AGENT_PLAY_CARD = "agentPlayCard";
    Action.DEAL_SHADOW_CARD = "dealShadowCard";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DISCARD_SHADOW_CARDS = "discardShadowCards";
@@ -113,6 +117,34 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.agentDiscardAttachmentCard = function(agent, cardInstance, attachmentInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+
+      return (
+      {
+         type: Action.AGENT_DISCARD_ATTACHMENT_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+         attachmentInstance: attachmentInstance,
+      });
+   };
+
+   Action.agentDiscardCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.AGENT_DISCARD_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+      });
+   };
+
    Action.agentEngageCard = function(agent, cardInstance)
    {
       InputValidator.validateNotNull("agent", agent);
@@ -121,6 +153,34 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: Action.AGENT_ENGAGE_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+      });
+   };
+
+   Action.agentPlayAttachmentCard = function(agent, cardInstance, attachmentInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+
+      return (
+      {
+         type: Action.AGENT_PLAY_ATTACHMENT_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+         attachmentInstance: attachmentInstance,
+      });
+   };
+
+   Action.agentPlayCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.AGENT_PLAY_CARD,
          agent: agent,
          cardInstance: cardInstance,
       });

@@ -81,6 +81,28 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
          }
       });
 
+      QUnit.test("resourceMap()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var agent1 = environment.agents().get(0);
+         var store = environment.store();
+         var heroes = agent1.tableauHeroes();
+         store.dispatch(Action.addCardResource(heroes.get(0), Sphere.LEADERSHIP, 1));
+         store.dispatch(Action.addCardResource(heroes.get(1), Sphere.LEADERSHIP, 2));
+         store.dispatch(Action.addCardResource(heroes.get(2), Sphere.LEADERSHIP, 3));
+
+         // Run.
+         var result = agent1.resourceMap();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.get(Sphere.LEADERSHIP), 6);
+         assert.equal(result.get(Sphere.LORE), 0);
+         assert.equal(result.get(Sphere.SPIRIT), 0);
+         assert.equal(result.get(Sphere.TACTICS), 0);
+      });
+
       QUnit.test("tableauHeroes()", function(assert)
       {
          // Setup.

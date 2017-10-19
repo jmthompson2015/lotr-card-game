@@ -1,7 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
-   function(Immutable, InputValidator, CardType, Action, CardInstance, SimpleAgentStrategy)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/Sphere",
+  "model/js/Action", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
+   function(Immutable, InputValidator, CardType, Sphere, Action, CardInstance, SimpleAgentStrategy)
    {
       function Agent(store, name, idIn, strategyIn, isNewIn)
       {
@@ -114,7 +115,31 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
          return answer;
       };
 
-      Agent.prototype.tableau = function(cardTypeKey, isReady)
+      Agent.prototype.resourceMap = function()
+      {
+         var answer = {};
+         var store = this.store();
+         var heroes = this.tableauHeroes();
+
+         answer = Sphere.keys().reduce(function(accumulator, sphereKey)
+         {
+            var value = heroes.reduce(function(accumulator2, cardInstance)
+            {
+               var resourceMap = store.getState().cardResources.get(cardInstance.id());
+               var newValue = (resourceMap && resourceMap.get(sphereKey) ? resourceMap.get(sphereKey) : 0);
+               return accumulator2 + newValue;
+            }, 0);
+
+            accumulator[sphereKey] = value;
+
+            return accumulator;
+         },
+         {});
+
+         return Immutable.Map(answer);
+      };
+
+      Agent.prototype.tableau = function(cardTypeKey, isReady, sphereKey)
       {
          var store = this.store();
          var ids = store.getState().agentTableau.get(this.id());
@@ -137,25 +162,33 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
             });
          }
 
+         if (sphereKey !== undefined)
+         {
+            answer = answer.filter(function(cardInstance)
+            {
+               return cardInstance.card().sphereKey === sphereKey;
+            });
+         }
+
          return answer;
       };
 
-      Agent.prototype.tableauAllies = function(isReady)
+      Agent.prototype.tableauAllies = function(isReady, sphereKey)
       {
-         return this.tableau(CardType.ALLY, isReady);
+         return this.tableau(CardType.ALLY, isReady, sphereKey);
       };
 
-      Agent.prototype.tableauCharacters = function(isReady)
+      Agent.prototype.tableauCharacters = function(isReady, sphereKey)
       {
-         var heroes = this.tableauHeroes(isReady);
-         var allies = this.tableauAllies(isReady);
+         var heroes = this.tableauHeroes(isReady, sphereKey);
+         var allies = this.tableauAllies(isReady, sphereKey);
 
          return heroes.concat(allies);
       };
 
-      Agent.prototype.tableauHeroes = function(isReady)
+      Agent.prototype.tableauHeroes = function(isReady, sphereKey)
       {
-         return this.tableau(CardType.HERO, isReady);
+         return this.tableau(CardType.HERO, isReady, sphereKey);
       };
 
       Agent.prototype.threatLevel = function()
@@ -173,6 +206,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
 
       //////////////////////////////////////////////////////////////////////////
       // Behavior methods.
+
+      Agent.prototype.chooseCardsToPlay = function(possibleCards, callback)
+      {
+         this._strategy().chooseCardsToPlay(possibleCards, callback);
+      };
 
       Agent.prototype.chooseCharacterAttackers = function(characters, defender, callback)
       {

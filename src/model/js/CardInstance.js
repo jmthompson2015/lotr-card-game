@@ -44,6 +44,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
+      CardInstance.prototype.attachments = function()
+      {
+         var store = this.store();
+         var ids = store.getState().cardAttachments.get(this.id());
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
       CardInstance.prototype.damage = function()
       {
          var store = this.store();
@@ -73,6 +81,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          return (answer !== undefined ? answer : 0);
       };
 
+      CardInstance.prototype.resourceMap = function()
+      {
+         var store = this.store();
+         var answer = store.getState().cardResources.get(this.id());
+
+         return (answer !== undefined ? answer : Immutable.Map());
+      };
+
       CardInstance.prototype.shadowCard = function()
       {
          var answer;
@@ -89,7 +105,9 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
 
       CardInstance.prototype.toString = function()
       {
-         return "CardInstance " + this.id() + " " + this.card().name;
+         var costString = (this.card().cost !== undefined ? " [" + this.card().cost + "]" : "");
+
+         return "CardInstance " + this.id() + " " + this.card().name + costString;
       };
 
       //////////////////////////////////////////////////////////////////////////

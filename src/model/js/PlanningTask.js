@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action"],
-   function(InputValidator, Action)
+define(["immutable", "common/js/InputValidator", "artifact/js/Sphere", "model/js/Action"],
+   function(Immutable, InputValidator, Sphere, Action)
    {
       function PlanningTask(store)
       {
@@ -51,7 +51,67 @@ define(["common/js/InputValidator", "model/js/Action"],
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         // TODO: play card(s)
+         this.processAgent(agent, callback);
+      };
+
+      PlanningTask.prototype.processAgent = function(agent, callback)
+      {
+         InputValidator.validateNotNull("callback", callback);
+
+         var hand = agent.hand();
+         var resourceMap = agent.resourceMap();
+
+         var possibleCards = hand.reduce(function(accumulator, cardInstance)
+         {
+            var sphereKey = cardInstance.card().sphereKey;
+            var cost = cardInstance.card().cost;
+            var available = (resourceMap.get(sphereKey) !== undefined ? resourceMap.get(sphereKey) : 0);
+
+            if (cost <= available)
+            {
+               accumulator = accumulator.push(cardInstance);
+            }
+
+            return accumulator;
+         }, Immutable.List());
+
+         var queueCallback = this.finishProcessAgent.bind(this);
+         var agentCallback = function(cardsToPlay)
+         {
+            queueCallback(agent, cardsToPlay, callback);
+         };
+
+         agent.chooseCardsToPlay(possibleCards.toJS(), agentCallback);
+      };
+
+      PlanningTask.prototype.finishProcessAgent = function(agent, cardsToPlay, callback)
+      {
+         InputValidator.validateNotNull("callback", callback);
+
+         if (cardsToPlay && cardsToPlay.length > 0)
+         {
+            var store = this.store();
+            cardsToPlay.forEach(function(cardInstance)
+            {
+               // Pay for the card.
+               var cost = cardInstance.card().cost;
+               var sphereKey = cardInstance.card().sphereKey;
+               var heroes = agent.tableauHeroes(undefined, sphereKey);
+               var hero = heroes.reduce(function(accumulator, cardInstance)
+               {
+                  if (cardInstance.resourceMap().get(sphereKey) >= cost)
+                  {
+                     accumulator = cardInstance;
+                  }
+                  return accumulator;
+               });
+
+               store.dispatch(Action.addCardResource(hero, sphereKey, -cost));
+
+               // Play the card.
+               store.dispatch(Action.agentPlayCard(agent, cardInstance));
+            });
+         }
 
          this.processPlanningQueue(callback);
       };
