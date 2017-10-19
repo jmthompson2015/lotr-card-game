@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
+define(["qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
   "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, GameMode, Sphere, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+   function(QUnit, Redux, HeroCard, Sphere, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Agent");
 
@@ -19,6 +19,66 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
          assert.ok(result);
          assert.equal(result.id(), 1);
          assert.equal(result.name(), name);
+      });
+
+      QUnit.test("attackers()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var agent0 = environment.agents().get(0);
+         var agent1 = environment.agents().get(1);
+
+         // Run.
+         var result = agent0.attackers();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         var i = 0;
+         assert.equal(result.get(i++).card().key, HeroCard.ARAGORN_CORE);
+         assert.equal(result.get(i++).card().key, HeroCard.GLOIN);
+         assert.equal(result.get(i++).card().key, HeroCard.THEODRED);
+
+         // Run.
+         result = agent1.attackers();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         i = 0;
+         assert.equal(result.get(i++).card().key, HeroCard.GLORFINDEL_CORE);
+         assert.equal(result.get(i++).card().key, HeroCard.BERAVOR);
+         assert.equal(result.get(i++).card().key, HeroCard.DENETHOR);
+      });
+
+      QUnit.test("defenders()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var agent0 = environment.agents().get(0);
+         var agent1 = environment.agents().get(1);
+
+         // Run.
+         var result = agent0.defenders();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         var i = 0;
+         assert.equal(result.get(i++).card().key, HeroCard.ARAGORN_CORE);
+         assert.equal(result.get(i++).card().key, HeroCard.GLOIN);
+         assert.equal(result.get(i++).card().key, HeroCard.THEODRED);
+
+         // Run.
+         result = agent1.defenders();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         i = 0;
+         assert.equal(result.get(i++).card().key, HeroCard.DENETHOR);
+         assert.equal(result.get(i++).card().key, HeroCard.BERAVOR);
+         assert.equal(result.get(i++).card().key, HeroCard.GLORFINDEL_CORE);
       });
 
       QUnit.test("hand()", function(assert)
@@ -81,6 +141,36 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
          }
       });
 
+      QUnit.test("questers()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var agent0 = environment.agents().get(0);
+         var agent1 = environment.agents().get(1);
+
+         // Run.
+         var result = agent0.questers();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         var i = 0;
+         assert.equal(result.get(i++).card().key, HeroCard.ARAGORN_CORE);
+         assert.equal(result.get(i++).card().key, HeroCard.GLOIN);
+         assert.equal(result.get(i++).card().key, HeroCard.THEODRED);
+
+         // Run.
+         result = agent1.questers();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.size, 3);
+         i = 0;
+         assert.equal(result.get(i++).card().key, HeroCard.GLORFINDEL_CORE);
+         assert.equal(result.get(i++).card().key, HeroCard.BERAVOR);
+         assert.equal(result.get(i++).card().key, HeroCard.DENETHOR);
+      });
+
       QUnit.test("resourceMap()", function(assert)
       {
          // Setup.
@@ -134,7 +224,7 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Sphere",
       function createEnvironment()
       {
          var store = Redux.createStore(Reducer.root);
-         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var agent1 = new Agent(store, "agent1");
          var agent2 = new Agent(store, "agent2");
          var playerData = [

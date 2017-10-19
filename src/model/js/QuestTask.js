@@ -55,12 +55,13 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var characters = agent.tableauCharacters().toJS();
+         var characters = agent.questers().toJS();
          var queueCallback = this.setQuesters.bind(this);
          var taskCallback = function(questers)
          {
             queueCallback(questers, callback);
          };
+
          agent.chooseQuesters(characters, taskCallback);
       };
 
@@ -71,8 +72,10 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
          if (questers && questers.length > 0)
          {
             var store = this.store();
+
             questers.forEach(function(cardInstance)
             {
+               store.dispatch(Action.setCardReady(cardInstance, false));
                store.dispatch(Action.setCardQuesting(cardInstance, true));
             });
          }
@@ -102,6 +105,8 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
             return accumulator + cardInstance.card().willpower;
          }, 0);
 
+         LOGGER.debug("questerWillpower = " + questerWillpower);
+
          var stagingCards = environment.stagingArea();
 
          var stagingThreat = stagingCards.reduce(function(accumulator, cardInstance)
@@ -116,31 +121,58 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
             }
          }, 0);
 
+         LOGGER.debug("stagingThreat = " + stagingThreat);
+
          if (questerWillpower > stagingThreat)
          {
             // Successful quest.
-            LOGGER.info("Quest succeeded.");
             var progress = questerWillpower - stagingThreat;
+            LOGGER.info("Quest succeeded. progress = " + progress);
             var activeLocation = environment.activeLocation();
-            if (activeLocation)
+            var neededProgress;
+
+            if (activeLocation !== undefined)
             {
-               store.dispatch(Action.addCardProgress(activeLocation, progress));
+               neededProgress = activeLocation.card().questPoints - activeLocation.progress();
+               var myProgress = Math.min(neededProgress, progress);
+               LOGGER.debug("applying " + myProgress + " progress to " + activeLocation);
+               store.dispatch(Action.addCardProgress(activeLocation, myProgress));
+               neededProgress = activeLocation.card().questPoints - activeLocation.progress();
+               if (neededProgress === 0)
+               {
+                  store.dispatch(Action.discardActiveLocation());
+               }
+               progress -= myProgress;
             }
-            else
+
+            LOGGER.info("1 progress = " + progress);
+
+            if (progress > 0)
             {
                var activeQuest = environment.questDeck().get(0);
+               LOGGER.debug("applying " + progress + " to " + activeQuest);
                store.dispatch(Action.addCardProgress(activeQuest, progress));
+               neededProgress = activeQuest.card().questPoints - activeQuest.progress();
+               if (neededProgress === 0)
+               {
+                  store.dispatch(Action.discardActiveQuest());
+               }
             }
          }
          else if (stagingThreat > questerWillpower)
          {
             // Unsuccessful quest.
-            LOGGER.info("Quest failed.");
             var threat = stagingThreat - questerWillpower;
+            LOGGER.info("Quest failed. threat = " + threat);
+
             agents.forEach(function(agent)
             {
                store.dispatch(Action.addAgentThreat(agent, threat));
             });
+         }
+         else
+         {
+            LOGGER.info("Quest tied: no progress, no threat.");
          }
 
          // 4. Cleanup.

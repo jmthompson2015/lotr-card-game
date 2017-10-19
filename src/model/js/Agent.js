@@ -55,6 +55,28 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
       Agent.prototype.agentClass = Agent;
 
+      Agent.prototype.attackers = function()
+      {
+         var isReady = true;
+         var characters = this.tableauCharacters(isReady);
+
+         return characters.sort(function(a, b)
+         {
+            return b.card().attack - a.card().attack;
+         });
+      };
+
+      Agent.prototype.defenders = function()
+      {
+         var isReady = true;
+         var characters = this.tableauCharacters(isReady);
+
+         return characters.sort(function(a, b)
+         {
+            return b.card().defense - a.card().defense;
+         });
+      };
+
       Agent.prototype.engagementArea = function()
       {
          var store = this.store();
@@ -113,6 +135,17 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          }
 
          return answer;
+      };
+
+      Agent.prototype.questers = function()
+      {
+         var isReady = true;
+         var characters = this.tableauCharacters(isReady);
+
+         return characters.sort(function(a, b)
+         {
+            return b.card().willpower - a.card().willpower;
+         });
       };
 
       Agent.prototype.resourceMap = function()

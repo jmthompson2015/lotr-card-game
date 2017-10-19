@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux",
-   "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/QuestTask", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, Agent, Game, PlayerDeckBuilder, QuestTask, Reducer, ScenarioDeckBuilder)
+   "model/js/Action", "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/QuestTask", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, Action, Agent, Game, PlayerDeckBuilder, QuestTask, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("QuestTask");
 
@@ -12,6 +12,8 @@ define(["qunit", "redux",
          var game = createGame();
          var environment = game.engine().environment();
          var store = environment.store();
+         var locations = environment.stagingLocations();
+         store.dispatch(Action.setActiveLocation(locations.first()));
          assert.equal(store.getState().cardIsQuesting.size, 0);
          var task = new QuestTask(store);
          var callback = function()

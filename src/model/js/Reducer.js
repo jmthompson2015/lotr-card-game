@@ -15,7 +15,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
          }
 
          var agentId, attachmentId, cardId, cardInstanceIds, index;
-         var newAttachments, newDiscard, newEncounterDeck, newHand, newPhaseData, newPhaseQueue, newResources, newTableau;
+         var newAttachments, newDiscard, newEncounterDeck, newEncounterDiscard, newHand, newPhaseData, newPhaseQueue, newResources, newTableau;
          var oldAttachments, oldDiscard, oldHand, oldResources, oldTableau;
 
          switch (action.type)
@@ -169,8 +169,24 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   phaseKey: newPhaseData.get("phaseKey"),
                   phaseQueue: newPhaseQueue,
                });
+            case Action.DISCARD_ACTIVE_LOCATION:
+               return Object.assign(
+               {}, state,
+               {
+                  activeLocationId: undefined,
+                  encounterDiscard: state.encounterDiscard.push(state.activeAgentId),
+               });
+            case Action.DISCARD_ACTIVE_QUEST:
+               cardId = state.questDeck.first();
+               var newQuestDiscard = state.questDiscard.push(cardId);
+               return Object.assign(
+               {}, state,
+               {
+                  questDeck: state.questDeck.delete(0),
+                  questDiscard: newQuestDiscard,
+               });
             case Action.DISCARD_SHADOW_CARDS:
-               var newEncounterDiscard = state.encounterDiscard.push(state.cardShadowCard.toIndexedSeq().toArray());
+               newEncounterDiscard = state.encounterDiscard.push(state.cardShadowCard.toIndexedSeq().toArray());
                return Object.assign(
                {}, state,
                {
@@ -275,10 +291,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                });
             case Action.SET_ACTIVE_LOCATION:
                LOGGER.info("Active Location: " + action.cardInstance);
+               cardId = (action.cardInstance !== undefined ? action.cardInstance.id() : -1);
+               index = state.stagingArea.indexOf(cardId);
+               var newStagingArea = (index >= 0 ? state.stagingArea.delete(index) : state.stagingArea);
                return Object.assign(
                {}, state,
                {
                   activeLocationId: (action.cardInstance !== undefined ? action.cardInstance.id() : undefined),
+                  stagingArea: newStagingArea,
                });
             case Action.SET_AGENT:
                return Object.assign(

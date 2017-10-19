@@ -283,6 +283,42 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          assert.equal(store.getState().phaseQueue.size, 0);
       });
 
+      QUnit.test("discardActiveLocation()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var store = game.store();
+         var environment = game.engine().environment();
+         var cardInstance = environment.stagingArea().get(1);
+         store.dispatch(Action.setActiveLocation(cardInstance));
+         assert.ok(store.getState().activeLocationId > 0);
+         assert.equal(store.getState().encounterDiscard.size, 0);
+
+         // Run.
+         store.dispatch(Action.discardActiveLocation());
+
+         // Verify.
+         assert.equal(store.getState().activeLocationId, undefined);
+         assert.equal(store.getState().encounterDiscard.size, 1);
+      });
+
+      QUnit.test("discardActiveQuest()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         store.dispatch(Action.setQuestDeck(scenarioDeck.questInstances));
+         assert.equal(store.getState().questDeck.size, 6);
+         assert.equal(store.getState().questDiscard.size, 0);
+
+         // Run.
+         store.dispatch(Action.discardActiveQuest());
+
+         // Verify.
+         assert.equal(store.getState().questDeck.size, 5);
+         assert.equal(store.getState().questDiscard.size, 1);
+      });
+
       QUnit.test("discardShadowCards()", function(assert)
       {
          // Setup.
@@ -486,6 +522,24 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
 
          // Verify.
          assert.equal(store.getState().agentTableau.get(agent.id()).size, 0);
+      });
+
+      QUnit.test("setActiveLocation()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var store = game.store();
+         var environment = game.engine().environment();
+         var cardInstance = environment.stagingArea().get(1);
+         assert.equal(store.getState().stagingArea.size, 2);
+         assert.equal(store.getState().activeLocationId, undefined);
+
+         // Run.
+         store.dispatch(Action.setActiveLocation(cardInstance));
+
+         // Verify.
+         assert.equal(store.getState().stagingArea.size, 1);
+         assert.equal(store.getState().activeLocationId, cardInstance.id());
       });
 
       QUnit.test("setCardResource()", function(assert)
