@@ -6,9 +6,9 @@ define(["common/js/InputValidator"], function(InputValidator)
 
    Action.ADD_AGENT_CARD = "addAgentCard";
    Action.ADD_AGENT_THREAT = "addAgentThreat";
-   Action.ADD_CARD_DAMAGE = "addCardDamage";
    Action.ADD_CARD_PROGRESS = "addCardProgress";
    Action.ADD_CARD_RESOURCE = "addCardResource";
+   Action.ADD_CARD_WOUNDS = "addCardWounds";
    Action.AGENT_DISCARD_ATTACHMENT_CARD = "agentDiscardAttachmentCard";
    Action.AGENT_DISCARD_CARD = "agentDiscardCard";
    Action.AGENT_ENGAGE_CARD = "agentEngageCard";
@@ -72,21 +72,6 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   Action.addCardDamage = function(cardInstance, value)
-   {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      // value optional. default: 1
-
-      var myValue = (value !== undefined ? value : 1);
-
-      return (
-      {
-         type: Action.ADD_CARD_DAMAGE,
-         cardInstance: cardInstance,
-         value: myValue,
-      });
-   };
-
    Action.addCardProgress = function(cardInstance, value)
    {
       InputValidator.validateNotNull("cardInstance", cardInstance);
@@ -115,6 +100,21 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.ADD_CARD_RESOURCE,
          cardInstance: cardInstance,
          sphereKey: sphereKey,
+         value: myValue,
+      });
+   };
+
+   Action.addCardWounds = function(cardInstance, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      // value optional. default: 1
+
+      var myValue = (value !== undefined ? value : 1);
+
+      return (
+      {
+         type: Action.ADD_CARD_WOUNDS,
+         cardInstance: cardInstance,
          value: myValue,
       });
    };

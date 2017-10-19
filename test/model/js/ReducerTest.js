@@ -54,26 +54,6 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          assert.equal(tableau.get(1), cardInstance1.id());
       });
 
-      QUnit.test("addCardDamage()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
-         assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
-
-         // Run.
-         store.dispatch(Action.addCardDamage(cardInstance));
-
-         // Verify.
-         assert.equal(store.getState().cardWounds.get(cardInstance.id()), 1);
-
-         // Run.
-         store.dispatch(Action.addCardDamage(cardInstance, 5));
-
-         // Verify.
-         assert.equal(store.getState().cardWounds.get(cardInstance.id()), 6);
-      });
-
       QUnit.test("addCardProgress()", function(assert)
       {
          // Setup.
@@ -118,6 +98,26 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
 
          // Verify.
          assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 6);
+      });
+
+      QUnit.test("addCardWounds()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
+
+         // Run.
+         store.dispatch(Action.addCardWounds(cardInstance));
+
+         // Verify.
+         assert.equal(store.getState().cardWounds.get(cardInstance.id()), 1);
+
+         // Run.
+         store.dispatch(Action.addCardWounds(cardInstance, 5));
+
+         // Verify.
+         assert.equal(store.getState().cardWounds.get(cardInstance.id()), 6);
       });
 
       QUnit.test("agentDiscardAttachmentCard()", function(assert)

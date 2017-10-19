@@ -90,7 +90,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          if (damage > 0)
          {
             var store = this.store();
-            store.dispatch(Action.addCardDamage(defender, damage));
+            store.dispatch(Action.addCardWounds(defender, damage));
          }
 
          this.finishCombatAttackTask(callback);

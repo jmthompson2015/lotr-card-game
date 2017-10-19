@@ -52,14 +52,6 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          return CardInstance.idsToCardInstances(store, ids);
       };
 
-      CardInstance.prototype.damage = function()
-      {
-         var store = this.store();
-         var answer = store.getState().cardWounds.get(this.id());
-
-         return (answer !== undefined ? answer : 0);
-      };
-
       CardInstance.prototype.isExhausted = function()
       {
          return !this.isReady();
@@ -110,6 +102,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          var costString = (this.card().cost !== undefined ? " [" + this.card().cost + "]" : "");
 
          return "CardInstance " + this.id() + " " + this.card().name + questString + engagementString + costString;
+      };
+
+      CardInstance.prototype.wounds = function()
+      {
+         var store = this.store();
+         var answer = store.getState().cardWounds.get(this.id());
+
+         return (answer !== undefined ? answer : 0);
       };
 
       //////////////////////////////////////////////////////////////////////////

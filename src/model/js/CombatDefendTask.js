@@ -119,7 +119,7 @@ define(["common/js/InputValidator", "model/js/Action"],
             var defense = defender.card().defense;
             var damage = attack - defense;
             LOGGER.debug("CombatDefendTask damage = " + damage);
-            store.dispatch(Action.addCardDamage(defender, damage));
+            store.dispatch(Action.addCardWounds(defender, damage));
 
             this.processQueue(callback);
          }
@@ -142,7 +142,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          var store = this.store();
          var attack = attacker.card().attack;
          LOGGER.debug("CombatDefendTask undefended damage = " + attack);
-         store.dispatch(Action.addCardDamage(hero, attack));
+         store.dispatch(Action.addCardWounds(hero, attack));
 
          this.processQueue(callback);
       };

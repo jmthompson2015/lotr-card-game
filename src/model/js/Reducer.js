@@ -46,14 +46,6 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   cardAttachments: state.cardAttachments.push(cardId, newAttachments),
                });
-            case Action.ADD_CARD_DAMAGE:
-               cardId = action.cardInstance.id();
-               var oldDamage = (state.cardWounds.get(cardId) !== undefined ? state.cardWounds.get(cardId) : 0);
-               return Object.assign(
-               {}, state,
-               {
-                  cardWounds: state.cardWounds.set(cardId, oldDamage + action.value),
-               });
             case Action.ADD_CARD_PROGRESS:
                cardId = action.cardInstance.id();
                var oldProgress = (state.cardProgress.get(cardId) !== undefined ? state.cardProgress.get(cardId) : 0);
@@ -72,6 +64,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   cardResources: state.cardResources.set(cardId, newResources),
+               });
+            case Action.ADD_CARD_WOUNDS:
+               cardId = action.cardInstance.id();
+               var oldDamage = (state.cardWounds.get(cardId) !== undefined ? state.cardWounds.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardWounds: state.cardWounds.set(cardId, oldDamage + action.value),
                });
             case Action.AGENT_DISCARD_ATTACHMENT_CARD:
                LOGGER.info("Discard attachment: " + action.attachmentInstance + " to " + action.cardInstance);

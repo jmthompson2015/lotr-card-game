@@ -34,7 +34,7 @@
 				var environment = game.engine().environment();
 				var cardInstance = environment.stagingArea().get(0);
 				LOGGER.info("cardInstance = " + cardInstance);
-				store.dispatch(Action.addCardDamage(cardInstance));
+				store.dispatch(Action.addCardWounds(cardInstance));
 				store.dispatch(Action.addCardProgress(cardInstance, 2));
 				store.dispatch(Action.addCardResource(cardInstance, Sphere.LEADERSHIP, 3));
 
