@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux",
-  "model/js/Agent", "model/js/CombatDefendTask", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, Agent, CombatDefendTask, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
+  "model/js/Action", "model/js/Agent", "model/js/CombatDefendTask", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, Action, Agent, CombatDefendTask, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("CombatDefendTask");
 
@@ -13,6 +13,8 @@ define(["qunit", "redux",
          var environment = game.engine().environment();
          var store = environment.store();
          var agent1 = environment.agents().get(0);
+         var enemies = environment.stagingEnemies();
+         store.dispatch(Action.agentEngageCard(agent1, enemies.first()));
          var task = new CombatDefendTask(store, agent1);
          var callback = function()
          {

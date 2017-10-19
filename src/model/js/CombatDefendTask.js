@@ -17,6 +17,18 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             return agent;
          };
+
+         var queue = [];
+
+         this.queue = function(queueIn)
+         {
+            if (queueIn !== undefined)
+            {
+               queue = queueIn;
+            }
+
+            return queue;
+         };
       }
 
       CombatDefendTask.prototype.doIt = function(callback)
@@ -25,23 +37,26 @@ define(["common/js/InputValidator", "model/js/Action"],
 
          // 1. Choose an enemy.
          var agent = this.agent();
-         var enemies = agent.engagementArea();
-         LOGGER.debug("CombatDefendTask enemies = " + enemies);
+         this.queue(agent.engagementArea().toJS());
+         this.processQueue(callback);
+      };
 
-         if (enemies.size > 0)
-         {
-            var declareDefenderFunction = this.declareDefender.bind(this);
-            var myCallback = function(attacker)
-            {
-               declareDefenderFunction(attacker, callback);
-            };
+      CombatDefendTask.prototype.processQueue = function(callback)
+      {
+         InputValidator.validateNotNull("callback", callback);
 
-            agent.chooseEnemyAttacker(enemies, myCallback);
-         }
-         else
+         LOGGER.debug("CombatDefendTask.processQueue() this.queue().length = " + this.queue().length);
+
+         if (this.queue().length === 0)
          {
-            callback();
+            this.finishPhase(callback);
+            return;
          }
+
+         var attacker = this.queue().shift();
+         LOGGER.debug("CombatDefendTask.processQueue() attacker = " + attacker);
+
+         this.declareDefender(attacker, callback);
       };
 
       CombatDefendTask.prototype.declareDefender = function(attacker, callback)
@@ -49,8 +64,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          var agent = this.agent();
 
          // 2. Declare defender.
-         var isReady = true;
-         var characters = agent.tableauCharacters(isReady);
+         var characters = agent.defenders();
          LOGGER.debug("CombatDefendTask characters = " + characters);
 
          if (characters.size > 0)
@@ -60,18 +74,25 @@ define(["common/js/InputValidator", "model/js/Action"],
             {
                resolveShadowEffectFunction(attacker, defender, callback);
             };
+
             agent.chooseCharacterDefender(attacker, characters, myCallback);
          }
          else
          {
-            callback();
+            this.resolveShadowEffect(attacker, undefined, callback);
          }
       };
 
       CombatDefendTask.prototype.resolveShadowEffect = function(attacker, defender, callback)
       {
+         LOGGER.debug("CombatDefendTask.resolveShadowEffect() defender = " + defender);
+
          var store = this.store();
-         store.dispatch(Action.setCardReady(defender, false));
+
+         if (defender !== undefined)
+         {
+            store.dispatch(Action.setCardReady(defender, false));
+         }
 
          // 3. Resolve shadow effect, if any.
          var shadowCard = attacker.shadowCard();
@@ -99,7 +120,8 @@ define(["common/js/InputValidator", "model/js/Action"],
             var damage = attack - defense;
             LOGGER.debug("CombatDefendTask damage = " + damage);
             store.dispatch(Action.addCardDamage(defender, damage));
-            callback();
+
+            this.processQueue(callback);
          }
          else
          {
@@ -110,6 +132,7 @@ define(["common/js/InputValidator", "model/js/Action"],
             {
                finishUndefendedDamageFunction(attacker, hero, callback);
             };
+
             agent.chooseUndefendedAttackHero(heroes, myCallback);
          }
       };
@@ -120,6 +143,13 @@ define(["common/js/InputValidator", "model/js/Action"],
          var attack = attacker.card().attack;
          LOGGER.debug("CombatDefendTask undefended damage = " + attack);
          store.dispatch(Action.addCardDamage(hero, attack));
+
+         this.processQueue(callback);
+      };
+
+      CombatDefendTask.prototype.finishPhase = function(callback)
+      {
+         InputValidator.validateNotNull("callback", callback);
 
          callback();
       };
