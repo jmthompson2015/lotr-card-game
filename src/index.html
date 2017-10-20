@@ -16,16 +16,17 @@
     "use strict";
 
     require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger",
-        "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "view/js/EnvironmentUI"
+        "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder",
+        "view/js/EnvironmentUI", "controller/js/HumanAgentStrategy"
       ],
       function(React, ReactDOM, DOM, ReactRedux, Redux, Logger,
-        Agent, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, EnvironmentUI)
+        Agent, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, EnvironmentUI, HumanAgentStrategy)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "../../../src/view/resource/";
+        var resourceBase = "view/resource/";
         var game = createGame();
         var store = game.store();
         var environment = store.getState().environment;
@@ -42,13 +43,15 @@
         ReactDOM.render(DOM.div(
         {}, element), document.getElementById("panel"));
 
+        game.start();
+
         function createGame()
         {
           var store = Redux.createStore(Reducer.root);
           var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
           var playerData = [
           {
-            agent: new Agent(store, "Adam"),
+            agent: new Agent(store, "Adam", undefined, HumanAgentStrategy),
             playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
           },
           {

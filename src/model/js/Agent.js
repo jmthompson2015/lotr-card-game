@@ -242,42 +242,37 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
       Agent.prototype.chooseCardsToPlay = function(possibleCards, callback)
       {
-         this._strategy().chooseCardsToPlay(possibleCards, callback);
+         this._strategy().chooseCardsToPlay(this, possibleCards, callback);
       };
 
       Agent.prototype.chooseCharacterAttackers = function(characters, defender, callback)
       {
-         this._strategy().chooseCharacterAttackers(characters, defender, callback);
+         this._strategy().chooseCharacterAttackers(this, characters, defender, callback);
       };
 
       Agent.prototype.chooseCharacterDefender = function(attacker, characters, callback)
       {
-         return this._strategy().chooseCharacterDefender(attacker, characters, callback);
-      };
-
-      Agent.prototype.chooseEnemyAttacker = function(enemies, callback)
-      {
-         return this._strategy().chooseEnemyAttacker(enemies, callback);
+         return this._strategy().chooseCharacterDefender(this, attacker, characters, callback);
       };
 
       Agent.prototype.chooseEnemyDefender = function(enemies, callback)
       {
-         return this._strategy().chooseEnemyDefender(enemies, callback);
+         return this._strategy().chooseEnemyDefender(this, enemies, callback);
       };
 
       Agent.prototype.chooseQuesters = function(characters, callback)
       {
-         return this._strategy().chooseQuesters(characters, callback);
+         return this._strategy().chooseQuesters(this, characters, callback);
       };
 
       Agent.prototype.chooseOptionalEngagementEnemy = function(enemies, callback)
       {
-         return this._strategy().chooseOptionalEngagementEnemy(enemies, callback);
+         return this._strategy().chooseOptionalEngagementEnemy(this, enemies, callback);
       };
 
       Agent.prototype.chooseUndefendedAttackHero = function(heroes, callback)
       {
-         return this._strategy().chooseUndefendedAttackHero(heroes, callback);
+         return this._strategy().chooseUndefendedAttackHero(this, heroes, callback);
       };
 
       //////////////////////////////////////////////////////////////////////////

@@ -75,7 +75,7 @@ define(["common/js/InputValidator", "model/js/Action"],
                resolveShadowEffectFunction(attacker, defender, callback);
             };
 
-            agent.chooseCharacterDefender(attacker, characters, myCallback);
+            agent.chooseCharacterDefender(attacker, characters.toJS(), myCallback);
          }
          else
          {

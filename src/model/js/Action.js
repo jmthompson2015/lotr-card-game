@@ -43,6 +43,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
    Action.SET_QUEST_DECK = "setQuestDeck";
+   Action.SET_USER_MESSAGE = "setUserMessage";
 
    Action.addAgentCard = function(agent, cardInstance)
    {
@@ -518,6 +519,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.SET_QUEST_DECK,
          deck: deck,
+      });
+   };
+
+   Action.setUserMessage = function(userMessage)
+   {
+      // userMessage optional.
+
+      return (
+      {
+         type: Action.SET_USER_MESSAGE,
+         userMessage: userMessage,
       });
    };
 

@@ -23,36 +23,40 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
                rows.push(DOM.div(
                {
                   key: "labelRow" + rows.length,
-                  className: "b bg-lotr-dark dt-row f5 lotr-light c",
+                  className: "b bg-lotr-dark dt-row f5 lotr-light tc",
                }, label));
             }
 
             var cardInstance = this.props.cardInstance;
-            var width = (this.state.hover ? 275 : 125);
-            var image = React.createElement(CardImageContainer,
-            {
-               myKey: cardInstance.toString(),
-               cardInstance: cardInstance,
-               width: width,
-            });
 
-            rows.push(DOM.div(
+            if (cardInstance)
             {
-               key: "imageRow" + rows.length,
-               className: "dt-row",
-               onMouseOut: this.mouseOut,
-               onMouseOver: this.mouseOver,
-            }, image));
+               var width = (this.state.hover ? 275 : 125);
+               var image = React.createElement(CardImageContainer,
+               {
+                  myKey: cardInstance.toString(),
+                  cardInstance: cardInstance,
+                  width: width,
+               });
 
-            rows.push(DOM.div(
-            {
-               key: "tokenRow" + rows.length,
-               className: "dt-row",
-            }, React.createElement(TokenPanelContainer,
-            {
-               cardInstance: cardInstance,
-               resourceBase: this.props.resourceBase,
-            })));
+               rows.push(DOM.div(
+               {
+                  key: "imageRow" + rows.length,
+                  className: "dt-row",
+                  onMouseOut: this.mouseOut,
+                  onMouseOver: this.mouseOver,
+               }, image));
+
+               rows.push(DOM.div(
+               {
+                  key: "tokenRow" + rows.length,
+                  className: "dt-row",
+               }, React.createElement(TokenPanelContainer,
+               {
+                  cardInstance: cardInstance,
+                  resourceBase: this.props.resourceBase,
+               })));
+            }
 
             return DOM.div(
             {
@@ -78,9 +82,9 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
       });
 
       CardInstanceUI.propTypes = {
-         cardInstance: PropTypes.object.isRequired,
          resourceBase: PropTypes.string.isRequired,
 
+         cardInstance: PropTypes.object, // default: undefined
          label: PropTypes.string, // default: undefined
       };
 

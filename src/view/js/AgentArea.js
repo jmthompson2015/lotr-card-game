@@ -1,27 +1,37 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/CardInstancesArea"],
-   function(createReactClass, PropTypes, React, DOM, CardInstancesArea)
+define(["create-react-class", "prop-types", "react", "react-dom-factories",
+  "controller/js/AgentLabelContainer", "controller/js/EngagementAreaContainer", "controller/js/HandContainer", "controller/js/TableauContainer"],
+   function(createReactClass, PropTypes, React, DOM, AgentLabelContainer, EngagementAreaContainer, HandContainer, TableauContainer)
    {
       var AgentArea = createReactClass(
       {
          render: function()
          {
+            var agent = this.props.agent;
             var agentLabel = this.createAgentLabel();
             var engagementArea = this.createEngagementArea();
             var tableauUI = this.createTableauUI();
             var handUI = this.createHandUI();
+            var inputPanel = DOM.div(
+            {
+               key: "inputPanel" + agent.id(),
+               id: "inputPanel" + agent.id(),
+            });
 
             var areas = DOM.div(
             {
-               key: "agentAreas",
+               key: "areas",
             }, engagementArea, tableauUI, handUI);
 
             var panel = DOM.div(
-            {}, agentLabel, areas);
+            {
+               key: "panel",
+            }, agentLabel, areas, inputPanel);
 
             return DOM.div(
             {
+               key: "agentArea",
                className: "bg-lotr-green overflow-auto",
             }, panel);
          },
@@ -30,114 +40,71 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
       AgentArea.prototype.createAgentLabel = function()
       {
          var agent = this.props.agent;
-         var label = DOM.div(
-         {
-            key: "agentLabel",
-            className: "b dtc f5 tc",
-         }, "Agent: " + agent.name());
-         var threat = DOM.div(
-         {
-            key: "agentThreat",
-            className: "b dtc f5 tc",
-         }, "Threat Level: " + agent.threatLevel());
 
-         var panel = DOM.div(
+         var label = React.createElement(AgentLabelContainer,
          {
-            className: "bg-lotr-dark dt lotr-light w-100",
-         }, label, threat);
+            key: "agentLabelContainer",
+            agent: agent,
+         });
 
          return DOM.div(
-         {}, panel);
+         {
+            key: "agentLabel",
+         }, label);
       };
 
       AgentArea.prototype.createEngagementArea = function()
       {
          var agent = this.props.agent;
-         var engagementArea = agent.engagementArea().toJS();
-         var answer;
 
-         if (engagementArea.length > 0)
+         var cardInstancesArea = React.createElement(EngagementAreaContainer,
          {
-            var cardInstancesArea = React.createElement(CardInstancesArea,
-            {
-               cardInstances: engagementArea,
-               label: "Engagement Area",
-               resourceBase: this.props.resourceBase,
-            });
+            key: "engagementAreaContainer",
+            agent: agent,
+            resourceBase: this.props.resourceBase,
+         });
 
-            answer = DOM.div(
-            {
-               key: "engagement",
-               className: "fl pa1",
-            }, cardInstancesArea);
-         }
-         else
+         return DOM.div(
          {
-            answer = DOM.span(
-            {}, "");
-         }
-
-         return answer;
+            key: "engagementArea",
+            className: "fl pa1",
+         }, cardInstancesArea);
       };
 
       AgentArea.prototype.createHandUI = function()
       {
          var agent = this.props.agent;
-         var hand = agent.hand().toJS();
-         var answer;
 
-         if (hand.length > 0)
+         var cardInstancesArea = React.createElement(HandContainer,
          {
-            var cardInstancesArea = React.createElement(CardInstancesArea,
-            {
-               cardInstances: hand,
-               label: "Hand",
-               resourceBase: this.props.resourceBase,
-            });
+            key: "handContainer",
+            agent: agent,
+            resourceBase: this.props.resourceBase,
+         });
 
-            answer = DOM.div(
-            {
-               key: "hand",
-               className: "fl pa1",
-            }, cardInstancesArea);
-         }
-         else
+         return DOM.div(
          {
-            answer = DOM.span(
-            {}, "");
-         }
-
-         return answer;
+            key: "handUI",
+            className: "fl pa1",
+         }, cardInstancesArea);
       };
 
       AgentArea.prototype.createTableauUI = function()
       {
          var agent = this.props.agent;
-         var tableau = agent.tableau().toJS();
-         var answer;
 
-         if (tableau.length > 0)
+         var cardInstancesArea = React.createElement(TableauContainer,
          {
-            var cardInstancesArea = React.createElement(CardInstancesArea,
-            {
-               cardInstances: tableau,
-               label: "Tableau",
-               resourceBase: this.props.resourceBase,
-            });
+            key: "tableauContainer",
+            agent: agent,
+            resourceBase: this.props.resourceBase,
+         });
 
-            answer = DOM.div(
-            {
-               key: agent.name() + "Tableau",
-               className: "fl pa1",
-            }, cardInstancesArea);
-         }
-         else
+         return DOM.div(
          {
-            answer = DOM.span(
-            {}, "");
-         }
-
-         return answer;
+            key: "tableauUI",
+            className: "fl pa1",
+         }, cardInstancesArea);
       };
 
       AgentArea.propTypes = {

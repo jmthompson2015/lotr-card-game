@@ -15,6 +15,7 @@ define(["immutable", "artifact/js/Phase"],
          this.phaseKey = Phase.SETUP;
          this.phaseQueue = Immutable.List();
          this.round = 0;
+         this.userMessage = "";
 
          // cardInstance IDs.
          this.encounterDeck = Immutable.List();

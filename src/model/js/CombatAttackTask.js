@@ -36,7 +36,7 @@ define(["common/js/InputValidator", "model/js/Action"],
                declareAttackersFunction(defender, callback);
             };
 
-            agent.chooseEnemyDefender(enemies, myCallback);
+            agent.chooseEnemyDefender(enemies.toJS(), myCallback);
          }
          else
          {
@@ -61,7 +61,7 @@ define(["common/js/InputValidator", "model/js/Action"],
                determineAttackStrengthFunction(attackers, defender, callback);
             };
 
-            agent.chooseCharacterAttackers(characters, defender, myCallback);
+            agent.chooseCharacterAttackers(characters.toJS(), defender, myCallback);
          }
          else
          {

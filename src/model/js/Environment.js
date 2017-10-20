@@ -34,6 +34,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
 
+      Environment.prototype.activeAgent = function()
+      {
+         var store = this.store();
+         var activeAgentId = store.getState().activeAgentId;
+
+         return (activeAgentId !== undefined ? Agent.get(store, activeAgentId) : undefined);
+      };
+
       Environment.prototype.activeLocation = function()
       {
          var store = this.store();

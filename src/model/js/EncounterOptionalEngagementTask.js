@@ -35,7 +35,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
             {
                myFinishFunction(callback, enemy);
             };
-            agent.chooseOptionalEngagementEnemy(enemies, finishCallback);
+            agent.chooseOptionalEngagementEnemy(enemies.toJS(), finishCallback);
          }
          else
          {

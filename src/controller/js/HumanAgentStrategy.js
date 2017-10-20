@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/ArrayAugments", "common/js/InputValidator"],
-   function(ArrayAugments, InputValidator)
+define(["react", "react-dom", "common/js/ArrayAugments", "common/js/InputValidator", "view/js/DefenderChooser"],
+   function(React, ReactDOM, ArrayAugments, InputValidator, DefenderChooser)
    {
       var SimpleAgentStrategy = {
 
@@ -40,7 +40,27 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
             InputValidator.validateIsArray("characters", characters);
             InputValidator.validateIsFunction("callback", callback);
 
-            var defender = characters.lotrRandomElement();
+            var finishFunction = this.finishChooseCharacterDefender.bind(this);
+            var chooseCallback = function(selected, isAccepted)
+            {
+               finishFunction(agent, selected, isAccepted, callback);
+            };
+
+            var element = React.createElement(DefenderChooser,
+            {
+               attackerInstance: attacker,
+               cardInstances: characters,
+               onChange: chooseCallback,
+            });
+
+            ReactDOM.render(element, document.getElementById("inputPanel" + agent.id()));
+         },
+
+         finishChooseCharacterDefender: function(agent, selected, isAccepted, callback)
+         {
+            document.getElementById("inputPanel" + agent.id()).innerHTML = "";
+
+            var defender = (isAccepted === true ? selected : undefined);
 
             callback(defender);
          },

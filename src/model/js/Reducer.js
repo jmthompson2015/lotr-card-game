@@ -238,6 +238,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                return Object.assign(
                {}, state,
                {
+                  phaseKey: action.phaseKey, // FIXME: remove when PhaseObserver is implemented.
                   phaseQueue: newPhaseQueue,
                });
             case Action.INCREMENT_NEXT_AGENT_ID:
@@ -390,6 +391,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   questDeck: Immutable.List(cardInstanceIds),
+               });
+            case Action.SET_USER_MESSAGE:
+               return Object.assign(
+               {}, state,
+               {
+                  userMessage: action.userMessage,
                });
             default:
                LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
