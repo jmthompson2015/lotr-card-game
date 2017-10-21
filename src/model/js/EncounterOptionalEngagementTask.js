@@ -30,7 +30,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
 
          if (enemies.size > 0)
          {
-            var myFinishFunction = this.finish;
+            var myFinishFunction = this.finish.bind(this);
             var finishCallback = function(enemy)
             {
                myFinishFunction(callback, enemy);

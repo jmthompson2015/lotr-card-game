@@ -56,6 +56,17 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
             callback(defender);
          },
 
+         chooseLocation: function(agent, locations, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateIsArray("locations", locations);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var location = locations.lotrRandomElement();
+
+            callback(location);
+         },
+
          chooseOptionalEngagementEnemy: function(agent, enemies, callback)
          {
             InputValidator.validateNotNull("agent", agent);
@@ -66,9 +77,10 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
             callback();
          },
 
-         chooseQuesters: function(agent, characters, callback)
+         chooseQuesters: function(agent, questInstance, characters, callback)
          {
             InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("questInstance", questInstance);
             InputValidator.validateIsArray("characters", characters);
             InputValidator.validateIsFunction("callback", callback);
 

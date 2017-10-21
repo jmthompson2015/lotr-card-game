@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard",
+define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard",
   "model/js/Agent", "model/js/CardInstance", "model/js/Reducer", "model/js/SimpleAgentStrategy"],
-   function(QUnit, Redux, AllyCard, EnemyCard, HeroCard, Agent, CardInstance, Reducer, SimpleAgentStrategy)
+   function(QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, Agent, CardInstance, Reducer, SimpleAgentStrategy)
    {
       QUnit.module("SimpleAgentStrategy");
 
@@ -94,6 +94,27 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
 
          // Run.
          strategy.chooseEnemyDefender(agent, enemies, callback);
+      });
+
+      QUnit.test("chooseLocation()", function(assert)
+      {
+         // Setup.
+         var strategy = SimpleAgentStrategy;
+         var store = Redux.createStore(Reducer.root);
+         var agent = new Agent(store, "agent");
+         var locations = [];
+         locations.push(new CardInstance(store, LocationCard.properties[LocationCard.ENCHANTED_STREAM]));
+         locations.push(new CardInstance(store, LocationCard.properties[LocationCard.FOREST_GATE]));
+         locations.push(new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]));
+         var callback = function(location)
+         {
+            // Verify.
+            assert.ok(location);
+            assert.equal(locations.includes(location), true);
+         };
+
+         // Run.
+         strategy.chooseLocation(agent, locations, callback);
       });
 
       QUnit.test("chooseOptionalEngagementEnemy()", function(assert)

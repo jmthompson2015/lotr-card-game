@@ -3,7 +3,7 @@
 define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/Button", "view/js/InputPanel", "view/js/OptionPane"],
    function(createReactClass, PropTypes, React, DOM, Button, InputPanel, OptionPane)
    {
-      var QuestersChooser = createReactClass(
+      var PlayCardChooser = createReactClass(
       {
          getInitialState: function()
          {
@@ -15,27 +15,24 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
          render: function()
          {
-            var questInstance = this.props.questInstance;
             var cardInstances = this.props.cardInstances;
 
             var labelFunction = function(value)
             {
-               return value.card().name + " (willpower " + value.card().willpower + ")";
+               return value.card().name + " (" + value.card().sphereKey + " " + value.card().cost + ")";
             };
 
             var initialInput = React.createElement(InputPanel,
             {
                type: InputPanel.Type.CHECKBOX,
                values: cardInstances,
-               name: "selectQuesters",
+               name: "selectCards",
                labelFunction: labelFunction,
                onChange: this.handleChange,
                panelClass: "f6 tl",
             });
 
-            var title = "Select Questers";
-            var remainingPoints = questInstance.card().questPoints - questInstance.progress();
-            var message = "Quest: " + questInstance.card().name + " (points " + remainingPoints + ")";
+            var title = "Select Cards to Play";
             var cancelButton = React.createElement(Button,
             {
                key: "cancelButton",
@@ -56,7 +53,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
                panelClass: "bg-lotr-light",
                title: title,
                titleClass: "bg-lotr-dark",
-               message: message,
+               message: "",
                messageClass: "ma2 pa2",
                initialInput: initialInput,
                buttons: buttons,
@@ -68,14 +65,14 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var selected;
             var isAccepted = false;
-            LOGGER.debug("QuestersChooser.cancel() selected = " + selected + " isAccepted ? " + isAccepted);
+            LOGGER.debug("PlayCardChooser.cancel() selected = " + selected + " isAccepted ? " + isAccepted);
 
             this.props.onChange(selected, isAccepted);
          },
 
          handleChange: function(event, selected)
          {
-            LOGGER.debug("QuestersChooser.handleChange() selected = " + selected);
+            LOGGER.debug("PlayCardChooser.handleChange() selected = " + selected);
 
             this.setState(
             {
@@ -87,16 +84,15 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var selected = this.state.selected;
             var isAccepted = (selected !== undefined);
-            LOGGER.debug("QuestersChooser.ok() selected = " + selected + " isAccepted ? " + isAccepted);
+            LOGGER.debug("PlayCardChooser.ok() selected = " + selected + " isAccepted ? " + isAccepted);
 
             this.props.onChange(selected, isAccepted);
          },
       });
 
-      QuestersChooser.propTypes = {
-         questInstance: PropTypes.object.isRequired,
+      PlayCardChooser.propTypes = {
          cardInstances: PropTypes.array.isRequired,
       };
 
-      return QuestersChooser;
+      return PlayCardChooser;
    });

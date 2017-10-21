@@ -260,9 +260,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          return this._strategy().chooseEnemyDefender(this, enemies, callback);
       };
 
-      Agent.prototype.chooseQuesters = function(characters, callback)
+      Agent.prototype.chooseLocation = function(locations, callback)
       {
-         return this._strategy().chooseQuesters(this, characters, callback);
+         return this._strategy().chooseLocation(this, locations, callback);
+      };
+
+      Agent.prototype.chooseQuesters = function(questInstance, characters, callback)
+      {
+         return this._strategy().chooseQuesters(this, questInstance, characters, callback);
       };
 
       Agent.prototype.chooseOptionalEngagementEnemy = function(enemies, callback)

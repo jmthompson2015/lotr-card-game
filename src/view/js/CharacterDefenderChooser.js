@@ -3,7 +3,7 @@
 define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/Button", "view/js/InputPanel", "view/js/OptionPane"],
    function(createReactClass, PropTypes, React, DOM, Button, InputPanel, OptionPane)
    {
-      var DefenderChooser = createReactClass(
+      var CharacterDefenderChooser = createReactClass(
       {
          render: function()
          {
@@ -62,10 +62,10 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          },
       });
 
-      DefenderChooser.propTypes = {
+      CharacterDefenderChooser.propTypes = {
          attackerInstance: PropTypes.object.isRequired,
          cardInstances: PropTypes.array.isRequired,
       };
 
-      return DefenderChooser;
+      return CharacterDefenderChooser;
    });

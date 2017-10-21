@@ -69,6 +69,9 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
             var encounterDeck = environment.encounterDeck().toJS();
             encounterDeck.lotrShuffle();
             store.dispatch(Action.setEncounterDeck(encounterDeck));
+
+            // Advance the quest.
+            store.dispatch(Action.discardActiveQuest());
          }
 
          var engine = new Engine(store, environment, delay, engineCallback);

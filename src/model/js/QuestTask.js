@@ -55,6 +55,8 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
+         var environment = store.getState().environment;
+         var questInstance = environment.questDeck().first();
          var characters = agent.questers().toJS();
          var queueCallback = this.setQuesters.bind(this);
          var taskCallback = function(questers)
@@ -62,7 +64,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
             queueCallback(questers, callback);
          };
 
-         agent.chooseQuesters(characters, taskCallback);
+         agent.chooseQuesters(questInstance, characters, taskCallback);
       };
 
       QuestTask.prototype.setQuesters = function(questers, callback)

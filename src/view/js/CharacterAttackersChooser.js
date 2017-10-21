@@ -3,7 +3,7 @@
 define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/Button", "view/js/InputPanel", "view/js/OptionPane"],
    function(createReactClass, PropTypes, React, DOM, Button, InputPanel, OptionPane)
    {
-      var QuestersChooser = createReactClass(
+      var CharacterAttackersChooser = createReactClass(
       {
          getInitialState: function()
          {
@@ -15,27 +15,27 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
          render: function()
          {
-            var questInstance = this.props.questInstance;
+            var defenderInstance = this.props.defenderInstance;
             var cardInstances = this.props.cardInstances;
 
             var labelFunction = function(value)
             {
-               return value.card().name + " (willpower " + value.card().willpower + ")";
+               return value.card().name + " (attack " + value.card().attack + ")";
             };
 
             var initialInput = React.createElement(InputPanel,
             {
                type: InputPanel.Type.CHECKBOX,
                values: cardInstances,
-               name: "selectQuesters",
+               name: "selectAttackers",
                labelFunction: labelFunction,
                onChange: this.handleChange,
                panelClass: "f6 tl",
             });
 
-            var title = "Select Questers";
-            var remainingPoints = questInstance.card().questPoints - questInstance.progress();
-            var message = "Quest: " + questInstance.card().name + " (points " + remainingPoints + ")";
+            var title = "Select Attackers";
+            var remainingPoints = defenderInstance.card().hitPoints - defenderInstance.wounds();
+            var message = "Defender: " + defenderInstance.card().name + " (hit points " + remainingPoints + ")";
             var cancelButton = React.createElement(Button,
             {
                key: "cancelButton",
@@ -68,14 +68,14 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var selected;
             var isAccepted = false;
-            LOGGER.debug("QuestersChooser.cancel() selected = " + selected + " isAccepted ? " + isAccepted);
+            LOGGER.debug("CharacterAttackersChooser.cancel() selected = " + selected + " isAccepted ? " + isAccepted);
 
             this.props.onChange(selected, isAccepted);
          },
 
          handleChange: function(event, selected)
          {
-            LOGGER.debug("QuestersChooser.handleChange() selected = " + selected);
+            LOGGER.debug("CharacterAttackersChooser.handleChange() selected = " + selected);
 
             this.setState(
             {
@@ -87,16 +87,16 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var selected = this.state.selected;
             var isAccepted = (selected !== undefined);
-            LOGGER.debug("QuestersChooser.ok() selected = " + selected + " isAccepted ? " + isAccepted);
+            LOGGER.debug("CharacterAttackersChooser.ok() selected = " + selected + " isAccepted ? " + isAccepted);
 
             this.props.onChange(selected, isAccepted);
          },
       });
 
-      QuestersChooser.propTypes = {
-         questInstance: PropTypes.object.isRequired,
+      CharacterAttackersChooser.propTypes = {
+         defenderInstance: PropTypes.object.isRequired,
          cardInstances: PropTypes.array.isRequired,
       };
 
-      return QuestersChooser;
+      return CharacterAttackersChooser;
    });

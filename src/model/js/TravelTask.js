@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
-   function(InputValidator, CardType, Action)
+define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "controller/js/HumanAgentStrategy"],
+   function(InputValidator, CardType, Action, HumanAgentStrategy)
    {
       function TravelTask(store)
       {
@@ -25,14 +25,45 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
             var environment = store.getState().environment;
             var locations = environment.stagingArea(CardType.LOCATION).toJS();
 
-            // FIXME: ask a HumanAgent, if any, or the first agent.
-            var cardInstance = locations.lotrRandomElement();
+            // Ask the first HumanAgent, if any, or the first agent.
+            var agents = environment.agentQueue();
+            var agent;
 
-            if (cardInstance)
+            for (var i = 0; i < agents.length; i++)
             {
-               store.dispatch(Action.setActiveLocation(cardInstance));
+               var myAgent = agents[i];
+
+               // FIXME: don't rely on controller.
+               if (myAgent._strategy() === HumanAgentStrategy)
+               {
+                  agent = myAgent;
+                  break;
+               }
             }
+
+            if (agent === undefined && agents.length > 0)
+            {
+               agent = agents[0];
+            }
+
+            var queueCallback = this.finish.bind(this);
+            var locationCallback = function(location)
+            {
+               queueCallback(location, callback);
+            };
+
+            agent.chooseLocation(locations, locationCallback);
          }
+         else
+         {
+            callback();
+         }
+      };
+
+      TravelTask.prototype.finish = function(location, callback)
+      {
+         var store = this.store();
+         store.dispatch(Action.setActiveLocation(location));
 
          callback();
       };
