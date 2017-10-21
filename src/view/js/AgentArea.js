@@ -45,6 +45,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
          {
             key: "agentLabelContainer",
             agent: agent,
+            resourceBase: this.props.resourceBase,
          });
 
          return DOM.div(
