@@ -19,9 +19,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          HUMMERHORNS: "hummerhorns",
          HUNTERS_FROM_MORDOR: "huntersFromMordor",
          KING_SPIDER: "kingSpider",
+         LOUIS: "louis",
          MARSH_ADDER: "marshAdder",
          MISTY_MOUNTAIN_GOBLINS: "mistyMountainGoblins",
+         MORRIS: "morris",
+         MUCK_ADDER: "muckAdder",
          NAZGUL_OF_DOL_GULDUR: "nazgulOfDolGuldur",
+         RUPERT: "rupert",
+         STUART: "stuart",
          UNGOLIANTS_SPAWN: "ungoliantsSpawn",
          WARGS: "wargs",
          WOLF_RIDER: "wolfRider",
@@ -304,6 +309,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "kingSpider",
             },
+            "louis":
+            {
+               name: "Louis",
+               engagementCost: 34,
+               threat: 2,
+               attack: 4,
+               defense: 2,
+               hitPoints: 10,
+               traitKeys: [Trait.TROLL],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeKeys: GameMode.createMap(1),
+               key: "louis",
+            },
             "marshAdder":
             {
                name: "Marsh Adder",
@@ -339,6 +357,32 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "mistyMountainGoblins",
             },
+            "morris":
+            {
+               name: "Morris",
+               engagementCost: 34,
+               threat: 2,
+               attack: 4,
+               defense: 2,
+               hitPoints: 10,
+               traitKeys: [Trait.TROLL],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeKeys: GameMode.createMap(1),
+               key: "morris",
+            },
+            "muckAdder":
+            {
+               name: "Muck Adder",
+               engagementCost: 20,
+               threat: 1,
+               attack: 2,
+               defense: 0,
+               hitPoints: 4,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeKeys: GameMode.createMap(2, 2),
+               key: "muckAdder",
+            },
             "nazgulOfDolGuldur":
             {
                name: "Nazgûl of Dol Guldur",
@@ -351,6 +395,32 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                gameModeMap: GameMode.createMap(1),
                key: "nazgulOfDolGuldur",
+            },
+            "rupert":
+            {
+               name: "Rupert",
+               engagementCost: 34,
+               threat: 2,
+               attack: 4,
+               defense: 2,
+               hitPoints: 10,
+               traitKeys: [Trait.TROLL],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeKeys: GameMode.createMap(1),
+               key: "rupert",
+            },
+            "stuart":
+            {
+               name: "Stuart",
+               engagementCost: 34,
+               threat: 2,
+               attack: 4,
+               defense: 2,
+               hitPoints: 10,
+               traitKeys: [Trait.TROLL],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeKeys: GameMode.createMap(1),
+               key: "stuart",
             },
             "ungoliantsSpawn":
             {

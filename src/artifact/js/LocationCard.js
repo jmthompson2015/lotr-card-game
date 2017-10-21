@@ -5,6 +5,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    {
       var LocationCard = {
          BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
+         BEE_PASTURES: "beePastures",
          ENCHANTED_STREAM: "enchantedStream",
          ENDLESS_CAVERNS: "endlessCaverns",
          FOREST_GATE: "forestGate",
@@ -12,9 +13,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          GREAT_FOREST_WEB: "greatForestWeb",
          MOUNTAINS_OF_MIRKWOOD: "mountainsOfMirkwood",
          NECROMANCERS_PASS: "necromancersPass",
+         OAK_WOOD_GROVE: "oakWoodGrove",
          OLD_FOREST_ROAD: "oldForestRoad",
+         RIVER_LANGFLOOD: "riverLangflood",
          RIVER_NINGLOR: "riverNinglor",
          THE_BROWN_LANDS: "theBrownLands",
+         THE_CARROCK: "theCarrock",
          THE_EAST_BANK: "theEastBank",
          THE_EAST_BIGHT: "theEastBight",
          THE_EAVES_OF_MIRKWOOD: "theEavesOfMirkwood",
@@ -38,6 +42,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "If Banks of the Anduin leaves play, return it to the top of the encounter deck instead of placing it in the discard pile.",
                   }],
                key: "banksOfTheAnduin",
+            },
+            "beePastures":
+            {
+               name: "Bee Pastures",
+               threat: 1,
+               questPoints: 2,
+               traitKeys: [Trait.WILDERLANDS],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(3),
+               key: "beePastures",
             },
             "enchantedStream":
             {
@@ -142,6 +156,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "necromancersPass",
             },
+            "oakWoodGrove":
+            {
+               name: "Oak-wood Grove",
+               threat: 2,
+               questPoints: 1,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(3),
+               key: "oakWoodGrove",
+            },
             "oldForestRoad":
             {
                name: "Old Forest Road",
@@ -156,6 +180,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "After you travel to Old Forest Road, the first player may choose and ready 1 character he controls.",
                   }],
                key: "oldForestRoad",
+            },
+            "riverLangflood":
+            {
+               name: "River Langflood",
+               threat: 2,
+               questPoints: 3,
+               traitKeys: [Trait.RIVERLAND],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "riverLangflood",
             },
             "riverNinglor":
             {
@@ -184,6 +218,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.WILDERLANDS,
                gameModeMap: GameMode.createMap(2),
                key: "theBrownLands",
+            },
+            "theCarrock":
+            {
+               name: "The Carrock",
+               threat: 2,
+               questPoints: 6,
+               traitKeys: [Trait.RIVERLAND],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(1),
+               key: "theCarrock",
             },
             "theEastBank":
             {

@@ -3,6 +3,7 @@
 define(["artifact/js/EncounterSet"], function(EncounterSet)
 {
    var Scenario = {
+      CONFLICT_AT_THE_CARROCK: "conflictAtTheCarrock",
       PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
       JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
       ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
@@ -10,6 +11,12 @@ define(["artifact/js/EncounterSet"], function(EncounterSet)
 
       properties:
       {
+         "conflictAtTheCarrock":
+         {
+            name: "Conflict at the Carrock",
+            encounterSetKeys: [EncounterSet.CONFLICT_AT_THE_CARROCK, EncounterSet.JOURNEY_ALONG_THE_ANDUIN, EncounterSet.WILDERLANDS],
+            key: "conflictAtTheCarrock",
+         },
          "passageThroughMirkwood":
          {
             name: "Passage Through Mirkwood",

@@ -33,6 +33,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          THFG3A_ON_THE_TRAIL: "thfg3aOnTheTrail",
          THFG3B_ON_THE_TRAIL: "thfg3bOnTheTrail",
 
+         CATC1A_GRIMBEORNS_QUEST: "catc1aGrimbeornsQuest",
+         CATC1B_GRIMBEORNS_QUEST: "catc1bGrimbeornsQuest",
+         CATC2A_AGAINST_THE_TROLLS: "catc2aAgainstTheTrolls",
+         CATC2B_AGAINST_THE_TROLLS: "catc2bAgainstTheTrolls",
+
          properties:
          {
             "ptm1aFliesAndSpiders":
@@ -302,6 +307,44 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Any player who does not control a hero with at least 1 Clue objective attached cannot commit characters to this quest. If there are ever no heroes with Clue objectives attached in play, reset the quest deck to stage 2B. If the players defeat this stage, the players have once again found a true sign of Gollum's passing, and won the game.",
                   }],
                key: "thfg3bOnTheTrail",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "catc1aGrimbeornsQuest":
+            {
+               name: "Grimbeorn's Quest",
+               scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
+               sequence: "1A",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               key: "catc1aGrimbeornsQuest",
+            },
+
+            "catc1bGrimbeornsQuest":
+            {
+               name: "Grimbeorn's Quest",
+               scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
+               sequence: "1B",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               key: "catc1bGrimbeornsQuest",
+            },
+
+            "catc2aAgainstTheTrolls":
+            {
+               name: "Against the Trolls",
+               scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
+               sequence: "2A",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               key: "catc2aAgainstTheTrolls",
+            },
+
+            "catc2bAgainstTheTrolls":
+            {
+               name: "Against the Trolls",
+               scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
+               sequence: "2B",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               key: "catc2bAgainstTheTrolls",
             },
          },
 

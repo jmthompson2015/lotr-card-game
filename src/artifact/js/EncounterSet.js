@@ -4,6 +4,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
    function(CardSet, CardSubset)
    {
       var EncounterSet = {
+         CONFLICT_AT_THE_CARROCK: "conflictAtTheCarrock",
          DOL_GULDUR_ORCS: "dolGuldurOrcs",
          ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
          JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
@@ -15,6 +16,13 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
 
          properties:
          {
+            "conflictAtTheCarrock":
+            {
+               name: "Conflict at the Carrock",
+               cardSetKey: CardSet.CORE,
+               cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
+               key: "conflictAtTheCarrock",
+            },
             "dolGuldurOrcs":
             {
                name: "Dol Guldur Orcs",

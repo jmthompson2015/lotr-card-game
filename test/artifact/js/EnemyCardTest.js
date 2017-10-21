@@ -61,7 +61,7 @@ define(["qunit", "artifact/js/EnemyCard"], function(QUnit, EnemyCard)
 
       // Verify.
       assert.ok(result);
-      var length = 21;
+      var length = 26;
       assert.equal(result.length, length);
       assert.equal(result[0], EnemyCard.BLACK_FOREST_BATS);
       assert.equal(result[length - 1], EnemyCard.WOLF_RIDER);

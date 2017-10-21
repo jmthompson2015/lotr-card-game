@@ -49,8 +49,9 @@ define(["qunit", "artifact/js/Scenario"], function(QUnit, Scenario)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 4);
+      assert.equal(result.length, 5);
       var i = 0;
+      assert.equal(result[i++], Scenario.CONFLICT_AT_THE_CARROCK);
       assert.equal(result[i++], Scenario.PASSAGE_THROUGH_MIRKWOOD);
       assert.equal(result[i++], Scenario.JOURNEY_ALONG_THE_ANDUIN);
       assert.equal(result[i++], Scenario.ESCAPE_FROM_DOL_GULDUR);

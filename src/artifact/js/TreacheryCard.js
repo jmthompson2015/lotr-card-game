@@ -4,6 +4,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var TreacheryCard = {
+         A_FRIGHTENED_BEAST: "aFrightenedBeast",
          CAUGHT_IN_A_WEB: "caughtInAWeb",
          DESPAIR: "despair",
          DRIVEN_BY_SHADOW: "drivenByShadow",
@@ -15,12 +16,21 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          MASSING_AT_NIGHT: "massingAtNight",
          OLD_WIVES_TALES: "oldWivesTales",
          PURSUED_BY_SHADOW: "pursuedByShadow",
+         ROASTED_SLOWLY: "roastedSlowly",
+         SACKED: "sacked",
          THE_NECROMANCERS_REACH: "theNecromancersReach",
          TREACHEROUS_FOG: "treacherousFog",
          UNDER_THE_SHADOW: "underTheShadow",
 
          properties:
          {
+            "aFrightenedBeast":
+            {
+               name: "A Frightened Beast",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(1, 2),
+               key: "aFrightenedBeast",
+            },
             "caughtInAWeb":
             {
                name: "Caught in a Web",
@@ -160,6 +170,20 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Defending player chooses and returns 1 exhausted ally he controls to its owner's hand. If he controls no exhausted allies, raise his threat by 3.",
                   }],
                key: "pursuedByShadow",
+            },
+            "roastedSlowly":
+            {
+               name: "Roasted Slowly",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(0, 2),
+               key: "roastedSlowly",
+            },
+            "sacked":
+            {
+               name: "Sacked!",
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(4, 1),
+               key: "sacked",
             },
             "theNecromancersReach":
             {

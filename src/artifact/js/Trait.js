@@ -3,6 +3,7 @@
 define(function()
 {
    var Trait = {
+      ALLY: "ally",
       ARCHER: "archer",
       ARMOR: "armor",
       ARTIFACT: "artifact",
@@ -69,11 +70,17 @@ define(function()
       UNDEAD: "undead",
       WARRIOR: "warrior",
       WASTELAND: "wasteland",
+      WILDERLANDS: "wilderlands",
       WEAPON: "weapon",
       WOODMAN: "woodman",
 
       properties:
       {
+         "ally":
+         {
+            name: "Ally",
+            key: "ally",
+         },
          "archer":
          {
             name: "Archer",
@@ -403,6 +410,11 @@ define(function()
          {
             name: "Wasteland",
             key: "wasteland",
+         },
+         "wilderlands":
+         {
+            name: "Wilderlands",
+            key: "wilderlands",
          },
          "weapon":
          {

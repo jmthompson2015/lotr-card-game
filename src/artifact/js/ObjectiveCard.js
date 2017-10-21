@@ -6,6 +6,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
       var ObjectiveCard = {
          DUNGEON_TORCH: "dungeonTorch",
          GANDALFS_MAP: "gandalfsMap",
+         GRIMBEORN_THE_OLD: "grimbeornTheOld",
          SHADOW_KEY: "shadowKey",
          SIGNS_OF_GOLLUM: "signsOfGollum",
 
@@ -26,6 +27,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                gameModeMap: GameMode.createMap(1),
                key: "gandalfsMap",
+            },
+            "grimbeornTheOld":
+            {
+               name: "Grimbeorn the Old",
+               isUnique: true,
+               willpower: 2,
+               attack: 4,
+               defense: 3,
+               hitPoints: 10,
+               traitKeys: [Trait.ALLY],
+               encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               gameModeMap: GameMode.createMap(1),
+               key: "grimbeornTheOld",
             },
             "shadowKey":
             {
