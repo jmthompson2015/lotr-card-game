@@ -28,7 +28,11 @@ define(["common/js/InputValidator", "model/js/Action"],
          var enemies = agent.engagementArea();
          LOGGER.debug("CombatAttackTask enemies = " + enemies);
 
-         if (enemies.size > 0)
+         if (enemies.size === 1)
+         {
+            this.declareAttackers(enemies.first(), callback);
+         }
+         else if (enemies.size > 1)
          {
             var declareAttackersFunction = this.declareAttackers.bind(this);
             var myCallback = function(defender)

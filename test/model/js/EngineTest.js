@@ -14,7 +14,7 @@ define(["qunit", "redux", "artifact/js/GameMode",
             // Verify.
             assert.ok(true, "test resumed from async operation");
             var store = engine.store();
-            assert.equal(store.getState().round, 2);
+            assert.equal(store.getState().round, 3);
             done();
          };
 

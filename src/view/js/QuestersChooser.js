@@ -17,6 +17,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var questInstance = this.props.questInstance;
             var cardInstances = this.props.cardInstances;
+            cardInstances.sort(CardComparator);
 
             var labelFunction = function(value)
             {
@@ -92,6 +93,42 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             this.props.onChange(selected, isAccepted);
          },
       });
+
+      var CardComparator = function(a, b)
+      {
+         var answer = -1;
+         var willpowerA = a.card().willpower;
+         var willpowerB = b.card().willpower;
+
+         if (willpowerA === willpowerB)
+         {
+            answer = 0;
+         }
+         else if (willpowerA < willpowerB)
+         {
+            answer = 1;
+         }
+
+         if (answer === 0)
+         {
+            var nameA = a.card().name;
+            var nameB = b.card().name;
+            if (nameA === nameB)
+            {
+               answer = 0;
+            }
+            else if (nameA > nameB)
+            {
+               answer = 1;
+            }
+            else
+            {
+               answer = -1;
+            }
+         }
+
+         return answer;
+      };
 
       QuestersChooser.propTypes = {
          questInstance: PropTypes.object.isRequired,

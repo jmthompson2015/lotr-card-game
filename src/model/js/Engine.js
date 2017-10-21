@@ -277,7 +277,7 @@ define(["common/js/InputValidator", "artifact/js/Phase",
       {
          var store = this.store();
 
-         return store.getState().round === 2;
+         return store.getState().round === 3;
       };
 
       Engine.prototype.processGameOver = function()

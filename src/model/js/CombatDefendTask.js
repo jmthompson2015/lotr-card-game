@@ -126,7 +126,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          else
          {
             // Undefended.
-            var heroes = agent.tableauHeroes();
+            var heroes = agent.tableauHeroes().toJS();
             var finishUndefendedDamageFunction = this.finishUndefendedDamage.bind(this);
             var myCallback = function(hero)
             {

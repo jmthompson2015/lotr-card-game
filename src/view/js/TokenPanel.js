@@ -34,7 +34,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
       TokenPanel.prototype.maybeAddToken = function(cells, count, src, title)
       {
-         if (count !== undefined && count > 0)
+         if (count !== undefined && count !== 0)
          {
             var cell = React.createElement(LabeledImage,
             {

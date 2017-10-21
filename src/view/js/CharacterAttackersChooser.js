@@ -17,6 +17,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var defenderInstance = this.props.defenderInstance;
             var cardInstances = this.props.cardInstances;
+            cardInstances.sort(CardComparator);
 
             var labelFunction = function(value)
             {
@@ -92,6 +93,42 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             this.props.onChange(selected, isAccepted);
          },
       });
+
+      var CardComparator = function(a, b)
+      {
+         var answer = -1;
+         var attackA = a.card().attack;
+         var attackB = b.card().attack;
+
+         if (attackA === attackB)
+         {
+            answer = 0;
+         }
+         else if (attackA < attackB)
+         {
+            answer = 1;
+         }
+
+         if (answer === 0)
+         {
+            var nameA = a.card().name;
+            var nameB = b.card().name;
+            if (nameA === nameB)
+            {
+               answer = 0;
+            }
+            else if (nameA > nameB)
+            {
+               answer = 1;
+            }
+            else
+            {
+               answer = -1;
+            }
+         }
+
+         return answer;
+      };
 
       CharacterAttackersChooser.propTypes = {
          defenderInstance: PropTypes.object.isRequired,
