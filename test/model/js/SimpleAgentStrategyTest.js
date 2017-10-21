@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard",
+define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/QuestCard",
   "model/js/Agent", "model/js/CardInstance", "model/js/Reducer", "model/js/SimpleAgentStrategy"],
-   function(QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, Agent, CardInstance, Reducer, SimpleAgentStrategy)
+   function(QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, QuestCard, Agent, CardInstance, Reducer, SimpleAgentStrategy)
    {
       QUnit.module("SimpleAgentStrategy");
 
@@ -143,6 +143,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          var strategy = SimpleAgentStrategy;
          var store = Redux.createStore(Reducer.root);
          var agent = new Agent(store, "agent");
+         var questInstance = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
          var characters = [];
          characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
          characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
@@ -157,7 +158,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          };
 
          // Run.
-         strategy.chooseQuesters(agent, characters, callback);
+         strategy.chooseQuesters(agent, questInstance, characters, callback);
       });
 
       QUnit.test("chooseUndefendedAttackHero()", function(assert)
