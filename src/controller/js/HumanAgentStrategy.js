@@ -6,7 +6,7 @@ define(["react", "react-dom", "common/js/InputValidator",
    {
       var HumanAgentStrategy = {
 
-         chooseCardsToPlay: function(agent, possibleCards, callback)
+         chooseCardToPlay: function(agent, possibleCards, callback)
          {
             InputValidator.validateNotNull("agent", agent);
             InputValidator.validateIsArray("possibleCards", possibleCards);
@@ -31,9 +31,9 @@ define(["react", "react-dom", "common/js/InputValidator",
          {
             document.getElementById("inputPanel" + agent.id()).innerHTML = "";
 
-            var cardsToPlay = (isAccepted === true ? selected : undefined);
+            var cardToPlay = (isAccepted === true ? selected : undefined);
 
-            callback(cardsToPlay);
+            callback(cardToPlay);
          },
 
          //////////////////////////////////////////////////////////////////////////

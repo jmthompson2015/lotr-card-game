@@ -5,20 +5,15 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
    {
       var SimpleAgentStrategy = {
 
-         chooseCardsToPlay: function(agent, possibleCards, callback)
+         chooseCardToPlay: function(agent, possibleCards, callback)
          {
             InputValidator.validateNotNull("agent", agent);
             InputValidator.validateIsArray("possibleCards", possibleCards);
             InputValidator.validateIsFunction("callback", callback);
 
-            var cardsToPlay = [];
+            var cardToPlay = possibleCards.lotrRandomElement();
 
-            if (possibleCards.length > 0)
-            {
-               cardsToPlay = [possibleCards.lotrRandomElement()];
-            }
-
-            callback(cardsToPlay);
+            callback(cardToPlay);
          },
 
          chooseCharacterAttackers: function(agent, characters, defender, callback)

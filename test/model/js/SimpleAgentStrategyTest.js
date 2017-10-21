@@ -6,7 +6,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
    {
       QUnit.module("SimpleAgentStrategy");
 
-      QUnit.test("chooseCardsToPlay()", function(assert)
+      QUnit.test("chooseCardToPlay()", function(assert)
       {
          // Setup.
          var strategy = SimpleAgentStrategy;
@@ -16,17 +16,15 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          possibleCards.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
          possibleCards.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
          possibleCards.push(new CardInstance(store, AllyCard.properties[AllyCard.DENETHOR]));
-         var callback = function(cardsToPlay)
+         var callback = function(cardToPlay)
          {
             // Verify.
-            assert.ok(cardsToPlay);
-            assert.equal(Array.isArray(cardsToPlay), true);
-            assert.equal(cardsToPlay.length, 1);
-            assert.equal(possibleCards.includes(cardsToPlay[0]), true);
+            assert.ok(cardToPlay);
+            assert.equal(possibleCards.includes(cardToPlay), true);
          };
 
          // Run.
-         strategy.chooseCardsToPlay(agent, possibleCards, callback);
+         strategy.chooseCardToPlay(agent, possibleCards, callback);
       });
 
       QUnit.test("chooseCharacterAttackers()", function(assert)

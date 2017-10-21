@@ -240,9 +240,9 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
       //////////////////////////////////////////////////////////////////////////
       // Behavior methods.
 
-      Agent.prototype.chooseCardsToPlay = function(possibleCards, callback)
+      Agent.prototype.chooseCardToPlay = function(possibleCards, callback)
       {
-         this._strategy().chooseCardsToPlay(this, possibleCards, callback);
+         this._strategy().chooseCardToPlay(this, possibleCards, callback);
       };
 
       Agent.prototype.chooseCharacterAttackers = function(characters, defender, callback)

@@ -5,14 +5,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
    {
       var PlayCardChooser = createReactClass(
       {
-         getInitialState: function()
-         {
-            return (
-            {
-               selected: [],
-            });
-         },
-
          render: function()
          {
             var cardInstances = this.props.cardInstances;
@@ -26,29 +18,23 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
             var initialInput = React.createElement(InputPanel,
             {
-               type: InputPanel.Type.CHECKBOX,
+               type: InputPanel.Type.RADIO,
                values: cardInstances,
                name: "selectCards",
                labelFunction: labelFunction,
-               onChange: this.handleChange,
+               onChange: this.myOnChange,
                panelClass: "f6 tl",
             });
 
-            var title = "Select Cards to Play";
-            var cancelButton = React.createElement(Button,
+            var title = "Select Card to Play";
+            var passButton = React.createElement(Button,
             {
-               key: "cancelButton",
-               name: "Cancel",
-               onClick: this.cancel,
-            });
-            var okButton = React.createElement(Button,
-            {
-               key: "okButton",
-               name: "OK",
-               onClick: this.ok,
+               key: 0,
+               name: "Pass",
+               onClick: this.pass,
             });
             var buttons = DOM.span(
-            {}, [cancelButton, okButton]);
+            {}, [passButton]);
 
             return React.createElement(OptionPane,
             {
@@ -63,32 +49,16 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             });
          },
 
-         cancel: function()
+         myOnChange: function(event, selected)
          {
-            var selected;
-            var isAccepted = false;
-            LOGGER.debug("PlayCardChooser.cancel() selected = " + selected + " isAccepted ? " + isAccepted);
-
-            this.props.onChange(selected, isAccepted);
-         },
-
-         handleChange: function(event, selected)
-         {
-            LOGGER.debug("PlayCardChooser.handleChange() selected = " + selected);
-
-            this.setState(
-            {
-               selected: selected,
-            });
-         },
-
-         ok: function()
-         {
-            var selected = this.state.selected;
             var isAccepted = (selected !== undefined);
-            LOGGER.debug("PlayCardChooser.ok() selected = " + selected + " isAccepted ? " + isAccepted);
-
             this.props.onChange(selected, isAccepted);
+         },
+
+         pass: function()
+         {
+            var isAccepted = false;
+            this.props.onChange(undefined, isAccepted);
          },
       });
 

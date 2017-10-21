@@ -75,45 +75,57 @@ define(["immutable", "common/js/InputValidator", "model/js/Action"],
             return accumulator;
          }, Immutable.List());
 
-         var queueCallback = this.finishProcessAgent.bind(this);
-         var agentCallback = function(cardsToPlay)
+         if (possibleCards.size > 0)
          {
-            queueCallback(agent, cardsToPlay, callback);
-         };
+            var queueCallback = this.finishProcessAgent.bind(this);
+            var agentCallback = function(cardsToPlay)
+            {
+               queueCallback(agent, cardsToPlay, callback);
+            };
 
-         agent.chooseCardsToPlay(possibleCards.toJS(), agentCallback);
+            agent.chooseCardToPlay(possibleCards.toJS(), agentCallback);
+         }
+         else
+         {
+            this.processPlanningQueue(callback);
+         }
       };
 
-      PlanningTask.prototype.finishProcessAgent = function(agent, cardsToPlay, callback)
+      PlanningTask.prototype.finishProcessAgent = function(agent, cardInstance, callback)
       {
          InputValidator.validateNotNull("callback", callback);
 
-         if (cardsToPlay && cardsToPlay.length > 0)
+         if (cardInstance !== undefined)
          {
+            // Pay for the card.
             var store = this.store();
-            cardsToPlay.forEach(function(cardInstance)
+            var cost = cardInstance.card().cost;
+            var sphereKey = cardInstance.card().sphereKey;
+            var heroes = agent.tableauHeroes(undefined, sphereKey);
+
+            while (cost > 0)
             {
-               // Pay for the card.
-               var cost = cardInstance.card().cost;
-               var sphereKey = cardInstance.card().sphereKey;
-               var heroes = agent.tableauHeroes(undefined, sphereKey);
-               var hero = heroes.reduce(function(accumulator, cardInstance)
+               for (var i = 0; i < heroes.size; i++)
                {
-                  if (cardInstance.resourceMap().get(sphereKey) >= cost)
+                  var myCardInstance = heroes.get(i);
+
+                  if (cost > 0 && myCardInstance.resourceMap().get(sphereKey) > 0)
                   {
-                     accumulator = cardInstance;
+                     store.dispatch(Action.addCardResource(myCardInstance, sphereKey, -1));
+                     cost--;
                   }
-                  return accumulator;
-               });
+               }
+            }
 
-               store.dispatch(Action.addCardResource(hero, sphereKey, -cost));
+            // Play the card.
+            store.dispatch(Action.agentPlayCard(agent, cardInstance));
 
-               // Play the card.
-               store.dispatch(Action.agentPlayCard(agent, cardInstance));
-            });
+            this.processAgent(agent, callback);
          }
-
-         this.processPlanningQueue(callback);
+         else
+         {
+            this.processPlanningQueue(callback);
+         }
       };
 
       PlanningTask.prototype.finishPlanningPhase = function(callback)
