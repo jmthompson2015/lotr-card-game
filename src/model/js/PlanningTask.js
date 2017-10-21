@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/Sphere", "model/js/Action"],
-   function(Immutable, InputValidator, Sphere, Action)
+define(["immutable", "common/js/InputValidator", "model/js/Action"],
+   function(Immutable, InputValidator, Action)
    {
       function PlanningTask(store)
       {
