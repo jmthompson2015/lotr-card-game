@@ -64,8 +64,9 @@ define(["qunit", "artifact/js/TreacheryCard"], function(QUnit, TreacheryCard)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 11);
+      var length = 14;
+      assert.equal(result.length, length);
       assert.equal(result[0], TreacheryCard.CAUGHT_IN_A_WEB);
-      assert.equal(result[10], TreacheryCard.TREACHEROUS_FOG);
+      assert.equal(result[length - 1], TreacheryCard.UNDER_THE_SHADOW);
    });
 });

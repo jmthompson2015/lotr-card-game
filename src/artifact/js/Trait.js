@@ -18,6 +18,7 @@ define(function()
       DISASTER: "disaster",
       DOL_GULDUR: "dolGuldur",
       DUNEDAIN: "dunedain",
+      DUNGEON: "dungeon",
       DWARF: "dwarf",
       EAGLE: "eagle",
       ENT: "ent",
@@ -40,6 +41,7 @@ define(function()
       MORDOR: "mordor",
       MOUNT: "mount",
       MOUNTAIN: "mountain",
+      NAZGUL: "nazgul",
       NOBLE: "noble",
       NOLDOR: "noldor",
       ORC: "orc",
@@ -63,7 +65,10 @@ define(function()
       STRONGHOLD: "stronghold",
       TITLE: "title",
       TRAP: "trap",
+      TROLL: "troll",
+      UNDEAD: "undead",
       WARRIOR: "warrior",
+      WASTELAND: "wasteland",
       WEAPON: "weapon",
       WOODMAN: "woodman",
 
@@ -143,6 +148,11 @@ define(function()
          {
             name: "Dúnedain",
             key: "dunedain",
+         },
+         "dungeon":
+         {
+            name: "Dungeon",
+            key: "dungeon",
          },
          "dwarf":
          {
@@ -253,6 +263,11 @@ define(function()
          {
             name: "Mountain",
             key: "mountain",
+         },
+         "nazgul":
+         {
+            name: "Nazgûl",
+            key: "nazgul",
          },
          "noble":
          {
@@ -369,10 +384,25 @@ define(function()
             name: "Trap",
             key: "trap",
          },
+         "troll":
+         {
+            name: "Troll",
+            key: "troll",
+         },
+         "undead":
+         {
+            name: "Undead",
+            key: "undead",
+         },
          "warrior":
          {
             name: "Warrior",
             key: "warrior",
+         },
+         "wasteland":
+         {
+            name: "Wasteland",
+            key: "wasteland",
          },
          "weapon":
          {

@@ -51,7 +51,7 @@ define(["qunit", "artifact/js/QuestCard", "artifact/js/Scenario"],
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 13);
+         assert.equal(result.length, 25);
          var i = 0;
          assert.equal(result[i++], QuestCard.PTM1A_FLIES_AND_SPIDERS);
          assert.equal(result[i++], QuestCard.PTM1B_FLIES_AND_SPIDERS);
@@ -60,6 +60,21 @@ define(["qunit", "artifact/js/QuestCard", "artifact/js/Scenario"],
          assert.equal(result[i++], QuestCard.PTM3A_A_CHOSEN_PATH);
          assert.equal(result[i++], QuestCard.PTM3B1_BEORNS_PATH);
          assert.equal(result[i++], QuestCard.PTM3B2_DONT_LEAVE_THE_PATH);
+
+         assert.equal(result[i++], QuestCard.JATA1A_TO_THE_RIVER);
+         assert.equal(result[i++], QuestCard.JATA1B_TO_THE_RIVER);
+         assert.equal(result[i++], QuestCard.JATA2A_ANDUIN_PASSAGE);
+         assert.equal(result[i++], QuestCard.JATA2B_ANDUIN_PASSAGE);
+         assert.equal(result[i++], QuestCard.JATA3A_AMBUSH_ON_THE_SHORE);
+         assert.equal(result[i++], QuestCard.JATA3B_AMBUSH_ON_THE_SHORE);
+
+         assert.equal(result[i++], QuestCard.EFDG1A_THE_NECROMANCERS_TOWER);
+         assert.equal(result[i++], QuestCard.EFDG1B_THE_NECROMANCERS_TOWER);
+         assert.equal(result[i++], QuestCard.EFDG2A_THROUGH_THE_CAVERNS);
+         assert.equal(result[i++], QuestCard.EFDG2B_THROUGH_THE_CAVERNS);
+         assert.equal(result[i++], QuestCard.EFDG3A_OUT_OF_THE_DUNGEONS);
+         assert.equal(result[i++], QuestCard.EFDG3B_OUT_OF_THE_DUNGEONS);
+
          assert.equal(result[i++], QuestCard.THFG1A_THE_HUNT_BEGINS);
          assert.equal(result[i++], QuestCard.THFG1B_THE_HUNT_BEGINS);
          assert.equal(result[i++], QuestCard.THFG2A_A_NEW_TERROR_ABROAD);

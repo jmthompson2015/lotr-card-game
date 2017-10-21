@@ -5,16 +5,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    {
       var TreacheryCard = {
          CAUGHT_IN_A_WEB: "caughtInAWeb",
+         DESPAIR: "despair",
          DRIVEN_BY_SHADOW: "drivenByShadow",
          EVIL_STORM: "evilStorm",
          EYES_OF_THE_FOREST: "eyesOfTheForest",
          FALSE_LEAD: "falseLead",
          FLOODING: "flooding",
+         IRON_SHACKLES: "ironShackles",
          MASSING_AT_NIGHT: "massingAtNight",
          OLD_WIVES_TALES: "oldWivesTales",
          PURSUED_BY_SHADOW: "pursuedByShadow",
          THE_NECROMANCERS_REACH: "theNecromancersReach",
          TREACHEROUS_FOG: "treacherousFog",
+         UNDER_THE_SHADOW: "underTheShadow",
 
          properties:
          {
@@ -29,6 +32,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "The player with the highest threat level attaches this card to one of his heroes. (Counts as a Condition attachment with the text: \"Attached hero does not ready during the refresh phase unless you pay 2 resources from that hero's pool.\")",
                   }],
                key: "caughtInAWeb",
+            },
+            "despair":
+            {
+               name: "Despair",
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeMap: GameMode.createMap(0, 2),
+               key: "despair",
             },
             "drivenByShadow":
             {
@@ -99,10 +109,17 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "flooding",
             },
+            "ironShackles":
+            {
+               name: "Iron Shackles",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(1),
+               key: "ironShackles",
+            },
             "massingAtNight":
             {
                name: "Massing at Night",
-               encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                gameModeMap: GameMode.createMap(0, 1),
                gameText: [
                   {
@@ -167,6 +184,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Each location in the staging area gets +1 Threat until the end of the phase. Then, each player with a threat of 35 or higher chooses and discards 1 card from his hand.",
                   }],
                key: "treacherousFog",
+            },
+            "underTheShadow":
+            {
+               name: "Under the Shadow",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(2),
+               key: "underTheShadow",
             },
          },
 

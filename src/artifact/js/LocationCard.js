@@ -6,6 +6,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
       var LocationCard = {
          BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
          ENCHANTED_STREAM: "enchantedStream",
+         ENDLESS_CAVERNS: "endlessCaverns",
          FOREST_GATE: "forestGate",
          GLADDEN_FIELDS: "gladdenFields",
          GREAT_FOREST_WEB: "greatForestWeb",
@@ -13,10 +14,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          NECROMANCERS_PASS: "necromancersPass",
          OLD_FOREST_ROAD: "oldForestRoad",
          RIVER_NINGLOR: "riverNinglor",
+         THE_BROWN_LANDS: "theBrownLands",
          THE_EAST_BANK: "theEastBank",
+         THE_EAST_BIGHT: "theEastBight",
          THE_EAVES_OF_MIRKWOOD: "theEavesOfMirkwood",
          THE_OLD_FORD: "theOldFord",
          THE_WEST_BANK: "theWestBank",
+         TOWER_GATE: "towerGate",
 
          properties:
          {
@@ -26,7 +30,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                threat: 1,
                questPoints: 3,
                traitKeys: [Trait.RIVERLAND],
-               encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                gameModeMap: GameMode.createMap(2),
                gameText: [
                   {
@@ -49,6 +53,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "enchantedStream",
             },
+            "endlessCaverns":
+            {
+               name: "Endless Caverns",
+               threat: 1,
+               questPoints: 3,
+               traitKeys: [Trait.DUNGEON],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(2),
+               key: "endlessCaverns",
+            },
             "forestGate":
             {
                name: "Forest Gate",
@@ -70,7 +84,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                threat: 3,
                questPoints: 3,
                traitKeys: [Trait.MARSHLAND],
-               encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                gameModeMap: GameMode.createMap(1, 2),
                gameText: [
                   {
@@ -161,6 +175,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "riverNinglor",
             },
+            "theBrownLands":
+            {
+               name: "The Brown Lands",
+               threat: 5,
+               questPoints: 1,
+               traitKeys: [Trait.WASTELAND],
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeMap: GameMode.createMap(2),
+               key: "theBrownLands",
+            },
             "theEastBank":
             {
                name: "The East Bank",
@@ -178,6 +202,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "If you do not control at least 1 hero with a Clue card attached, return this enemy to the staging area after its attack resolves.",
                   }],
                key: "theEastBank",
+            },
+            "theEastBight":
+            {
+               name: "The East Bight",
+               threat: 1,
+               questPoints: 6,
+               traitKeys: [Trait.WASTELAND],
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeMap: GameMode.createMap(2),
+               key: "theEastBight",
             },
             "theEavesOfMirkwood":
             {
@@ -228,6 +262,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "If you do not control at least 1 hero with a Clue card attached, double this enemy's base Attack for this attack.",
                   }],
                key: "theWestBank",
+            },
+            "towerGate":
+            {
+               name: "Tower Gate",
+               threat: 2,
+               questPoints: 1,
+               traitKeys: [Trait.DUNGEON],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(2),
+               key: "towerGate",
             },
          },
 

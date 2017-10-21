@@ -61,8 +61,9 @@ define(["qunit", "artifact/js/EnemyCard"], function(QUnit, EnemyCard)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 14);
+      var length = 21;
+      assert.equal(result.length, length);
       assert.equal(result[0], EnemyCard.BLACK_FOREST_BATS);
-      assert.equal(result[13], EnemyCard.UNGOLIANTS_SPAWN);
+      assert.equal(result[length - 1], EnemyCard.WOLF_RIDER);
    });
 });

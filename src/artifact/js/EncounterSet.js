@@ -5,7 +5,8 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
    {
       var EncounterSet = {
          DOL_GULDUR_ORCS: "dolGuldurOrcs",
-         JOURNEY_DOWN_THE_ANDUIN: "journeyDownTheAnduin",
+         ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
+         JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
          PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
          SAURONS_REACH: "sauronsReach",
          SPIDERS_OF_MIRKWOOD: "spidersOfMirkwood",
@@ -20,11 +21,17 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
                cardSetKey: CardSet.CORE,
                key: "dolGuldurOrcs",
             },
-            "journeyDownTheAnduin":
+            "escapeFromDolGuldur":
             {
-               name: "Journey Down the Anduin",
+               name: "Escape from Dol Guldur",
                cardSetKey: CardSet.CORE,
-               key: "journeyDownTheAnduin",
+               key: "escapeFromDolGuldur",
+            },
+            "journeyAlongTheAnduin":
+            {
+               name: "Journey Along the Anduin",
+               cardSetKey: CardSet.CORE,
+               key: "journeyAlongTheAnduin",
             },
             "passageThroughMirkwood":
             {

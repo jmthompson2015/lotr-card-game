@@ -4,10 +4,37 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var ObjectiveCard = {
+         DUNGEON_TORCH: "dungeonTorch",
+         GANDALFS_MAP: "gandalfsMap",
+         SHADOW_KEY: "shadowKey",
          SIGNS_OF_GOLLUM: "signsOfGollum",
 
          properties:
          {
+            "dungeonTorch":
+            {
+               name: "Dungeon Torch",
+               traitKeys: [Trait.ITEM],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(1),
+               key: "dungeonTorch",
+            },
+            "gandalfsMap":
+            {
+               name: "Gandalf's Map",
+               traitKeys: [Trait.ITEM],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(1),
+               key: "gandalfsMap",
+            },
+            "shadowKey":
+            {
+               name: "Shadow Key",
+               traitKeys: [Trait.ITEM],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(1),
+               key: "shadowKey",
+            },
             "signsOfGollum":
             {
                name: "Signs of Gollum",

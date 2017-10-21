@@ -4,7 +4,7 @@ define(["qunit", "artifact/js/Scenario"], function(QUnit, Scenario)
 {
    QUnit.module("Scenario");
 
-   QUnit.test("Scenario properties A Chosen Path: Beorn's Path", function(assert)
+   QUnit.test("Scenario properties Passage Through Mirkwood", function(assert)
    {
       var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
       var properties = Scenario.properties[scenarioKey];
@@ -49,9 +49,11 @@ define(["qunit", "artifact/js/Scenario"], function(QUnit, Scenario)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 2);
+      assert.equal(result.length, 4);
       var i = 0;
       assert.equal(result[i++], Scenario.PASSAGE_THROUGH_MIRKWOOD);
+      assert.equal(result[i++], Scenario.JOURNEY_ALONG_THE_ANDUIN);
+      assert.equal(result[i++], Scenario.ESCAPE_FROM_DOL_GULDUR);
       assert.equal(result[i++], Scenario.THE_HUNT_FOR_GOLLUM);
    });
 });

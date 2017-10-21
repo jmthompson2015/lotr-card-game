@@ -63,7 +63,11 @@ define(["qunit", "artifact/js/EncounterSet", "artifact/js/ObjectiveCard"],
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 1);
-         assert.equal(result[0], ObjectiveCard.SIGNS_OF_GOLLUM);
+         assert.equal(result.length, 4);
+         var i = 0;
+         assert.equal(result[i++], ObjectiveCard.DUNGEON_TORCH);
+         assert.equal(result[i++], ObjectiveCard.GANDALFS_MAP);
+         assert.equal(result[i++], ObjectiveCard.SHADOW_KEY);
+         assert.equal(result[i++], ObjectiveCard.SIGNS_OF_GOLLUM);
       });
    });

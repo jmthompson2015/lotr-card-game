@@ -11,6 +11,21 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          PTM3A_A_CHOSEN_PATH: "ptm3aAChosenPath",
          PTM3B1_BEORNS_PATH: "ptm3b1BeornsPath",
          PTM3B2_DONT_LEAVE_THE_PATH: "ptm3b2DontLeaveThePath",
+
+         JATA1A_TO_THE_RIVER: "jata1aToTheRiver",
+         JATA1B_TO_THE_RIVER: "jata1bToTheRiver",
+         JATA2A_ANDUIN_PASSAGE: "jata2aAnduinPassage",
+         JATA2B_ANDUIN_PASSAGE: "jata2bAnduinPassage",
+         JATA3A_AMBUSH_ON_THE_SHORE: "jata3AAmbushOnTheShore",
+         JATA3B_AMBUSH_ON_THE_SHORE: "jata3BAmbushOnTheShore",
+
+         EFDG1A_THE_NECROMANCERS_TOWER: "efdg1aTheNecromancersTower",
+         EFDG1B_THE_NECROMANCERS_TOWER: "efdg1bTheNecromancersTower",
+         EFDG2A_THROUGH_THE_CAVERNS: "efdg2aThroughTheCaverns",
+         EFDG2B_THROUGH_THE_CAVERNS: "efdg2bThroughTheCaverns",
+         EFDG3A_OUT_OF_THE_DUNGEONS: "efdg3aOutOfTheDungeons",
+         EFDG3B_OUT_OF_THE_DUNGEONS: "efdg3bOutOfTheDungeons",
+
          THFG1A_THE_HUNT_BEGINS: "thfg1aTheHuntBegins",
          THFG1B_THE_HUNT_BEGINS: "thfg1bTheHuntBegins",
          THFG2A_A_NEW_TERROR_ABROAD: "thfg2aANewTerrorAbroad",
@@ -102,6 +117,122 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "ptm3b2DontLeaveThePath",
             },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "jata1aToTheRiver":
+            {
+               name: "To the River",
+               scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
+               sequence: "1A",
+               questPoints: 0,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               key: "jata1aToTheRiver",
+            },
+            "jata1bToTheRiver":
+            {
+               name: "To the River",
+               scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
+               sequence: "1B",
+               questPoints: 8,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               key: "jata1bToTheRiver",
+            },
+            "jata2aAnduinPassage":
+            {
+               name: "Anduin Passage",
+               scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
+               sequence: "2A",
+               questPoints: 0,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               key: "jata2aAnduinPassage",
+            },
+            "jata2bAnduinPassage":
+            {
+               name: "Anduin Passage",
+               scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
+               sequence: "2B",
+               questPoints: 16,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               key: "jata2bAnduinPassage",
+            },
+            "jata3AAmbushOnTheShore":
+            {
+               name: "Anduin Passage",
+               scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
+               sequence: "3A",
+               questPoints: 0,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               key: "jata3AAmbushOnTheShore",
+            },
+            "jata3BAmbushOnTheShore":
+            {
+               name: "Anduin Passage",
+               scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
+               sequence: "3B",
+               questPoints: 0,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               key: "jata3BAmbushOnTheShore",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "efdg1aTheNecromancersTower":
+            {
+               name: "The Necromancer's Tower",
+               scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
+               sequence: "1A",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               key: "efdg1aTheNecromancersTower",
+            },
+
+            "efdg1bTheNecromancersTower":
+            {
+               name: "The Necromancer's Tower",
+               scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
+               sequence: "1B",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               key: "efdg1bTheNecromancersTower",
+            },
+
+            "efdg2aThroughTheCaverns":
+            {
+               name: "The Necromancer's Tower",
+               scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
+               sequence: "2A",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               key: "efdg2aThroughTheCaverns",
+            },
+
+            "efdg2bThroughTheCaverns":
+            {
+               name: "The Necromancer's Tower",
+               scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
+               sequence: "2B",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               key: "efdg2bThroughTheCaverns",
+            },
+
+            "efdg3aOutOfTheDungeons":
+            {
+               name: "The Necromancer's Tower",
+               scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
+               sequence: "3A",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               key: "efdg3aOutOfTheDungeons",
+            },
+
+            "efdg3bOutOfTheDungeons":
+            {
+               name: "The Necromancer's Tower",
+               scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
+               sequence: "3B",
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               key: "efdg3bOutOfTheDungeons",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
             "thfg1aTheHuntBegins":
             {
                name: "The Hunt Begins",

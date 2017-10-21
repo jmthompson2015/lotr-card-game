@@ -5,19 +5,26 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    {
       var EnemyCard = {
          BLACK_FOREST_BATS: "blackForestBats",
+         CAVERN_GUARDIAN: "cavernGuardian",
          CHIEFTAN_UFTHAK: "chieftanUfthak",
          DOL_GULDUR_BEASTMASTER: "dolGuldurBeastmaster",
          DOL_GULDUR_ORCS: "dolGuldurOrcs",
+         DUNGEON_JAILOR: "dungeonJailor",
          EAST_BIGHT_PATROL: "eastBightPatrol",
          EASTERN_CROWS: "easternCrows",
          FOREST_SPIDER: "forestSpider",
          GOBLIN_SNIPER: "goblinSniper",
          GOBLINTOWN_SCAVENGERS: "goblintownScavengers",
+         HILL_TROLL: "hillTroll",
          HUMMERHORNS: "hummerhorns",
          HUNTERS_FROM_MORDOR: "huntersFromMordor",
          KING_SPIDER: "kingSpider",
+         MARSH_ADDER: "marshAdder",
          MISTY_MOUNTAIN_GOBLINS: "mistyMountainGoblins",
+         NAZGUL_OF_DOL_GULDUR: "nazgulOfDolGuldur",
          UNGOLIANTS_SPAWN: "ungoliantsSpawn",
+         WARGS: "wargs",
+         WOLF_RIDER: "wolfRider",
 
          properties:
          {
@@ -38,6 +45,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Each player must choose 1 character currently committed to a quest, and remove that character from the quest. (The chosen character does not ready.)",
                   }],
                key: "blackForestBats",
+            },
+            "cavernGuardian":
+            {
+               name: "Cavern Guardian",
+               engagementCost: 8,
+               threat: 2,
+               attack: 2,
+               defense: 1,
+               hitPoints: 2,
+               traitKeys: [Trait.UNDEAD],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(2),
+               key: "cavernGuardian",
             },
             "chieftanUfthak":
             {
@@ -99,6 +119,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Attacking enemy gets +1 Attack. (+3 Attack instead if this attack is undefended.)",
                   }],
                key: "dolGuldurOrcs",
+            },
+            "dungeonJailor":
+            {
+               name: "Dungeon Jailor",
+               engagementCost: 38,
+               threat: 1,
+               attack: 2,
+               defense: 3,
+               hitPoints: 5,
+               traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(0, 2),
+               key: "dungeonJailor",
             },
             "eastBightPatrol":
             {
@@ -172,7 +205,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 2,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKeys: [GameMode.STANDARD],
+               gameModeKeys: GameMode.createMap(2),
                key: "goblinSniper",
             },
             "goblintownScavengers":
@@ -192,6 +225,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Discard the top card of each player's deck. Until the end of the phase, increase Goblintown Scavenger's Threat by the total printed cost of all cards discarded in this way.",
                   }],
                key: "goblintownScavengers",
+            },
+            "hillTroll":
+            {
+               name: "Hill Troll",
+               engagementCost: 30,
+               threat: 1,
+               attack: 6,
+               defense: 3,
+               hitPoints: 9,
+               traitKeys: [Trait.TROLL],
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeKeys: GameMode.createMap(1, 1),
+               key: "hillTroll",
             },
             "hummerhorns":
             {
@@ -258,6 +304,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "kingSpider",
             },
+            "marshAdder":
+            {
+               name: "Marsh Adder",
+               engagementCost: 40,
+               threat: 3,
+               attack: 4,
+               defense: 1,
+               hitPoints: 7,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeKeys: GameMode.createMap(0, 1),
+               key: "marshAdder",
+            },
             "mistyMountainGoblins":
             {
                name: "Misty Mountain Goblins",
@@ -267,7 +326,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                defense: 1,
                hitPoints: 3,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
-               encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
+               encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                gameModeMap: GameMode.createMap(3),
                gameText: [
                   {
@@ -279,6 +338,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Remove 1 progress token from the current quest. (3 progress tokens instead if this attack is undefended.)",
                   }],
                key: "mistyMountainGoblins",
+            },
+            "nazgulOfDolGuldur":
+            {
+               name: "Nazgûl of Dol Guldur",
+               engagementCost: 40,
+               threat: 5,
+               attack: 4,
+               defense: 3,
+               hitPoints: 9,
+               traitKeys: [Trait.NAZGUL],
+               encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               gameModeMap: GameMode.createMap(1),
+               key: "nazgulOfDolGuldur",
             },
             "ungoliantsSpawn":
             {
@@ -301,6 +373,32 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Raise defending player's threat by 4. (Raise defending player's threat by 8 instead if this attack is undefended.)",
                   }],
                key: "ungoliantsSpawn",
+            },
+            "wargs":
+            {
+               name: "Wargs",
+               engagementCost: 20,
+               threat: 2,
+               attack: 3,
+               defense: 1,
+               hitPoints: 3,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeKeys: GameMode.createMap(2),
+               key: "wargs",
+            },
+            "wolfRider":
+            {
+               name: "Wolf Rider",
+               engagementCost: 10,
+               threat: 1,
+               attack: 2,
+               defense: 0,
+               hitPoints: 2,
+               traitKeys: [Trait.GOBLIN, Trait.ORC],
+               encounterSetKey: EncounterSet.WILDERLANDS,
+               gameModeKeys: GameMode.createMap(1),
+               key: "wolfRider",
             },
          },
 
