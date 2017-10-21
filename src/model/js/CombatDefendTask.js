@@ -121,6 +121,12 @@ define(["common/js/InputValidator", "model/js/Action"],
             LOGGER.debug("CombatDefendTask damage = " + damage);
             store.dispatch(Action.addCardWounds(defender, damage));
 
+            if (defender.remainingHitPoints() <= 0)
+            {
+               // Defender is dead.
+               store.dispatch(Action.agentDiscardCard(agent, defender));
+            }
+
             this.processQueue(callback);
          }
          else
@@ -140,9 +146,16 @@ define(["common/js/InputValidator", "model/js/Action"],
       CombatDefendTask.prototype.finishUndefendedDamage = function(attacker, hero, callback)
       {
          var store = this.store();
+         var agent = this.agent();
          var attack = attacker.card().attack;
          LOGGER.debug("CombatDefendTask undefended damage = " + attack);
          store.dispatch(Action.addCardWounds(hero, attack));
+
+         if (hero.remainingHitPoints() <= 0)
+         {
+            // Hero is dead.
+            store.dispatch(Action.agentDiscardCard(agent, hero));
+         }
 
          this.processQueue(callback);
       };

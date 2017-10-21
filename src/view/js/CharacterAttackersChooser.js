@@ -35,7 +35,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             });
 
             var title = "Select Attackers";
-            var remainingPoints = defenderInstance.card().hitPoints - defenderInstance.wounds();
+            var remainingPoints = defenderInstance.remainingHitPoints();
             var message = "Defender: " + defenderInstance.card().name + " (hit points " + remainingPoints + ")";
             var cancelButton = React.createElement(Button,
             {

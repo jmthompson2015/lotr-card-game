@@ -73,6 +73,15 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          return (answer !== undefined ? answer : 0);
       };
 
+      CardInstance.prototype.remainingHitPoints = function()
+      {
+         var card = this.card();
+         var hitPoints = (card.hitPoints !== undefined ? card.hitPoints : 0);
+         var wounds = this.wounds();
+
+         return (hitPoints - wounds);
+      };
+
       CardInstance.prototype.resourceMap = function()
       {
          var store = this.store();

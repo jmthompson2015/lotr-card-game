@@ -15,8 +15,8 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
          }
 
          var agentId, attachmentId, cardId, cardInstanceIds, index;
-         var newAttachments, newDiscard, newEncounterDeck, newEncounterDiscard, newHand, newPhaseData, newPhaseQueue, newResources, newTableau;
-         var oldAttachments, oldDiscard, oldHand, oldResources, oldTableau;
+         var newAttachments, newDiscard, newEncounterDeck, newEncounterDiscard, newEngagementArea, newHand, newPhaseData, newPhaseQueue, newResources, newTableau;
+         var oldAttachments, oldDiscard, oldEngagementArea, oldHand, oldResources, oldTableau;
 
          switch (action.type)
          {
@@ -105,13 +105,29 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agentPlayerDiscard: state.agentPlayerDiscard.set(agentId, newDiscard),
                   agentTableau: state.agentTableau.set(agentId, newTableau),
                });
+            case Action.AGENT_DISCARD_ENEMY_CARD:
+               LOGGER.info("Discard enemy card: " + action.cardInstance);
+               agentId = action.agent.id();
+               cardId = action.cardInstance.id();
+               index = state.stagingArea.indexOf(cardId);
+               oldEngagementArea = (state.agentEngagementArea.get(agentId) !== undefined ? state.agentEngagementArea.get(agentId) : Immutable.List());
+               index = oldEngagementArea.indexOf(cardId);
+               oldDiscard = (state.encounterDiscard.get(agentId) !== undefined ? state.encounterDiscard.get(agentId) : Immutable.List());
+               newEngagementArea = oldEngagementArea.delete(index);
+               newDiscard = oldDiscard.push(cardId);
+               return Object.assign(
+               {}, state,
+               {
+                  agentEngagementArea: state.agentTableau.set(agentId, newEngagementArea),
+                  encounterDiscard: state.encounterDiscard.set(agentId, newDiscard),
+               });
             case Action.AGENT_ENGAGE_CARD:
                LOGGER.info("Agent engage card: " + action.cardInstance);
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
                index = state.stagingArea.indexOf(cardId);
-               var oldEngagementArea = (state.agentEngagementArea.get(agentId) !== undefined ? state.agentEngagementArea.get(agentId) : Immutable.List());
-               var newEngagementArea = oldEngagementArea.push(cardId);
+               oldEngagementArea = (state.agentEngagementArea.get(agentId) !== undefined ? state.agentEngagementArea.get(agentId) : Immutable.List());
+               newEngagementArea = oldEngagementArea.push(cardId);
                return Object.assign(
                {}, state,
                {

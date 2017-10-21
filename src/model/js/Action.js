@@ -11,6 +11,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.ADD_CARD_WOUNDS = "addCardWounds";
    Action.AGENT_DISCARD_ATTACHMENT_CARD = "agentDiscardAttachmentCard";
    Action.AGENT_DISCARD_CARD = "agentDiscardCard";
+   Action.AGENT_DISCARD_ENEMY_CARD = "agentDiscardEnemyCard";
    Action.AGENT_ENGAGE_CARD = "agentEngageCard";
    Action.AGENT_PLAY_ATTACHMENT_CARD = "agentPlayAttachmentCard";
    Action.AGENT_PLAY_CARD = "agentPlayCard";
@@ -143,6 +144,19 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: Action.AGENT_DISCARD_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+      });
+   };
+
+   Action.agentDiscardEnemyCard = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.AGENT_DISCARD_ENEMY_CARD,
          agent: agent,
          cardInstance: cardInstance,
       });

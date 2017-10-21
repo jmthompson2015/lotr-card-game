@@ -95,6 +95,13 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             var store = this.store();
             store.dispatch(Action.addCardWounds(defender, damage));
+
+            if (defender.remainingHitPoints() <= 0)
+            {
+               // Defender is dead.
+               var agent = this.agent();
+               store.dispatch(Action.agentDiscardEnemyCard(agent, defender));
+            }
          }
 
          this.finishCombatAttackTask(callback);
