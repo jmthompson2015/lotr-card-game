@@ -1,0 +1,21 @@
+body {
+  background-image: url(../../view/resource/wallpaper/MiddleEarthMap.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+}
+
+#gameTable th {
+  background-color: #555555;
+  border: 1px solid lightGray;
+  color: white;
+}
+
+#gameTable td {
+  border: 1px solid lightGray;
+}

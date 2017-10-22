@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Game Data Table</title>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="../../../lib/react/react-15.6.1.js"></script>
+  <script src="../../../lib/react-dom/react-dom-15.6.1.js"></script>
+  <script src="../../../lib/create-react-class/create-react-class-15.6.0.js"></script>
+  <script src="../../../lib/react-dom-factories/react-dom-factories-1.0.1.js"></script>
+  <script src="../../../lib/reactable/reactable-0.14.1.js"></script>
+  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
+  <script>
+    require.config(
+    {
+      "baseUrl": "../../../src",
+    });
+  </script>
+  <script src="../../../src/main.js"></script>
+
+</head>
+<body>
+  <h1>Game Data Table</h1>
+  <div id="panel"></div>
+  <script>
+    "use strict";
+
+    require(["common/js/Logger", "accessory/game-data-table/GameDataTable"],
+      function(Logger, GameDataTable)
+      {
+        window.LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var element = React.createElement(GameDataTable);
+        ReactDOM.render(element, document.getElementById("panel"));
+      });
+  </script>
+</body>
+
+</html>
