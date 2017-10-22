@@ -163,7 +163,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             },
             "jata3AAmbushOnTheShore":
             {
-               name: "Anduin Passage",
+               name: "Ambush on the Shore",
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "3A",
                questPoints: 0,
@@ -172,7 +172,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             },
             "jata3BAmbushOnTheShore":
             {
-               name: "Anduin Passage",
+               name: "Ambush on the Shore",
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "3B",
                questPoints: 0,
@@ -202,7 +202,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
             "efdg2aThroughTheCaverns":
             {
-               name: "The Necromancer's Tower",
+               name: "Through the Caverns",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "2A",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
@@ -211,7 +211,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
             "efdg2bThroughTheCaverns":
             {
-               name: "The Necromancer's Tower",
+               name: "Through the Caverns",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "2B",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
@@ -220,7 +220,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
             "efdg3aOutOfTheDungeons":
             {
-               name: "The Necromancer's Tower",
+               name: "Out of the Dungeons",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "3A",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
@@ -229,7 +229,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
             "efdg3bOutOfTheDungeons":
             {
-               name: "The Necromancer's Tower",
+               name: "Out of the Dungeons",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "3B",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,

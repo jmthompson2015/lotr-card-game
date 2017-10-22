@@ -264,6 +264,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
+         imagePath = imagePath.replace(/!/g, "");
 
          card.imagePath = imagePath;
       });
