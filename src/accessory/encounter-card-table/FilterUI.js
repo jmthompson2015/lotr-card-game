@@ -1,12 +1,10 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories",
-  "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/Sphere",
+define(["create-react-class", "prop-types", "react", "react-dom-factories", "artifact/js/CardType", "artifact/js/EncounterSet",
   "model/js/EntityFilter", "model/js/RangeFilter", "view/js/Button", "view/js/InputPanel",
   "accessory/encounter-card-table/Action", "accessory/encounter-card-table/DefaultFilters"
   ],
-   function(createReactClass, PropTypes, React, DOM,
-      CardSet, CardSubset, CardType, EncounterSet, Sphere,
+   function(createReactClass, PropTypes, React, DOM, CardType, EncounterSet,
       EntityFilter, RangeFilter, Button, InputPanel, Action, DefaultFilters)
    {
       var FilterUI = createReactClass(

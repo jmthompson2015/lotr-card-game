@@ -1,30 +1,29 @@
 "use strict";
 
-define(["common/js/InputValidator", "common/js/MathAugments", "artifact/js/CardType"],
-   function(InputValidator, MathAugments, CardType)
+define(["common/js/InputValidator"], function(InputValidator)
+{
+   var TableRow = {};
+
+   TableRow.createTableRow = function(card)
    {
-      var TableRow = {};
+      InputValidator.validateNotNull("card", card);
 
-      TableRow.createTableRow = function(card)
+      var isImplemented = (card.isImplemented !== undefined ? card.isImplemented : false);
+
+      return (
       {
-         InputValidator.validateNotNull("card", card);
+         name: card.name,
+         cardTypeKey: card.cardTypeKey,
+         isImplemented: isImplemented,
+         encounterSetKey: card.encounterSetKey,
+         engagementCost: card.engagementCost,
+         threat: card.threat,
+         questPoints: card.questPoints,
+         attack: card.attack,
+         defense: card.defense,
+         hitPoints: card.hitPoints,
+      });
+   };
 
-         var isImplemented = (card.isImplemented !== undefined ? card.isImplemented : false);
-
-         return (
-         {
-            name: card.name,
-            cardTypeKey: card.cardTypeKey,
-            isImplemented: isImplemented,
-            encounterSetKey: card.encounterSetKey,
-            engagementCost: card.engagementCost,
-            threat: card.threat,
-            questPoints: card.questPoints,
-            attack: card.attack,
-            defense: card.defense,
-            hitPoints: card.hitPoints,
-         });
-      };
-
-      return TableRow;
-   });
+   return TableRow;
+});

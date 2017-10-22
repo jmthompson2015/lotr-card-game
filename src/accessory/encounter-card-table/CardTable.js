@@ -1,13 +1,10 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories", "react-redux", "common/js/MathAugments",
-  "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/EncounterSet", "artifact/js/Sphere",
-  "view/js/Button", "view/js/DataTable", "view/js/ImplementedImage", "view/js/SphereUI",
+define(["create-react-class", "prop-types", "react", "react-dom-factories", "react-redux", "artifact/js/CardType", "artifact/js/EncounterSet",
+  "view/js/Button", "view/js/DataTable", "view/js/ImplementedImage",
   "accessory/encounter-card-table/Action", "accessory/encounter-card-table/FilterContainer", "accessory/encounter-card-table/TableColumns"],
-   function(createReactClass, PropTypes, React, DOM, ReactRedux, MathAugments,
-      CardSet, CardSubset, CardType, EncounterSet, Sphere,
-      Button, DataTable, ImplementedImage, SphereUI,
-      Action, FilterContainer, TableColumns)
+   function(createReactClass, PropTypes, React, DOM, ReactRedux, CardType, EncounterSet,
+      Button, DataTable, ImplementedImage, Action, FilterContainer, TableColumns)
    {
       function createImageLink(src, href)
       {
