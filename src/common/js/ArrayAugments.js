@@ -9,6 +9,17 @@ define(function()
 {
    var ArrayAugments = {};
 
+   // Note: This function modifies array.
+   // this now contains array2 also.
+   // @see http://stackoverflow.com/questions/351409/appending-to-array
+   if (!Array.prototype.lotrAddAll)
+   {
+      Array.prototype.lotrAddAll = function(array2)
+      {
+         Array.prototype.push.apply(this, array2);
+      };
+   }
+
    if (!Array.prototype.lotrRandomElement)
    {
       Array.prototype.lotrRandomElement = function()

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Player Card Table</title>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="../../../lib/react/react-15.6.1.js"></script>
+  <script src="../../../lib/react-dom/react-dom-15.6.1.js"></script>
+  <script src="../../../lib/create-react-class/create-react-class-15.6.0.js"></script>
+  <script src="../../../lib/react-dom-factories/react-dom-factories-1.0.1.js"></script>
+  <script src="../../../lib/reactable/reactable-0.14.1.js"></script>
+  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
+  <script>
+    require.config(
+    {
+      "baseUrl": "../../../src",
+    });
+  </script>
+  <script src="../../../src/main.js"></script>
+
+</head>
+<body>
+  <h1>Player Card Table</h1>
+  <div id="implementedStatistics"></div>
+  <section id="tableContainer"></section>
+  <script>
+    "use strict";
+
+    require(["react", "react-dom", "react-redux", "redux", "common/js/Logger",
+        "accessory/player-card-table/CardTableContainer", "accessory/player-card-table/Reducer"
+      ],
+      function(React, ReactDOM, ReactRedux, Redux, Logger, CardTableContainer, Reducer)
+      {
+        window.LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "../../../src/view/resource/";
+        var store = Redux.createStore(Reducer.root);
+        // var implementedCount = PilotCard.keys().reduce(function(previousValue, pilotKey)
+        // {
+        //   return previousValue + (PilotCard.properties[pilotKey].isImplemented ? 1 : 0);
+        // }, 0);
+        // var upgradeCount = PilotCard.keys().length;
+        // var implementedCount = 0;
+        // var cardCount = 1;
+        // var ratio = Math.lotrRound(100.0 * implementedCount / cardCount, 0);
+        // document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " + cardCount + " = " + ratio + "%";
+
+        var element = React.createElement(ReactRedux.Provider,
+        {
+          store: store,
+        }, React.createElement(CardTableContainer,
+        {
+          resourceBase: resourceBase,
+        }));
+
+        ReactDOM.render(element, document.getElementById("tableContainer"));
+      });
+  </script>
+</body>
+
+</html>
