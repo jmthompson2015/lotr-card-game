@@ -1,0 +1,27 @@
+body {
+  background-color: Beige;
+  font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.dataTable th {
+  background-color: #555555;
+  border: 1px solid LightGray;
+  color: White;
+}
+
+.dataTable td {
+  border: 1px solid LightGray;
+}
+
+.entitiesContainer {
+  height: 150px;
+}
+
+.filterField {
+  width: 40px;
+}
