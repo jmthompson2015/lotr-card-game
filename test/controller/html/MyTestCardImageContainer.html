@@ -29,6 +29,7 @@
 
 				var resourceBase = "../../../src/view/resource/";
 				var store = Redux.createStore(Reducer.root);
+				store.dispatch(Action.setResourceBase(resourceBase));
 				var game = createGame();
 				var environment = game.engine().environment();
 				var cardInstance0 = environment.stagingArea().get(0);
@@ -45,7 +46,6 @@
 				}, React.createElement(CardImageContainer,
 				{
 					cardInstance: cardInstance0,
-					resourceBase: resourceBase,
 				})));
 
 				cells.push(React.createElement(ReactRedux.Provider,
@@ -55,7 +55,6 @@
 				}, React.createElement(CardImageContainer,
 				{
 					cardInstance: cardInstance1,
-					resourceBase: resourceBase,
 				})));
 
 				cells.push(React.createElement(ReactRedux.Provider,
@@ -65,7 +64,6 @@
 				}, React.createElement(CardImageContainer,
 				{
 					cardInstance: cardInstance2,
-					resourceBase: resourceBase,
 				})));
 
 				ReactDOM.render(DOM.div(

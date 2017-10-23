@@ -30,6 +30,7 @@
 				var resourceBase = "../../../src/view/resource/";
 				var game = createGame();
 				var store = game.store();
+				store.dispatch(Action.setResourceBase(resourceBase));
 				var environment = game.engine().environment();
 				var agent1 = environment.agents().first();
 				var cardInstance = environment.stagingArea().first();
@@ -41,7 +42,6 @@
 				}, React.createElement(AgentAreaContainer,
 				{
 					agent: agent1,
-					resourceBase: resourceBase,
 				}));
 
 				ReactDOM.render(element, document.getElementById("panel"));

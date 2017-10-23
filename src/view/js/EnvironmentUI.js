@@ -9,14 +9,11 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
          render: function()
          {
             var environment = this.props.environment;
-            var resourceBase = this.props.resourceBase;
 
             var statusBar = React.createElement(StatusBarContainer);
 
             var cell = React.createElement(ActiveQuestContainer,
-            {
-               resourceBase: resourceBase,
-            });
+            {});
             var questArea = DOM.div(
             {
                key: "questArea",
@@ -24,9 +21,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
             }, cell);
 
             cell = React.createElement(ActiveLocationContainer,
-            {
-               resourceBase: resourceBase,
-            });
+            {});
             var locationArea = DOM.div(
             {
                key: "locationArea",
@@ -34,9 +29,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
             }, cell);
 
             cell = React.createElement(StagingAreaContainer,
-            {
-               resourceBase: resourceBase,
-            });
+            {});
             var stagingArea = DOM.div(
             {
                key: "stagingArea",
@@ -50,7 +43,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
                var cell = React.createElement(AgentAreaContainer,
                {
                   agent: agent,
-                  resourceBase: resourceBase,
                });
                accumulator.push(DOM.div(
                {
@@ -79,7 +71,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
 
       EnvironmentUI.propTypes = {
          environment: PropTypes.object.isRequired,
-         resourceBase: PropTypes.string.isRequired,
       };
 
       return EnvironmentUI;

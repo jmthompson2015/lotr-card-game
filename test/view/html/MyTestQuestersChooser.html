@@ -30,6 +30,7 @@
 
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setResourceBase(resourceBase));
         var quest = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
         var characters = [];
         characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));

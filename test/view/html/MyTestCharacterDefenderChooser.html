@@ -30,6 +30,7 @@
 
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setResourceBase(resourceBase));
         var attacker = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
         var characters = [];
         characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));

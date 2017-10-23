@@ -6,7 +6,6 @@ define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sph
       function mapStateToProps(state, ownProps)
       {
          InputValidator.validateNotNull("ownProps.cardInstance", ownProps.cardInstance);
-         InputValidator.validateIsString("ownProps.resourceBase", ownProps.resourceBase);
 
          var cardInstance = ownProps.cardInstance;
          var id = cardInstance.id();
@@ -22,7 +21,7 @@ define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sph
             loreCount: resourceMap.get(Sphere.LORE),
             neutralCount: resourceMap.get(Sphere.NEUTRAL),
             progressCount: progressCount,
-            resourceBase: ownProps.resourceBase,
+            resourceBase: state.resourceBase,
             spiritCount: resourceMap.get(Sphere.SPIRIT),
             tacticsCount: resourceMap.get(Sphere.TACTICS),
             woundCount: woundCount,

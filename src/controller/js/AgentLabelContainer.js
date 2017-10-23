@@ -6,7 +6,6 @@ define(["react-redux", "common/js/InputValidator", "view/js/AgentLabel"],
       function mapStateToProps(state, ownProps)
       {
          InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
-         InputValidator.validateNotNull("ownProps.resourceBase", ownProps.resourceBase);
 
          var agent = ownProps.agent;
          var environment = state.environment;
@@ -17,7 +16,7 @@ define(["react-redux", "common/js/InputValidator", "view/js/AgentLabel"],
          {
             agentName: agent.name(),
             isFirstAgent: isFirstAgent,
-            resourceBase: ownProps.resourceBase,
+            resourceBase: state.resourceBase,
             threatLevel: agent.threatLevel(),
          });
       }

@@ -45,6 +45,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
    Action.SET_QUEST_DECK = "setQuestDeck";
+   Action.SET_RESOURCE_BASE = "setResourceBase";
    Action.SET_USER_MESSAGE = "setUserMessage";
 
    Action.addAgentCard = function(agent, cardInstance)
@@ -547,6 +548,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.SET_QUEST_DECK,
          deck: deck,
+      });
+   };
+
+   Action.setResourceBase = function(resourceBase)
+   {
+      InputValidator.validateIsString("resourceBase", resourceBase);
+
+      return (
+      {
+         type: Action.SET_RESOURCE_BASE,
+         resourceBase: resourceBase,
       });
    };
 

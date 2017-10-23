@@ -16,11 +16,10 @@
   <script>
     "use strict";
 
-    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger",
-        "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "view/js/EnvironmentUI"
+    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "model/js/Action", "model/js/Agent", "model/js/Game",
+        "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "view/js/EnvironmentUI"
       ],
-      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger,
-        Agent, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, EnvironmentUI)
+      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, Action, Agent, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, EnvironmentUI)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -29,6 +28,7 @@
         var resourceBase = "../../../src/view/resource/";
         var game = createGame();
         var store = game.store();
+        store.dispatch(Action.setResourceBase(resourceBase));
         var environment = store.getState().environment;
 
         var element = React.createElement(ReactRedux.Provider,
@@ -37,7 +37,6 @@
         }, React.createElement(EnvironmentUI,
         {
           environment: environment,
-          resourceBase: resourceBase,
         }));
 
         ReactDOM.render(DOM.div(

@@ -6,7 +6,6 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
       function mapStateToProps(state, ownProps)
       {
          InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
-         InputValidator.validateNotNull("ownProps.resourceBase", ownProps.resourceBase);
 
          var agent = ownProps.agent;
          var cardInstances = agent.hand().toJS();
@@ -16,7 +15,7 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
          {
             cardInstances: cardInstances,
             label: "Hand",
-            resourceBase: ownProps.resourceBase,
+            resourceBase: state.resourceBase,
          });
       }
 

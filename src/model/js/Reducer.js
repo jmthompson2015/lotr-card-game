@@ -419,6 +419,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {
                   questDeck: Immutable.List(cardInstanceIds),
                });
+            case Action.SET_RESOURCE_BASE:
+               return Object.assign(
+               {}, state,
+               {
+                  resourceBase: action.resourceBase,
+               });
             case Action.SET_USER_MESSAGE:
                return Object.assign(
                {}, state,

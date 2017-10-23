@@ -30,6 +30,7 @@
 				var resourceBase = "../../../src/view/resource/";
 				var game = createGame();
 				var store = game.store();
+				store.dispatch(Action.setResourceBase(resourceBase));
 				var environment = game.engine().environment();
 				var cardInstance = environment.stagingArea().get(1);
 				store.dispatch(Action.drawQuestCard());
@@ -38,9 +39,7 @@
 				{
 					store: store,
 				}, React.createElement(ActiveQuestContainer,
-				{
-					resourceBase: resourceBase,
-				}));
+				{}));
 
 				ReactDOM.render(element, document.getElementById("panel"));
 

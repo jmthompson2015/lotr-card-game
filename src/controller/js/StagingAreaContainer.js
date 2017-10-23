@@ -3,10 +3,8 @@
 define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
    function(ReactRedux, InputValidator, CardInstancesArea)
    {
-      function mapStateToProps(state, ownProps)
+      function mapStateToProps(state)
       {
-         InputValidator.validateNotNull("ownProps.resourceBase", ownProps.resourceBase);
-
          var environment = state.environment;
          var cardInstances = environment.stagingArea().toJS();
 
@@ -14,7 +12,7 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
          {
             cardInstances: cardInstances,
             label: "Staging Area",
-            resourceBase: ownProps.resourceBase,
+            resourceBase: state.resourceBase,
          });
       }
 

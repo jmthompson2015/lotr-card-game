@@ -16,10 +16,10 @@
   <script>
     "use strict";
 
-    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/HeroCard", "model/js/CardInstance",
-        "model/js/Reducer", "view/js/UndefendedAttackHeroChooser"
+    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/HeroCard", "model/js/Action",
+        "model/js/CardInstance", "model/js/Reducer", "view/js/UndefendedAttackHeroChooser"
       ],
-      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, HeroCard, CardInstance, Reducer, UndefendedAttackHeroChooser)
+      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, HeroCard, Action, CardInstance, Reducer, UndefendedAttackHeroChooser)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -27,6 +27,7 @@
 
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setResourceBase(resourceBase));
         var heroes = [];
         heroes.push(new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]));
         heroes.push(new CardInstance(store, HeroCard.properties[HeroCard.BALIN]));

@@ -14,6 +14,7 @@ define(["immutable", "artifact/js/Phase"],
          this.phaseData = undefined;
          this.phaseKey = Phase.SETUP;
          this.phaseQueue = Immutable.List();
+         this.resourceBase = "view/resource/";
          this.round = 0;
          this.userMessage = "";
 

@@ -96,7 +96,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          return React.createElement(CardInstanceUI,
          {
             cardInstance: cardInstance,
-            resourceBase: this.props.resourceBase,
          });
       };
 
@@ -108,7 +107,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          {
             myKey: cardInstance.toString(),
             cardInstance: cardInstance,
-            resourceBase: this.props.resourceBase,
             width: width,
          });
       };
@@ -118,7 +116,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          return React.createElement(CardInstanceUI,
          {
             cardInstance: cardInstance,
-            resourceBase: this.props.resourceBase,
          });
       };
 
@@ -127,13 +124,10 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          return React.createElement(TokenPanelContainer,
          {
             cardInstance: cardInstance,
-            resourceBase: this.props.resourceBase,
          });
       };
 
       CardInstanceUI.propTypes = {
-         resourceBase: PropTypes.string.isRequired,
-
          cardInstance: PropTypes.object, // default: undefined
       };
 

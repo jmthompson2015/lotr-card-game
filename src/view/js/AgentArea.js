@@ -45,7 +45,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
          {
             key: "agentLabelContainer",
             agent: agent,
-            resourceBase: this.props.resourceBase,
          });
 
          return DOM.div(
@@ -62,7 +61,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
          {
             key: "engagementAreaContainer",
             agent: agent,
-            resourceBase: this.props.resourceBase,
          });
 
          return DOM.div(
@@ -80,7 +78,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
          {
             key: "handContainer",
             agent: agent,
-            resourceBase: this.props.resourceBase,
          });
 
          return DOM.div(
@@ -98,7 +95,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
          {
             key: "tableauContainer",
             agent: agent,
-            resourceBase: this.props.resourceBase,
          });
 
          return DOM.div(
@@ -110,7 +106,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories",
 
       AgentArea.propTypes = {
          agent: PropTypes.object.isRequired,
-         resourceBase: PropTypes.string.isRequired,
       };
 
       return AgentArea;

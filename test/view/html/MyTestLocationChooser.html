@@ -30,6 +30,7 @@
 
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setResourceBase(resourceBase));
         var locations = [];
         locations.push(new CardInstance(store, LocationCard.properties[LocationCard.ENCHANTED_STREAM]));
         locations.push(new CardInstance(store, LocationCard.properties[LocationCard.FOREST_GATE]));
