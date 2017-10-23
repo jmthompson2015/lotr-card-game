@@ -90,18 +90,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          return (answer !== undefined ? answer : Immutable.Map());
       };
 
-      CardInstance.prototype.shadowCard = function()
+      CardInstance.prototype.shadowCards = function()
       {
-         var answer;
          var store = this.store();
-         var shadowCardId = store.getState().cardShadowCard.get(this.id());
+         var ids = store.getState().cardShadowCards.get(this.id());
 
-         if (shadowCardId !== undefined)
-         {
-            answer = CardInstance.get(store, shadowCardId);
-         }
-
-         return answer;
+         return CardInstance.idsToCardInstances(store, ids);
       };
 
       CardInstance.prototype.toString = function()

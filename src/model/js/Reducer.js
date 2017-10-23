@@ -14,9 +14,9 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var agentId, attachmentId, cardId, cardInstanceIds, index;
-         var newAttachments, newDiscard, newEncounterDeck, newEncounterDiscard, newEngagementArea, newHand, newPhaseData, newPhaseQueue, newResources, newTableau;
-         var oldAttachments, oldDiscard, oldEngagementArea, oldHand, oldResources, oldTableau;
+         var agentId, attachmentId, cardId, cardInstanceIds, index, shadowId;
+         var newAttachments, newDiscard, newEncounterDeck, newEncounterDiscard, newEngagementArea, newHand, newPhaseData, newPhaseQueue, newResources, newShadowCards, newTableau;
+         var oldAttachments, oldDiscard, oldEngagementArea, oldHand, oldResources, oldShadowCards, oldTableau;
 
          switch (action.type)
          {
@@ -166,13 +166,16 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agentTableau: state.agentTableau.set(agentId, newTableau),
                });
             case Action.DEAL_SHADOW_CARD:
-               cardId = state.encounterDeck.first();
+               cardId = action.cardInstance.id();
+               shadowId = state.encounterDeck.first();
                newEncounterDeck = state.encounterDeck.shift();
+               oldShadowCards = (state.cardShadowCards.get(cardId) ? state.cardShadowCards.get(cardId) : Immutable.List());
+               newShadowCards = oldShadowCards.push(shadowId);
                return Object.assign(
                {}, state,
                {
                   encounterDeck: newEncounterDeck,
-                  cardShadowCard: state.cardShadowCard.set(action.cardInstance.id(), cardId),
+                  cardShadowCards: state.cardShadowCards.set(cardId, newShadowCards),
                });
             case Action.DEQUEUE_PHASE:
                // LOGGER.info("PhaseQueue: (dequeue)");
@@ -202,12 +205,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   questDiscard: newQuestDiscard,
                });
             case Action.DISCARD_SHADOW_CARDS:
-               newEncounterDiscard = state.encounterDiscard.push(state.cardShadowCard.toIndexedSeq().toArray());
+               newEncounterDiscard = state.encounterDiscard.push(state.cardShadowCards.toIndexedSeq().toArray());
                return Object.assign(
                {}, state,
                {
                   encounterDiscard: newEncounterDiscard,
-                  cardShadowCard: Immutable.Map(),
+                  cardShadowCards: Immutable.Map(),
                });
             case Action.DRAW_ENCOUNTER_CARD:
                if (action.index === undefined)

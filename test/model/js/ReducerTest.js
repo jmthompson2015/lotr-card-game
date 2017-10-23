@@ -236,7 +236,7 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
          var cardInstance = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
          assert.equal(store.getState().encounterDeck.size, 36);
-         assert.equal(store.getState().cardShadowCard.size, 0);
+         assert.equal(store.getState().cardShadowCards.size, 0);
          var enemyId = store.getState().encounterDeck.first();
 
          // Run.
@@ -244,8 +244,10 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
 
          // Verify.
          assert.equal(store.getState().encounterDeck.size, 35);
-         assert.equal(store.getState().cardShadowCard.size, 1);
-         assert.equal(store.getState().cardShadowCard.get(cardInstance.id()), enemyId);
+         assert.equal(store.getState().cardShadowCards.size, 1);
+         var shadowCardIds = store.getState().cardShadowCards.get(cardInstance.id());
+         assert.equal(shadowCardIds.size, 1);
+         assert.equal(shadowCardIds.get(0), enemyId);
       });
 
       QUnit.test("dequeuePhase()", function(assert)
@@ -328,14 +330,14 @@ define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/Enem
          var cardInstance = CardInstance.get(store, store.getState().encounterDeck.first());
          store.dispatch(Action.dealShadowCard(cardInstance));
          assert.equal(store.getState().encounterDiscard.size, 0);
-         assert.equal(store.getState().cardShadowCard.size, 1);
+         assert.equal(store.getState().cardShadowCards.size, 1);
 
          // Run.
          store.dispatch(Action.discardShadowCards());
 
          // Verify.
          assert.equal(store.getState().encounterDiscard.size, 1);
-         assert.equal(store.getState().cardShadowCard.size, 0);
+         assert.equal(store.getState().cardShadowCards.size, 0);
       });
 
       QUnit.test("drawEncounterCard()", function(assert)

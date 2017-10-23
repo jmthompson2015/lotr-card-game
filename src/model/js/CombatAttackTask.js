@@ -111,10 +111,10 @@ define(["common/js/InputValidator", "model/js/Action"],
       {
          // Discard shadow cards.
          var store = this.store();
-         LOGGER.debug("0 cardShadowCard = " + store.getState().cardShadowCard);
+         LOGGER.debug("0 cardShadowCards = " + store.getState().cardShadowCards);
          store.dispatch(Action.discardShadowCards());
          LOGGER.debug("encounterDiscard = " + store.getState().encounterDiscard);
-         LOGGER.debug("1 cardShadowCard = " + store.getState().cardShadowCard);
+         LOGGER.debug("1 cardShadowCards = " + store.getState().cardShadowCards);
 
          callback();
       };

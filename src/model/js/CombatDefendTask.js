@@ -95,9 +95,9 @@ define(["common/js/InputValidator", "model/js/Action"],
          }
 
          // 3. Resolve shadow effect, if any.
-         var shadowCard = attacker.shadowCard();
+         var shadowCards = attacker.shadowCards();
 
-         if (shadowCard !== undefined)
+         if (shadowCards.size > 0)
          {
             // Do something.
          }

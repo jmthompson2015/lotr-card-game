@@ -18,7 +18,7 @@ define(["qunit", "redux",
          {
             // Verify.
             assert.ok(store.getState().encounterDiscard.size >= 0);
-            assert.equal(store.getState().cardShadowCard.size, 0);
+            assert.equal(store.getState().cardShadowCards.size, 0);
          };
 
          // Run.
