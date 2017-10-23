@@ -35,6 +35,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_AGENT_TABLEAU = "setAgentTableau";
    Action.SET_AGENT_THREAT = "setAgentThreat";
    Action.SET_CARD_DAMAGE = "setCardDamage";
+   Action.SET_CARD_FACE_UP = "setCardFaceUp";
    Action.SET_CARD_INSTANCE = "setCardInstance";
    Action.SET_CARD_PROGRESS = "setCardProgress";
    Action.SET_CARD_QUESTING = "setCardQuesting";
@@ -418,6 +419,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: Action.SET_CARD_DAMAGE,
          cardInstance: cardInstance,
          value: myValue,
+      });
+   };
+
+   Action.setCardFaceUp = function(cardInstance, isFaceUp)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsBoolean("isFaceUp", isFaceUp);
+
+      return (
+      {
+         type: Action.SET_CARD_FACE_UP,
+         cardInstance: cardInstance,
+         isFaceUp: isFaceUp,
       });
    };
 

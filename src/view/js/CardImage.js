@@ -44,25 +44,45 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
 
       CardImage.prototype.canvasId = function()
       {
-         return this.props.card.key + this.props.isReady + "CardImageCanvas" + this.props.myKey;
+         return this.props.card.key + this.props.isFaceUp + this.props.isReady + "CardImageCanvas" + this.props.myKey;
       };
 
       CardImage.prototype.createSrc = function()
       {
+         var answer;
          var card = this.props.card;
-         var cardSetUrl;
          var encounterSet = card.encounterSet;
-         if (encounterSet !== undefined)
+
+         if (this.props.isFaceUp)
          {
-            cardSetUrl = (encounterSet.cardSubset ? encounterSet.cardSubset.imagePath : encounterSet.cardSet.imagePath);
+            var cardSetUrl;
+
+            if (encounterSet !== undefined)
+            {
+               cardSetUrl = (encounterSet.cardSubset ? encounterSet.cardSubset.imagePath : encounterSet.cardSet.imagePath);
+            }
+            else
+            {
+               cardSetUrl = (card.cardSubset ? card.cardSubset.imagePath : card.cardSet.imagePath);
+            }
+
+            var cardUrl = card.imagePath;
+
+            answer = CardImage.BASE_URL + cardSetUrl + cardUrl + ".jpg";
          }
          else
          {
-            cardSetUrl = (card.cardSubset ? card.cardSubset.imagePath : card.cardSet.imagePath);
+            if (encounterSet !== undefined)
+            {
+               answer = this.props.resourceBase + "card/EncounterCardBack.png";
+            }
+            else
+            {
+               answer = this.props.resourceBase + "card/PlayerCardBack.png";
+            }
          }
-         var cardUrl = card.imagePath;
 
-         return CardImage.BASE_URL + cardSetUrl + cardUrl + ".jpg";
+         return answer;
       };
 
       CardImage.prototype.height = function()
@@ -120,13 +140,16 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
 
       CardImage.propTypes = {
          card: PropTypes.object.isRequired,
+         resourceBase: PropTypes.string.isRequired,
 
+         isFaceUp: PropTypes.bool,
          isReady: PropTypes.bool,
          myKey: PropTypes.string,
          width: PropTypes.number,
       };
 
       CardImage.defaultProps = {
+         isFaceUp: true,
          isReady: true,
          width: 200,
       };

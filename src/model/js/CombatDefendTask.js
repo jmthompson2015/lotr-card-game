@@ -99,7 +99,12 @@ define(["common/js/InputValidator", "model/js/Action"],
 
          if (shadowCards.size > 0)
          {
-            // Do something.
+            shadowCards.forEach(function(cardInstance)
+            {
+               store.dispatch(Action.setCardFaceUp(cardInstance, true));
+               // Look for GameHeader.SHADOW
+               // Do something.
+            });
          }
 
          this.determineCombatDamage(attacker, defender, callback);

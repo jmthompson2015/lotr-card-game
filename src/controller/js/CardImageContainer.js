@@ -6,15 +6,19 @@ define(["immutable", "react-redux", "common/js/InputValidator", "view/js/CardIma
       function mapStateToProps(state, ownProps)
       {
          InputValidator.validateNotNull("ownProps.cardInstance", ownProps.cardInstance);
+         InputValidator.validateNotNull("ownProps.resourceBase", ownProps.resourceBase);
 
          var cardInstance = ownProps.cardInstance;
+         var isFaceUp = state.cardIsFaceUp.get(cardInstance.id());
          var isReady = state.cardIsReady.get(cardInstance.id());
 
          return (
          {
             card: cardInstance.card(),
+            isFaceUp: isFaceUp,
             isReady: isReady,
             myKey: ownProps.myKey,
+            resourceBase: ownProps.resourceBase,
             width: ownProps.width,
          });
       }

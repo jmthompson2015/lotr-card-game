@@ -51,6 +51,21 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
                      }, attachmentUI));
                   }
                }
+
+               var shadowCards = cardInstance.shadowCards().toJS();
+
+               if (shadowCards.length > 0)
+               {
+                  for (var j = shadowCards.length - 1; j >= 0; j--)
+                  {
+                     var shadowCard = shadowCards[j];
+                     var shadowCardUI = this.createShadowCardUI(shadowCard);
+                     rows.push(DOM.div(
+                     {
+                        key: "shadowCardRow" + rows.length,
+                     }, shadowCardUI));
+                  }
+               }
             }
 
             return DOM.div(
@@ -93,7 +108,17 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          {
             myKey: cardInstance.toString(),
             cardInstance: cardInstance,
+            resourceBase: this.props.resourceBase,
             width: width,
+         });
+      };
+
+      CardInstanceUI.prototype.createShadowCardUI = function(cardInstance)
+      {
+         return React.createElement(CardInstanceUI,
+         {
+            cardInstance: cardInstance,
+            resourceBase: this.props.resourceBase,
          });
       };
 

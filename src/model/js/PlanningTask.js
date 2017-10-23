@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/Action"],
-   function(Immutable, InputValidator, Action)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
+   function(Immutable, InputValidator, CardType, Action)
    {
       function PlanningTask(store)
       {
@@ -118,7 +118,20 @@ define(["immutable", "common/js/InputValidator", "model/js/Action"],
             }
 
             // Play the card.
-            store.dispatch(Action.agentPlayCard(agent, cardInstance));
+            if (cardInstance.card().cardTypeKey === CardType.ATTACHMENT)
+            {
+               // FIXME: need target instance from user.
+               var targetInstance = agent.tableauHeroes().get(0);
+               store.dispatch(Action.agentPlayAttachmentCard(agent, targetInstance, cardInstance));
+            }
+            // else if (cardInstance.card().cardTypeKey === CardType.EVENT)
+            // {
+            //    // Don't add to tableau.
+            // }
+            else
+            {
+               store.dispatch(Action.agentPlayCard(agent, cardInstance));
+            }
 
             this.processAgent(agent, callback);
          }

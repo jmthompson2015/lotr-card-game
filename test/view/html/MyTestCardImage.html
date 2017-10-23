@@ -14,6 +14,7 @@
 <body>
   <div id="readyPanel"></div>
   <div id="exhaustedPanel"></div>
+  <div id="faceDownPanel"></div>
   <script>
     "use strict";
 
@@ -60,7 +61,6 @@
         var treacheryInstance = new CardInstance(store, TreacheryCard.properties[TreacheryCard.CAUGHT_IN_A_WEB]);
 
         var cells = [];
-        // var isReady = true;
         addCardImage(cells, AllyCard.properties[AllyCard.GANDALF_CORE]);
         addCardImage(cells, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
         addCardImage(cells, EventCard.properties[EventCard.SNEAK_ATTACK]);
@@ -90,12 +90,23 @@
           className: "mt5 pt5",
         }, cells), document.getElementById("exhaustedPanel"));
 
-        function addCardImage(cells, card, isReady)
+        var cells = [];
+        var isFaceUp = false;
+        isReady = true;
+        addCardImage(cells, AllyCard.properties[AllyCard.GANDALF_CORE], isReady, isFaceUp);
+        addCardImage(cells, EnemyCard.properties[EnemyCard.FOREST_SPIDER], isReady, isFaceUp);
+
+        ReactDOM.render(DOM.div(
+        {}, cells), document.getElementById("faceDownPanel"));
+
+        function addCardImage(cells, card, isReady, isFaceUp)
         {
           var element = React.createElement(CardImage,
           {
             card: card,
+            isFaceUp: isFaceUp,
             isReady: isReady,
+            resourceBase: resourceBase,
           });
 
           cells.push(DOM.div(

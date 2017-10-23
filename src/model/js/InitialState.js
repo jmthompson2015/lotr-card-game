@@ -40,6 +40,7 @@ define(["immutable", "artifact/js/Phase"],
 
          // cardInstance IDs.
          this.cardAttachments = Immutable.Map();
+         this.cardIsFaceUp = Immutable.Map();
          this.cardIsQuesting = Immutable.Map();
          this.cardIsReady = Immutable.Map();
          this.cardProgress = Immutable.Map();

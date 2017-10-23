@@ -57,6 +57,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          return !this.isReady();
       };
 
+      CardInstance.prototype.isFaceUp = function()
+      {
+         var store = this.store();
+         var answer = store.getState().cardIsFaceUp.get(this.id());
+
+         return (answer !== undefined ? answer : true);
+      };
+
       CardInstance.prototype.isReady = function()
       {
          var store = this.store();

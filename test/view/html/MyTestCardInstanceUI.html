@@ -19,10 +19,10 @@
     require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/AllyCard", "artifact/js/AttachmentCard",
         "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard",
         "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/Action", "model/js/Agent", "model/js/CardInstance",
-        "model/js/Reducer", "view/js/CardInstanceUI"
+        "model/js/Reducer", "model/js/ScenarioDeckBuilder", "view/js/CardInstanceUI"
       ],
       function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard,
-        QuestCard, Sphere, TreacheryCard, Action, Agent, CardInstance, Reducer, CardInstanceUI)
+        QuestCard, Sphere, TreacheryCard, Action, Agent, CardInstance, Reducer, ScenarioDeckBuilder, CardInstanceUI)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -30,6 +30,8 @@
 
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
+        var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+        store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
 
         var locationInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
         store.dispatch(Action.addCardProgress(locationInstance, 2));
@@ -71,10 +73,16 @@
         store.dispatch(Action.agentPlayAttachmentCard(agent1, heroInstance3, new CardInstance(store, AttachmentCard.properties[AttachmentCard.CITADEL_PLATE])));
         store.dispatch(Action.setCardReady(heroInstance3, false));
 
+        var enemyInstance2 = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
+        store.dispatch(Action.addCardWounds(enemyInstance2));
+        store.dispatch(Action.dealShadowCard(enemyInstance2));
+
         var cells = [];
 
         addCardInstanceUI(cells, heroInstance2);
         addCardInstanceUI(cells, heroInstance3);
+        addCardInstanceUI(cells, enemyInstance2);
+
         addCardInstanceUI(cells, locationInstance);
         addCardInstanceUI(cells, questInstance);
         addCardInstanceUI(cells, enemyInstance);

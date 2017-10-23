@@ -166,6 +166,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agentTableau: state.agentTableau.set(agentId, newTableau),
                });
             case Action.DEAL_SHADOW_CARD:
+               LOGGER.info("Deal shadow card to " + action.cardInstance);
                cardId = action.cardInstance.id();
                shadowId = state.encounterDeck.first();
                newEncounterDeck = state.encounterDeck.shift();
@@ -174,8 +175,9 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                return Object.assign(
                {}, state,
                {
-                  encounterDeck: newEncounterDeck,
+                  cardIsFaceUp: state.cardIsFaceUp.set(shadowId, false),
                   cardShadowCards: state.cardShadowCards.set(cardId, newShadowCards),
+                  encounterDeck: newEncounterDeck,
                });
             case Action.DEQUEUE_PHASE:
                // LOGGER.info("PhaseQueue: (dequeue)");
@@ -351,6 +353,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                {}, state,
                {
                   cardWounds: state.cardWounds.set(action.cardInstance.id(), action.value),
+               });
+            case Action.SET_CARD_FACE_UP:
+               return Object.assign(
+               {}, state,
+               {
+                  cardIsFaceUp: state.cardIsFaceUp.set(action.cardInstance.id(), action.isFaceUp),
                });
             case Action.SET_CARD_INSTANCE:
                return Object.assign(
