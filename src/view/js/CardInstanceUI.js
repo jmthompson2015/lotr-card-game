@@ -20,13 +20,8 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
 
             if (cardInstance)
             {
-               var width = (this.state.hover ? 275 : 125);
-               var image = React.createElement(CardImageContainer,
-               {
-                  myKey: cardInstance.toString(),
-                  cardInstance: cardInstance,
-                  width: width,
-               });
+               var image = this.createCardImage(cardInstance);
+               var tokenPanel = this.createTokenPanel(cardInstance);
 
                rows.push(DOM.div(
                {
@@ -40,11 +35,22 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
                {
                   key: "tokenRow" + rows.length,
                   className: "dt-row",
-               }, React.createElement(TokenPanelContainer,
+               }, tokenPanel));
+
+               var attachments = cardInstance.attachments().toJS();
+
+               if (attachments.length > 0)
                {
-                  cardInstance: cardInstance,
-                  resourceBase: this.props.resourceBase,
-               })));
+                  for (var i = attachments.length - 1; i >= 0; i--)
+                  {
+                     var attachment = attachments[i];
+                     var attachmentUI = this.createAttachmentUI(attachment);
+                     rows.push(DOM.div(
+                     {
+                        key: "attachmentRow" + rows.length,
+                     }, attachmentUI));
+                  }
+               }
             }
 
             return DOM.div(
@@ -69,6 +75,36 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
             });
          },
       });
+
+      CardInstanceUI.prototype.createAttachmentUI = function(cardInstance)
+      {
+         return React.createElement(CardInstanceUI,
+         {
+            cardInstance: cardInstance,
+            resourceBase: this.props.resourceBase,
+         });
+      };
+
+      CardInstanceUI.prototype.createCardImage = function(cardInstance)
+      {
+         var width = (this.state.hover ? 275 : 125);
+
+         return React.createElement(CardImageContainer,
+         {
+            myKey: cardInstance.toString(),
+            cardInstance: cardInstance,
+            width: width,
+         });
+      };
+
+      CardInstanceUI.prototype.createTokenPanel = function(cardInstance)
+      {
+         return React.createElement(TokenPanelContainer,
+         {
+            cardInstance: cardInstance,
+            resourceBase: this.props.resourceBase,
+         });
+      };
 
       CardInstanceUI.propTypes = {
          resourceBase: PropTypes.string.isRequired,
