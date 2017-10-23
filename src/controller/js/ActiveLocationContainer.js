@@ -1,7 +1,7 @@
 "use strict";
 
-define(["react-redux", "common/js/InputValidator", "view/js/CardInstanceUI"],
-   function(ReactRedux, InputValidator, CardInstanceUI)
+define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
+   function(ReactRedux, InputValidator, CardInstancesArea)
    {
       function mapStateToProps(state, ownProps)
       {
@@ -12,12 +12,11 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstanceUI"],
 
          return (
          {
-            cardInstance: cardInstance,
+            cardInstances: (cardInstance ? [cardInstance] : []),
             label: "Active Location",
             resourceBase: ownProps.resourceBase,
-            width: ownProps.width,
          });
       }
 
-      return ReactRedux.connect(mapStateToProps)(CardInstanceUI);
+      return ReactRedux.connect(mapStateToProps)(CardInstancesArea);
    });

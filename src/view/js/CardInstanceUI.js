@@ -16,17 +16,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          render: function()
          {
             var rows = [];
-            var label = this.props.label;
-
-            if (label !== undefined)
-            {
-               rows.push(DOM.div(
-               {
-                  key: "labelRow" + rows.length,
-                  className: "b bg-lotr-dark dt-row f5 lotr-light tc",
-               }, label));
-            }
-
             var cardInstance = this.props.cardInstance;
 
             if (cardInstance)
@@ -85,7 +74,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          resourceBase: PropTypes.string.isRequired,
 
          cardInstance: PropTypes.object, // default: undefined
-         label: PropTypes.string, // default: undefined
       };
 
       return CardInstanceUI;
