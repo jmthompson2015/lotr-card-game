@@ -52,7 +52,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   return Object.assign(
                   {}, state,
                   {
-                     agentEngagementArea: state.agentTableau.set(agentId, newEngagementArea),
+                     agentEngagementArea: state.agentEngagementArea.set(agentId, newEngagementArea),
                      encounterDiscard: state.encounterDiscard.push(cardId),
                   });
                case Action.AGENT_ENGAGE_CARD:
@@ -79,7 +79,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   return Object.assign(
                   {}, state,
                   {
-                     agentEngagementArea: state.agentTableau.set(agentId, newEngagementArea),
+                     agentEngagementArea: state.agentEngagementArea.set(agentId, newEngagementArea),
                      stagingArea: state.stagingArea.push(cardId),
                   });
                case Action.DEAL_SHADOW_CARD:
@@ -110,7 +110,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                      agents: state.agents.delete(agentId),
                   });
                case Action.DEQUEUE_PHASE:
-                  // LOGGER.info("PhaseQueue: (dequeue)");
+                  LOGGER.debug("PhaseQueue: (dequeue)");
                   newPhaseData = state.phaseQueue.first();
                   newPhaseQueue = state.phaseQueue.shift();
                   return Object.assign(
