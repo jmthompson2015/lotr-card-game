@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
-  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, HeroCard, Sphere, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, HeroCard, Sphere, Action, AgentAction, CardAction, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Agent");
 
@@ -87,9 +87,9 @@ define(["qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
          var environment = createEnvironment();
          var agent1 = environment.agents().get(0);
          var store = environment.store();
-         store.dispatch(Action.drawPlayerCard(agent1));
+         store.dispatch(AgentAction.drawPlayerCard(agent1));
          var agent2 = environment.agents().get(1);
-         store.dispatch(Action.drawPlayerCard(agent2));
+         store.dispatch(AgentAction.drawPlayerCard(agent2));
 
          // Run.
          var result = agent1.hand();
@@ -178,9 +178,9 @@ define(["qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
          var agent1 = environment.agents().get(0);
          var store = environment.store();
          var heroes = agent1.tableauHeroes();
-         store.dispatch(Action.addCardResource(heroes.get(0), Sphere.LEADERSHIP, 1));
-         store.dispatch(Action.addCardResource(heroes.get(1), Sphere.LEADERSHIP, 2));
-         store.dispatch(Action.addCardResource(heroes.get(2), Sphere.LEADERSHIP, 3));
+         store.dispatch(CardAction.addResource(heroes.get(0), Sphere.LEADERSHIP, 1));
+         store.dispatch(CardAction.addResource(heroes.get(1), Sphere.LEADERSHIP, 2));
+         store.dispatch(CardAction.addResource(heroes.get(2), Sphere.LEADERSHIP, 3));
 
          // Run.
          var result = agent1.resourceMap();

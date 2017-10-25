@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
-   function(InputValidator, Phase, Action)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(InputValidator, Phase, Action, AgentAction, CardAction)
    {
       function QuestTask(store)
       {
@@ -77,8 +77,8 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
 
             questers.forEach(function(cardInstance)
             {
-               store.dispatch(Action.setCardReady(cardInstance, false));
-               store.dispatch(Action.setCardQuesting(cardInstance, true));
+               store.dispatch(CardAction.setReady(cardInstance, false));
+               store.dispatch(CardAction.setQuesting(cardInstance, true));
             });
          }
 
@@ -96,6 +96,10 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
 
          agents.forEach(function()
          {
+            if (store.getState().encounterDeck.size === 0)
+            {
+               store.dispatch(Action.refillEncounterDeck());
+            }
             store.dispatch(Action.drawEncounterCard());
          });
 
@@ -138,7 +142,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
                neededProgress = activeLocation.card().questPoints - activeLocation.progress();
                var myProgress = Math.min(neededProgress, progress);
                LOGGER.debug("applying " + myProgress + " progress to " + activeLocation);
-               store.dispatch(Action.addCardProgress(activeLocation, myProgress));
+               store.dispatch(CardAction.addProgress(activeLocation, myProgress));
                neededProgress = activeLocation.card().questPoints - activeLocation.progress();
                if (neededProgress === 0)
                {
@@ -153,7 +157,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
             {
                var activeQuest = environment.questDeck().get(0);
                LOGGER.debug("applying " + progress + " to " + activeQuest);
-               store.dispatch(Action.addCardProgress(activeQuest, progress));
+               store.dispatch(CardAction.addProgress(activeQuest, progress));
                neededProgress = activeQuest.card().questPoints - activeQuest.progress();
                if (neededProgress === 0)
                {
@@ -169,7 +173,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
 
             agents.forEach(function(agent)
             {
-               store.dispatch(Action.addAgentThreat(agent, threat));
+               agent.addThreat(threat);
             });
          }
          else
@@ -180,7 +184,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action"],
          // 4. Cleanup.
          questers.forEach(function(cardInstance)
          {
-            store.dispatch(Action.setCardQuesting(cardInstance, false));
+            store.dispatch(CardAction.setQuesting(cardInstance, false));
          });
 
          callback();

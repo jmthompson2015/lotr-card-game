@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/js/Action"],
-   function(Immutable, InputValidator, CardType, Action)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(Immutable, InputValidator, CardType, Action, AgentAction, CardAction)
    {
       function PlanningTask(store)
       {
@@ -111,7 +111,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
 
                   if (cost > 0 && myCardInstance.resourceMap().get(sphereKey) > 0)
                   {
-                     store.dispatch(Action.addCardResource(myCardInstance, sphereKey, -1));
+                     store.dispatch(CardAction.addResource(myCardInstance, sphereKey, -1));
                      cost--;
                   }
                }
@@ -122,7 +122,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
             {
                // FIXME: need target instance from user.
                var targetInstance = agent.tableauHeroes().get(0);
-               store.dispatch(Action.agentPlayAttachmentCard(agent, targetInstance, cardInstance));
+               store.dispatch(AgentAction.playAttachmentCard(agent, targetInstance, cardInstance));
             }
             // else if (cardInstance.card().cardTypeKey === CardType.EVENT)
             // {
@@ -130,7 +130,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
             // }
             else
             {
-               store.dispatch(Action.agentPlayCard(agent, cardInstance));
+               store.dispatch(AgentAction.playCard(agent, cardInstance));
             }
 
             this.processAgent(agent, callback);

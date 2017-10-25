@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action"],
-   function(InputValidator, Action)
+define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(InputValidator, Action, AgentAction, CardAction)
    {
       function CombatDefendTask(store, agent)
       {
@@ -91,7 +91,7 @@ define(["common/js/InputValidator", "model/js/Action"],
 
          if (defender !== undefined)
          {
-            store.dispatch(Action.setCardReady(defender, false));
+            store.dispatch(CardAction.setReady(defender, false));
          }
 
          // 3. Resolve shadow effect, if any.
@@ -101,7 +101,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             shadowCards.forEach(function(cardInstance)
             {
-               store.dispatch(Action.setCardFaceUp(cardInstance, true));
+               store.dispatch(CardAction.setFaceUp(cardInstance, true));
                // Look for GameHeader.SHADOW
                // Do something.
             });
@@ -113,7 +113,6 @@ define(["common/js/InputValidator", "model/js/Action"],
       CombatDefendTask.prototype.determineCombatDamage = function(attacker, defender, callback)
       {
          // 4. Determine combat damage.
-         var store = this.store();
          var agent = this.agent();
          LOGGER.debug("CombatDefendTask attacker = " + attacker);
          LOGGER.debug("CombatDefendTask defender = " + defender);
@@ -124,13 +123,7 @@ define(["common/js/InputValidator", "model/js/Action"],
             var defense = defender.card().defense;
             var damage = attack - defense;
             LOGGER.debug("CombatDefendTask damage = " + damage);
-            store.dispatch(Action.addCardWounds(defender, damage));
-
-            if (defender.remainingHitPoints() <= 0)
-            {
-               // Defender is dead.
-               store.dispatch(Action.agentDiscardCard(agent, defender));
-            }
+            agent.addCardWounds(defender, damage);
 
             this.processQueue(callback);
          }
@@ -138,13 +131,20 @@ define(["common/js/InputValidator", "model/js/Action"],
          {
             // Undefended.
             var heroes = agent.tableauHeroes().toJS();
-            var finishUndefendedDamageFunction = this.finishUndefendedDamage.bind(this);
-            var myCallback = function(hero)
+            if (heroes.length > 0)
             {
-               finishUndefendedDamageFunction(attacker, hero, callback);
-            };
+               var finishUndefendedDamageFunction = this.finishUndefendedDamage.bind(this);
+               var myCallback = function(hero)
+               {
+                  finishUndefendedDamageFunction(attacker, hero, callback);
+               };
 
-            agent.chooseUndefendedAttackHero(heroes, myCallback);
+               agent.chooseUndefendedAttackHero(heroes, myCallback);
+            }
+            else
+            {
+               this.processQueue(callback);
+            }
          }
       };
 
@@ -154,12 +154,13 @@ define(["common/js/InputValidator", "model/js/Action"],
          var agent = this.agent();
          var attack = attacker.card().attack;
          LOGGER.debug("CombatDefendTask undefended damage = " + attack);
-         store.dispatch(Action.addCardWounds(hero, attack));
+         agent.addCardWounds(hero, attack);
 
          if (hero.remainingHitPoints() <= 0)
          {
             // Hero is dead.
-            store.dispatch(Action.agentDiscardCard(agent, hero));
+            hero.prepareForDiscard(agent);
+            store.dispatch(AgentAction.discardFromTableau(agent, hero));
          }
 
          this.processQueue(callback);

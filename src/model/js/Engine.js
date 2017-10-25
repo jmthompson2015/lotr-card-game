@@ -4,10 +4,11 @@ define(["common/js/InputValidator", "artifact/js/Phase",
   "model/js/Action", "model/js/CombatTask", "model/js/EncounterTask", "model/js/PlanningTask", "model/js/QuestTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
    function(InputValidator, Phase, Action, CombatTask, EncounterTask, PlanningTask, QuestTask, RefreshTask, ResourceTask, TravelTask)
    {
-      function Engine(store, environment, delayIn, callback)
+      function Engine(store, environment, adjudicator, delayIn, callback)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
          // delayIn optional. default: 1000 ms
          // callback optional.
 
@@ -19,6 +20,11 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          this.environment = function()
          {
             return environment;
+         };
+
+         this.adjudicator = function()
+         {
+            return adjudicator;
          };
 
          var delay = (delayIn !== undefined ? delayIn : 1000);
@@ -275,9 +281,7 @@ define(["common/js/InputValidator", "artifact/js/Phase",
 
       Engine.prototype.isGameOver = function()
       {
-         var store = this.store();
-
-         return store.getState().round === 3;
+         return this.adjudicator().isGameOver();
       };
 
       Engine.prototype.processGameOver = function()

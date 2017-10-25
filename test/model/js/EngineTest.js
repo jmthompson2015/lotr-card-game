@@ -14,7 +14,9 @@ define(["qunit", "redux", "artifact/js/GameMode",
             // Verify.
             assert.ok(true, "test resumed from async operation");
             var store = engine.store();
-            assert.equal(store.getState().round, 3);
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
             done();
          };
 

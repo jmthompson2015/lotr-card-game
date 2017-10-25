@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action"],
-   function(InputValidator, Action)
+define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(InputValidator, Action, AgentAction, CardAction)
    {
       function RefreshTask(store)
       {
@@ -28,12 +28,12 @@ define(["common/js/InputValidator", "model/js/Action"],
             {
                if (cardInstance.isExhausted())
                {
-                  store.dispatch(Action.setCardReady(cardInstance, true));
+                  store.dispatch(CardAction.setReady(cardInstance, true));
                }
             });
 
             // 2. Each player increases his threat by 1.
-            store.dispatch(Action.addAgentThreat(agent));
+            agent.addThreat(1);
          });
 
          // 3. The first player token passes to the next player clockwise.

@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard",
-  "model/js/Action", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/CardAction", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, CardAction, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Environment");
 
@@ -119,7 +119,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          var store = environment.store();
          var agent0 = environment.agents().get(0);
          var cardInstance0 = agent0.tableauHeroes().get(0);
-         store.dispatch(Action.setCardQuesting(cardInstance0, true));
+         store.dispatch(CardAction.setQuesting(cardInstance0, true));
 
          // Run.
          var result = environment.questers();
@@ -132,7 +132,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          // Run.
          var agent1 = environment.agents().get(1);
          var cardInstance1 = agent1.tableauHeroes().get(0);
-         store.dispatch(Action.setCardQuesting(cardInstance1, true));
+         store.dispatch(CardAction.setQuesting(cardInstance1, true));
          result = environment.questers();
 
          // Verify.

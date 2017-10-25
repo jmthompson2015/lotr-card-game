@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "model/js/Action"],
-   function(Immutable, InputValidator, CardResolver, Action)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(Immutable, InputValidator, CardResolver, Action, AgentAction, CardAction)
    {
       function CardInstance(store, card, idIn, isNewIn)
       {
@@ -15,7 +15,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          if (isNaN(id))
          {
             id = store.getState().nextCardId;
-            store.dispatch(Action.incrementNextCardId());
+            store.dispatch(CardAction.incrementNextCardId());
          }
 
          this.store = function()
@@ -126,6 +126,32 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
+      CardInstance.prototype.prepareForDiscard = function(agent)
+      {
+         var store = this.store();
+
+         var attachments = this.attachments();
+
+         attachments.forEach(function(attachmentInstance)
+         {
+            store.dispatch(AgentAction.discardAttachmentCard(agent, this, attachmentInstance));
+         }, this);
+
+         var shadowCards = this.shadowCards();
+
+         shadowCards.forEach(function(shadowInstance)
+         {
+            store.dispatch(Action.discardShadowCard(agent, this, shadowInstance));
+         }, this);
+
+         store.dispatch(CardAction.deleteFaceUp(this));
+         store.dispatch(CardAction.deleteProgress(this));
+         store.dispatch(CardAction.deleteQuesting(this));
+         store.dispatch(CardAction.deleteReady(this));
+         store.dispatch(CardAction.deleteResources(this, Immutable.Map()));
+         store.dispatch(CardAction.deleteWounds(this));
+      };
+
       CardInstance.prototype._save = function()
       {
          var store = this.store();
@@ -138,7 +164,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
             cardTypeKey: card.cardTypeKey,
          });
 
-         store.dispatch(Action.setCardInstance(id, values));
+         store.dispatch(Action.addCardInstance(id, values));
       };
 
       //////////////////////////////////////////////////////////////////////////

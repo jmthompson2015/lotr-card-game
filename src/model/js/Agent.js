@@ -1,8 +1,8 @@
 "use strict";
 
 define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/Sphere",
-  "model/js/Action", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
-   function(Immutable, InputValidator, CardType, Sphere, Action, CardInstance, SimpleAgentStrategy)
+  "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
+   function(Immutable, InputValidator, CardType, Sphere, Action, AgentAction, CardAction, CardInstance, SimpleAgentStrategy)
    {
       function Agent(store, name, idIn, strategyIn, isNewIn)
       {
@@ -27,7 +27,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          if (isNaN(id))
          {
             id = store.getState().nextAgentId;
-            store.dispatch(Action.incrementNextAgentId());
+            store.dispatch(AgentAction.incrementNextAgentId());
          }
 
          this.id = function()
@@ -283,6 +283,77 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
+      Agent.prototype.addCardWounds = function(cardInstance, damage)
+      {
+         var store = this.store();
+         store.dispatch(CardAction.addWounds(cardInstance, damage));
+
+         if (cardInstance.remainingHitPoints() <= 0)
+         {
+            // Defender is dead.
+            cardInstance.prepareForDiscard(this);
+            store.dispatch(AgentAction.discardFromTableau(this, cardInstance));
+         }
+
+         if (this.tableauHeroes().size === 0)
+         {
+            // I'm dead.
+            LOGGER.warn("Agent " + this.name() + " has no heroes: I'm dead.");
+            this.processAgentDeath();
+         }
+      };
+
+      Agent.prototype.addThreat = function(value)
+      {
+         var store = this.store();
+         store.dispatch(AgentAction.addThreat(this, value));
+
+         if (this.threatLevel() >= 50)
+         {
+            // I'm dead.
+            LOGGER.warn("Agent " + this.name() + " has threat " + this.threatLevel() + ": I'm dead.");
+            this.processAgentDeath();
+         }
+      };
+
+      Agent.prototype.processAgentDeath = function()
+      {
+         // See core rules p. 22 Player Elimination.
+         // Discard hand.
+         var store = this.store();
+         var hand = this.hand();
+         hand.forEach(function(cardInstance)
+         {
+            store.dispatch(AgentAction.discardFromHand(this, cardInstance));
+         }, this);
+
+         // Discard tableau cards.
+         var tableau = this.tableau();
+         tableau.forEach(function(cardInstance)
+         {
+            cardInstance.prepareForDiscard(this);
+            store.dispatch(AgentAction.discardFromTableau(this, cardInstance));
+         }, this);
+
+         // Discard player deck.
+         var playerDeck = this.playerDeck();
+         playerDeck.forEach(function(cardInstance)
+         {
+            store.dispatch(AgentAction.discardFromPlayerDeck(this, cardInstance));
+         }, this);
+
+         // Return engagement cards to staging area with wounds.
+         var engagementArea = this.engagementArea();
+         engagementArea.forEach(function(cardInstance)
+         {
+            store.dispatch(Action.agentEngagementToStaging(this, cardInstance));
+            store.dispatch(CardAction.setReady(cardInstance, true));
+         }, this);
+
+         // Remove agent.
+         store.dispatch(Action.deleteAgent(this));
+      };
+
       Agent.prototype._save = function()
       {
          var store = this.store();
@@ -294,7 +365,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
             strategy: this._strategy(),
          });
 
-         store.dispatch(Action.setAgent(id, values));
+         store.dispatch(Action.addAgent(id, values));
       };
 
       //////////////////////////////////////////////////////////////////////////

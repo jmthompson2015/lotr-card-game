@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action"],
-   function(InputValidator, Action)
+define(["common/js/InputValidator", "model/js/AgentAction", "model/js/CardAction"],
+   function(InputValidator, AgentAction, CardAction)
    {
       function ResourceTask(store)
       {
@@ -29,11 +29,11 @@ define(["common/js/InputValidator", "model/js/Action"],
             cardInstances.forEach(function(cardInstance)
             {
                var sphereKey = cardInstance.card().sphereKey;
-               store.dispatch(Action.addCardResource(cardInstance, sphereKey));
+               store.dispatch(CardAction.addResource(cardInstance, sphereKey));
             });
 
             // Draw one card.
-            store.dispatch(Action.drawPlayerCard(agent));
+            store.dispatch(AgentAction.drawPlayerCard(agent));
          });
 
          callback();

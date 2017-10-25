@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action"],
-   function(InputValidator, Action)
+define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
+   function(InputValidator, Action, CardAction)
    {
       function CombatAttackTask(store, agent)
       {
@@ -52,24 +52,31 @@ define(["common/js/InputValidator", "model/js/Action"],
       {
          LOGGER.debug("CombatAttackTask defender = " + defender);
 
-         // 1b. Declare attackers.
-         var agent = this.agent();
-         var characters = agent.attackers();
-         LOGGER.debug("CombatAttackTask characters = " + characters);
-
-         if (characters.size > 0)
+         if (defender)
          {
-            var determineAttackStrengthFunction = this.determineAttackStrength.bind(this);
-            var myCallback = function(attackers)
-            {
-               determineAttackStrengthFunction(attackers, defender, callback);
-            };
+            // 1b. Declare attackers.
+            var agent = this.agent();
+            var characters = agent.attackers();
+            LOGGER.debug("CombatAttackTask characters = " + characters);
 
-            agent.chooseCharacterAttackers(characters.toJS(), defender, myCallback);
+            if (characters.size > 0)
+            {
+               var determineAttackStrengthFunction = this.determineAttackStrength.bind(this);
+               var myCallback = function(attackers)
+               {
+                  determineAttackStrengthFunction(attackers, defender, callback);
+               };
+
+               agent.chooseCharacterAttackers(characters.toJS(), defender, myCallback);
+            }
+            else
+            {
+               this.determineAttackStrength([], defender, callback);
+            }
          }
          else
          {
-            this.determineAttackStrength([], defender, callback);
+            this.finishCombatAttackTask(callback);
          }
       };
 
@@ -94,7 +101,7 @@ define(["common/js/InputValidator", "model/js/Action"],
          if (damage > 0)
          {
             var store = this.store();
-            store.dispatch(Action.addCardWounds(defender, damage));
+            store.dispatch(CardAction.addWounds(defender, damage));
 
             if (defender.remainingHitPoints() <= 0)
             {
@@ -112,7 +119,17 @@ define(["common/js/InputValidator", "model/js/Action"],
          // Discard shadow cards.
          var store = this.store();
          LOGGER.debug("0 cardShadowCards = " + store.getState().cardShadowCards);
-         store.dispatch(Action.discardShadowCards());
+         var agent = this.agent();
+         var engagementArea = agent.engagementArea();
+         engagementArea.forEach(function(cardInstance)
+         {
+            var shadowCards = cardInstance.shadowCards();
+
+            shadowCards.forEach(function(shadowInstance)
+            {
+               store.dispatch(Action.discardShadowCard(agent, cardInstance, shadowInstance));
+            });
+         });
          LOGGER.debug("encounterDiscard = " + store.getState().encounterDiscard);
          LOGGER.debug("1 cardShadowCards = " + store.getState().cardShadowCards);
 

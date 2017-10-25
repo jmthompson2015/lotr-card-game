@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/LocationCard", "artifact/js/Scenario",
-  "model/js/Action", "model/js/Engine", "model/js/Environment"],
-   function(InputValidator, EnemyCard, LocationCard, Scenario, Action, Engine, Environment)
+  "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/Engine", "model/js/Environment"],
+   function(InputValidator, EnemyCard, LocationCard, Scenario, Action, Adjudicator, AgentAction, Engine, Environment)
    {
       function Game(store, scenarioDeck, playerData, delayIn, engineCallback)
       {
@@ -27,6 +27,7 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
          // Setup.
          // 1. Shuffle Decks
          var environment = new Environment(store, scenarioDeck, playerData);
+         var adjudicator = new Adjudicator(store);
 
          // 2. Place Heroes and Set Initial Threat Levels
          playerData.forEach(function(data)
@@ -37,7 +38,7 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
             {
                return accumulator + cardInstance.card().threatCost;
             }, 0);
-            store.dispatch(Action.setAgentThreat(agent, initialThreat));
+            store.dispatch(AgentAction.setThreat(agent, initialThreat));
          });
 
          // 3. Setup Token Bank
@@ -51,7 +52,7 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
             var agent = data.agent;
             for (var i = 0; i < 6; i++)
             {
-               store.dispatch(Action.drawPlayerCard(agent));
+               store.dispatch(AgentAction.drawPlayerCard(agent));
             }
          });
 
@@ -74,7 +75,7 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
             store.dispatch(Action.discardActiveQuest());
          }
 
-         var engine = new Engine(store, environment, delay, engineCallback);
+         var engine = new Engine(store, environment, adjudicator, delay, engineCallback);
 
          this.engine = function()
          {

@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/GameMode",
-  "model/js/Action", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/RefreshTask", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, GameMode, Action, Game, PlayerDeckBuilder, Reducer, RefreshTask, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/RefreshTask", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, GameMode, Action, AgentAction, CardAction, Game, PlayerDeckBuilder, Reducer, RefreshTask, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("RefreshTask");
 
@@ -14,19 +14,19 @@ define(["qunit", "redux", "artifact/js/GameMode",
          var store = environment.store();
          var agent1 = environment.agents().get(0);
          var agent2 = environment.agents().get(1);
-         store.dispatch(Action.drawPlayerCard(agent1));
-         store.dispatch(Action.drawPlayerCard(agent1));
-         store.dispatch(Action.drawPlayerCard(agent1));
-         store.dispatch(Action.drawPlayerCard(agent2));
-         store.dispatch(Action.drawPlayerCard(agent2));
-         store.dispatch(Action.drawPlayerCard(agent2));
+         store.dispatch(AgentAction.drawPlayerCard(agent1));
+         store.dispatch(AgentAction.drawPlayerCard(agent1));
+         store.dispatch(AgentAction.drawPlayerCard(agent1));
+         store.dispatch(AgentAction.drawPlayerCard(agent2));
+         store.dispatch(AgentAction.drawPlayerCard(agent2));
+         store.dispatch(AgentAction.drawPlayerCard(agent2));
          agent1.tableau().forEach(function(cardInstance)
          {
-            store.dispatch(Action.setCardReady(cardInstance, false));
+            store.dispatch(CardAction.setReady(cardInstance, false));
          });
          agent2.tableau().forEach(function(cardInstance)
          {
-            store.dispatch(Action.setCardReady(cardInstance, false));
+            store.dispatch(CardAction.setReady(cardInstance, false));
          });
          assert.equal(agent1.threatLevel(), 29);
          assert.equal(agent2.threatLevel(), 30);

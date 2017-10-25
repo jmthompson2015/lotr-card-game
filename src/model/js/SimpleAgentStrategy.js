@@ -93,6 +93,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
          {
             InputValidator.validateNotNull("agent", agent);
             InputValidator.validateIsArray("heroes", heroes);
+            InputValidator.validateNotEmpty("heroes", heroes);
             InputValidator.validateIsFunction("callback", callback);
 
             var hero = heroes.lotrRandomElement();

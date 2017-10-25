@@ -1,8 +1,8 @@
 "use strict";
 
 define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType",
-  "model/js/Action", "model/js/Agent", "model/js/CardInstance"],
-   function(Immutable, ArrayAugments, InputValidator, CardType, Action, Agent, CardInstance)
+  "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardInstance"],
+   function(Immutable, ArrayAugments, InputValidator, CardType, Action, Agent, AgentAction, CardInstance)
    {
       function Environment(store, scenarioDeck, playerData)
       {
@@ -25,9 +25,9 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          playerData.forEach(function(player)
          {
             var agent = player.agent;
-            store.dispatch(Action.setAgentTableau(agent, player.playerDeck.heroInstances));
+            store.dispatch(AgentAction.setTableau(agent, player.playerDeck.heroInstances));
             player.playerDeck.playerInstances.lotrShuffle();
-            store.dispatch(Action.setAgentPlayerDeck(agent, player.playerDeck.playerInstances));
+            store.dispatch(AgentAction.setPlayerDeck(agent, player.playerDeck.playerInstances));
          });
       }
 
