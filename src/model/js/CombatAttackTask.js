@@ -127,7 +127,7 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
 
             shadowCards.forEach(function(shadowInstance)
             {
-               store.dispatch(Action.discardShadowCard(agent, cardInstance, shadowInstance));
+               store.dispatch(Action.discardShadowCard(cardInstance, shadowInstance));
             });
          });
          LOGGER.debug("encounterDiscard = " + store.getState().encounterDiscard);
