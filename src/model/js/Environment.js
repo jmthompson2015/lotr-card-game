@@ -143,12 +143,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          return this.stagingArea(CardType.LOCATION);
       };
 
-      Environment.prototype.questDeck = function()
+      Environment.prototype.stagingThreat = function()
       {
-         var store = this.store();
-         var ids = store.getState().questDeck;
-
-         return CardInstance.idsToCardInstances(store, ids);
+         return this.stagingArea().reduce(function(accumulator, cardInstance)
+         {
+            var card = cardInstance.card();
+            var threat = (card.threat !== undefined ? card.threat : 0);
+            return accumulator + threat;
+         }, 0);
       };
 
       //////////////////////////////////////////////////////////////////////////

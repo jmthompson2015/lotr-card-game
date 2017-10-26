@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard",
-  "model/js/Action", "model/js/CardAction", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, CardAction, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/CardAction", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, CardAction, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Environment");
 
@@ -195,6 +195,39 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          });
       });
 
+      QUnit.test("stagingThreat()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         //  var environment = createEnvironment();
+         //  var store = environment.store();
+         //  store.dispatch(Action.drawEncounterCard());
+         //  var cardTypeKey = CardType.LOCATION;
+
+         // Run.
+         var result = environment.stagingThreat();
+
+         // Verify.
+         assert.equal(result, 3);
+         //  assert.ok(result);
+         //  result.forEach(function(cardInstance)
+         //  {
+         //     assert.equal(cardInstance.card().cardTypeKey, cardTypeKey);
+         //  });
+         //
+         //  // Run.
+         //  store.dispatch(Action.drawEncounterCard());
+         //  result = environment.stagingArea(cardTypeKey);
+         //
+         //  // Verify.
+         //  assert.ok(result);
+         //  result.forEach(function(cardInstance)
+         //  {
+         //     assert.equal(cardInstance.card().cardTypeKey, cardTypeKey);
+         //  });
+      });
+
       function createEnvironment()
       {
          var store = Redux.createStore(Reducer.root);
@@ -213,5 +246,27 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          ];
 
          return new Environment(store, scenarioDeck, playerData);
+      }
+
+      function createGame(callback)
+      {
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         var playerData = [
+            {
+               agent: new Agent(store, "agent1"),
+               playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+                  },
+                  // {
+                  //    agent: new Agent(store, "agent2"),
+                  //    playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+                  // },
+                  // {
+                  //    agent: new Agent(store, "agent3"),
+                  //    playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+                  // },
+               ];
+
+         return new Game(store, scenarioDeck, playerData, 10, callback);
       }
    });

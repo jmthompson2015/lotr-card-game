@@ -7,11 +7,12 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
       {
          var environment = state.environment;
          var cardInstances = environment.stagingArea().toJS();
+         var threat = environment.stagingThreat();
 
          return (
          {
             cardInstances: cardInstances,
-            label: "Staging Area",
+            label: "Staging Area (threat: " + threat + ")",
             resourceBase: state.resourceBase,
          });
       }

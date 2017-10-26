@@ -10,7 +10,7 @@ define(["react-redux", "common/js/InputValidator", "view/js/AgentLabel"],
          var agent = ownProps.agent;
          var environment = state.environment;
          var firstAgent = environment.agentQueue()[0];
-         var isFirstAgent = (agent.id() === firstAgent.id());
+         var isFirstAgent = (firstAgent !== undefined && agent.id() === firstAgent.id());
 
          return (
          {
