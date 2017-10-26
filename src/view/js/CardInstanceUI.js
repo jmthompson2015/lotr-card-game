@@ -9,7 +9,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          {
             return (
             {
-               hover: false,
+               isSmall: true,
             });
          },
 
@@ -27,8 +27,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
                {
                   key: "imageRow" + rows.length,
                   className: "dt-row",
-                  onMouseOut: this.mouseOut,
-                  onMouseOver: this.mouseOver,
+                  onClick: this.toggleSize,
                }, image));
 
                rows.push(DOM.div(
@@ -74,19 +73,11 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
             }, rows);
          },
 
-         mouseOver: function()
+         toggleSize: function()
          {
             this.setState(
             {
-               hover: true,
-            });
-         },
-
-         mouseOut: function()
-         {
-            this.setState(
-            {
-               hover: false,
+               isSmall: !this.state.isSmall,
             });
          },
       });
@@ -102,7 +93,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
 
       CardInstanceUI.prototype.createCardImage = function(cardInstance)
       {
-         var width = (this.state.hover ? 275 : 125);
+         var width = (this.state.isSmall ? 125 : 275);
 
          return React.createElement(CardImageContainer,
          {
