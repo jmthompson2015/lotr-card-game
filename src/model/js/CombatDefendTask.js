@@ -123,6 +123,8 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "
             var defense = defender.card().defense;
             var damage = attack - defense;
             LOGGER.debug("CombatDefendTask damage = " + damage);
+            var store = this.store();
+            store.dispatch(Action.setUserMessage("Defender combat damage: " + damage));
             agent.addCardWounds(defender, damage);
 
             this.processQueue(callback);
@@ -159,6 +161,7 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "
          if (hero.remainingHitPoints() <= 0)
          {
             // Hero is dead.
+            store.dispatch(Action.setUserMessage("Hero " + hero.card().name + " killed."));
             hero.prepareForDiscard(agent);
             store.dispatch(AgentAction.discardFromTableau(agent, hero));
          }

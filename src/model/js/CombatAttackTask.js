@@ -97,10 +97,11 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
          LOGGER.debug("CombatAttackTask defense = " + defense);
          var damage = attack - defense;
          LOGGER.debug("CombatAttackTask damage = " + damage);
+         var store = this.store();
+         store.dispatch(Action.setUserMessage("Attacker combat damage: " + damage));
 
          if (damage > 0)
          {
-            var store = this.store();
             store.dispatch(CardAction.addWounds(defender, damage));
 
             if (defender.remainingHitPoints() <= 0)

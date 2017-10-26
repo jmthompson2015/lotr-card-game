@@ -18,6 +18,7 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "
          InputValidator.validateNotNull("callback", callback);
 
          var store = this.store();
+         store.dispatch(Action.setUserMessage(""));
          var environment = store.getState().environment;
          var agents = environment.agentQueue();
 

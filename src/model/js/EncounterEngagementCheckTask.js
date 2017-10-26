@@ -37,6 +37,7 @@ define(["common/js/InputValidator", "model/js/Action"],
                if (enemy.card().engagementCost <= agent.threatLevel())
                {
                   store.dispatch(Action.agentEngageCard(agent, enemy));
+                  store.dispatch(Action.setUserMessage("Enemy " + enemy.card().name + " engages."));
                   break;
                }
             }

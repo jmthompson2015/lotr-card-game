@@ -134,6 +134,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             // Successful quest.
             var progress = questerWillpower - stagingThreat;
             LOGGER.info("Quest succeeded. progress = " + progress);
+            store.dispatch(Action.setUserMessage("Quest succeeded. progress: " + progress));
             var activeLocation = environment.activeLocation();
             var neededProgress;
 
@@ -170,6 +171,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             // Unsuccessful quest.
             var threat = stagingThreat - questerWillpower;
             LOGGER.info("Quest failed. threat = " + threat);
+            store.dispatch(Action.setUserMessage("Quest failed. threat: " + threat));
 
             agents.forEach(function(agent)
             {
@@ -179,6 +181,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          else
          {
             LOGGER.info("Quest tied: no progress, no threat.");
+            store.dispatch(Action.setUserMessage("Quest tied: no progress, no threat."));
          }
 
          // 4. Cleanup.
