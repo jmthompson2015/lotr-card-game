@@ -298,7 +298,8 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          if (this.tableauHeroes().size === 0)
          {
             // I'm dead.
-            LOGGER.warn("Agent " + this.name() + " has no heroes: I'm dead.");
+            LOGGER.warn("Agent " + this.name() + " has no heroes: he's dead.");
+            store.dispatch(Action.setUserMessage("Agent " + this.name() + " has no heroes: he's dead."));
             this.processAgentDeath();
          }
       };
@@ -311,7 +312,8 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          if (this.threatLevel() >= 50)
          {
             // I'm dead.
-            LOGGER.warn("Agent " + this.name() + " has threat " + this.threatLevel() + ": I'm dead.");
+            LOGGER.warn("Agent " + this.name() + " has threat " + this.threatLevel() + ": he's dead.");
+            store.dispatch(Action.setUserMessage("Agent " + this.name() + " has threat " + this.threatLevel() + ": he's dead."));
             this.processAgentDeath();
          }
       };

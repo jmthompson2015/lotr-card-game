@@ -109,6 +109,7 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
                // Defender is dead.
                var agent = this.agent();
                store.dispatch(Action.agentDiscardEnemyCard(agent, defender));
+               store.dispatch(Action.setUserMessage(defender.card().name + " killed"));
             }
          }
 
