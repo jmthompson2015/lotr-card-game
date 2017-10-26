@@ -17,34 +17,37 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
 
          render: function()
          {
-            var width;
-            var height;
+            var className;
+            var isReady = (this.isQuestCard() ? false : this.props.isReady);
+            var canvasHeight, canvasWidth;
 
-            if (this.isQuestCard())
+            if (this.props.slicing === undefined)
             {
-               width = this.height();
-               height = this.props.width;
+               className = "br3";
+               canvasWidth = (isReady ? this.props.width : this.height());
+               canvasHeight = (isReady ? this.height() : this.props.width);
             }
             else
             {
-               var isReady = this.props.isReady;
-               width = (isReady ? this.props.width : this.height());
-               height = (isReady ? this.height() : this.props.width);
+               canvasWidth = (isReady ? this.props.width : this.height() * this.props.slicing);
+               canvasHeight = (isReady ? this.height() * this.props.slicing : this.props.width);
             }
 
             return DOM.canvas(
             {
-               className: "br3",
+               key: this.canvasId(),
+               className: className,
+               height: canvasHeight,
                id: this.canvasId(),
-               height: height,
-               width: width,
+               title: this.props.card.name,
+               width: canvasWidth,
             });
          },
       });
 
       CardImage.prototype.canvasId = function()
       {
-         return this.props.card.key + this.props.isFaceUp + this.props.isReady + "CardImageCanvas" + this.props.myKey;
+         return this.props.card.key + this.props.isFaceUp + this.props.isReady + this.props.slicing + "CardImageCanvas" + this.props.myKey;
       };
 
       CardImage.prototype.createSrc = function()
@@ -87,7 +90,7 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
 
       CardImage.prototype.height = function()
       {
-         return this.props.width * 600 / 429;
+         return this.props.width * 1.4;
       };
 
       CardImage.prototype.isQuestCard = function()
@@ -109,27 +112,51 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
          var isReady = this.props.isReady;
          var canvas = document.getElementById(this.canvasId());
          var context = canvas.getContext("2d");
-         var width = this.props.width;
+         var dWidth = this.props.width;
          var height = this.height();
+         var slicing = this.props.slicing;
          var src = this.createSrc();
          var image = new Image();
          image.onload = function()
          {
-            if (isQuestCard)
+            if (slicing === undefined)
             {
-               context.drawImage(image, 0, 0, height, width);
-            }
-            else if (isReady)
-            {
-               context.drawImage(image, 0, 0, width, height);
+               if (isQuestCard)
+               {
+                  context.drawImage(image, 0, 0, height, dWidth);
+               }
+               else if (isReady)
+               {
+                  context.drawImage(image, 0, 0, dWidth, height);
+               }
+               else
+               {
+                  context.save();
+                  context.translate(height / 2.0, dWidth / 2.0);
+                  context.rotate(Math.PI / 2.0);
+                  context.drawImage(image, -dWidth / 2.0, -height / 2.0, dWidth, height);
+                  context.restore();
+               }
             }
             else
             {
-               context.save();
-               context.translate(height / 2.0, width / 2.0);
-               context.rotate(Math.PI / 2.0);
-               context.drawImage(image, -width / 2.0, -height / 2.0, width, height);
-               context.restore();
+               var sWidth = image.naturalWidth;
+               var sy = image.naturalHeight * (1.0 - slicing);
+               var sHeight = image.naturalHeight * slicing;
+               var dHeight = height * slicing;
+
+               if (isReady)
+               {
+                  context.drawImage(image, 0, sy, sWidth, sHeight, 0, 0, dWidth, dHeight);
+               }
+               else
+               {
+                  context.save();
+                  context.translate(dHeight / 2.0, dWidth / 2.0);
+                  context.rotate(Math.PI / 2.0);
+                  context.drawImage(image, 0, sy, sWidth, sHeight, -dWidth / 2.0, -dHeight / 2.0, dWidth, dHeight);
+                  context.restore();
+               }
             }
          };
          image.onerror = this.logLoadFailure;
@@ -144,7 +171,8 @@ define(["create-react-class", "prop-types", "react-dom-factories", "artifact/js/
 
          isFaceUp: PropTypes.bool,
          isReady: PropTypes.bool,
-         myKey: PropTypes.string,
+         myKey: PropTypes.string, // default: undefined
+         slicing: PropTypes.number, // default: undefined
          width: PropTypes.number,
       };
 

@@ -18,6 +18,7 @@ define(["immutable", "react-redux", "common/js/InputValidator", "view/js/CardIma
             isReady: isReady,
             myKey: ownProps.myKey,
             resourceBase: state.resourceBase,
+            slicing: ownProps.slicing,
             width: ownProps.width,
          });
       }

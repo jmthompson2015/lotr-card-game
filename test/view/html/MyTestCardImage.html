@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MyTestCardInstanceUI</title>
+  <title>MyTestCardImage</title>
 
   <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
   <link rel="stylesheet" href="../../../src/view/css/style.css">
@@ -12,6 +12,7 @@
 
 </head>
 <body>
+  <div id="attachmentPanel"></div>
   <div id="readyPanel"></div>
   <div id="exhaustedPanel"></div>
   <div id="faceDownPanel"></div>
@@ -20,11 +21,11 @@
 
     require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/AllyCard", "artifact/js/AttachmentCard",
         "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard",
-        "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/Action", "model/js/CardInstance", "model/js/Reducer",
+        "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/CardAction", "model/js/CardInstance", "model/js/Reducer",
         "view/js/CardImage"
       ],
       function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard,
-        QuestCard, Sphere, TreacheryCard, Action, CardInstance, Reducer, CardImage)
+        QuestCard, Sphere, TreacheryCard, CardAction, CardInstance, Reducer, CardImage)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -34,33 +35,63 @@
         var store = Redux.createStore(Reducer.root);
 
         var locationInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
-        store.dispatch(Action.addCardProgress(locationInstance, 2));
+        store.dispatch(CardAction.addProgress(locationInstance, 2));
 
         var questInstance = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
-        store.dispatch(Action.addCardProgress(questInstance, 4));
+        store.dispatch(CardAction.addProgress(questInstance, 4));
 
         var heroInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
         heroInstance.isQuesting = true;
-        store.dispatch(Action.setCardReady(heroInstance, false));
-        store.dispatch(Action.addCardResource(heroInstance, Sphere.LEADERSHIP));
-        store.dispatch(Action.addCardWounds(heroInstance, 2));
+        store.dispatch(CardAction.setReady(heroInstance, false));
+        store.dispatch(CardAction.addResource(heroInstance, Sphere.LEADERSHIP));
+        store.dispatch(CardAction.addWounds(heroInstance, 2));
 
         var allyInstance = new CardInstance(store, AllyCard.properties[AllyCard.GANDALF_CORE]);
         allyInstance.isQuesting = true;
-        store.dispatch(Action.setCardReady(allyInstance, false));
-        store.dispatch(Action.addCardWounds(allyInstance, 2));
+        store.dispatch(CardAction.setReady(allyInstance, false));
+        store.dispatch(CardAction.addWounds(allyInstance, 2));
 
         var attachmentInstance = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
-        store.dispatch(Action.setCardReady(attachmentInstance, false));
+        store.dispatch(CardAction.setReady(attachmentInstance, false));
 
         var eventInstance = new CardInstance(store, EventCard.properties[EventCard.SNEAK_ATTACK]);
 
         var enemyInstance = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
-        store.dispatch(Action.addCardWounds(enemyInstance));
+        store.dispatch(CardAction.addWounds(enemyInstance));
 
         var treacheryInstance = new CardInstance(store, TreacheryCard.properties[TreacheryCard.CAUGHT_IN_A_WEB]);
 
         var cells = [];
+        addCardImage(cells, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+        addCardImage(cells, HeroCard.properties[HeroCard.GLOIN], false);
+        var element = React.createElement(CardImage,
+        {
+          card: AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR],
+          resourceBase: resourceBase,
+          slicing: 0.45,
+        });
+        cells.push(DOM.div(
+        {
+          key: "card" + cells.length,
+          className: "fl v-top",
+        }, element));
+        var element = React.createElement(CardImage,
+        {
+          card: AttachmentCard.properties[AttachmentCard.CITADEL_PLATE],
+          isReady: false,
+          resourceBase: resourceBase,
+          slicing: 0.45,
+        });
+        cells.push(DOM.div(
+        {
+          key: "card" + cells.length,
+          className: "fl v-top",
+        }, element));
+
+        ReactDOM.render(DOM.div(
+        {}, cells), document.getElementById("attachmentPanel"));
+
+        cells = [];
         addCardImage(cells, AllyCard.properties[AllyCard.GANDALF_CORE]);
         addCardImage(cells, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
         addCardImage(cells, EventCard.properties[EventCard.SNEAK_ATTACK]);
@@ -106,13 +137,14 @@
             card: card,
             isFaceUp: isFaceUp,
             isReady: isReady,
+            myKey: "" + cells.length,
             resourceBase: resourceBase,
           });
 
           cells.push(DOM.div(
           {
             key: "card" + cells.length,
-            className: "fl v-top",
+            className: "bg-lotr-light fl v-top",
           }, element));
         }
       });

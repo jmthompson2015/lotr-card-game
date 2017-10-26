@@ -96,6 +96,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          return React.createElement(CardInstanceUI,
          {
             cardInstance: cardInstance,
+            slicing: 0.45,
          });
       };
 
@@ -107,6 +108,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          {
             myKey: cardInstance.toString(),
             cardInstance: cardInstance,
+            slicing: this.props.slicing,
             width: width,
          });
       };
@@ -116,6 +118,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
          return React.createElement(CardInstanceUI,
          {
             cardInstance: cardInstance,
+            slicing: 0.25,
          });
       };
 
@@ -129,6 +132,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "con
 
       CardInstanceUI.propTypes = {
          cardInstance: PropTypes.object, // default: undefined
+         slicing: PropTypes.number, // default: undefined
       };
 
       return CardInstanceUI;
