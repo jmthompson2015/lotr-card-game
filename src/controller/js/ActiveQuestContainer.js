@@ -1,7 +1,7 @@
 "use strict";
 
-define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
-   function(ReactRedux, InputValidator, CardInstancesArea)
+define(["react-redux", "view/js/CardInstancesArea"],
+   function(ReactRedux, CardInstancesArea)
    {
       function mapStateToProps(state)
       {

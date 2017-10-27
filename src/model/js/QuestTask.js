@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(InputValidator, Phase, Action, AgentAction, CardAction)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/CardAction"],
+   function(InputValidator, Phase, Action, CardAction)
    {
       function QuestTask(store)
       {

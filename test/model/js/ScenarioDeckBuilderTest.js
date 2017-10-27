@@ -54,7 +54,7 @@ define(["redux", "artifact/js/GameMode", "model/js/Reducer", "model/js/ScenarioD
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var deckBuilder = ScenarioDeckBuilder.TheHuntForGollumDeckBuilder;
-         assert.equal(deckBuilder.name(), "The Hunt for Gollum");
+         assert.equal(deckBuilder.name(), "The Hunt for Gollum (Shadows of Mirkwood #1)");
          assert.equal(deckBuilder.year(), 2011);
          assert.equal(deckBuilder.description(), "The Hunt for Gollum");
 
@@ -76,7 +76,7 @@ define(["redux", "artifact/js/GameMode", "model/js/Reducer", "model/js/ScenarioD
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var deckBuilder = ScenarioDeckBuilder.TheHuntForGollumDeckBuilder;
-         assert.equal(deckBuilder.name(), "The Hunt for Gollum");
+         assert.equal(deckBuilder.name(), "The Hunt for Gollum (Shadows of Mirkwood #1)");
          assert.equal(deckBuilder.year(), 2011);
          assert.equal(deckBuilder.description(), "The Hunt for Gollum");
 

@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/Phase", "artifact/js/Sphere",
-   "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(Immutable, QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, Phase, Sphere, AgentAction, CardAction, CardInstance, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/Sphere",
+   "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Reducer", "model/js/Agent"],
+   function(Immutable, QUnit, Redux, HeroCard, LocationCard, Sphere, AgentAction, CardAction, CardInstance, Reducer, Agent)
    {
       QUnit.module("CardReducer");
 

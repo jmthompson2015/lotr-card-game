@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/CardAction"],
-   function(Immutable, InputValidator, CardAction)
+define(["immutable", "model/js/CardAction"],
+   function(Immutable, CardAction)
    {
       var CardReducer = {};
 

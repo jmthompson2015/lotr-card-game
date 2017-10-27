@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(InputValidator, Action, AgentAction, CardAction)
+define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
+   function(InputValidator, Action, CardAction)
    {
       function RefreshTask(store)
       {
