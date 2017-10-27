@@ -267,5 +267,7 @@ define(["react", "react-dom", "common/js/InputValidator",
          },
       };
 
+      HumanAgentStrategy.shortName = "HumanAgent";
+
       return HumanAgentStrategy;
    });

@@ -1,67 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>LotR Card Game</title>
+	<title>LotR Card Game</title>
+	<meta charset="utf-8">
 
-  <link rel="stylesheet" href="../lib/tachyons/tachyons-4.8.1.css">
-  <link rel="stylesheet" href="view/css/style.css">
+	<link rel="stylesheet" href="../lib/tachyons/tachyons-4.8.1.min.css">
+	<link rel="stylesheet" href="view/css/style.css">
 
-  <script src="../lib/requirejs/require-2.3.5.js"></script>
-  <script src="main.js"></script>
+	<script src="../lib/requirejs/require-2.3.5.js"></script>
+	<script src="main.js"></script>
 
 </head>
 <body>
-  <div id="panel"></div>
-  <script>
-    "use strict";
+	<div id="inputArea"></div>
+	<div id="panel"></div>
+	<script>
+		"use strict";
 
-    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "model/js/Action", "model/js/Agent", "model/js/Game",
-        "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "view/js/EnvironmentUI", "controller/js/HumanAgentStrategy"
-      ],
-      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, Action, Agent, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, EnvironmentUI,
-        HumanAgentStrategy)
-      {
-        window.LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+		require(["common/js/Logger"], function(Logger)
+		{
+			window.LOGGER = new Logger();
+			LOGGER.setTraceEnabled(false);
+			LOGGER.setDebugEnabled(false);
+		});
+	</script>
 
-        var resourceBase = "view/resource/";
-        var game = createGame();
-        var store = game.store();
-        store.dispatch(Action.setResourceBase(resourceBase));
-        var environment = store.getState().environment;
-
-        var element = React.createElement(ReactRedux.Provider,
-        {
-          store: store,
-        }, React.createElement(EnvironmentUI,
-        {
-          environment: environment,
-        }));
-
-        ReactDOM.render(DOM.div(
-        {}, element), document.getElementById("panel"));
-
-        game.start();
-
-        function createGame()
-        {
-          var store = Redux.createStore(Reducer.root);
-          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
-          var playerData = [
-          {
-            agent: new Agent(store, "Adam", undefined, HumanAgentStrategy),
-            playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
-          },
-          {
-            agent: new Agent(store, "Bruce"),
-            playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
-          }];
-
-          return new Game(store, scenarioDeck, playerData);
-        }
-      });
-  </script>
+	<script src="controller/js/App.js"></script>
 </body>
 
 </html>

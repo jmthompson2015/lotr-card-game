@@ -210,7 +210,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 2,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKeys: GameMode.createMap(2),
+               gameModeMap: GameMode.createMap(2),
                key: "goblinSniper",
             },
             "goblintownScavengers":
@@ -241,7 +241,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 9,
                traitKeys: [Trait.TROLL],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKeys: GameMode.createMap(1, 1),
+               gameModeMap: GameMode.createMap(1, 1),
                key: "hillTroll",
             },
             "hummerhorns":
@@ -319,7 +319,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 10,
                traitKeys: [Trait.TROLL],
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
-               gameModeKeys: GameMode.createMap(1),
+               gameModeMap: GameMode.createMap(1),
                key: "louis",
             },
             "marshAdder":
@@ -332,7 +332,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 7,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKeys: GameMode.createMap(0, 1),
+               gameModeMap: GameMode.createMap(0, 1),
                key: "marshAdder",
             },
             "mistyMountainGoblins":
@@ -367,7 +367,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 10,
                traitKeys: [Trait.TROLL],
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
-               gameModeKeys: GameMode.createMap(1),
+               gameModeMap: GameMode.createMap(1),
                key: "morris",
             },
             "muckAdder":
@@ -380,7 +380,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 4,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
-               gameModeKeys: GameMode.createMap(2, 2),
+               gameModeMap: GameMode.createMap(2, 2),
                key: "muckAdder",
             },
             "nazgulOfDolGuldur":
@@ -406,7 +406,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 10,
                traitKeys: [Trait.TROLL],
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
-               gameModeKeys: GameMode.createMap(1),
+               gameModeMap: GameMode.createMap(1),
                key: "rupert",
             },
             "stuart":
@@ -419,7 +419,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 10,
                traitKeys: [Trait.TROLL],
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
-               gameModeKeys: GameMode.createMap(1),
+               gameModeMap: GameMode.createMap(1),
                key: "stuart",
             },
             "ungoliantsSpawn":
@@ -454,7 +454,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 3,
                traitKeys: [Trait.CREATURE],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKeys: GameMode.createMap(2),
+               gameModeMap: GameMode.createMap(2),
                key: "wargs",
             },
             "wolfRider":
@@ -467,7 +467,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                hitPoints: 2,
                traitKeys: [Trait.GOBLIN, Trait.ORC],
                encounterSetKey: EncounterSet.WILDERLANDS,
-               gameModeKeys: GameMode.createMap(1),
+               gameModeMap: GameMode.createMap(1),
                key: "wolfRider",
             },
          },

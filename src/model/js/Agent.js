@@ -234,7 +234,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
       Agent.prototype.toString = function()
       {
-         return "Agent " + this.id() + " " + this.name();
+         return "Agent " + this.id() + " " + this.name() + " " + this._strategy().shortName;
       };
 
       //////////////////////////////////////////////////////////////////////////

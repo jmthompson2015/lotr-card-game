@@ -28,7 +28,29 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
          });
       DeckBuilders.push(PassageThroughMirkwoodDeckBuilder);
 
-      var TheHuntForGollumDeckBuilder = new ScenarioDeckBuilder(Scenario.THE_HUNT_FOR_GOLLUM, "The Hunt for Gollum", 2011, "The Hunt for Gollum",
+      var JourneyAlongTheAnduinDeckBuilder = new ScenarioDeckBuilder(Scenario.JOURNEY_ALONG_THE_ANDUIN, "Journey Along the Anduin (Core #2)", 2011, "Journey Along the Anduin",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.JOURNEY_ALONG_THE_ANDUIN);
+         },
+         function(store, gameModeKey)
+         {
+            return encounterBuildFunction(store, gameModeKey, Scenario.JOURNEY_ALONG_THE_ANDUIN);
+         });
+      DeckBuilders.push(JourneyAlongTheAnduinDeckBuilder);
+
+      var EscapeFromDolGuldurDeckBuilder = new ScenarioDeckBuilder(Scenario.ESCAPE_FROM_DOL_GULDUR, "Escape from Dol Guldur (Core #3)", 2011, "Escape from Dol Guldur",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.ESCAPE_FROM_DOL_GULDUR);
+         },
+         function(store, gameModeKey)
+         {
+            return encounterBuildFunction(store, gameModeKey, Scenario.ESCAPE_FROM_DOL_GULDUR);
+         });
+      DeckBuilders.push(EscapeFromDolGuldurDeckBuilder);
+
+      var TheHuntForGollumDeckBuilder = new ScenarioDeckBuilder(Scenario.THE_HUNT_FOR_GOLLUM, "The Hunt for Gollum (Shadows of Mirkwood #1)", 2011, "The Hunt for Gollum",
          function(store)
          {
             return questBuildFunction(store, Scenario.THE_HUNT_FOR_GOLLUM);
@@ -38,6 +60,17 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
             return encounterBuildFunction(store, gameModeKey, Scenario.THE_HUNT_FOR_GOLLUM);
          });
       DeckBuilders.push(TheHuntForGollumDeckBuilder);
+
+      var ConflictAtTheCarrockDeckBuilder = new ScenarioDeckBuilder(Scenario.CONFLICT_AT_THE_CARROCK, "Conflict at the Carrock (Shadows of Mirkwood #2)", 2011, "Conflict at the Carrock",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.CONFLICT_AT_THE_CARROCK);
+         },
+         function(store, gameModeKey)
+         {
+            return encounterBuildFunction(store, gameModeKey, Scenario.CONFLICT_AT_THE_CARROCK);
+         });
+      DeckBuilders.push(ConflictAtTheCarrockDeckBuilder);
 
       function ScenarioDeckBuilder(scenarioKey, name, year, description, questBuildFunction, encounterBuildFunction)
       {
@@ -86,6 +119,27 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
             });
          };
       }
+
+      ScenarioDeckBuilder.findByScenario = function(scenarioKey)
+      {
+         InputValidator.validateIsString("scenarioKey", scenarioKey);
+
+         var answer;
+         var deckBuilders = DeckBuilders;
+
+         for (var i = 0; i < deckBuilders.length; i++)
+         {
+            var deckBuilder = deckBuilders[i];
+
+            if (deckBuilder.scenarioKey() === scenarioKey)
+            {
+               answer = deckBuilder;
+               break;
+            }
+         }
+
+         return answer;
+      };
 
       function createCards(store, cardTypeKey, cardKey, gameModeKey)
       {

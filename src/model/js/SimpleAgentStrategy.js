@@ -102,5 +102,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
          },
       };
 
+      SimpleAgentStrategy.shortName = "SimpleAgent";
+
       return SimpleAgentStrategy;
    });

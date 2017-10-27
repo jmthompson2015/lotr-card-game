@@ -172,6 +172,11 @@ define(["common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/Attachm
          };
       }
 
+      PlayerDeckBuilder.prototype.toString = function()
+      {
+         return this.year() + " " + this.name() + " (" + this.description() + ")";
+      };
+
       function addCard(array, store, cardClass, cardKey, count)
       {
          InputValidator.validateNotNull("store", store);
