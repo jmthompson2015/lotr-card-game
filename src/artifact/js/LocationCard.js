@@ -9,12 +9,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          ENCHANTED_STREAM: "enchantedStream",
          ENDLESS_CAVERNS: "endlessCaverns",
          FOREST_GATE: "forestGate",
+         FOREST_GROVE: "forestGrove",
          GLADDEN_FIELDS: "gladdenFields",
          GREAT_FOREST_WEB: "greatForestWeb",
          MOUNTAINS_OF_MIRKWOOD: "mountainsOfMirkwood",
          NECROMANCERS_PASS: "necromancersPass",
          OAK_WOOD_GROVE: "oakWoodGrove",
          OLD_FOREST_ROAD: "oldForestRoad",
+         RHOSGOBEL: "rhosgobel",
          RIVER_LANGFLOOD: "riverLangflood",
          RIVER_NINGLOR: "riverNinglor",
          THE_BROWN_LANDS: "theBrownLands",
@@ -91,6 +93,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "After you travel to Forest Gate, the first player may draw 2 cards.",
                   }],
                key: "forestGate",
+            },
+            "forestGrove":
+            {
+               name: "Forest Grove",
+               threat: 2,
+               questPoints: 3,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(4),
+               key: "forestGrove",
             },
             "gladdenFields":
             {
@@ -180,6 +192,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "After you travel to Old Forest Road, the first player may choose and ready 1 character he controls.",
                   }],
                key: "oldForestRoad",
+            },
+            "rhosgobel":
+            {
+               name: "Rhosgobel",
+               threat: undefined,
+               questPoints: 4,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(1),
+               key: "rhosgobel",
             },
             "riverLangflood":
             {

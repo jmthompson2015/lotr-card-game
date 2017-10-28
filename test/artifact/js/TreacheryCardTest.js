@@ -64,7 +64,7 @@ define(["qunit", "artifact/js/TreacheryCard"], function(QUnit, TreacheryCard)
 
       // Verify.
       assert.ok(result);
-      var length = 17;
+      var length = 20;
       assert.equal(result.length, length);
       assert.equal(result[0], TreacheryCard.A_FRIGHTENED_BEAST);
       assert.equal(result[length - 1], TreacheryCard.UNDER_THE_SHADOW);

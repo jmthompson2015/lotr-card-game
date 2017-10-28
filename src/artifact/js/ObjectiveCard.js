@@ -4,14 +4,24 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var ObjectiveCard = {
+         ATHELAS: "athelas",
          DUNGEON_TORCH: "dungeonTorch",
          GANDALFS_MAP: "gandalfsMap",
          GRIMBEORN_THE_OLD: "grimbeornTheOld",
          SHADOW_KEY: "shadowKey",
          SIGNS_OF_GOLLUM: "signsOfGollum",
+         WILYADOR: "wilyador",
 
          properties:
          {
+            "athelas":
+            {
+               name: "Athelas",
+               traitKeys: [Trait.ITEM],
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(4),
+               key: "athelas",
+            },
             "dungeonTorch":
             {
                name: "Dungeon Torch",
@@ -61,6 +71,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "After the players quest successfully, the players may claim Signs of Gollum if it has no attached encounters. When claimed, attach Signs of Gollum to any hero committed to the quest. (Counts as a Condition attachment with: 'Forced: After attached hero is damaged or leaves play, return this card to the top of the encounter deck.')",
                   }],
                key: "signsOfGollum",
+            },
+            "wilyador":
+            {
+               name: "Wilyador",
+               isUnique: true,
+               willpower: 1,
+               attack: 1,
+               defense: 1,
+               hitPoints: 20,
+               traitKeys: [Trait.CREATURE, Trait.EAGLE],
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(1),
+               key: "wilyador",
             },
          },
 

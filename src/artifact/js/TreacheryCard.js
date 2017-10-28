@@ -9,8 +9,10 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          DESPAIR: "despair",
          DRIVEN_BY_SHADOW: "drivenByShadow",
          EVIL_STORM: "evilStorm",
+         EXHAUSTION: "exhaustion",
          EYES_OF_THE_FOREST: "eyesOfTheForest",
          FALSE_LEAD: "falseLead",
+         FESTERING_WOUNDS: "festeringWounds",
          FLOODING: "flooding",
          IRON_SHACKLES: "ironShackles",
          MASSING_AT_NIGHT: "massingAtNight",
@@ -18,6 +20,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          PURSUED_BY_SHADOW: "pursuedByShadow",
          ROASTED_SLOWLY: "roastedSlowly",
          SACKED: "sacked",
+         SWARMING_INSECTS: "swarmingInsects",
          THE_NECROMANCERS_REACH: "theNecromancersReach",
          TREACHEROUS_FOG: "treacherousFog",
          UNDER_THE_SHADOW: "underTheShadow",
@@ -78,6 +81,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "evilStorm",
             },
+            "exhaustion":
+            {
+               name: "Exhaustion",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(1, 3),
+               key: "exhaustion",
+            },
             "eyesOfTheForest":
             {
                name: "Eyes of the Forest",
@@ -101,6 +111,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "The first player chooses and shuffles a card with the printed Clue trait back into the encounter deck. If there are no Clue cards in play, False Lead gains surge.",
                   }],
                key: "falseLead",
+            },
+            "festeringWounds":
+            {
+               name: "Festering Wounds",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(1, 1),
+               key: "festeringWounds",
             },
             "flooding":
             {
@@ -184,6 +201,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                gameModeMap: GameMode.createMap(4, 1),
                key: "sacked",
+            },
+            "swarmingInsects":
+            {
+               name: "Swarming Insects",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(1, 3),
+               key: "swarmingInsects",
             },
             "theNecromancersReach":
             {

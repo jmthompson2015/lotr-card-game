@@ -4,6 +4,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
    function(InputValidator, CardSet, CardSubset, EncounterSet)
    {
       var Scenario = {
+         A_JOURNEY_TO_RHOSGOBEL: "aJourneyToRhosgobel",
          CONFLICT_AT_THE_CARROCK: "conflictAtTheCarrock",
          ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
          JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
@@ -12,6 +13,15 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
 
          properties:
          {
+            "aJourneyToRhosgobel":
+            {
+               name: "A Journey to Rhosgobel",
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+               cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
+               encounterSetKeys: [EncounterSet.A_JOURNEY_TO_RHOSGOBEL],
+               number: 3,
+               key: "aJourneyToRhosgobel",
+            },
             "conflictAtTheCarrock":
             {
                name: "Conflict at the Carrock",

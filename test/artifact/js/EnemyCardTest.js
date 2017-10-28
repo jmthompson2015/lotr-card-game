@@ -6,10 +6,10 @@ define(["qunit", "artifact/js/EnemyCard"], function(QUnit, EnemyCard)
 
    QUnit.test("EnemyCard properties Black Forest Bats", function(assert)
    {
-      var cardKey = EnemyCard.BLACK_FOREST_BATS;
+      var cardKey = EnemyCard.BLACK_FOREST_BATS_PTM;
       var properties = EnemyCard.properties[cardKey];
       assert.equal(properties.name, "Black Forest Bats");
-      assert.equal(properties.key, "blackForestBats");
+      assert.equal(properties.key, "blackForestBatsPtm");
    });
 
    QUnit.test("keys and values", function(assert)
@@ -61,9 +61,9 @@ define(["qunit", "artifact/js/EnemyCard"], function(QUnit, EnemyCard)
 
       // Verify.
       assert.ok(result);
-      var length = 26;
+      var length = 28;
       assert.equal(result.length, length);
-      assert.equal(result[0], EnemyCard.BLACK_FOREST_BATS);
+      assert.equal(result[0], EnemyCard.BLACK_FOREST_BATS_AJTR);
       assert.equal(result[length - 1], EnemyCard.WOLF_RIDER);
    });
 });

@@ -4,7 +4,8 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var EnemyCard = {
-         BLACK_FOREST_BATS: "blackForestBats",
+         BLACK_FOREST_BATS_AJTR: "blackForestBatsAjtr",
+         BLACK_FOREST_BATS_PTM: "blackForestBatsPtm",
          CAVERN_GUARDIAN: "cavernGuardian",
          CHIEFTAN_UFTHAK: "chieftanUfthak",
          DOL_GULDUR_BEASTMASTER: "dolGuldurBeastmaster",
@@ -21,6 +22,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          KING_SPIDER: "kingSpider",
          LOUIS: "louis",
          MARSH_ADDER: "marshAdder",
+         MIRKWOOD_FLOCK: "mirkwoodFlock",
          MISTY_MOUNTAIN_GOBLINS: "mistyMountainGoblins",
          MORRIS: "morris",
          MUCK_ADDER: "muckAdder",
@@ -33,7 +35,20 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
          properties:
          {
-            "blackForestBats":
+            "blackForestBatsAjtr":
+            {
+               name: "Black Forest Bats",
+               engagementCost: 26,
+               threat: 1,
+               attack: 1,
+               defense: 0,
+               hitPoints: 2,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(5),
+               key: "blackForestBatsAjtr",
+            },
+            "blackForestBatsPtm":
             {
                name: "Black Forest Bats",
                engagementCost: 15,
@@ -49,7 +64,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.WHEN_REVEALED,
                      text: "Each player must choose 1 character currently committed to a quest, and remove that character from the quest. (The chosen character does not ready.)",
                   }],
-               key: "blackForestBats",
+               key: "blackForestBatsPtm",
             },
             "cavernGuardian":
             {
@@ -334,6 +349,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.WILDERLANDS,
                gameModeMap: GameMode.createMap(0, 1),
                key: "marshAdder",
+            },
+            "mirkwoodFlock":
+            {
+               name: "Mirkwood Flock",
+               engagementCost: 32,
+               threat: 1,
+               attack: 2,
+               defense: 1,
+               hitPoints: 3,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               gameModeMap: GameMode.createMap(4),
+               key: "mirkwoodFlock",
             },
             "mistyMountainGoblins":
             {

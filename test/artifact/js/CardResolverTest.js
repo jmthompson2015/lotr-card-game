@@ -38,7 +38,7 @@ define(["qunit", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact
       {
          // Setup.
          var cardTypeKey = CardType.ENEMY;
-         var cardKey = EnemyCard.BLACK_FOREST_BATS;
+         var cardKey = EnemyCard.BLACK_FOREST_BATS_PTM;
 
          // Run.
          var result = CardResolver.get(cardTypeKey, cardKey);

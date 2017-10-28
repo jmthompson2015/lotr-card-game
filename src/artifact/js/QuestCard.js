@@ -38,6 +38,13 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          CATC2A_AGAINST_THE_TROLLS: "catc2aAgainstTheTrolls",
          CATC2B_AGAINST_THE_TROLLS: "catc2bAgainstTheTrolls",
 
+         AJTR1A_THE_WOUNDED_EAGLE: "ajtr1aTheWoundedEagle",
+         AJTR1B_THE_WOUNDED_EAGLE: "ajtr1bTheWoundedEagle",
+         AJTR2A_RADAGASTS_REQUEST: "ajtr2aRadagastsRequest",
+         AJTR2B_RADAGASTS_REQUEST: "ajtr2bRadagastsRequest",
+         AJTR3A_RETURN_TO_RHOSGOBEL: "ajtr3aReturnToRhosgobel",
+         AJTR3B_RETURN_TO_RHOSGOBEL: "ajtr3bReturnToRhosgobel",
+
          properties:
          {
             "ptm1aFliesAndSpiders":
@@ -345,6 +352,62 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "2B",
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                key: "catc2bAgainstTheTrolls",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "ajtr1aTheWoundedEagle":
+            {
+               name: "The Wounded Eagle",
+               scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
+               sequence: "1A",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               key: "ajtr1aTheWoundedEagle",
+            },
+
+            "ajtr1bTheWoundedEagle":
+            {
+               name: "The Wounded Eagle",
+               scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
+               sequence: "1B",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               key: "ajtr1bTheWoundedEagle",
+            },
+
+            "ajtr2aRadagastsRequest":
+            {
+               name: "Radagast's Request",
+               scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
+               sequence: "2A",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               key: "ajtr2aRadagastsRequest",
+            },
+
+            "ajtr2bRadagastsRequest":
+            {
+               name: "Radagast's Request",
+               scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
+               sequence: "2B",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               key: "ajtr2bRadagastsRequest",
+            },
+
+            "ajtr3aReturnToRhosgobel":
+            {
+               name: "Return to Rhosgobel",
+               scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
+               sequence: "3A",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               key: "ajtr3aReturnToRhosgobel",
+            },
+
+            "ajtr3bReturnToRhosgobel":
+            {
+               name: "Return to Rhosgobel",
+               scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
+               sequence: "3B",
+               encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               key: "ajtr3bReturnToRhosgobel",
             },
          },
 
