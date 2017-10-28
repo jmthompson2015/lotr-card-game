@@ -1,9 +1,9 @@
 "use strict";
 
-define(["create-react-class", "immutable", "prop-types", "react", "react-dom-factories", "redux", "common/js/InputValidator", "artifact/js/GameMode", "artifact/js/Scenario",
+define(["create-react-class", "immutable", "prop-types", "react", "react-dom-factories", "redux", "common/js/InputValidator", "artifact/js/CardSet", "artifact/js/GameMode", "artifact/js/Scenario",
   "model/js/Agent", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgentStrategy",
    "view/js/AgentDeckUI", "view/js/Button", "view/js/OptionPane", "view/js/Select", "controller/js/HumanAgentStrategy"],
-   function(createReactClass, Immutable, PropTypes, React, DOM, Redux, InputValidator, GameMode, Scenario,
+   function(createReactClass, Immutable, PropTypes, React, DOM, Redux, InputValidator, CardSet, GameMode, Scenario,
       Agent, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgentStrategy,
       AgentDeckUI, Button, OptionPane, Select, HumanAgentStrategy)
    {
@@ -39,16 +39,20 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
                3: PlayerDeckBuilder.CoreSpiritDeckBuilder,
                4: PlayerDeckBuilder.CoreTacticsDeckBuilder,
             });
+            var scenarioDeckBuilders = getScenarioDeckBuilders(this.props.cardSetKey);
+            LOGGER.debug("NewGamePanel.getInitialState() scenarioDeckBuilders = " + scenarioDeckBuilders);
 
             return (
             {
                agentCount: this.props.agentCount,
                agentNames: agentNames,
                agentTypes: agentTypes,
+               cardSetKey: this.props.cardSetKey,
                gameModeKey: this.props.gameModeKey,
                playerDeckBuilderTypes: playerDeckBuilderTypes,
                playerDeckBuilders: playerDeckBuilders,
                scenarioKey: this.props.scenarioKey,
+               scenarioDeckBuilders: scenarioDeckBuilders,
             });
          },
 
@@ -56,6 +60,11 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
          {
             var rows = [];
             var cells = [];
+            cells.push(createCell("Card Set: ", "cardSetLabel", "tl"));
+            cells.push(createCell(this.createCardSetSelect(), "cardSetSelect", "tl"));
+            rows.push(createRow(cells, "row" + rows.length));
+
+            cells = [];
             cells.push(createCell("Scenario: ", "scenarioLabel", "tl"));
             cells.push(createCell(this.createScenarioSelect(), "scenarioSelect", "tl"));
             rows.push(createRow(cells, "row" + rows.length));
@@ -144,6 +153,23 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
          {}, [okButton]);
       };
 
+      NewGamePanel.prototype.createCardSetSelect = function()
+      {
+         var labelFunction = function(value)
+         {
+            var cardSet = CardSet.properties[value];
+            return cardSet.number + " " + cardSet.name;
+         };
+
+         return React.createElement(Select,
+         {
+            initialSelectedValue: this.props.cardSetKey,
+            labelFunction: labelFunction,
+            onChange: this.handleCardSetChanged.bind(this),
+            values: [CardSet.CORE, CardSet.SHADOWS_OF_MIRKWOOD],
+         });
+      };
+
       NewGamePanel.prototype.createGameModeSelect = function()
       {
          var labelFunction = function(value)
@@ -164,7 +190,8 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
       {
          var labelFunction = function(value)
          {
-            return Scenario.properties[value].name;
+            var scenario = Scenario.properties[value];
+            return scenario.number + " " + scenario.name;
          };
 
          return React.createElement(Select,
@@ -172,7 +199,7 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
             initialSelectedValue: this.props.scenarioKey,
             labelFunction: labelFunction,
             onChange: this.handleScenarioChanged.bind(this),
-            values: Scenario.keys(),
+            values: this.state.scenarioDeckBuilders,
          });
       };
 
@@ -209,6 +236,22 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
          this.setState(
          {
             agentTypes: this.state.agentTypes.set("" + agentId, type),
+         });
+      };
+
+      NewGamePanel.prototype.handleCardSetChanged = function(event)
+      {
+         var selected = event.target.value;
+         LOGGER.debug("NewGamePanel.handleCardSetChanged() selected = " + selected + " " + (typeof selected));
+         var scenarioDeckBuilders = getScenarioDeckBuilders(selected);
+         LOGGER.debug("NewGamePanel.handleCardSetChanged() scenarioDeckBuilders = " + scenarioDeckBuilders);
+         var scenarioKey = scenarioDeckBuilders[0];
+
+         this.setState(
+         {
+            cardSetKey: selected,
+            scenarioDeckBuilders: scenarioDeckBuilders,
+            scenarioKey: scenarioKey,
          });
       };
 
@@ -302,16 +345,32 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
          }, cells);
       }
 
+      function getScenarioDeckBuilders(cardSetKey)
+      {
+         var answer = Scenario.findByCardSet(cardSetKey);
+
+         answer.sort(function(a, b)
+         {
+            var scenarioA = Scenario.properties[a];
+            var scenarioB = Scenario.properties[b];
+            return scenarioA.number - scenarioB.number;
+         });
+
+         return answer;
+      }
+
       NewGamePanel.propTypes = {
          callback: PropTypes.func.isRequired,
 
          agentCount: PropTypes.number,
+         cardSetKey: PropTypes.string,
          gameModeKey: PropTypes.string,
          scenarioKey: PropTypes.string,
       };
 
       NewGamePanel.defaultProps = {
          agentCount: 2,
+         cardSetKey: CardSet.CORE,
          gameModeKey: GameMode.EASY,
          scenarioKey: Scenario.PASSAGE_THROUGH_MIRKWOOD,
       };

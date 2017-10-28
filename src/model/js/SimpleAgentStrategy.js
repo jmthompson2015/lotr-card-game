@@ -55,6 +55,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
          {
             InputValidator.validateNotNull("agent", agent);
             InputValidator.validateIsArray("locations", locations);
+            InputValidator.validateNotEmpty("locations", locations);
             InputValidator.validateIsFunction("callback", callback);
 
             var location = locations.lotrRandomElement();

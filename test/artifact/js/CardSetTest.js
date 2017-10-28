@@ -9,7 +9,7 @@ define(["qunit", "artifact/js/CardSet", "artifact/js/CardSetType"],
       {
          var cardSet = CardSet.CORE;
          var properties = CardSet.properties[cardSet];
-         assert.equal(properties.name, "Core");
+         assert.equal(properties.name, "Core Set");
          assert.equal(properties.typeKey, CardSetType.CORE);
          assert.equal(properties.key, "core");
       });
@@ -51,24 +51,29 @@ define(["qunit", "artifact/js/CardSet", "artifact/js/CardSetType"],
 
          // Verify.
          assert.ok(result);
-         var length = 17;
+         var length = 22;
          assert.equal(result.length, length);
          var i = 0;
          assert.equal(result[i++], CardSet.AGAINST_THE_SHADOW);
          assert.equal(result[i++], CardSet.ANGMAR_AWAKENED);
          assert.equal(result[i++], CardSet.CORE);
+         assert.equal(result[i++], CardSet.DREAM_CHASER);
          assert.equal(result[i++], CardSet.DWARROWDELF);
+         assert.equal(result[i++], CardSet.HARADRIM);
          assert.equal(result[i++], CardSet.HEIRS_OF_NUMENOR);
          assert.equal(result[i++], CardSet.KHAZAD_DUM);
          assert.equal(result[i++], CardSet.ON_THE_DOORSTEP);
          assert.equal(result[i++], CardSet.OVER_HILL_AND_UNDER_HILL);
          assert.equal(result[i++], CardSet.SHADOWS_OF_MIRKWOOD);
          assert.equal(result[i++], CardSet.THE_BLACK_RIDERS);
+         assert.equal(result[i++], CardSet.THE_FLAME_OF_THE_WEST);
          assert.equal(result[i++], CardSet.THE_GREY_HAVENS);
          assert.equal(result[i++], CardSet.THE_LAND_OF_SHADOW);
          assert.equal(result[i++], CardSet.THE_LOST_REALM);
+         assert.equal(result[i++], CardSet.THE_MOUNTAIN_OF_FIRE);
          assert.equal(result[i++], CardSet.THE_RING_MAKER);
          assert.equal(result[i++], CardSet.THE_ROAD_DARKENS);
+         assert.equal(result[i++], CardSet.THE_SANDS_OF_HARAD);
          assert.equal(result[i++], CardSet.THE_TREASON_OF_SARUMAN);
          assert.equal(result[i++], CardSet.THE_VOICE_OF_ISENGARD);
       });

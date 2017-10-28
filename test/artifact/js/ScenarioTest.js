@@ -52,9 +52,9 @@ define(["qunit", "artifact/js/Scenario"], function(QUnit, Scenario)
       assert.equal(result.length, 5);
       var i = 0;
       assert.equal(result[i++], Scenario.CONFLICT_AT_THE_CARROCK);
-      assert.equal(result[i++], Scenario.PASSAGE_THROUGH_MIRKWOOD);
-      assert.equal(result[i++], Scenario.JOURNEY_ALONG_THE_ANDUIN);
       assert.equal(result[i++], Scenario.ESCAPE_FROM_DOL_GULDUR);
+      assert.equal(result[i++], Scenario.JOURNEY_ALONG_THE_ANDUIN);
+      assert.equal(result[i++], Scenario.PASSAGE_THROUGH_MIRKWOOD);
       assert.equal(result[i++], Scenario.THE_HUNT_FOR_GOLLUM);
    });
 });

@@ -1,15 +1,16 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/CardType",
-  "model/js/Action", "model/js/Agent", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/TravelTask", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, CardType, Action, Agent, Environment, PlayerDeckBuilder, Reducer, TravelTask, ScenarioDeckBuilder)
+  "model/js/Action", "model/js/Agent", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/TravelTask", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, CardType, Action, Agent, Environment, Game, PlayerDeckBuilder, Reducer, TravelTask, ScenarioDeckBuilder)
    {
       QUnit.module("TravelTask");
 
       QUnit.test("doIt()", function(assert)
       {
          // Setup.
-         var environment = createEnvironment();
+         var game = createGame();
+         var environment = game.engine().environment();
          var store = environment.store();
          store.dispatch(Action.drawEncounterCard());
          store.dispatch(Action.drawEncounterCard());
@@ -33,18 +34,17 @@ define(["qunit", "redux", "artifact/js/CardType",
          task.doIt(callback);
       });
 
-      function createEnvironment()
+      function createGame(callback)
       {
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
-         var agent = new Agent(store, "agent");
          var playerData = [
             {
-               agent: agent,
+               agent: new Agent(store, "agent1"),
                playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
-            },
+           },
          ];
 
-         return new Environment(store, scenarioDeck, playerData);
+         return new Game(store, scenarioDeck, playerData, 10, callback);
       }
    });

@@ -19,7 +19,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
             "conflictAtTheCarrock":
             {
                name: "Conflict at the Carrock",
-               cardSetKey: CardSet.CORE,
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                key: "conflictAtTheCarrock",
             },
@@ -62,7 +62,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
             "theHuntForGollum":
             {
                name: "The Hunt for Gollum",
-               cardSetKey: CardSet.CORE,
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                key: "theHuntForGollum",
             },
