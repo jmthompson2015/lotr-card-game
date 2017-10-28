@@ -49,8 +49,9 @@ define(["qunit", "artifact/js/EncounterSet"], function(QUnit, EncounterSet)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 9);
+      assert.equal(result.length, 10);
       var i = 0;
+      assert.equal(result[i++], EncounterSet.A_JOURNEY_TO_RHOSGOBEL);
       assert.equal(result[i++], EncounterSet.CONFLICT_AT_THE_CARROCK);
       assert.equal(result[i++], EncounterSet.DOL_GULDUR_ORCS);
       assert.equal(result[i++], EncounterSet.ESCAPE_FROM_DOL_GULDUR);

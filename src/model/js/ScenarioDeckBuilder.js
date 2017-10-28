@@ -72,6 +72,17 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
          });
       DeckBuilders.push(ConflictAtTheCarrockDeckBuilder);
 
+      var AJourneyToRhosgobelDeckBuilder = new ScenarioDeckBuilder(Scenario.A_JOURNEY_TO_RHOSGOBEL, "A Journey to Rhosgobel (Shadows of Mirkwood #3)", 2011, "A Journey to Rhosgobel",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.A_JOURNEY_TO_RHOSGOBEL);
+         },
+         function(store, gameModeKey)
+         {
+            return encounterBuildFunction(store, gameModeKey, Scenario.A_JOURNEY_TO_RHOSGOBEL);
+         });
+      DeckBuilders.push(AJourneyToRhosgobelDeckBuilder);
+
       function ScenarioDeckBuilder(scenarioKey, name, year, description, questBuildFunction, encounterBuildFunction)
       {
          InputValidator.validateIsString("scenarioKey", scenarioKey);

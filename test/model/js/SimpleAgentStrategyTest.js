@@ -80,7 +80,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          var store = Redux.createStore(Reducer.root);
          var agent = new Agent(store, "agent");
          var enemies = [];
-         enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS]));
+         enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS_PTM]));
          enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.DOL_GULDUR_ORCS]));
          enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]));
          var callback = function(defender)
@@ -122,7 +122,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          var store = Redux.createStore(Reducer.root);
          var agent = new Agent(store, "agent");
          var enemies = [];
-         enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS]));
+         enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS_PTM]));
          enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.DOL_GULDUR_ORCS]));
          enemies.push(new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]));
          var callback = function(defender)

@@ -20,7 +20,7 @@ define(["qunit", "redux", "artifact/js/EnemyCard",
          store.dispatch(Action.drawEncounterCard(dolGuldurBeastmasterIndex));
          var dolGuldurOrcsIndex = findIndex(environment, EnemyCard.DOL_GULDUR_ORCS);
          store.dispatch(Action.drawEncounterCard(dolGuldurOrcsIndex));
-         var blackForestBatsIndex = findIndex(environment, EnemyCard.BLACK_FOREST_BATS);
+         var blackForestBatsIndex = findIndex(environment, EnemyCard.BLACK_FOREST_BATS_PTM);
          store.dispatch(Action.drawEncounterCard(blackForestBatsIndex));
          assert.equal(environment.stagingArea().size, 6);
          assert.equal(agent1.engagementArea().size, 0);
