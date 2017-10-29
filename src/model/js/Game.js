@@ -1,8 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/LocationCard", "artifact/js/Scenario",
-  "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/Engine", "model/js/Environment"],
-   function(InputValidator, EnemyCard, LocationCard, Scenario, Action, Adjudicator, AgentAction, Engine, Environment)
+define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/GameMode", "artifact/js/LocationCard", "artifact/js/QuestCard", "artifact/js/Scenario",
+  "model/js/Ability", "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Engine", "model/js/Environment", "model/js/QuestAbility"],
+   function(InputValidator, EnemyCard, GameEvent, GameMode, LocationCard, QuestCard, Scenario, Ability, Action, Adjudicator, AgentAction, CardAction, CardInstance, Engine, Environment, QuestAbility)
    {
       function Game(store, scenarioDeck, playerData, delayIn, engineCallback)
       {
@@ -59,20 +59,24 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/Locati
          // 6. Set Quest Cards
 
          // 7. Follow Scenario Setup Instructions
-         if (scenarioDeck.scenarioKey === Scenario.PASSAGE_THROUGH_MIRKWOOD)
+         var questCard = scenarioDeck.questInstances[0];
+         var ability = new Ability(QuestCard, questCard.card().key, QuestAbility, GameEvent.QUEST_CARD_DRAWN);
+
+         if (ability.conditionPasses(store))
          {
-            // Setup: Search the encounter deck for 1 copy of the Forest Spider
-            // and 1 copy of the Old Forest Road, and add them to the staging area.
-            // Then Shuffle the encounter deck.
-            environment.drawEncounterCard(EnemyCard.FOREST_SPIDER);
-            environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
+            ability.executeConsequent(store);
+         }
 
-            var encounterDeck = environment.encounterDeck().toJS();
-            encounterDeck.lotrShuffle();
-            store.dispatch(Action.setEncounterDeck(encounterDeck));
-
-            // Advance the quest.
-            store.dispatch(Action.discardActiveQuest());
+         if (scenarioDeck.gameModeKey === GameMode.EASY)
+         {
+            // Add a resource to each hero.
+            environment.agents().forEach(function(agent)
+            {
+               agent.tableauHeroes().forEach(function(cardInstance)
+               {
+                  store.dispatch(CardAction.addResource(cardInstance, cardInstance.card().sphereKey));
+               });
+            });
          }
 
          var engine = new Engine(store, environment, adjudicator, delay, engineCallback);

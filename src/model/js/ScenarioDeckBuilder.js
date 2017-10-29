@@ -125,6 +125,7 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
             return (
             {
                scenarioKey: scenarioKey,
+               gameModeKey: gameModeKey,
                questInstances: questInstances,
                encounterInstances: encounterInstances
             });
