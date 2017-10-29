@@ -121,6 +121,34 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
          assert.equal(store.getState().questDiscard.size, 1);
       });
 
+      QUnit.test("discardShadowCard()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+         store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
+         var cardInstance = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
+         var enemyId = store.getState().encounterDeck.first();
+         var shadowInstance = CardInstance.get(store, enemyId);
+         store.dispatch(Action.dealShadowCard(cardInstance));
+         assert.equal(store.getState().encounterDeck.size, 35);
+         assert.equal(store.getState().encounterDiscard.size, 0);
+         assert.equal(store.getState().cardShadowCards.size, 1);
+         var shadowCardIds = store.getState().cardShadowCards.get(cardInstance.id());
+         assert.equal(shadowCardIds.size, 1);
+         assert.equal(shadowCardIds.get(0), enemyId);
+
+         // Run.
+         store.dispatch(Action.discardShadowCard(cardInstance, shadowInstance));
+
+         // Verify.
+         assert.equal(store.getState().encounterDeck.size, 35);
+         assert.equal(store.getState().encounterDiscard.size, 1);
+         assert.equal(store.getState().cardShadowCards.size, 1);
+         shadowCardIds = store.getState().cardShadowCards.get(cardInstance.id());
+         assert.equal(shadowCardIds.size, 0);
+      });
+
       QUnit.test("drawEncounterCard()", function(assert)
       {
          // Setup.

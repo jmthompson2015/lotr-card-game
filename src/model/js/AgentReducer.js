@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/js/CardInstance"],
-   function(Immutable, InputValidator, AgentAction, CardInstance)
+define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/js/CardInstance", "model/js/TransferReducer"],
+   function(Immutable, InputValidator, AgentAction, CardInstance, TransferReducer)
    {
       var AgentReducer = {};
 
@@ -9,9 +9,7 @@ define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/
       {
          LOGGER.debug("AgentReducer.root() type = " + action.type);
 
-         var agentId, attachmentId, cardId, cardInstanceIds, index;
-         var newDiscard, newAttachments, newHand;
-         var oldDiscard, oldAttachments, oldHand;
+         var agentId, attachmentId, cardId, cardInstanceIds;
 
          switch (action.type)
          {
@@ -28,37 +26,27 @@ define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
                attachmentId = action.attachmentInstance.id();
-               oldAttachments = (state.cardAttachments.get(cardId) !== undefined ? state.cardAttachments.get(cardId) : Immutable.List());
-               index = oldAttachments.indexOf(attachmentId);
-               oldDiscard = (state.agentPlayerDiscard.get(agentId) !== undefined ? state.agentPlayerDiscard.get(agentId) : Immutable.List());
-               newAttachments = (index >= 0 ? oldAttachments.delete(index) : oldAttachments);
-               newDiscard = oldDiscard.push(attachmentId);
-               return Object.assign(
-               {}, state,
-               {
-                  agentPlayerDiscard: state.agentPlayerDiscard.set(agentId, newDiscard),
-                  cardAttachments: state.cardAttachments.set(cardId, newAttachments),
-               });
+               return TransferReducer.reduce(state, "cardAttachments", cardId, attachmentId, "agentPlayerDiscard", agentId);
             case AgentAction.DISCARD_FROM_HAND:
                LOGGER.debug("Discard from hand: " + action.cardInstance);
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
-               return transferCard(state, "agentHand", agentId, cardId, "agentPlayerDiscard");
+               return TransferReducer.reduce(state, "agentHand", agentId, cardId, "agentPlayerDiscard", agentId);
             case AgentAction.DISCARD_FROM_PLAYER_DECK:
                LOGGER.debug("Discard from player deck: " + action.cardInstance);
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
-               return transferCard(state, "agentPlayerDeck", agentId, cardId, "agentPlayerDiscard");
+               return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentPlayerDiscard", agentId);
             case AgentAction.DISCARD_FROM_TABLEAU:
                LOGGER.debug("Discard from tableau: " + action.cardInstance);
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
-               return transferCard(state, "agentTableau", agentId, cardId, "agentPlayerDiscard");
+               return TransferReducer.reduce(state, "agentTableau", agentId, cardId, "agentPlayerDiscard", agentId);
             case AgentAction.DRAW_PLAYER_CARD:
                LOGGER.debug("Draw player card");
                agentId = action.agent.id();
                cardId = state.agentPlayerDeck.get(agentId).first();
-               return transferCard(state, "agentPlayerDeck", agentId, cardId, "agentHand");
+               return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentHand", agentId);
             case AgentAction.INCREMENT_NEXT_AGENT_ID:
                LOGGER.debug("increment next agent ID: " + state.nextAgentId);
                return Object.assign(
@@ -71,22 +59,12 @@ define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
                attachmentId = action.attachmentInstance.id();
-               oldHand = (state.agentHand.get(agentId) !== undefined ? state.agentHand.get(agentId) : Immutable.List());
-               index = oldHand.indexOf(attachmentId);
-               oldAttachments = (state.cardAttachments.get(cardId) !== undefined ? state.cardAttachments.get(cardId) : Immutable.List());
-               newHand = (index >= 0 ? oldHand.delete(index) : oldHand);
-               newAttachments = oldAttachments.push(attachmentId);
-               return Object.assign(
-               {}, state,
-               {
-                  agentHand: state.agentHand.set(agentId, newHand),
-                  cardAttachments: state.cardAttachments.set(cardId, newAttachments),
-               });
+               return TransferReducer.reduce(state, "agentHand", agentId, attachmentId, "cardAttachments", cardId);
             case AgentAction.PLAY_CARD:
                LOGGER.debug("Play card: " + action.cardInstance);
                agentId = action.agent.id();
                cardId = action.cardInstance.id();
-               return transferCard(state, "agentHand", agentId, cardId, "agentTableau");
+               return TransferReducer.reduce(state, "agentHand", agentId, cardId, "agentTableau", agentId);
             case AgentAction.SET_PLAYER_DECK:
                cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                return Object.assign(
@@ -112,41 +90,6 @@ define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/
                return state;
          }
       };
-
-      function transferCard(state, fromName, agentId, cardId, toName)
-      {
-         InputValidator.validateNotNull("state", state);
-         InputValidator.validateIsString("fromName", fromName);
-         InputValidator.validateIsNumber("agentId", agentId);
-         // InputValidator.validateIsNumber("cardId", cardId);
-         InputValidator.validateIsString("toName", toName);
-
-         var oldFromDeck = (state[fromName].get(agentId) ? state[fromName].get(agentId) : Immutable.List());
-         LOGGER.debug("oldFromDeck = " + oldFromDeck);
-
-         if (oldFromDeck.size > 0)
-         {
-            var oldToDeck = (state[toName].get(agentId) ? state[toName].get(agentId) : Immutable.List());
-            LOGGER.debug("oldToDeck = " + oldToDeck);
-            var index = oldFromDeck.indexOf(cardId);
-            LOGGER.debug("index = " + index);
-            var newFromDeck = (index >= 0 ? oldFromDeck.delete(index) : oldFromDeck);
-            LOGGER.debug("newFromDeck = " + newFromDeck);
-            var newToDeck = oldToDeck.push(cardId);
-            LOGGER.debug("newToDeck = " + newToDeck);
-
-            var newObject = {};
-            newObject[fromName] = state[fromName].set(agentId, newFromDeck);
-            newObject[toName] = state[toName].set(agentId, newToDeck);
-            LOGGER.debug("newObject = " + JSON.stringify(newObject));
-
-            return Object.assign(
-            {}, state, newObject);
-         }
-
-         LOGGER.warn(fromName + ".get(" + agentId + ") empty");
-         return state;
-      }
 
       if (Object.freeze)
       {

@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/AgentAction", "model/js/AgentReducer", "model/js/CardAction", "model/js/CardInstance", "model/js/CardReducer", "model/js/InitialState"],
-   function(Immutable, InputValidator, Phase, Action, AgentAction, AgentReducer, CardAction, CardInstance, CardReducer, InitialState)
+define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/AgentAction", "model/js/AgentReducer", "model/js/CardAction", "model/js/CardInstance", "model/js/CardReducer", "model/js/InitialState", "model/js/TransferReducer"],
+   function(Immutable, InputValidator, Phase, Action, AgentAction, AgentReducer, CardAction, CardInstance, CardReducer, InitialState, TransferReducer)
    {
       var Reducer = {};
 
@@ -15,8 +15,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
          }
 
          var agentId, cardId, cardInstanceIds, index, shadowId;
-         var newAttachments, newEncounterDeck, newEngagementArea, newPhaseData, newPhaseQueue, newShadowCards;
-         var oldAttachments, oldEngagementArea, oldShadowCards;
+         var newPhaseData, newPhaseQueue;
 
          if (isAgentAction(action))
          {
@@ -46,57 +45,28 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   LOGGER.info("Discard enemy card: " + action.cardInstance);
                   agentId = action.agent.id();
                   cardId = action.cardInstance.id();
-                  oldEngagementArea = (state.agentEngagementArea.get(agentId) !== undefined ? state.agentEngagementArea.get(agentId) : Immutable.List());
-                  index = oldEngagementArea.indexOf(cardId);
-                  newEngagementArea = (index >= 0 ? oldEngagementArea.delete(index) : oldEngagementArea);
-                  return Object.assign(
-                  {}, state,
-                  {
-                     agentEngagementArea: state.agentEngagementArea.set(agentId, newEngagementArea),
-                     encounterDiscard: state.encounterDiscard.push(cardId),
-                  });
+                  return TransferReducer.reduce(state, "agentEngagementArea", agentId, cardId, "encounterDiscard");
                case Action.AGENT_ENGAGE_CARD:
                   LOGGER.info("Agent engage card: " + action.cardInstance);
                   agentId = action.agent.id();
                   cardId = action.cardInstance.id();
-                  index = state.stagingArea.indexOf(cardId);
-                  oldEngagementArea = (state.agentEngagementArea.get(agentId) !== undefined ? state.agentEngagementArea.get(agentId) : Immutable.List());
-                  newEngagementArea = oldEngagementArea.push(cardId);
-                  newStagingArea = (index >= 0 ? state.stagingArea.delete(index) : state.stagingArea);
-                  return Object.assign(
-                  {}, state,
-                  {
-                     agentEngagementArea: state.agentEngagementArea.set(agentId, newEngagementArea),
-                     stagingArea: newStagingArea,
-                  });
+                  return TransferReducer.reduce(state, "stagingArea", undefined, cardId, "agentEngagementArea", agentId);
                case Action.AGENT_ENGAGEMENT_TO_STAGING:
                   LOGGER.info("Agent engagement to staging: " + action.cardInstance);
                   agentId = action.agent.id();
                   cardId = action.cardInstance.id();
-                  oldEngagementArea = (state.agentEngagementArea.get(agentId) !== undefined ? state.agentEngagementArea.get(agentId) : Immutable.List());
-                  index = oldEngagementArea.indexOf(cardId);
-                  newEngagementArea = (index >= 0 ? oldEngagementArea.delete(index) : oldEngagementArea);
-                  return Object.assign(
-                  {}, state,
-                  {
-                     agentEngagementArea: state.agentEngagementArea.set(agentId, newEngagementArea),
-                     stagingArea: state.stagingArea.push(cardId),
-                  });
+                  return TransferReducer.reduce(state, "agentEngagementArea", agentId, cardId, "stagingArea");
                case Action.DEAL_SHADOW_CARD:
                   LOGGER.info("Deal shadow card to " + action.cardInstance);
                   if (state.encounterDeck.size > 0)
                   {
                      cardId = action.cardInstance.id();
                      shadowId = state.encounterDeck.first();
-                     newEncounterDeck = state.encounterDeck.shift();
-                     oldShadowCards = (state.cardShadowCards.get(cardId) ? state.cardShadowCards.get(cardId) : Immutable.List());
-                     newShadowCards = oldShadowCards.push(shadowId);
+                     var newState = TransferReducer.reduce(state, "encounterDeck", undefined, shadowId, "cardShadowCards", cardId);
                      return Object.assign(
-                     {}, state,
+                     {}, newState,
                      {
-                        cardIsFaceUp: state.cardIsFaceUp.set(shadowId, false),
-                        cardShadowCards: state.cardShadowCards.set(cardId, newShadowCards),
-                        encounterDeck: newEncounterDeck,
+                        cardIsFaceUp: newState.cardIsFaceUp.set(shadowId, false),
                      });
                   }
                   LOGGER.warn("encounterDeck empty; encounterDiscard.size = " + state.encounterDiscard.size);
@@ -145,34 +115,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   LOGGER.info("Discard shadow card: " + action.cardInstance);
                   cardId = action.cardInstance.id();
                   shadowId = action.shadowInstance.id();
-                  oldShadowCards = (state.cardShadowCards.get(cardId) ? state.cardShadowCards.get(cardId) : Immutable.List());
-                  index = oldShadowCards.indexOf(shadowId);
-                  newShadowCards = (index >= 0 ? oldShadowCards.delete(index) : oldShadowCards);
-                  return Object.assign(
-                  {}, state,
-                  {
-                     cardShadowCards: state.cardShadowCards.set(cardId, newShadowCards),
-                     encounterDiscard: state.encounterDiscard.push(shadowId),
-                  });
+                  return TransferReducer.reduce(state, "cardShadowCards", cardId, shadowId, "encounterDiscard");
                case Action.DRAW_ENCOUNTER_CARD:
                   if (state.encounterDeck.size > 0)
                   {
-                     if (action.index === undefined)
-                     {
-                        cardId = state.encounterDeck.first();
-                        newEncounterDeck = state.encounterDeck.shift();
-                     }
-                     else
-                     {
-                        cardId = state.encounterDeck.get(action.index);
-                        newEncounterDeck = state.encounterDeck.delete(action.index);
-                     }
-                     return Object.assign(
-                     {}, state,
-                     {
-                        encounterDeck: newEncounterDeck,
-                        stagingArea: state.stagingArea.push(cardId),
-                     });
+                     cardId = (action.index === undefined ? state.encounterDeck.first() : state.encounterDeck.get(action.index));
+                     return TransferReducer.reduce(state, "encounterDeck", undefined, cardId, "stagingArea");
                   }
                   LOGGER.warn("encounterDeck empty; encounterDiscard.size = " + state.encounterDiscard.size);
                   return state;
@@ -214,18 +162,6 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   {
                      encounterDeck: Immutable.List(state.encounterDiscard.toJS().lotrShuffle()),
                      encounterDiscard: new Immutable.List(),
-                  });
-               case Action.REMOVE_CARD_ATTACHMENT:
-                  agentId = action.agent.id();
-                  cardId = action.cardInstance.id();
-                  oldAttachments = (state.cardAttachments.get(cardId) !== undefined ? state.cardAttachments.get(cardId) : Immutable.List());
-                  var oldPlayerDiscard = (state.agentPlayerDiscard.get(agentId) !== undefined ? state.agentPlayerDiscard.get(agentId) : Immutable.List());
-                  newAttachments = oldAttachments.delete(cardId);
-                  return Object.assign(
-                  {}, state,
-                  {
-                     cardAttachments: state.cardAttachments.push(cardId, newAttachments),
-                     agentPlayerDiscard: oldPlayerDiscard.push(cardId),
                   });
                case Action.SET_ACTIVE_AGENT:
                   LOGGER.info("Active Agent: " + action.agent);
