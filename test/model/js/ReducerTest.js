@@ -110,7 +110,9 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
          var store = Redux.createStore(Reducer.root);
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          store.dispatch(Action.setQuestDeck(scenarioDeck.questInstances));
-         assert.equal(store.getState().questDeck.size, 6);
+         store.dispatch(Action.drawQuestCard());
+         assert.equal(store.getState().questDeck.size, 5);
+         assert.equal(store.getState().activeQuestId, 1);
          assert.equal(store.getState().questDiscard.size, 0);
 
          // Run.
@@ -118,6 +120,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
 
          // Verify.
          assert.equal(store.getState().questDeck.size, 5);
+         assert.equal(store.getState().activeQuestId, undefined);
          assert.equal(store.getState().questDiscard.size, 1);
       });
 
@@ -193,6 +196,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          store.dispatch(Action.setQuestDeck(scenarioDeck.questInstances));
          assert.equal(store.getState().questDeck.size, 6);
+         assert.equal(store.getState().activeQuestId, undefined);
          assert.equal(store.getState().questDiscard.size, 0);
 
          // Run.
@@ -200,7 +204,8 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
 
          // Verify.
          assert.equal(store.getState().questDeck.size, 5);
-         assert.equal(store.getState().questDiscard.size, 1);
+         assert.equal(store.getState().activeQuestId, 1);
+         assert.equal(store.getState().questDiscard.size, 0);
       });
 
       QUnit.test("enqueuePhase()", function(assert)

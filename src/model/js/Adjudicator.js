@@ -19,9 +19,10 @@ define(["common/js/InputValidator", "model/js/Action"],
       {
          var store = this.store();
          var questDeck = store.getState().questDeck;
+         var activeQuestId = store.getState().activeQuestId;
          var agents = store.getState().agents;
 
-         return (questDeck.size === 0 || agents.size === 0);
+         return ((questDeck.size === 0 && activeQuestId === undefined) || agents.size === 0);
       };
 
       return Adjudicator;

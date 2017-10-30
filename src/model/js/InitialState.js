@@ -7,6 +7,7 @@ define(["immutable", "artifact/js/Phase"],
       {
          this.activeAgentId = undefined;
          this.activeLocationId = undefined;
+         this.activeQuestId = undefined;
          this.environment = undefined;
          this.firstAgentId = undefined;
          this.nextAgentId = 1;
@@ -21,6 +22,7 @@ define(["immutable", "artifact/js/Phase"],
          // cardInstance IDs.
          this.encounterDeck = Immutable.List();
          this.encounterDiscard = Immutable.List();
+         this.encounterSetAside = Immutable.List();
          this.questDeck = Immutable.List();
          this.questDiscard = Immutable.List();
          this.stagingArea = Immutable.List();

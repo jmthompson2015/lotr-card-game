@@ -57,9 +57,10 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEv
          });
 
          // 6. Set Quest Cards
+         store.dispatch(Action.drawQuestCard());
 
          // 7. Follow Scenario Setup Instructions
-         var questCard = scenarioDeck.questInstances[0];
+         var questCard = environment.activeQuest();
          var ability = new Ability(QuestCard, questCard.card().key, QuestAbility, GameEvent.QUEST_CARD_DRAWN);
 
          if (ability.conditionPasses(store))

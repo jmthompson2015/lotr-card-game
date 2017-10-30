@@ -17,12 +17,15 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.DISCARD_SHADOW_CARD = "discardShadowCard";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
    Action.DRAW_QUEST_CARD = "drawQuestCard";
+   Action.ENCOUNTER_TO_CARD_ATTACHMENT = "encounterToCardAttachment";
+   Action.ENCOUNTER_TO_SET_ASIDE = "encounterToSetAside";
    Action.ENQUEUE_PHASE = "enqueuePhase";
    Action.INCREMENT_ROUND = "incrementRound";
    Action.REFILL_ENCOUNTER_DECK = "refillEncounterDeck";
    Action.SET_ACTIVE_AGENT = "setActiveAgent";
    Action.SET_ACTIVE_LOCATION = "setActiveLocation";
    Action.SET_ADJUDICATOR = "setAdjudicator";
+   Action.SET_ASIDE_TO_ENCOUNTER_DECK = "setAsideToEncounterDeck";
    Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
@@ -173,6 +176,28 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.encounterToCardAttachment = function(cardInstance)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.ENCOUNTER_TO_CARD_ATTACHMENT,
+         cardInstance: cardInstance,
+      });
+   };
+
+   Action.encounterToSetAside = function(cardInstance)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.ENCOUNTER_TO_SET_ASIDE,
+         cardInstance: cardInstance,
+      });
+   };
+
    Action.enqueuePhase = function(phaseKey, phaseAgent, phaseCallback, phaseContext)
    {
       InputValidator.validateNotNull("phaseKey", phaseKey);
@@ -236,6 +261,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.SET_ADJUDICATOR,
          adjudicator: adjudicator,
+      });
+   };
+
+   Action.setAsideToEncounterDeck = function(cardInstance)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.SET_ASIDE_TO_ENCOUNTER_DECK,
+         cardInstance: cardInstance,
       });
    };
 

@@ -6,7 +6,7 @@ define(["react-redux", "view/js/CardInstancesArea"],
       function mapStateToProps(state)
       {
          var environment = state.environment;
-         var cardInstance = environment.questDeck().get(0);
+         var cardInstance = environment.activeQuest();
 
          return (
          {

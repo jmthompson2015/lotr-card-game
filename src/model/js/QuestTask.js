@@ -56,7 +56,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          store.dispatch(Action.setActiveAgent(agent));
 
          var environment = store.getState().environment;
-         var questInstance = environment.questDeck().first();
+         var questInstance = environment.activeQuest();
          var characters = agent.questers().toJS();
          var queueCallback = this.setQuesters.bind(this);
          var taskCallback = function(questers)
@@ -156,7 +156,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
 
             if (progress > 0)
             {
-               var activeQuest = environment.questDeck().get(0);
+               var activeQuest = environment.activeQuest();
                LOGGER.debug("applying " + progress + " to " + activeQuest);
                store.dispatch(CardAction.addProgress(activeQuest, progress));
                neededProgress = activeQuest.card().questPoints - activeQuest.progress();

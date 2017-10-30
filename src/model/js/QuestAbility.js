@@ -1,8 +1,8 @@
   "use strict";
 
-  define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard",
-  "model/js/Action", "model/js/CardAction"],
-     function(InputValidator, EnemyCard, GameEvent, LocationCard, ObjectiveCard, QuestCard, Action, CardAction)
+  define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/TreacheryCard",
+    "model/js/Action", "model/js/CardAction"],
+     function(InputValidator, EnemyCard, GameEvent, LocationCard, ObjectiveCard, QuestCard, TreacheryCard, Action, CardAction)
      {
         var QuestAbility = {};
 
@@ -26,14 +26,10 @@
               var wilyador = environment.stagingArea().last();
               store.dispatch(CardAction.addWounds(wilyador, 2));
 
-              var encounterDeck = environment.encounterDeck().toJS();
-              encounterDeck.lotrShuffle();
-              store.dispatch(Action.setEncounterDeck(encounterDeck));
-
-              // FIXME: first player gains control of Wilyador?
+              environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
-              store.dispatch(Action.discardActiveQuest());
+              environment.advanceTheQuest();
 
               if (callback)
               {
@@ -57,12 +53,29 @@
               var environment = store.getState().environment;
               environment.drawEncounterCard(LocationCard.THE_CARROCK);
 
-              // FIXME: handle Troll cards
+              // Handle Troll cards.
+              environment.encounterToSetAside(EnemyCard.LOUIS);
+              environment.encounterToSetAside(EnemyCard.MORRIS);
+              environment.encounterToSetAside(EnemyCard.RUPERT);
+              environment.encounterToSetAside(EnemyCard.STUART);
 
-              // FIXME: handle Sacked! cards
+              // Handle Sacked! cards.
+              for (var i = 0; i < 4; i++)
+              {
+                 environment.encounterToSetAside(TreacheryCard.SACKED);
+              }
+
+              var agentCount = environment.agents().size;
+
+              for (var j = 0; j < agentCount; j++)
+              {
+                 environment.setAsideToEncounterDeck(TreacheryCard.SACKED);
+              }
+
+              environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
-              store.dispatch(Action.discardActiveQuest());
+              environment.advanceTheQuest();
 
               if (callback)
               {
@@ -88,23 +101,20 @@
               environment.drawEncounterCard(ObjectiveCard.GANDALFS_MAP);
               environment.drawEncounterCard(ObjectiveCard.SHADOW_KEY);
 
-              // FIXME: handle Nazgûl
+              // Handle Nazgûl of Dol Guldur.
+              environment.encounterToSetAside(EnemyCard.NAZGUL_OF_DOL_GULDUR);
 
-              var encounterDeck = environment.encounterDeck().toJS();
-              encounterDeck.lotrShuffle();
-              store.dispatch(Action.setEncounterDeck(encounterDeck));
-
-              // FIXME: how to attach?
-              // var stagingArea = environment.stagingArea();
-              //
-              // for (var i=0; i<3; i++)
-              // {
-              // var objectiveInstance = stagingArea.get(i);
-              // store.dispatch(Action.drawEncounterCardToAttachment(objectiveInstance));
-              // }
+              environment.shuffleEncounterDeck(store);
+              var stagingArea = environment.stagingArea();
+              var dungeonTorchInstance = stagingArea.first();
+              var gandalfsMapInstance = stagingArea.get(1);
+              var shadowKeyInstance = stagingArea.last();
+              store.dispatch(Action.encounterToCardAttachment(dungeonTorchInstance));
+              store.dispatch(Action.encounterToCardAttachment(gandalfsMapInstance));
+              store.dispatch(Action.encounterToCardAttachment(shadowKeyInstance));
 
               // Advance the quest.
-              store.dispatch(Action.discardActiveQuest());
+              environment.advanceTheQuest();
 
               if (callback)
               {
@@ -123,16 +133,11 @@
            {
               // Setup: Each player reveals 1 card from the top of the encounter deck,
               // and adds it to the staging area.
-              var environment = store.getState().environment;
-              var agentCount = environment.agents().size;
-
-              for (var i = 0; i < agentCount; i++)
-              {
-                 store.dispatch(Action.drawEncounterCard());
-              }
+              encounterToStagingPerPlayer(store);
 
               // Advance the quest.
-              store.dispatch(Action.discardActiveQuest());
+              var environment = store.getState().environment;
+              environment.advanceTheQuest();
 
               if (callback)
               {
@@ -155,13 +160,10 @@
               var environment = store.getState().environment;
               environment.drawEncounterCard(EnemyCard.FOREST_SPIDER);
               environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
-
-              var encounterDeck = environment.encounterDeck().toJS();
-              encounterDeck.lotrShuffle();
-              store.dispatch(Action.setEncounterDeck(encounterDeck));
+              environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
-              store.dispatch(Action.discardActiveQuest());
+              environment.advanceTheQuest();
 
               if (callback)
               {
@@ -180,16 +182,11 @@
            {
               // Setup: Reveal 1 card per player from the encounter deck, and add it
               // to the staging area.
-              var environment = store.getState().environment;
-              var agentCount = environment.agents().size;
-
-              for (var i = 0; i < agentCount; i++)
-              {
-                 store.dispatch(Action.drawEncounterCard());
-              }
+              encounterToStagingPerPlayer(store);
 
               // Advance the quest.
-              store.dispatch(Action.discardActiveQuest());
+              var environment = store.getState().environment;
+              environment.advanceTheQuest();
 
               if (callback)
               {
@@ -197,6 +194,17 @@
               }
            },
         };
+
+        function encounterToStagingPerPlayer(store)
+        {
+           var environment = store.getState().environment;
+           var agentCount = environment.agents().size;
+
+           for (var i = 0; i < agentCount; i++)
+           {
+              store.dispatch(Action.drawEncounterCard());
+           }
+        }
 
         return QuestAbility;
      });

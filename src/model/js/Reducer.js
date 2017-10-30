@@ -14,7 +14,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
             return new InitialState();
          }
 
-         var agentId, cardId, cardInstanceIds, index, shadowId;
+         var agentId, attachmentId, cardId, cardInstanceIds, index, shadowId;
          var newPhaseData, newPhaseQueue;
 
          if (isAgentAction(action))
@@ -98,19 +98,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                      encounterDiscard: state.encounterDiscard.push(state.activeLocationId),
                   });
                case Action.DISCARD_ACTIVE_QUEST:
-                  if (state.questDeck.size > 0)
+                  return Object.assign(
+                  {}, state,
                   {
-                     cardId = state.questDeck.first();
-                     var newQuestDiscard = state.questDiscard.push(cardId);
-                     return Object.assign(
-                     {}, state,
-                     {
-                        questDeck: state.questDeck.delete(0),
-                        questDiscard: newQuestDiscard,
-                     });
-                  }
-                  LOGGER.warn("questDeck empty");
-                  return state;
+                     activeQuestId: undefined,
+                     questDiscard: state.questDiscard.push(state.activeQuestId),
+                  });
                case Action.DISCARD_SHADOW_CARD:
                   LOGGER.info("Discard shadow card: " + action.cardInstance);
                   cardId = action.cardInstance.id();
@@ -128,16 +121,22 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   if (state.questDeck.size > 0)
                   {
                      cardId = state.questDeck.first();
-                     var newQuestDeck = state.questDeck.shift();
                      return Object.assign(
                      {}, state,
                      {
-                        questDeck: newQuestDeck,
-                        questDiscard: state.questDiscard.push(cardId),
+                        activeQuestId: cardId,
+                        questDeck: state.questDeck.shift(),
                      });
                   }
                   LOGGER.warn("questDeck empty");
                   return state;
+               case Action.ENCOUNTER_TO_CARD_ATTACHMENT:
+                  cardId = action.cardInstance.id();
+                  attachmentId = state.encounterDeck.first();
+                  return TransferReducer.reduce(state, "encounterDeck", undefined, attachmentId, "cardAttachments", cardId);
+               case Action.ENCOUNTER_TO_SET_ASIDE:
+                  cardId = action.cardInstance.id();
+                  return TransferReducer.reduce(state, "encounterDeck", undefined, cardId, "encounterSetAside");
                case Action.ENQUEUE_PHASE:
                   LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", agent = " + action.phaseAgent + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
                   newPhaseData = createPhaseData(action.phaseKey, action.phaseAgent, action.phaseCallback, action.phaseContext);
@@ -187,6 +186,9 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   {
                      adjudicator: action.adjudicator,
                   });
+               case Action.SET_ASIDE_TO_ENCOUNTER_DECK:
+                  cardId = action.cardInstance.id();
+                  return TransferReducer.reduce(state, "encounterSetAside", undefined, cardId, "encounterDeck");
                case Action.SET_ENCOUNTER_DECK:
                   cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
                   return Object.assign(

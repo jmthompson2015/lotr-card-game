@@ -50,6 +50,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          return (activeLocationId !== undefined ? CardInstance.get(store, activeLocationId) : undefined);
       };
 
+      Environment.prototype.activeQuest = function()
+      {
+         var store = this.store();
+         var activeQuestId = store.getState().activeQuestId;
+
+         return (activeQuestId !== undefined ? CardInstance.get(store, activeQuestId) : undefined);
+      };
+
       Environment.prototype.agentQueue = function()
       {
          var store = this.store();
@@ -82,6 +90,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
       {
          var store = this.store();
          var ids = store.getState().encounterDeck;
+
+         return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      Environment.prototype.encounterSetAside = function()
+      {
+         var store = this.store();
+         var ids = store.getState().encounterSetAside;
 
          return CardInstance.idsToCardInstances(store, ids);
       };
@@ -156,6 +172,13 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
+      Environment.prototype.advanceTheQuest = function()
+      {
+         var store = this.store();
+         store.dispatch(Action.discardActiveQuest());
+         store.dispatch(Action.drawQuestCard());
+      };
+
       Environment.prototype.drawEncounterCard = function(cardKey)
       {
          InputValidator.validateIsString("cardKey", cardKey);
@@ -172,6 +195,52 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          {
             store.dispatch(Action.drawEncounterCard(index));
          }
+      };
+
+      Environment.prototype.encounterToSetAside = function(cardKey)
+      {
+         InputValidator.validateIsString("cardKey", cardKey);
+
+         var store = this.store();
+         var encounterDeck = this.encounterDeck();
+         var cardKeys = encounterDeck.map(function(cardInstance)
+         {
+            return cardInstance.card().key;
+         });
+         var index = cardKeys.indexOf(cardKey);
+
+         if (index >= 0)
+         {
+            var cardInstance = encounterDeck.get(index);
+            store.dispatch(Action.encounterToSetAside(cardInstance));
+         }
+      };
+
+      Environment.prototype.setAsideToEncounterDeck = function(cardKey)
+      {
+         InputValidator.validateIsString("cardKey", cardKey);
+
+         var store = this.store();
+         var encounterSetAside = this.encounterSetAside();
+         var cardKeys = encounterSetAside.map(function(cardInstance)
+         {
+            return cardInstance.card().key;
+         });
+         var index = cardKeys.indexOf(cardKey);
+
+         if (index >= 0)
+         {
+            var cardInstance = encounterSetAside.get(index);
+            store.dispatch(Action.setAsideToEncounterDeck(cardInstance));
+         }
+      };
+
+      Environment.prototype.shuffleEncounterDeck = function()
+      {
+         var encounterDeck = this.encounterDeck().toJS();
+         encounterDeck.lotrShuffle();
+         var store = this.store();
+         store.dispatch(Action.setEncounterDeck(encounterDeck));
       };
 
       return Environment;
