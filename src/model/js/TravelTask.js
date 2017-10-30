@@ -25,34 +25,41 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "
             var environment = store.getState().environment;
             var locations = environment.stagingArea(CardType.LOCATION).toJS();
 
-            // Ask the first HumanAgent, if any, or the first agent.
-            var agents = environment.agentQueue();
-            var agent;
-
-            for (var i = 0; i < agents.length; i++)
+            if (locations.length > 0)
             {
-               var myAgent = agents[i];
+               // Ask the first HumanAgent, if any, or the first agent.
+               var agents = environment.agentQueue();
+               var agent;
 
-               // FIXME: don't rely on controller.
-               if (myAgent._strategy() === HumanAgentStrategy)
+               for (var i = 0; i < agents.length; i++)
                {
-                  agent = myAgent;
-                  break;
+                  var myAgent = agents[i];
+
+                  // FIXME: don't rely on controller.
+                  if (myAgent._strategy() === HumanAgentStrategy)
+                  {
+                     agent = myAgent;
+                     break;
+                  }
                }
+
+               if (agent === undefined && agents.length > 0)
+               {
+                  agent = agents[0];
+               }
+
+               var queueCallback = this.finish.bind(this);
+               var locationCallback = function(location)
+               {
+                  queueCallback(location, callback);
+               };
+
+               agent.chooseLocation(locations, locationCallback);
             }
-
-            if (agent === undefined && agents.length > 0)
+            else
             {
-               agent = agents[0];
+               callback();
             }
-
-            var queueCallback = this.finish.bind(this);
-            var locationCallback = function(location)
-            {
-               queueCallback(location, callback);
-            };
-
-            agent.chooseLocation(locations, locationCallback);
          }
          else
          {
