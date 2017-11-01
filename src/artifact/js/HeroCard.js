@@ -1163,40 +1163,16 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                key: "treebeard",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(HeroCard.properties);
-         },
+      HeroCard.keys = function()
+      {
+         return Object.keys(HeroCard.properties);
+      };
 
-         keysByCardSetSphere: function(cardSetKey, sphereKey)
-         {
-            InputValidator.validateNotNull("cardSetKey", cardSetKey);
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = HeroCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = HeroCard.properties[cardKey];
-
-               return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
-            });
-         },
-
-         keysBySphere: function(sphereKey)
-         {
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = HeroCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = HeroCard.properties[cardKey];
-
-               return card.sphereKey === sphereKey;
-            });
-         },
+      HeroCard.values = function()
+      {
+         return Object.values(HeroCard.properties);
       };
 
       HeroCard.keys().forEach(function(cardKey)
@@ -1211,6 +1187,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          card.cardTypeKey = CardType.HERO;
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
+         card.lotrType = HeroCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
@@ -1224,6 +1201,40 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
 
          card.imagePath = imagePath;
       });
+
+      HeroCard.keysByCardSetSphere = function(cardSetKey, sphereKey)
+      {
+         InputValidator.validateNotNull("cardSetKey", cardSetKey);
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = HeroCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = HeroCard.properties[cardKey];
+
+            return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
+         });
+      };
+
+      HeroCard.keysBySphere = function(sphereKey)
+      {
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = HeroCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = HeroCard.properties[cardKey];
+
+            return card.sphereKey === sphereKey;
+         });
+      };
+
+      HeroCard.toString = function()
+      {
+         return "HeroCard";
+      };
 
       if (Object.freeze)
       {

@@ -116,6 +116,12 @@ define(["immutable", "model/js/CardAction"],
                {
                   cardResources: state.cardResources.set(cardId, newResources),
                });
+            case CardAction.SET_USED:
+               return Object.assign(
+               {}, state,
+               {
+                  cardIsUsed: state.cardIsUsed.set(action.cardInstance.id(), action.isUsed),
+               });
             case CardAction.SET_WOUNDS:
                return Object.assign(
                {}, state,

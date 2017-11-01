@@ -241,41 +241,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                key: "underTheShadow",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(TreacheryCard.properties);
-         },
+      TreacheryCard.keys = function()
+      {
+         return Object.keys(TreacheryCard.properties);
+      };
 
-         keysByEncounterSet: function(encounterSetKey)
-         {
-            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
-
-            var keys = TreacheryCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = TreacheryCard.properties[cardKey];
-
-               return card.encounterSetKey === encounterSetKey;
-            });
-         },
-
-         keysByScenario: function(scenarioKey)
-         {
-            InputValidator.validateNotNull("scenarioKey", scenarioKey);
-
-            var scenario = Scenario.properties[scenarioKey];
-            var encounterSetKeys = scenario.encounterSetKeys;
-            var keys = TreacheryCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = TreacheryCard.properties[cardKey];
-
-               return encounterSetKeys.includes(card.encounterSetKey);
-            });
-         },
+      TreacheryCard.values = function()
+      {
+         return Object.values(TreacheryCard.properties);
       };
 
       TreacheryCard.keys().forEach(function(cardKey)
@@ -285,6 +260,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
          card.gameMode = GameMode.properties[card.gameModeKey];
+         card.lotrType = TreacheryCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
@@ -292,6 +268,41 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
          card.imagePath = imagePath;
       });
+
+      TreacheryCard.keysByEncounterSet = function(encounterSetKey)
+      {
+         InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+         var keys = TreacheryCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = TreacheryCard.properties[cardKey];
+
+            return card.encounterSetKey === encounterSetKey;
+         });
+      };
+
+      TreacheryCard.keysByScenario = function(scenarioKey)
+      {
+         InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+         var scenario = Scenario.properties[scenarioKey];
+         var encounterSetKeys = scenario.encounterSetKeys;
+         var keys = TreacheryCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = TreacheryCard.properties[cardKey];
+
+            return encounterSetKeys.includes(card.encounterSetKey);
+         });
+      };
+
+      TreacheryCard.toString = function()
+      {
+         return "TreacheryCard";
+      };
 
       if (Object.freeze)
       {

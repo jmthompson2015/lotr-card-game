@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Phase",
+define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/Phase",
   "model/js/Action", "model/js/CardInstance", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(Immutable, QUnit, Redux, EnemyCard, Phase, Action, CardInstance, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+   function(Immutable, QUnit, Redux, EnemyCard, GameEvent, Phase, Action, CardInstance, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Reducer");
 
@@ -49,23 +49,60 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
          assert.equal(shadowCardIds.get(0), enemyId);
       });
 
+      QUnit.test("dequeueEvent()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         //  var agent1 = new Agent(store, "agent1");
+         //  var agent2 = new Agent(store, "agent2");
+         var context;
+         var callback = function() {};
+         store.dispatch(Action.enqueueEvent(GameEvent.QUEST_CARD_DRAWN, context, callback));
+         store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN, context, callback));
+         assert.equal(store.getState().eventQueue.size, 2);
+         var eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.get("eventKey"), GameEvent.QUEST_CARD_DRAWN);
+         //  assert.equal(eventData0.get("eventAgent").id(), agent1.id());
+         var eventData1 = store.getState().eventQueue.get(1);
+         assert.ok(eventData1);
+         assert.equal(eventData1.get("eventKey"), GameEvent.CARD_DRAWN);
+         //  assert.equal(eventData1.get("eventAgent").id(), agent2.id());
+
+         // Run.
+         store.dispatch(Action.dequeueEvent());
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 1);
+         eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.get("eventKey"), GameEvent.CARD_DRAWN);
+         //  assert.equal(eventData0.get("eventAgent"), agent2);
+
+         // Run.
+         store.dispatch(Action.dequeueEvent());
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 0);
+      });
+
       QUnit.test("dequeuePhase()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var agent1 = new Agent(store, "agent1");
-         var agent2 = new Agent(store, "agent2");
-         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END, agent1));
-         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START, agent2));
+         //  var agent1 = new Agent(store, "agent1");
+         //  var agent2 = new Agent(store, "agent2");
+         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END));
+         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START));
          assert.equal(store.getState().phaseQueue.size, 2);
          var phaseData0 = store.getState().phaseQueue.get(0);
          assert.ok(phaseData0);
          assert.equal(phaseData0.get("phaseKey"), Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END);
-         assert.equal(phaseData0.get("phaseAgent").id(), agent1.id());
+         //  assert.equal(phaseData0.get("phaseAgent").id(), agent1.id());
          var phaseData1 = store.getState().phaseQueue.get(1);
          assert.ok(phaseData1);
          assert.equal(phaseData1.get("phaseKey"), Phase.ENCOUNTER_ENGAGEMENT_CHECK_START);
-         assert.equal(phaseData1.get("phaseAgent").id(), agent2.id());
+         //  assert.equal(phaseData1.get("phaseAgent").id(), agent2.id());
 
          // Run.
          store.dispatch(Action.dequeuePhase());
@@ -75,7 +112,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
          phaseData0 = store.getState().phaseQueue.get(0);
          assert.ok(phaseData0);
          assert.equal(phaseData0.get("phaseKey"), Phase.ENCOUNTER_ENGAGEMENT_CHECK_START);
-         assert.equal(phaseData0.get("phaseAgent").id(), agent2.id());
+         //  assert.equal(phaseData0.get("phaseAgent").id(), agent2.id());
 
          // Run.
          store.dispatch(Action.dequeuePhase());
@@ -208,37 +245,72 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Pha
          assert.equal(store.getState().questDiscard.size, 0);
       });
 
+      QUnit.test("enqueueEvent()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         //  var agent1 = new Agent(store, "agent1");
+         //  var agent2 = new Agent(store, "agent2");
+         assert.equal(store.getState().eventQueue.size, 0);
+         var context;
+         var callback = function() {};
+
+         // Run.
+         store.dispatch(Action.enqueueEvent(GameEvent.QUEST_CARD_DRAWN, context, callback));
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 1);
+         var eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.get("eventKey"), GameEvent.QUEST_CARD_DRAWN);
+         //  assert.equal(eventData0.get("eventAgent"), agent1);
+
+         // Run.
+         store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN, context, callback));
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 2);
+         eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.get("eventKey"), GameEvent.QUEST_CARD_DRAWN);
+         //  assert.equal(eventData0.get("eventAgent"), agent1);
+         var eventData1 = store.getState().eventQueue.get(1);
+         assert.ok(eventData1);
+         assert.equal(eventData1.get("eventKey"), GameEvent.CARD_DRAWN);
+         //  assert.equal(eventData1.get("eventAgent"), agent2);
+      });
+
       QUnit.test("enqueuePhase()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var agent1 = new Agent(store, "agent1");
-         var agent2 = new Agent(store, "agent2");
+         //  var agent1 = new Agent(store, "agent1");
+         //  var agent2 = new Agent(store, "agent2");
          assert.equal(store.getState().phaseQueue.size, 0);
 
          // Run.
-         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END, agent1));
+         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END));
 
          // Verify.
          assert.equal(store.getState().phaseQueue.size, 1);
          var phaseData0 = store.getState().phaseQueue.get(0);
          assert.ok(phaseData0);
          assert.equal(phaseData0.get("phaseKey"), Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END);
-         assert.equal(phaseData0.get("phaseAgent"), agent1);
+         //  assert.equal(phaseData0.get("phaseAgent"), agent1);
 
          // Run.
-         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START, agent2));
+         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START));
 
          // Verify.
          assert.equal(store.getState().phaseQueue.size, 2);
          phaseData0 = store.getState().phaseQueue.get(0);
          assert.ok(phaseData0);
          assert.equal(phaseData0.get("phaseKey"), Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END);
-         assert.equal(phaseData0.get("phaseAgent"), agent1);
+         //  assert.equal(phaseData0.get("phaseAgent"), agent1);
          var phaseData1 = store.getState().phaseQueue.get(1);
          assert.ok(phaseData1);
          assert.equal(phaseData1.get("phaseKey"), Phase.ENCOUNTER_ENGAGEMENT_CHECK_START);
-         assert.equal(phaseData1.get("phaseAgent"), agent2);
+         //  assert.equal(phaseData1.get("phaseAgent"), agent2);
       });
 
       QUnit.test("incrementRound()", function(assert)

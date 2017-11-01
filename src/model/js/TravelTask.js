@@ -69,9 +69,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "
 
       TravelTask.prototype.finish = function(location, callback)
       {
-         var store = this.store();
-         store.dispatch(Action.setActiveLocation(location));
-         store.dispatch(Action.setUserMessage("Travel to " + location.card().name));
+         if (location)
+         {
+            var store = this.store();
+            store.dispatch(Action.setActiveLocation(location));
+            store.dispatch(Action.setUserMessage("Travel to " + location.card().name));
+         }
 
          callback();
       };

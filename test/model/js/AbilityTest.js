@@ -47,6 +47,6 @@ define(["qunit", "artifact/js/GameEvent", "artifact/js/QuestCard", "model/js/Abi
 
          // Verify.
          assert.ok(result);
-         assert.equal(result, "Ability source=[object Object],sourceKey=ptm1aFliesAndSpiders,abilityType=[object Object],abilityKey=questCardDrawn,context=undefined");
+         assert.equal(result, "Ability source=QuestCard,sourceKey=ptm1aFliesAndSpiders,abilityType=QuestAbility,abilityKey=questCardDrawn,context=undefined");
       });
    });

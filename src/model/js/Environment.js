@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType",
+define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent",
   "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardInstance"],
-   function(Immutable, ArrayAugments, InputValidator, CardType, Action, Agent, AgentAction, CardInstance)
+   function(Immutable, ArrayAugments, InputValidator, CardType, GameEvent, Action, Agent, AgentAction, CardInstance)
    {
       function Environment(store, scenarioDeck, playerData)
       {
@@ -86,6 +86,37 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          });
       };
 
+      Environment.prototype.cardsInPlay = function()
+      {
+         var answer = [];
+
+         var activeQuest = this.activeQuest();
+
+         if (activeQuest)
+         {
+            answer.push(activeQuest);
+         }
+
+         var activeLocation = this.activeLocation();
+
+         if (activeLocation)
+         {
+            answer.push(activeLocation);
+         }
+
+         answer = answer.concat(this.stagingArea().toJS());
+
+         var agents = this.agents();
+
+         agents.forEach(function(agent)
+         {
+            answer = answer.concat(agent.tableau().toJS());
+            answer = answer.concat(agent.engagementArea().toJS());
+         });
+
+         return answer;
+      };
+
       Environment.prototype.encounterDeck = function()
       {
          var store = this.store();
@@ -100,6 +131,31 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          var ids = store.getState().encounterSetAside;
 
          return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      Environment.prototype.firstCardInstance = function(cardKey)
+      {
+         InputValidator.validateIsString("cardKey", cardKey);
+
+         var answer;
+         var store = this.store();
+         var cardInstances = store.getState().cardInstances;
+         var keys = cardInstances.keySeq().toArray();
+         var cardCount = keys.length;
+
+         for (var i = 0; i < cardCount; i++)
+         {
+            var key = keys[i];
+            var values = cardInstances.get(key);
+
+            if (values.get("cardKey") === cardKey)
+            {
+               answer = CardInstance.get(store, values.get("id"));
+               break;
+            }
+         }
+
+         return answer;
       };
 
       Environment.prototype.questDeck = function()
@@ -172,11 +228,24 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
-      Environment.prototype.advanceTheQuest = function()
+      Environment.prototype.advanceTheQuest = function(callback)
       {
+         InputValidator.validateIsFunction("callback", callback);
+
          var store = this.store();
-         store.dispatch(Action.discardActiveQuest());
+         var questInstance = this.activeQuest();
+
+         if (questInstance)
+         {
+            store.dispatch(Action.discardActiveQuest());
+         }
+
          store.dispatch(Action.drawQuestCard());
+         questInstance = this.activeQuest();
+         store.dispatch(Action.enqueueEvent(GameEvent.QUEST_CARD_DRAWN,
+         {
+            cardInstance: questInstance,
+         }, callback));
       };
 
       Environment.prototype.drawEncounterCard = function(cardKey)
@@ -193,7 +262,12 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
 
          if (index >= 0)
          {
+            var cardInstance = encounterDeck.get(index);
             store.dispatch(Action.drawEncounterCard(index));
+            store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN,
+            {
+               cardInstance: cardInstance,
+            }));
          }
       };
 

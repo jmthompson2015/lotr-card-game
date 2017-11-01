@@ -1,8 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/GameMode", "artifact/js/LocationCard", "artifact/js/QuestCard", "artifact/js/Scenario",
-  "model/js/Ability", "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Engine", "model/js/Environment", "model/js/QuestAbility"],
-   function(InputValidator, EnemyCard, GameEvent, GameMode, LocationCard, QuestCard, Scenario, Ability, Action, Adjudicator, AgentAction, CardAction, CardInstance, Engine, Environment, QuestAbility)
+define(["immutable", "common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/GameMode", "artifact/js/LocationCard", "artifact/js/QuestCard", "artifact/js/Scenario",
+  "model/js/Ability", "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Engine", "model/js/Environment", "model/js/EventObserver", "model/js/QuestAbility", "model/js/PhaseObserver"],
+   function(Immutable, InputValidator, EnemyCard, GameEvent, GameMode, LocationCard, QuestCard, Scenario, Ability, Action, Adjudicator, AgentAction, CardAction, CardInstance, Engine, Environment, EventObserver, QuestAbility, PhaseObserver)
    {
       function Game(store, scenarioDeck, playerData, delayIn, engineCallback)
       {
@@ -17,6 +17,16 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEv
             return store;
          };
 
+         this.scenarioDeck = function()
+         {
+            return scenarioDeck;
+         };
+
+         this.playerData = function()
+         {
+            return playerData;
+         };
+
          var delay = (delayIn !== undefined ? delayIn : 1000);
 
          this.delay = function()
@@ -24,10 +34,44 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEv
             return delay;
          };
 
+         this.engineCallback = function()
+         {
+            return engineCallback;
+         };
+
+         var engine;
+
+         this.engine = function()
+         {
+            return engine;
+         };
+
+         this.setEngine = function(engineIn)
+         {
+            InputValidator.validateNotNull("engine", engineIn);
+
+            engine = engineIn;
+         };
+
          // Setup.
+         this.setUp();
+      }
+
+      Game.prototype.setUp = function()
+      {
+         var store = this.store();
+         var scenarioDeck = this.scenarioDeck();
+         var playerData = this.playerData();
+         var delay = this.delay();
+         var engineCallback = this.engineCallback();
+
          // 1. Shuffle Decks
          var environment = new Environment(store, scenarioDeck, playerData);
          var adjudicator = new Adjudicator(store);
+         var engine = new Engine(store, environment, adjudicator, delay, engineCallback);
+         this.setEngine(engine);
+         EventObserver.observeStore(store);
+         PhaseObserver.observeStore(store);
 
          // 2. Place Heroes and Set Initial Threat Levels
          playerData.forEach(function(data)
@@ -40,6 +84,18 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEv
             }, 0);
             store.dispatch(AgentAction.setThreat(agent, initialThreat));
          });
+
+         if (scenarioDeck.gameModeKey === GameMode.EASY)
+         {
+            // Add a resource to each hero.
+            environment.agents().forEach(function(agent)
+            {
+               agent.tableauHeroes().forEach(function(cardInstance)
+               {
+                  store.dispatch(CardAction.addResource(cardInstance, cardInstance.card().sphereKey));
+               });
+            });
+         }
 
          // 3. Setup Token Bank
 
@@ -57,36 +113,13 @@ define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEv
          });
 
          // 6. Set Quest Cards
-         store.dispatch(Action.drawQuestCard());
+         environment.advanceTheQuest(this.finishSetUp.bind(this));
+      };
 
+      Game.prototype.finishSetUp = function()
+      {
          // 7. Follow Scenario Setup Instructions
-         var questCard = environment.activeQuest();
-         var ability = new Ability(QuestCard, questCard.card().key, QuestAbility, GameEvent.QUEST_CARD_DRAWN);
-
-         if (ability.conditionPasses(store))
-         {
-            ability.executeConsequent(store);
-         }
-
-         if (scenarioDeck.gameModeKey === GameMode.EASY)
-         {
-            // Add a resource to each hero.
-            environment.agents().forEach(function(agent)
-            {
-               agent.tableauHeroes().forEach(function(cardInstance)
-               {
-                  store.dispatch(CardAction.addResource(cardInstance, cardInstance.card().sphereKey));
-               });
-            });
-         }
-
-         var engine = new Engine(store, environment, adjudicator, delay, engineCallback);
-
-         this.engine = function()
-         {
-            return engine;
-         };
-      }
+      };
 
       Game.prototype.start = function()
       {

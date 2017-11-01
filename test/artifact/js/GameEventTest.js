@@ -52,7 +52,7 @@ define(["qunit", "artifact/js/GameEvent"], function(QUnit, GameEvent)
       var length = 3;
       assert.equal(result.length, length);
       var i = 0;
-      assert.equal(result[i++], GameEvent.OBJECTIVE_CARD_DRAWN);
+      assert.equal(result[i++], GameEvent.CARD_DRAWN);
       assert.equal(result[i++], GameEvent.QUEST_CARD_DRAWN);
       assert.equal(result[i++], GameEvent.QUEST_SUCCEEDED);
    });

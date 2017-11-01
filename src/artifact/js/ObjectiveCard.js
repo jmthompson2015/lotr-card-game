@@ -86,41 +86,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                key: "wilyador",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(ObjectiveCard.properties);
-         },
+      ObjectiveCard.keys = function()
+      {
+         return Object.keys(ObjectiveCard.properties);
+      };
 
-         keysByEncounterSet: function(encounterSetKey)
-         {
-            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
-
-            var keys = ObjectiveCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = ObjectiveCard.properties[cardKey];
-
-               return card.encounterSetKey === encounterSetKey;
-            });
-         },
-
-         keysByScenario: function(scenarioKey)
-         {
-            InputValidator.validateNotNull("scenarioKey", scenarioKey);
-
-            var scenario = Scenario.properties[scenarioKey];
-            var encounterSetKeys = scenario.encounterSetKeys;
-            var keys = ObjectiveCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = ObjectiveCard.properties[cardKey];
-
-               return encounterSetKeys.includes(card.encounterSetKey);
-            });
-         },
+      ObjectiveCard.values = function()
+      {
+         return Object.values(ObjectiveCard.properties);
       };
 
       ObjectiveCard.keys().forEach(function(cardKey)
@@ -129,12 +104,48 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.cardTypeKey = CardType.OBJECTIVE;
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
+         card.lotrType = ObjectiveCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
 
          card.imagePath = imagePath;
       });
+
+      ObjectiveCard.keysByEncounterSet = function(encounterSetKey)
+      {
+         InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+         var keys = ObjectiveCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = ObjectiveCard.properties[cardKey];
+
+            return card.encounterSetKey === encounterSetKey;
+         });
+      };
+
+      ObjectiveCard.keysByScenario = function(scenarioKey)
+      {
+         InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+         var scenario = Scenario.properties[scenarioKey];
+         var encounterSetKeys = scenario.encounterSetKeys;
+         var keys = ObjectiveCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = ObjectiveCard.properties[cardKey];
+
+            return encounterSetKeys.includes(card.encounterSetKey);
+         });
+      };
+
+      ObjectiveCard.toString = function()
+      {
+         return "ObjectiveCard";
+      };
 
       if (Object.freeze)
       {

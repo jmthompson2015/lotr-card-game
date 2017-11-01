@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/Scenario",
-   "model/js/Action", "model/js/Agent", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/QuestAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, EnemyCard, GameEvent, LocationCard, ObjectiveCard, QuestCard, Scenario, Action, Agent, Environment, Game, PlayerDeckBuilder, QuestAbility, Reducer, ScenarioDeckBuilder)
+   "model/js/Action", "model/js/Agent", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/QuestAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, EnemyCard, GameEvent, LocationCard, ObjectiveCard, QuestCard, Scenario, Action, Agent, CardInstance, EventObserver, Environment, Game, PlayerDeckBuilder, QuestAbility, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("QuestAbility");
 
@@ -14,13 +14,17 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
          assert.equal(environment.encounterDeck().size, 29);
          assert.equal(environment.stagingArea().size, 0);
          var store = environment.store();
-         var context;
+         var agent1 = environment.agents().get(0);
+         var context = {
+            cardInstance: CardInstance.get(store, 1),
+         };
          var callback = function()
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.equal(environment.encounterDeck().size, 27);
-            assert.equal(environment.stagingArea().size, 2);
+            assert.equal(environment.stagingArea().size, 1);
+            assert.equal(agent1.tableau().size, 4);
             done();
          };
          var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.AJTR1A_THE_WOUNDED_EAGLE];
@@ -39,7 +43,9 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
          assert.equal(environment.encounterSetAside().size, 0);
          assert.equal(environment.stagingArea().size, 0);
          var store = environment.store();
-         var context;
+         var context = {
+            cardInstance: CardInstance.get(store, 1),
+         };
          var callback = function()
          {
             // Verify.
@@ -66,7 +72,9 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
          assert.equal(environment.encounterSetAside().size, 0);
          assert.equal(environment.stagingArea().size, 0);
          var store = environment.store();
-         var context;
+         var context = {
+            cardInstance: CardInstance.get(store, 1),
+         };
          var callback = function()
          {
             // Verify.
@@ -190,6 +198,10 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
              },
           ];
 
-         return new Environment(store, scenarioDeck, playerData);
+         var environment = new Environment(store, scenarioDeck, playerData);
+         store.dispatch(Action.drawQuestCard());
+         EventObserver.observeStore(store);
+
+         return environment;
       }
    });

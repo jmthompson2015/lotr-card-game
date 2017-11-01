@@ -1492,40 +1492,16 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                key: "wordOfCommand",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(EventCard.properties);
-         },
+      EventCard.keys = function()
+      {
+         return Object.keys(EventCard.properties);
+      };
 
-         keysByCardSetSphere: function(cardSetKey, sphereKey)
-         {
-            InputValidator.validateNotNull("cardSetKey", cardSetKey);
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = EventCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = EventCard.properties[cardKey];
-
-               return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
-            });
-         },
-
-         keysBySphere: function(sphereKey)
-         {
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = EventCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = EventCard.properties[cardKey];
-
-               return card.sphereKey === sphereKey;
-            });
-         },
+      EventCard.values = function()
+      {
+         return Object.values(EventCard.properties);
       };
 
       EventCard.keys().forEach(function(cardKey)
@@ -1539,6 +1515,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          card.cardTypeKey = CardType.EVENT;
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
+         card.lotrType = EventCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
@@ -1557,6 +1534,40 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
 
          card.imagePath = imagePath;
       });
+
+      EventCard.keysByCardSetSphere = function(cardSetKey, sphereKey)
+      {
+         InputValidator.validateNotNull("cardSetKey", cardSetKey);
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = EventCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = EventCard.properties[cardKey];
+
+            return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
+         });
+      };
+
+      EventCard.keysBySphere = function(sphereKey)
+      {
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = EventCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = EventCard.properties[cardKey];
+
+            return card.sphereKey === sphereKey;
+         });
+      };
+
+      EventCard.toString = function()
+      {
+         return "EventCard";
+      };
 
       if (Object.freeze)
       {

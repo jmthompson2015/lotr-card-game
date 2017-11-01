@@ -9,6 +9,8 @@ define(["immutable", "artifact/js/Phase"],
          this.activeLocationId = undefined;
          this.activeQuestId = undefined;
          this.environment = undefined;
+         this.eventData = undefined;
+         this.eventQueue = Immutable.List();
          this.firstAgentId = undefined;
          this.nextAgentId = 1;
          this.nextCardId = 1;
@@ -46,6 +48,7 @@ define(["immutable", "artifact/js/Phase"],
          this.cardIsFaceUp = Immutable.Map();
          this.cardIsQuesting = Immutable.Map();
          this.cardIsReady = Immutable.Map();
+         this.cardIsUsed = Immutable.Map();
          this.cardProgress = Immutable.Map();
          // card instance id: sphereKey: resource count
          this.cardResources = Immutable.Map();

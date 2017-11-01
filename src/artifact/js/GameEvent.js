@@ -3,16 +3,16 @@
 define(function()
 {
    var GameEvent = {
-      OBJECTIVE_CARD_DRAWN: "objectiveCardDrawn",
+      CARD_DRAWN: "cardDrawn",
       QUEST_CARD_DRAWN: "questCardDrawn",
       QUEST_SUCCEEDED: "questSucceeded",
 
       properties:
       {
-         "objectiveCardDrawn":
+         "cardDrawn":
          {
-            name: "Objective card drawn",
-            key: "objectiveCardDrawn",
+            name: "Card drawn",
+            key: "cardDrawn",
          },
          "questCardDrawn":
          {

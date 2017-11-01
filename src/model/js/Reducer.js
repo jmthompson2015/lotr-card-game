@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/AgentAction", "model/js/AgentReducer", "model/js/CardAction", "model/js/CardInstance", "model/js/CardReducer", "model/js/InitialState", "model/js/TransferReducer"],
-   function(Immutable, InputValidator, Phase, Action, AgentAction, AgentReducer, CardAction, CardInstance, CardReducer, InitialState, TransferReducer)
+define(["immutable", "common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Phase", "model/js/Action", "model/js/AgentAction", "model/js/AgentReducer", "model/js/CardAction", "model/js/CardInstance", "model/js/CardReducer", "model/js/InitialState", "model/js/TransferReducer"],
+   function(Immutable, InputValidator, GameEvent, Phase, Action, AgentAction, AgentReducer, CardAction, CardInstance, CardReducer, InitialState, TransferReducer)
    {
       var Reducer = {};
 
@@ -15,7 +15,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
          }
 
          var agentId, attachmentId, cardId, cardInstanceIds, index, shadowId;
-         var newPhaseData, newPhaseQueue;
+         var newEventData, newEventQueue, newPhaseData, newPhaseQueue;
 
          if (isAgentAction(action))
          {
@@ -56,6 +56,20 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   agentId = action.agent.id();
                   cardId = action.cardInstance.id();
                   return TransferReducer.reduce(state, "agentEngagementArea", agentId, cardId, "stagingArea");
+               case Action.CLEAR_EVENT:
+                  // LOGGER.info("Event: (cleared)");
+                  return Object.assign(
+                  {}, state,
+                  {
+                     eventData: undefined,
+                  });
+               case Action.CLEAR_PHASE:
+                  // LOGGER.info("Phase: (cleared)");
+                  return Object.assign(
+                  {}, state,
+                  {
+                     phaseData: undefined,
+                  });
                case Action.DEAL_SHADOW_CARD:
                   LOGGER.info("Deal shadow card to " + action.cardInstance);
                   if (state.encounterDeck.size > 0)
@@ -79,8 +93,18 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   {
                      agents: state.agents.delete(agentId),
                   });
+               case Action.DEQUEUE_EVENT:
+                  // LOGGER.info("EventQueue: (dequeue)");
+                  newEventData = state.eventQueue.first();
+                  newEventQueue = state.eventQueue.shift();
+                  return Object.assign(
+                  {}, state,
+                  {
+                     eventData: newEventData,
+                     eventQueue: newEventQueue,
+                  });
                case Action.DEQUEUE_PHASE:
-                  LOGGER.debug("PhaseQueue: (dequeue)");
+                  // LOGGER.debug("PhaseQueue: (dequeue)");
                   newPhaseData = state.phaseQueue.first();
                   newPhaseQueue = state.phaseQueue.shift();
                   return Object.assign(
@@ -137,14 +161,22 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                case Action.ENCOUNTER_TO_SET_ASIDE:
                   cardId = action.cardInstance.id();
                   return TransferReducer.reduce(state, "encounterDeck", undefined, cardId, "encounterSetAside");
+               case Action.ENQUEUE_EVENT:
+                  LOGGER.info("EventQueue: " + GameEvent.properties[action.eventKey].name + ", context = " + JSON.stringify(action.eventContext));
+                  newEventData = createEventData(action.eventKey, action.eventContext, action.eventCallback);
+                  newEventQueue = state.eventQueue.push(newEventData);
+                  return Object.assign(
+                  {}, state,
+                  {
+                     eventQueue: newEventQueue,
+                  });
                case Action.ENQUEUE_PHASE:
-                  LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", agent = " + action.phaseAgent + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
-                  newPhaseData = createPhaseData(action.phaseKey, action.phaseAgent, action.phaseCallback, action.phaseContext);
+                  LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
+                  newPhaseData = createPhaseData(action.phaseKey, action.phaseContext, action.phaseCallback);
                   newPhaseQueue = state.phaseQueue.push(newPhaseData);
                   return Object.assign(
                   {}, state,
                   {
-                     phaseKey: action.phaseKey, // FIXME: remove when PhaseObserver is implemented.
                      phaseQueue: newPhaseQueue,
                   });
                case Action.INCREMENT_ROUND:
@@ -227,6 +259,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
                   {
                      userMessage: action.userMessage,
                   });
+               case Action.STAGING_TO_AGENT_TABLEAU:
+                  LOGGER.info("Staging to agent tableau: " + action.cardInstance);
+                  agentId = action.agent.id();
+                  cardId = action.cardInstance.id();
+                  return TransferReducer.reduce(state, "stagingArea", undefined, cardId, "agentTableau", agentId);
                default:
                   LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
                   return state;
@@ -234,19 +271,31 @@ define(["immutable", "common/js/InputValidator", "artifact/js/Phase", "model/js/
          }
       };
 
-      function createPhaseData(phaseKey, phaseAgent, phaseCallback, phaseContext)
+      function createEventData(eventKey, eventContext, eventCallback)
+      {
+         InputValidator.validateNotNull("eventKey", eventKey);
+         // eventContext optional.
+         // eventCallback optional.
+
+         return Immutable.Map(
+         {
+            eventKey: eventKey,
+            eventContext: eventContext,
+            eventCallback: eventCallback,
+         });
+      }
+
+      function createPhaseData(phaseKey, phaseContext, phaseCallback)
       {
          InputValidator.validateNotNull("phaseKey", phaseKey);
-         // phaseAgent optional.
-         // phaseCallback optional.
          // phaseContext optional.
+         // phaseCallback optional.
 
          return Immutable.Map(
          {
             phaseKey: phaseKey,
-            phaseAgent: phaseAgent,
-            phaseCallback: phaseCallback,
             phaseContext: phaseContext,
+            phaseCallback: phaseCallback,
          });
       }
 

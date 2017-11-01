@@ -499,41 +499,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                key: "wolfRider",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(EnemyCard.properties);
-         },
+      EnemyCard.keys = function()
+      {
+         return Object.keys(EnemyCard.properties);
+      };
 
-         keysByEncounterSet: function(encounterSetKey)
-         {
-            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
-
-            var keys = EnemyCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = EnemyCard.properties[cardKey];
-
-               return card.encounterSetKey === encounterSetKey;
-            });
-         },
-
-         keysByScenario: function(scenarioKey)
-         {
-            InputValidator.validateNotNull("scenarioKey", scenarioKey);
-
-            var scenario = Scenario.properties[scenarioKey];
-            var encounterSetKeys = scenario.encounterSetKeys;
-            var keys = EnemyCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = EnemyCard.properties[cardKey];
-
-               return encounterSetKeys.includes(card.encounterSetKey);
-            });
-         },
+      EnemyCard.values = function()
+      {
+         return Object.values(EnemyCard.properties);
       };
 
       EnemyCard.keys().forEach(function(cardKey)
@@ -543,6 +518,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
          card.gameMode = GameMode.properties[card.gameModeKey];
+         card.lotrType = EnemyCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
@@ -556,6 +532,41 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
          card.imagePath = imagePath;
       });
+
+      EnemyCard.keysByEncounterSet = function(encounterSetKey)
+      {
+         InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+         var keys = EnemyCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = EnemyCard.properties[cardKey];
+
+            return card.encounterSetKey === encounterSetKey;
+         });
+      };
+
+      EnemyCard.keysByScenario = function(scenarioKey)
+      {
+         InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+         var scenario = Scenario.properties[scenarioKey];
+         var encounterSetKeys = scenario.encounterSetKeys;
+         var keys = EnemyCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = EnemyCard.properties[cardKey];
+
+            return encounterSetKeys.includes(card.encounterSetKey);
+         });
+      };
+
+      EnemyCard.toString = function()
+      {
+         return "EnemyCard";
+      };
 
       if (Object.freeze)
       {

@@ -11,38 +11,38 @@
 
         // Scenario.A_JOURNEY_TO_RHOSGOBEL
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.AJTR1A_THE_WOUNDED_EAGLE] = {
-           condition: function( /*store, context*/ )
+           condition: function(store /*, context*/ )
            {
-              return true;
+              InputValidator.validateNotNull("store", store);
+
+              return isActiveQuest(store, QuestCard.AJTR1A_THE_WOUNDED_EAGLE);
            },
            consequent: function(store, context, callback)
            {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateIsFunction("callback", callback);
+
               // Setup: Search the encounter deck for Rhosgobel and Wilyador, and add
               // them to the staging area with 2 damage tokens on Wilyador. Then, shuffle
               // the encounter deck.
               var environment = store.getState().environment;
               environment.drawEncounterCard(LocationCard.RHOSGOBEL);
               environment.drawEncounterCard(ObjectiveCard.WILYADOR);
-              var wilyador = environment.stagingArea().last();
+              var wilyador = environment.firstCardInstance(ObjectiveCard.WILYADOR);
               store.dispatch(CardAction.addWounds(wilyador, 2));
 
               environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
-              environment.advanceTheQuest();
-
-              if (callback)
-              {
-                 callback();
-              }
+              environment.advanceTheQuest(callback);
            },
         };
 
         // Scenario.CONFLICT_AT_THE_CARROCK
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.CATC1A_GRIMBEORNS_QUEST] = {
-           condition: function( /*store, context*/ )
+           condition: function(store /*, context*/ )
            {
-              return true;
+              return isActiveQuest(store, QuestCard.CATC1A_GRIMBEORNS_QUEST);
            },
            consequent: function(store, context, callback)
            {
@@ -75,20 +75,15 @@
               environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
-              environment.advanceTheQuest();
-
-              if (callback)
-              {
-                 callback();
-              }
+              environment.advanceTheQuest(callback);
            },
         };
 
         // Scenario.ESCAPE_FROM_DOL_GULDUR
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.EFDG1A_THE_NECROMANCERS_TOWER] = {
-           condition: function( /*store, context*/ )
+           condition: function(store /*, context*/ )
            {
-              return true;
+              return isActiveQuest(store, QuestCard.EFDG1A_THE_NECROMANCERS_TOWER);
            },
            consequent: function(store, context, callback)
            {
@@ -114,20 +109,15 @@
               store.dispatch(Action.encounterToCardAttachment(shadowKeyInstance));
 
               // Advance the quest.
-              environment.advanceTheQuest();
-
-              if (callback)
-              {
-                 callback();
-              }
+              environment.advanceTheQuest(callback);
            },
         };
 
         // Scenario.JOURNEY_ALONG_THE_ANDUIN
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.JATA1A_TO_THE_RIVER] = {
-           condition: function( /*store, context*/ )
+           condition: function(store /*, context*/ )
            {
-              return true;
+              return isActiveQuest(store, QuestCard.JATA1A_TO_THE_RIVER);
            },
            consequent: function(store, context, callback)
            {
@@ -137,20 +127,15 @@
 
               // Advance the quest.
               var environment = store.getState().environment;
-              environment.advanceTheQuest();
-
-              if (callback)
-              {
-                 callback();
-              }
+              environment.advanceTheQuest(callback);
            },
         };
 
         // Scenario.PASSAGE_THROUGH_MIRKWOOD
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.PTM1A_FLIES_AND_SPIDERS] = {
-           condition: function( /*store, context*/ )
+           condition: function(store /*, context*/ )
            {
-              return true;
+              return isActiveQuest(store, QuestCard.PTM1A_FLIES_AND_SPIDERS);
            },
            consequent: function(store, context, callback)
            {
@@ -163,20 +148,15 @@
               environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
-              environment.advanceTheQuest();
-
-              if (callback)
-              {
-                 callback();
-              }
+              environment.advanceTheQuest(callback);
            },
         };
 
         // Scenario.THE_HUNT_FOR_GOLLUM
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THFG1A_THE_HUNT_BEGINS] = {
-           condition: function( /*store, context*/ )
+           condition: function(store /*, context*/ )
            {
-              return true;
+              return isActiveQuest(store, QuestCard.THFG1A_THE_HUNT_BEGINS);
            },
            consequent: function(store, context, callback)
            {
@@ -186,12 +166,7 @@
 
               // Advance the quest.
               var environment = store.getState().environment;
-              environment.advanceTheQuest();
-
-              if (callback)
-              {
-                 callback();
-              }
+              environment.advanceTheQuest(callback);
            },
         };
 
@@ -204,6 +179,27 @@
            {
               store.dispatch(Action.drawEncounterCard());
            }
+        }
+
+        function isActiveQuest(store, cardKey)
+        {
+           InputValidator.validateNotNull("store", store);
+           InputValidator.validateIsString("cardKey", cardKey);
+
+           var environment = store.getState().environment;
+           var activeQuest = environment.activeQuest();
+
+           return activeQuest.card().key === cardKey;
+        }
+
+        QuestAbility.toString = function()
+        {
+           return "QuestAbility";
+        };
+
+        if (QuestAbility.freeze)
+        {
+           Object.freeze(QuestAbility);
         }
 
         return QuestAbility;

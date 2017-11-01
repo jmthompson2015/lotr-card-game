@@ -73,6 +73,14 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          return (answer !== undefined ? answer : true);
       };
 
+      CardInstance.prototype.isUsed = function()
+      {
+         var store = this.store();
+         var answer = store.getState().cardIsUsed.get(this.id());
+
+         return (answer !== undefined ? answer : false);
+      };
+
       CardInstance.prototype.progress = function()
       {
          var store = this.store();

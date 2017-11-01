@@ -19,6 +19,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    CardAction.SET_QUESTING = "setQuesting";
    CardAction.SET_READY = "setReady";
    CardAction.SET_RESOURCE = "setResource";
+   CardAction.SET_USED = "setUsed";
    CardAction.SET_WOUNDS = "setWounds";
 
    CardAction.addProgress = function(cardInstance, value)
@@ -210,6 +211,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          cardInstance: cardInstance,
          sphereKey: sphereKey,
          value: myValue,
+      });
+   };
+
+   CardAction.setUsed = function(cardInstance, isUsed)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateIsBoolean("isUsed", isUsed);
+
+      return (
+      {
+         type: CardAction.SET_USED,
+         cardInstance: cardInstance,
+         isUsed: isUsed,
       });
    };
 

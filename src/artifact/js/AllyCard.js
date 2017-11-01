@@ -2437,40 +2437,16 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                key: "zigilMiner",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(AllyCard.properties);
-         },
+      AllyCard.keys = function()
+      {
+         return Object.keys(AllyCard.properties);
+      };
 
-         keysByCardSetSphere: function(cardSetKey, sphereKey)
-         {
-            InputValidator.validateNotNull("cardSetKey", cardSetKey);
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = AllyCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = AllyCard.properties[cardKey];
-
-               return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
-            });
-         },
-
-         keysBySphere: function(sphereKey)
-         {
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = AllyCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = AllyCard.properties[cardKey];
-
-               return card.sphereKey === sphereKey;
-            });
-         },
+      AllyCard.values = function()
+      {
+         return Object.values(AllyCard.properties);
       };
 
       AllyCard.keys().forEach(function(cardKey)
@@ -2484,12 +2460,47 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          card.cardTypeKey = CardType.ALLY;
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
+         card.lotrType = AllyCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
 
          card.imagePath = imagePath;
       });
+
+      AllyCard.keysByCardSetSphere = function(cardSetKey, sphereKey)
+      {
+         InputValidator.validateNotNull("cardSetKey", cardSetKey);
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = AllyCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = AllyCard.properties[cardKey];
+
+            return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
+         });
+      };
+
+      AllyCard.keysBySphere = function(sphereKey)
+      {
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = AllyCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = AllyCard.properties[cardKey];
+
+            return card.sphereKey === sphereKey;
+         });
+      };
+
+      AllyCard.toString = function()
+      {
+         return "AllyCard";
+      };
 
       if (Object.freeze)
       {

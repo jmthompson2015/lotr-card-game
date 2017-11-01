@@ -44,6 +44,17 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
             store.dispatch(Action.setFirstAgent(nextAgent));
          }
 
+         // Reset card used flag.
+         var cardInstances = environment.cardsInPlay();
+
+         cardInstances.forEach(function(cardInstance)
+         {
+            if (cardInstance.isUsed())
+            {
+               store.dispatch(CardAction.setUsed(cardInstance, false));
+            }
+         });
+
          callback();
       };
 

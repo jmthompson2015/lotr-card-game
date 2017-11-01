@@ -137,7 +137,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "To the River",
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "1A",
-               questPoints: 0,
                encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                key: "jata1aToTheRiver",
             },
@@ -155,7 +154,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Anduin Passage",
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "2A",
-               questPoints: 0,
                encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                key: "jata2aAnduinPassage",
             },
@@ -173,7 +171,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Ambush on the Shore",
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "3A",
-               questPoints: 0,
                encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
                key: "jata3AAmbushOnTheShore",
             },
@@ -203,6 +200,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "The Necromancer's Tower",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "1B",
+               questPoints: 9,
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg1bTheNecromancersTower",
             },
@@ -221,6 +219,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Through the Caverns",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "2B",
+               questPoints: 15,
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg2bThroughTheCaverns",
             },
@@ -239,6 +238,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Out of the Dungeons",
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "3B",
+               questPoints: 7,
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg3bOutOfTheDungeons",
             },
@@ -332,6 +332,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Grimbeorn's Quest",
                scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
                sequence: "1B",
+               questPoints: 7,
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                key: "catc1bGrimbeornsQuest",
             },
@@ -350,6 +351,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Against the Trolls",
                scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
                sequence: "2B",
+               questPoints: 1,
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                key: "catc2bAgainstTheTrolls",
             },
@@ -370,6 +372,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "The Wounded Eagle",
                scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
                sequence: "1B",
+               questPoints: 8,
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr1bTheWoundedEagle",
             },
@@ -388,6 +391,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Radagast's Request",
                scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
                sequence: "2B",
+               questPoints: 12,
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr2bRadagastsRequest",
             },
@@ -406,43 +410,21 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Return to Rhosgobel",
                scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
                sequence: "3B",
+               questPoints: 0,
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr3bReturnToRhosgobel",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(QuestCard.properties);
-         },
+      QuestCard.keys = function()
+      {
+         return Object.keys(QuestCard.properties);
+      };
 
-         keysByEncounterSet: function(encounterSetKey)
-         {
-            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
-
-            var keys = QuestCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = QuestCard.properties[cardKey];
-
-               return card.encounterSetKey === encounterSetKey;
-            });
-         },
-
-         keysByScenario: function(scenarioKey)
-         {
-            InputValidator.validateNotNull("scenarioKey", scenarioKey);
-
-            var keys = QuestCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = QuestCard.properties[cardKey];
-
-               return card.scenarioKey === scenarioKey;
-            });
-         },
+      QuestCard.values = function()
+      {
+         return Object.values(QuestCard.properties);
       };
 
       QuestCard.keys().forEach(function(cardKey)
@@ -451,6 +433,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.cardTypeKey = CardType.QUEST;
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
+         card.lotrType = QuestCard;
 
          var imagePath = card.name + "-" + card.sequence;
          imagePath = imagePath.replace(/ /g, "-");
@@ -470,6 +453,39 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
          card.imagePath = imagePath;
       });
+
+      QuestCard.keysByEncounterSet = function(encounterSetKey)
+      {
+         InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+         var keys = QuestCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = QuestCard.properties[cardKey];
+
+            return card.encounterSetKey === encounterSetKey;
+         });
+      };
+
+      QuestCard.keysByScenario = function(scenarioKey)
+      {
+         InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+         var keys = QuestCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = QuestCard.properties[cardKey];
+
+            return card.scenarioKey === scenarioKey;
+         });
+      };
+
+      QuestCard.toString = function()
+      {
+         return "QuestCard";
+      };
 
       if (Object.freeze)
       {

@@ -9,8 +9,11 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.AGENT_DISCARD_ENEMY_CARD = "agentDiscardEnemyCard";
    Action.AGENT_ENGAGE_CARD = "agentEngageCard";
    Action.AGENT_ENGAGEMENT_TO_STAGING = "agentEngagementToStaging";
+   Action.CLEAR_EVENT = "clearEvent";
+   Action.CLEAR_PHASE = "clearPhase";
    Action.DEAL_SHADOW_CARD = "dealShadowCard";
    Action.DELETE_AGENT = "deleteAgent";
+   Action.DEQUEUE_EVENT = "dequeueEvent";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DISCARD_ACTIVE_LOCATION = "discardActiveLocation";
    Action.DISCARD_ACTIVE_QUEST = "discardActiveQuest";
@@ -19,6 +22,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.DRAW_QUEST_CARD = "drawQuestCard";
    Action.ENCOUNTER_TO_CARD_ATTACHMENT = "encounterToCardAttachment";
    Action.ENCOUNTER_TO_SET_ASIDE = "encounterToSetAside";
+   Action.ENQUEUE_EVENT = "enqueueEvent";
    Action.ENQUEUE_PHASE = "enqueuePhase";
    Action.INCREMENT_ROUND = "incrementRound";
    Action.REFILL_ENCOUNTER_DECK = "refillEncounterDeck";
@@ -32,6 +36,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_QUEST_DECK = "setQuestDeck";
    Action.SET_RESOURCE_BASE = "setResourceBase";
    Action.SET_USER_MESSAGE = "setUserMessage";
+   Action.STAGING_TO_AGENT_TABLEAU = "stagingToAgentTableau";
 
    Action.addAgent = function(id, values)
    {
@@ -98,6 +103,22 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.clearEvent = function()
+   {
+      return (
+      {
+         type: Action.CLEAR_EVENT,
+      });
+   };
+
+   Action.clearPhase = function()
+   {
+      return (
+      {
+         type: Action.CLEAR_PHASE,
+      });
+   };
+
    Action.dealShadowCard = function(cardInstance)
    {
       InputValidator.validateNotNull("cardInstance", cardInstance);
@@ -117,6 +138,14 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.DELETE_AGENT,
          agent: agent,
+      });
+   };
+
+   Action.dequeueEvent = function()
+   {
+      return (
+      {
+         type: Action.DEQUEUE_EVENT,
       });
    };
 
@@ -198,20 +227,33 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   Action.enqueuePhase = function(phaseKey, phaseAgent, phaseCallback, phaseContext)
+   Action.enqueueEvent = function(eventKey, eventContext, eventCallback)
+   {
+      InputValidator.validateNotNull("eventKey", eventKey);
+      // eventContext optional.
+      // eventCallback optional.
+
+      return (
+      {
+         type: Action.ENQUEUE_EVENT,
+         eventKey: eventKey,
+         eventContext: eventContext,
+         eventCallback: eventCallback,
+      });
+   };
+
+   Action.enqueuePhase = function(phaseKey, phaseContext, phaseCallback)
    {
       InputValidator.validateNotNull("phaseKey", phaseKey);
-      // phaseAgent optional.
-      // phaseCallback optional.
       // phaseContext optional.
+      // phaseCallback optional.
 
       return (
       {
          type: Action.ENQUEUE_PHASE,
          phaseKey: phaseKey,
-         phaseAgent: phaseAgent,
-         phaseCallback: phaseCallback,
          phaseContext: phaseContext,
+         phaseCallback: phaseCallback,
       });
    };
 
@@ -338,6 +380,19 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.SET_USER_MESSAGE,
          userMessage: userMessage,
+      });
+   };
+
+   Action.stagingToAgentTableau = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.STAGING_TO_AGENT_TABLEAU,
+         agent: agent,
+         cardInstance: cardInstance,
       });
    };
 

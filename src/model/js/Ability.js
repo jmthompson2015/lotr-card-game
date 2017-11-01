@@ -81,13 +81,14 @@ define(["common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/Attachm
          return (myConsequent !== undefined ? myConsequent.bind(myAbility) : undefined);
       };
 
-      Ability.prototype.executeConsequent = function(store)
+      Ability.prototype.executeConsequent = function(store, callback)
       {
          InputValidator.validateNotNull("store", store);
+         // callback optional.
 
          var consequent = this.consequent();
 
-         return consequent(store, this.context());
+         return consequent(store, this.context(), callback);
       };
 
       Ability.prototype.isAlly = function()

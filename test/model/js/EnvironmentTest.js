@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/LocationCard",
+define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameMode", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/QuestCard",
   "model/js/Action", "model/js/CardAction", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, CardType, EnemyCard, GameMode, LocationCard, Action, CardAction, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+   function(QUnit, Redux, CardType, EnemyCard, GameMode, HeroCard, LocationCard, QuestCard, Action, CardAction, Environment, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("Environment");
 
@@ -86,6 +86,51 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          assert.equal(result.get(1).name(), "agent2");
       });
 
+      // QUnit.test("cardInstances()", function(assert)
+      // {
+      //    // Setup.
+      //    var cardKey = EnemyCard.FOREST_SPIDER;
+      //    var environment = createEnvironment();
+      //
+      //    // Run.
+      //    var result = environment.cardInstances(cardKey);
+      //
+      //    // Verify.
+      //    assert.ok(result);
+      //    var length = 4;
+      //    assert.equal(result.length, length);
+      //    for (var i = 0; i < length; i++)
+      //    {
+      //       assert.equal(result[i].card().key, cardKey);
+      //    }
+      // });
+
+      QUnit.test("cardsInPlay()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+
+         // Run.
+         var result = environment.cardsInPlay();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 6);
+         //  LOGGER.info("result = " + result);
+         var i = 0;
+         assert.equal(result[i++].card().key, QuestCard.PTM1B_FLIES_AND_SPIDERS);
+         assert.equal(result[i++].card().key, EnemyCard.FOREST_SPIDER);
+         //  LOGGER.info("result[" + i + "] = " + result[i]);
+         assert.equal(result[i++].card().key, LocationCard.OLD_FOREST_ROAD);
+         //  LOGGER.info("result[" + i + "] = " + result[i]);
+         assert.equal(result[i++].card().key, HeroCard.ARAGORN_CORE);
+         //  LOGGER.info("result[" + i + "] = " + result[i]);
+         assert.equal(result[i++].card().key, HeroCard.GLOIN);
+         //  LOGGER.info("result[" + i + "] = " + result[i]);
+         assert.equal(result[i++].card().key, HeroCard.THEODRED);
+      });
+
       QUnit.test("drawEncounterCard()", function(assert)
       {
          // Setup.
@@ -110,6 +155,20 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EnemyCard", "arti
          assert.equal(store.getState().stagingArea.size, 2);
          assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
          assert.equal(environment.stagingArea().get(1).card().key, LocationCard.OLD_FOREST_ROAD);
+      });
+
+      QUnit.test("firstCardInstance()", function(assert)
+      {
+         // Setup.
+         var cardKey = EnemyCard.FOREST_SPIDER;
+         var environment = createEnvironment();
+
+         // Run.
+         var result = environment.firstCardInstance(cardKey);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.card().key, cardKey);
       });
 
       QUnit.test("questers()", function(assert)

@@ -340,41 +340,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                key: "towerGate",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(LocationCard.properties);
-         },
+      LocationCard.keys = function()
+      {
+         return Object.keys(LocationCard.properties);
+      };
 
-         keysByEncounterSet: function(encounterSetKey)
-         {
-            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
-
-            var keys = LocationCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = LocationCard.properties[cardKey];
-
-               return card.encounterSetKey === encounterSetKey;
-            });
-         },
-
-         keysByScenario: function(scenarioKey)
-         {
-            InputValidator.validateNotNull("scenarioKey", scenarioKey);
-
-            var scenario = Scenario.properties[scenarioKey];
-            var encounterSetKeys = scenario.encounterSetKeys;
-            var keys = LocationCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = LocationCard.properties[cardKey];
-
-               return encounterSetKeys.includes(card.encounterSetKey);
-            });
-         },
+      LocationCard.values = function()
+      {
+         return Object.values(LocationCard.properties);
       };
 
       LocationCard.keys().forEach(function(cardKey)
@@ -384,12 +359,48 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.cardType = CardType.properties[card.cardTypeKey];
          card.encounterSet = EncounterSet.properties[card.encounterSetKey];
          card.gameMode = GameMode.properties[card.gameModeKey];
+         card.lotrType = LocationCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
 
          card.imagePath = imagePath;
       });
+
+      LocationCard.keysByEncounterSet = function(encounterSetKey)
+      {
+         InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+         var keys = LocationCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = LocationCard.properties[cardKey];
+
+            return card.encounterSetKey === encounterSetKey;
+         });
+      };
+
+      LocationCard.keysByScenario = function(scenarioKey)
+      {
+         InputValidator.validateNotNull("scenarioKey", scenarioKey);
+
+         var scenario = Scenario.properties[scenarioKey];
+         var encounterSetKeys = scenario.encounterSetKeys;
+         var keys = LocationCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = LocationCard.properties[cardKey];
+
+            return encounterSetKeys.includes(card.encounterSetKey);
+         });
+      };
+
+      LocationCard.toString = function()
+      {
+         return "LocationCard";
+      };
 
       if (Object.freeze)
       {

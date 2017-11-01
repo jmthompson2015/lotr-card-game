@@ -1472,40 +1472,16 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                key: "wizardPipe",
             },
          },
+      };
 
-         keys: function()
-         {
-            return Object.getOwnPropertyNames(AttachmentCard.properties);
-         },
+      AttachmentCard.keys = function()
+      {
+         return Object.keys(AttachmentCard.properties);
+      };
 
-         keysByCardSetSphere: function(cardSetKey, sphereKey)
-         {
-            InputValidator.validateNotNull("cardSetKey", cardSetKey);
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = AttachmentCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = AttachmentCard.properties[cardKey];
-
-               return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
-            });
-         },
-
-         keysBySphere: function(sphereKey)
-         {
-            InputValidator.validateNotNull("sphereKey", sphereKey);
-
-            var keys = AttachmentCard.keys();
-
-            return keys.filter(function(cardKey)
-            {
-               var card = AttachmentCard.properties[cardKey];
-
-               return card.sphereKey === sphereKey;
-            });
-         },
+      AttachmentCard.values = function()
+      {
+         return Object.values(AttachmentCard.properties);
       };
 
       AttachmentCard.keys().forEach(function(cardKey)
@@ -1519,6 +1495,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          card.cardTypeKey = CardType.ATTACHMENT;
          card.cardType = CardType.properties[card.cardTypeKey];
          card.sphere = Sphere.properties[card.sphereKey];
+         card.lotrType = AttachmentCard;
 
          var imagePath = card.name;
          imagePath = imagePath.replace(/ /g, "-");
@@ -1527,6 +1504,40 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
 
          card.imagePath = imagePath;
       });
+
+      AttachmentCard.keysByCardSetSphere = function(cardSetKey, sphereKey)
+      {
+         InputValidator.validateNotNull("cardSetKey", cardSetKey);
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = AttachmentCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = AttachmentCard.properties[cardKey];
+
+            return card.cardSetKey === cardSetKey && card.sphereKey === sphereKey;
+         });
+      };
+
+      AttachmentCard.keysBySphere = function(sphereKey)
+      {
+         InputValidator.validateNotNull("sphereKey", sphereKey);
+
+         var keys = AttachmentCard.keys();
+
+         return keys.filter(function(cardKey)
+         {
+            var card = AttachmentCard.properties[cardKey];
+
+            return card.sphereKey === sphereKey;
+         });
+      };
+
+      AttachmentCard.toString = function()
+      {
+         return "AttachmentCard";
+      };
 
       if (Object.freeze)
       {
