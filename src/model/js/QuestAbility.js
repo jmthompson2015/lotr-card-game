@@ -152,6 +152,26 @@
            },
         };
 
+        // Scenario.THE_HILLS_OF_EMYN_MUIL
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THOEM1A_THE_HILLS_OF_EMYN_MUIL] = {
+           condition: function(store /*, context*/ )
+           {
+              return isActiveQuest(store, QuestCard.THOEM1A_THE_HILLS_OF_EMYN_MUIL);
+           },
+           consequent: function(store, context, callback)
+           {
+              // Setup: Search the encounter deck for Amon Hen and Amon Lhaw, and
+              // add them to the staging area. Then shuffle the encounter deck.
+              var environment = store.getState().environment;
+              environment.drawEncounterCard(LocationCard.AMON_HEN);
+              environment.drawEncounterCard(LocationCard.AMON_LHAW);
+              environment.shuffleEncounterDeck(store);
+
+              // Advance the quest.
+              environment.advanceTheQuest(callback);
+           },
+        };
+
         // Scenario.THE_HUNT_FOR_GOLLUM
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THFG1A_THE_HUNT_BEGINS] = {
            condition: function(store /*, context*/ )

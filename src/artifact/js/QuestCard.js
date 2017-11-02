@@ -45,6 +45,9 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          AJTR3A_RETURN_TO_RHOSGOBEL: "ajtr3aReturnToRhosgobel",
          AJTR3B_RETURN_TO_RHOSGOBEL: "ajtr3bReturnToRhosgobel",
 
+         THOEM1A_THE_HILLS_OF_EMYN_MUIL: "thoem1aTheHillsOfEmynMuil",
+         THOEM1B_THE_HILLS_OF_EMYN_MUIL: "thoem1bTheHillsOfEmynMuil",
+
          properties:
          {
             "ptm1aFliesAndSpiders":
@@ -413,6 +416,27 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 0,
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr3bReturnToRhosgobel",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "thoem1aTheHillsOfEmynMuil":
+            {
+               name: "The Hills of Emyn Muil",
+               scenarioKey: Scenario.THE_HILLS_OF_EMYN_MUIL,
+               sequence: "1A",
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               key: "thoem1aTheHillsOfEmynMuil",
+            },
+
+            "thoem1bTheHillsOfEmynMuil":
+            {
+               name: "The Hills of Emyn Muil",
+               scenarioKey: Scenario.THE_HILLS_OF_EMYN_MUIL,
+               sequence: "1B",
+               questPoints: 1,
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               key: "thoem1bTheHillsOfEmynMuil",
             },
          },
       };

@@ -9,6 +9,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
          JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
          PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
+         THE_HILLS_OF_EMYN_MUIL: "theHillsOfEmynMuil",
          THE_HUNT_FOR_GOLLUM: "theHuntForGollum",
 
          properties:
@@ -54,6 +55,15 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                encounterSetKeys: [EncounterSet.PASSAGE_THROUGH_MIRKWOOD, EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS],
                number: 1,
                key: "passageThroughMirkwood",
+            },
+            "theHillsOfEmynMuil":
+            {
+               name: "The Hills of Emyn Muil",
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+               cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
+               encounterSetKeys: [EncounterSet.THE_HILLS_OF_EMYN_MUIL, EncounterSet.DOL_GULDUR_ORCS, EncounterSet.SAURONS_REACH],
+               number: 4,
+               key: "theHillsOfEmynMuil",
             },
             "theHuntForGollum":
             {

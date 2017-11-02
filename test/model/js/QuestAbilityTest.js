@@ -155,6 +155,30 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
          ability.consequent(store, context, callback);
       });
 
+      QUnit.test("consequent() The Hills of Emyn Muil 1A", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.THE_HILLS_OF_EMYN_MUIL;
+         var environment = createEnvironment(scenarioKey);
+         assert.equal(environment.encounterDeck().size, 55);
+         assert.equal(environment.stagingArea().size, 0);
+         var store = environment.store();
+         var context;
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(environment.encounterDeck().size, 53);
+            assert.equal(environment.stagingArea().size, 2);
+            done();
+         };
+         var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THOEM1A_THE_HILLS_OF_EMYN_MUIL];
+
+         // Run.
+         var done = assert.async();
+         ability.consequent(store, context, callback);
+      });
+
       QUnit.test("consequent() The Hunt for Gollum 1A", function(assert)
       {
          // Setup.

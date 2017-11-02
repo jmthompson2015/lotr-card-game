@@ -61,9 +61,9 @@ define(["qunit", "artifact/js/LocationCard"], function(QUnit, LocationCard)
 
       // Verify.
       assert.ok(result);
-      var length = 23;
+      var length = 31;
       assert.equal(result.length, length);
-      assert.equal(result[0], LocationCard.BANKS_OF_THE_ANDUIN);
+      assert.equal(result[0], LocationCard.AMON_HEN);
       assert.equal(result[length - 1], LocationCard.TOWER_GATE);
    });
 });

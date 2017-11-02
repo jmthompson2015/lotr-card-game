@@ -27,6 +27,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          MORRIS: "morris",
          MUCK_ADDER: "muckAdder",
          NAZGUL_OF_DOL_GULDUR: "nazgulOfDolGuldur",
+         ORC_HORSE_THIEVES: "orcHorseThieves",
          RUPERT: "rupert",
          STUART: "stuart",
          UNGOLIANTS_SPAWN: "ungoliantsSpawn",
@@ -423,6 +424,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                gameModeMap: GameMode.createMap(1),
                key: "nazgulOfDolGuldur",
+            },
+            "orcHorseThieves":
+            {
+               name: "Orc Horse Thieves",
+               engagementCost: 35,
+               threat: 3,
+               attack: 1,
+               defense: 2,
+               hitPoints: 6,
+               traitKeys: [Trait.MORDOR, Trait.ORC],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(2, 1),
+               key: "orcHorseThieves",
             },
             "rupert":
             {

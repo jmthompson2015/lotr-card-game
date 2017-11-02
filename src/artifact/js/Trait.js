@@ -22,12 +22,14 @@ define(function()
       DUNGEON: "dungeon",
       DWARF: "dwarf",
       EAGLE: "eagle",
+      EMYN_MUIL: "emynMuil",
       ENT: "ent",
       ESGAROTH: "esgaroth",
       FOREST: "forest",
       GOBLIN: "goblin",
       GONDOR: "gondor",
       GOSSIP: "gossip",
+      HAZARD: "hazard",
       HEALER: "healer",
       HOBBIT: "hobbit",
       INSECT: "insect",
@@ -171,6 +173,11 @@ define(function()
             name: "Eagle",
             key: "eagle",
          },
+         "emynMuil":
+         {
+            name: "Emyn Muil",
+            key: "emynMuil",
+         },
          "ent":
          {
             name: "Ent",
@@ -200,6 +207,11 @@ define(function()
          {
             name: "Gossip",
             key: "gossip",
+         },
+         "hazard":
+         {
+            name: "Hazard",
+            key: "hazard",
          },
          "healer":
          {

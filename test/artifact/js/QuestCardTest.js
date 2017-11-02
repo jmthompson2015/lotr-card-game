@@ -51,7 +51,7 @@ define(["qunit", "artifact/js/QuestCard", "artifact/js/Scenario"],
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 35);
+         assert.equal(result.length, 37);
          var i = 0;
          assert.equal(result[i++], QuestCard.PTM1A_FLIES_AND_SPIDERS);
          assert.equal(result[i++], QuestCard.PTM1B_FLIES_AND_SPIDERS);
@@ -93,6 +93,9 @@ define(["qunit", "artifact/js/QuestCard", "artifact/js/Scenario"],
          assert.equal(result[i++], QuestCard.AJTR2B_RADAGASTS_REQUEST);
          assert.equal(result[i++], QuestCard.AJTR3A_RETURN_TO_RHOSGOBEL);
          assert.equal(result[i++], QuestCard.AJTR3B_RETURN_TO_RHOSGOBEL);
+
+         assert.equal(result[i++], QuestCard.THOEM1A_THE_HILLS_OF_EMYN_MUIL);
+         assert.equal(result[i++], QuestCard.THOEM1B_THE_HILLS_OF_EMYN_MUIL);
       });
 
       QUnit.test("QuestCard.keysByScenario()", function(assert)

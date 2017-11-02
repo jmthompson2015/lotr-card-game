@@ -50,6 +50,17 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
          });
       DeckBuilders.push(EscapeFromDolGuldurDeckBuilder);
 
+      var TheHillsOfEmynMuilDeckBuilder = new ScenarioDeckBuilder(Scenario.THE_HILLS_OF_EMYN_MUIL, "The Hills of Emyn Muil (Shadows of Mirkwood #4)", 2011, "The Hills of Emyn Muil",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.THE_HILLS_OF_EMYN_MUIL);
+         },
+         function(store, gameModeKey)
+         {
+            return encounterBuildFunction(store, gameModeKey, Scenario.THE_HILLS_OF_EMYN_MUIL);
+         });
+      DeckBuilders.push(TheHillsOfEmynMuilDeckBuilder);
+
       var TheHuntForGollumDeckBuilder = new ScenarioDeckBuilder(Scenario.THE_HUNT_FOR_GOLLUM, "The Hunt for Gollum (Shadows of Mirkwood #1)", 2011, "The Hunt for Gollum",
          function(store)
          {

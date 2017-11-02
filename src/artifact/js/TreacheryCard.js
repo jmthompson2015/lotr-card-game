@@ -14,12 +14,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          FALSE_LEAD: "falseLead",
          FESTERING_WOUNDS: "festeringWounds",
          FLOODING: "flooding",
+         IMPASSABLE_CHASM: "impassableChasm",
          IRON_SHACKLES: "ironShackles",
          MASSING_AT_NIGHT: "massingAtNight",
          OLD_WIVES_TALES: "oldWivesTales",
          PURSUED_BY_SHADOW: "pursuedByShadow",
          ROASTED_SLOWLY: "roastedSlowly",
+         ROCKSLIDE: "rockslide",
          SACKED: "sacked",
+         SLICK_FOOTING: "slickFooting",
          SWARMING_INSECTS: "swarmingInsects",
          THE_NECROMANCERS_REACH: "theNecromancersReach",
          TREACHEROUS_FOG: "treacherousFog",
@@ -136,6 +139,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "flooding",
             },
+            "impassableChasm":
+            {
+               name: "Impassable Chasm",
+               traitKeys: [Trait.HAZARD],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "impassableChasm",
+            },
             "ironShackles":
             {
                name: "Iron Shackles",
@@ -195,12 +206,28 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(0, 2),
                key: "roastedSlowly",
             },
+            "rockslide":
+            {
+               name: "Rockslide",
+               traitKeys: [Trait.HAZARD],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(1, 2),
+               key: "rockslide",
+            },
             "sacked":
             {
                name: "Sacked!",
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                gameModeMap: GameMode.createMap(4, 1),
                key: "sacked",
+            },
+            "slickFooting":
+            {
+               name: "Slick Footing",
+               traitKeys: [Trait.HAZARD],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(3),
+               key: "slickFooting",
             },
             "swarmingInsects":
             {

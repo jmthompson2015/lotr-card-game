@@ -4,6 +4,8 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var LocationCard = {
+         AMON_HEN: "amonHen",
+         AMON_LHAW: "amonLhaw",
          BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
          BEE_PASTURES: "beePastures",
          ENCHANTED_STREAM: "enchantedStream",
@@ -16,6 +18,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          NECROMANCERS_PASS: "necromancersPass",
          OAK_WOOD_GROVE: "oakWoodGrove",
          OLD_FOREST_ROAD: "oldForestRoad",
+         RAUROS_FALLS: "raurosFalls",
          RHOSGOBEL: "rhosgobel",
          RIVER_LANGFLOOD: "riverLangflood",
          RIVER_NINGLOR: "riverNinglor",
@@ -23,13 +26,42 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          THE_CARROCK: "theCarrock",
          THE_EAST_BANK: "theEastBank",
          THE_EAST_BIGHT: "theEastBight",
+         THE_EAST_WALL_OF_ROHAN: "theEastWallOfRohan",
          THE_EAVES_OF_MIRKWOOD: "theEavesOfMirkwood",
+         THE_HIGHLANDS: "theHighlands",
+         THE_NORTH_STAIR: "theNorthStair",
          THE_OLD_FORD: "theOldFord",
+         THE_OUTER_RIDGE: "theOuterRidge",
+         THE_SHORES_OF_NEN_HITHOEL: "theShoresOfNenHithoel",
          THE_WEST_BANK: "theWestBank",
          TOWER_GATE: "towerGate",
 
          properties:
          {
+            "amonHen":
+            {
+               name: "Amon Hen",
+               isUnique: true,
+               threat: undefined,
+               questPoints: 5,
+               victory: 5,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(1),
+               key: "amonHen",
+            },
+            "amonLhaw":
+            {
+               name: "Amon Lhaw",
+               isUnique: true,
+               threat: undefined,
+               questPoints: 5,
+               victory: 5,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(1),
+               key: "amonLhaw",
+            },
             "banksOfTheAnduin":
             {
                name: "Banks of the Anduin",
@@ -193,6 +225,17 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "oldForestRoad",
             },
+            "raurosFalls":
+            {
+               name: "Rauros Falls",
+               threat: 2,
+               questPoints: 4,
+               victory: 3,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(2),
+               key: "raurosFalls",
+            },
             "rhosgobel":
             {
                name: "Rhosgobel",
@@ -279,6 +322,17 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(2),
                key: "theEastBight",
             },
+            "theEastWallOfRohan":
+            {
+               name: "The East Wall of Rohan",
+               threat: 4,
+               questPoints: 2,
+               victory: 3,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(0, 2),
+               key: "theEastWallOfRohan",
+            },
             "theEavesOfMirkwood":
             {
                name: "The Eaves of Mirkwood",
@@ -292,6 +346,28 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "While The Eaves of Mirkwood is the active location, encounter card effects cannot be canceled.",
                   }],
                key: "theEavesOfMirkwood",
+            },
+            "theHighlands":
+            {
+               name: "The Highlands",
+               threat: 1,
+               questPoints: 1,
+               victory: 1,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(4),
+               key: "theHighlands",
+            },
+            "theNorthStair":
+            {
+               name: "The North Stair",
+               threat: 3,
+               questPoints: 3,
+               victory: 3,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(2),
+               key: "theNorthStair",
             },
             "theOldFord":
             {
@@ -310,6 +386,28 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Discard from play all allies with a printed cost lower than the number of Riverland locations in play.",
                   }],
                key: "theOldFord",
+            },
+            "theOuterRidge":
+            {
+               name: "The Outer Ridge",
+               threat: 2,
+               questPoints: 2,
+               victory: 2,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(3),
+               key: "theOuterRidge",
+            },
+            "theShoresOfNenHithoel":
+            {
+               name: "The Shores of Nen Hithoel",
+               threat: 2,
+               questPoints: 2,
+               victory: 2,
+               traitKeys: [Trait.EMYN_MUIL],
+               encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               gameModeMap: GameMode.createMap(3),
+               key: "theShoresOfNenHithoel",
             },
             "theWestBank":
             {

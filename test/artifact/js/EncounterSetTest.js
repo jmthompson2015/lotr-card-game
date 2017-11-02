@@ -49,7 +49,7 @@ define(["qunit", "artifact/js/EncounterSet"], function(QUnit, EncounterSet)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 10);
+      assert.equal(result.length, 11);
       var i = 0;
       assert.equal(result[i++], EncounterSet.A_JOURNEY_TO_RHOSGOBEL);
       assert.equal(result[i++], EncounterSet.CONFLICT_AT_THE_CARROCK);
@@ -59,6 +59,7 @@ define(["qunit", "artifact/js/EncounterSet"], function(QUnit, EncounterSet)
       assert.equal(result[i++], EncounterSet.PASSAGE_THROUGH_MIRKWOOD);
       assert.equal(result[i++], EncounterSet.SAURONS_REACH);
       assert.equal(result[i++], EncounterSet.SPIDERS_OF_MIRKWOOD);
+      assert.equal(result[i++], EncounterSet.THE_HILLS_OF_EMYN_MUIL);
       assert.equal(result[i++], EncounterSet.THE_HUNT_FOR_GOLLUM);
       assert.equal(result[i++], EncounterSet.WILDERLANDS);
    });
