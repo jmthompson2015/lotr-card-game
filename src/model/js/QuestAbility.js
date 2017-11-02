@@ -152,6 +152,27 @@
            },
         };
 
+        // Scenario.THE_DEAD_MARSHES
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.TDM1A_INTO_THE_MARSHES] = {
+           condition: function(store /*, context*/ )
+           {
+              return isActiveQuest(store, QuestCard.TDM1A_INTO_THE_MARSHES);
+           },
+           consequent: function(store, context, callback)
+           {
+              // Setup: Search the encounter deck for Gollum, and add it to the
+              // staging area. Shuffle the encounter deck, then reveal 1 card per
+              // player from the encounter deck and add it to the staging area.
+              var environment = store.getState().environment;
+              environment.drawEncounterCard(ObjectiveCard.GOLLUM);
+              environment.shuffleEncounterDeck(store);
+              encounterToStagingPerPlayer(store);
+
+              // Advance the quest.
+              environment.advanceTheQuest(callback);
+           },
+        };
+
         // Scenario.THE_HILLS_OF_EMYN_MUIL
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THOEM1A_THE_HILLS_OF_EMYN_MUIL] = {
            condition: function(store /*, context*/ )

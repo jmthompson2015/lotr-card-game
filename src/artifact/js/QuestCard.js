@@ -48,6 +48,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          THOEM1A_THE_HILLS_OF_EMYN_MUIL: "thoem1aTheHillsOfEmynMuil",
          THOEM1B_THE_HILLS_OF_EMYN_MUIL: "thoem1bTheHillsOfEmynMuil",
 
+         TDM1A_INTO_THE_MARSHES: "tdm1aIntoTheMarshes",
+         TDM1B_INTO_THE_MARSHES: "tdm1bIntoTheMarshes",
+         TDM2A_THE_CAPTURE: "tdm2aTheCapture",
+         TDM2B_THE_CAPTURE: "tdm2bTheCapture",
+
          properties:
          {
             "ptm1aFliesAndSpiders":
@@ -437,6 +442,46 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 1,
                encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
                key: "thoem1bTheHillsOfEmynMuil",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "tdm1aIntoTheMarshes":
+            {
+               name: "Into the Marshes",
+               scenarioKey: Scenario.THE_DEAD_MARSHES,
+               sequence: "1A",
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               key: "tdm1aIntoTheMarshes",
+            },
+
+            "tdm1bIntoTheMarshes":
+            {
+               name: "Into the Marshes",
+               scenarioKey: Scenario.THE_DEAD_MARSHES,
+               sequence: "1B",
+               questPoints: 12,
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               key: "tdm1bIntoTheMarshes",
+            },
+
+            "tdm2aTheCapture":
+            {
+               name: "The Capture",
+               scenarioKey: Scenario.THE_DEAD_MARSHES,
+               sequence: "2A",
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               key: "tdm2aTheCapture",
+            },
+
+            "tdm2bTheCapture":
+            {
+               name: "The Capture",
+               scenarioKey: Scenario.THE_DEAD_MARSHES,
+               sequence: "2B",
+               questPoints: 3,
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               key: "tdm1bIntoTheMarshes",
             },
          },
       };

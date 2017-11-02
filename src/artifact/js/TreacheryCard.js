@@ -5,6 +5,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    {
       var TreacheryCard = {
          A_FRIGHTENED_BEAST: "aFrightenedBeast",
+         A_WISP_OF_PALE_SHEEN: "aWispOfPaleSheen",
          CAUGHT_IN_A_WEB: "caughtInAWeb",
          DESPAIR: "despair",
          DRIVEN_BY_SHADOW: "drivenByShadow",
@@ -17,6 +18,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          IMPASSABLE_CHASM: "impassableChasm",
          IRON_SHACKLES: "ironShackles",
          MASSING_AT_NIGHT: "massingAtNight",
+         NIGHTFALL: "nightfall",
          OLD_WIVES_TALES: "oldWivesTales",
          PURSUED_BY_SHADOW: "pursuedByShadow",
          ROASTED_SLOWLY: "roastedSlowly",
@@ -24,7 +26,9 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          SACKED: "sacked",
          SLICK_FOOTING: "slickFooting",
          SWARMING_INSECTS: "swarmingInsects",
+         THE_LIGHTS_OF_THE_DEAD: "theLightsOfTheDead",
          THE_NECROMANCERS_REACH: "theNecromancersReach",
+         THROUGH_THE_MIST: "throughTheMist",
          TREACHEROUS_FOG: "treacherousFog",
          UNDER_THE_SHADOW: "underTheShadow",
 
@@ -36,6 +40,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                gameModeMap: GameMode.createMap(1, 2),
                key: "aFrightenedBeast",
+            },
+            "aWispOfPaleSheen":
+            {
+               name: "A Wisp of Pale Sheen",
+               escape: 4,
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(1, 2),
+               key: "aWispOfPaleSheen",
             },
             "caughtInAWeb":
             {
@@ -170,6 +182,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                   }],
                key: "massingAtNight",
             },
+            "nightfall":
+            {
+               name: "Nightfall",
+               escape: 2,
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(3),
+               key: "nightfall",
+            },
             "oldWivesTales":
             {
                name: "Old Wives' Tales",
@@ -236,6 +256,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(1, 3),
                key: "swarmingInsects",
             },
+            "theLightsOfTheDead":
+            {
+               name: "The Lights of the Dead",
+               escape: 5,
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "theLightsOfTheDead",
+            },
             "theNecromancersReach":
             {
                name: "The Necromancer's Reach",
@@ -247,6 +275,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Deal 1 damage to each exhausted character.",
                   }],
                key: "theNecromancersReach",
+            },
+            "throughTheMist":
+            {
+               name: "Through the Mist",
+               escape: 3,
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(3),
+               key: "throughTheMist",
             },
             "treacherousFog":
             {

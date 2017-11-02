@@ -12,6 +12,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
          PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
          SAURONS_REACH: "sauronsReach",
          SPIDERS_OF_MIRKWOOD: "spidersOfMirkwood",
+         THE_DEAD_MARSHES: "theDeadMarshes",
          THE_HILLS_OF_EMYN_MUIL: "theHillsOfEmynMuil",
          THE_HUNT_FOR_GOLLUM: "theHuntForGollum",
          WILDERLANDS: "wilderlands",
@@ -67,6 +68,13 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
                name: "Spiders of Mirkwood",
                cardSetKey: CardSet.CORE,
                key: "spidersOfMirkwood",
+            },
+            "theDeadMarshes":
+            {
+               name: "The Dead Marshes",
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+               cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+               key: "theDeadMarshes",
             },
             "theHillsOfEmynMuil":
             {

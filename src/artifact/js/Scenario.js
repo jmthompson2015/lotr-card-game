@@ -9,6 +9,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
          ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
          JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
          PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
+         THE_DEAD_MARSHES: "theDeadMarshes",
          THE_HILLS_OF_EMYN_MUIL: "theHillsOfEmynMuil",
          THE_HUNT_FOR_GOLLUM: "theHuntForGollum",
 
@@ -55,6 +56,15 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                encounterSetKeys: [EncounterSet.PASSAGE_THROUGH_MIRKWOOD, EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS],
                number: 1,
                key: "passageThroughMirkwood",
+            },
+            "theDeadMarshes":
+            {
+               name: "The Dead Marshes",
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+               cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+               encounterSetKeys: [EncounterSet.THE_DEAD_MARSHES, EncounterSet.SAURONS_REACH, EncounterSet.WILDERLANDS],
+               number: 5,
+               key: "theDeadMarshes",
             },
             "theHillsOfEmynMuil":
             {

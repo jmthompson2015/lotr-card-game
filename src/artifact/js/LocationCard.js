@@ -10,10 +10,12 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          BEE_PASTURES: "beePastures",
          ENCHANTED_STREAM: "enchantedStream",
          ENDLESS_CAVERNS: "endlessCaverns",
+         FENS_AND_MIRES: "fensAndMires",
          FOREST_GATE: "forestGate",
          FOREST_GROVE: "forestGrove",
          GLADDEN_FIELDS: "gladdenFields",
          GREAT_FOREST_WEB: "greatForestWeb",
+         IMPASSABLE_BOG: "impassableBog",
          MOUNTAINS_OF_MIRKWOOD: "mountainsOfMirkwood",
          NECROMANCERS_PASS: "necromancersPass",
          OAK_WOOD_GROVE: "oakWoodGrove",
@@ -28,6 +30,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          THE_EAST_BIGHT: "theEastBight",
          THE_EAST_WALL_OF_ROHAN: "theEastWallOfRohan",
          THE_EAVES_OF_MIRKWOOD: "theEavesOfMirkwood",
+         THE_HEART_OF_THE_MARSHES: "theHeartOfTheMarshes",
          THE_HIGHLANDS: "theHighlands",
          THE_NORTH_STAIR: "theNorthStair",
          THE_OLD_FORD: "theOldFord",
@@ -111,6 +114,17 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(2),
                key: "endlessCaverns",
             },
+            "fensAndMires":
+            {
+               name: "Fens and Mires",
+               threat: 2,
+               questPoints: 2,
+               escape: 2,
+               traitKeys: [Trait.DEAD_MARSHES],
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(4),
+               key: "fensAndMires",
+            },
             "forestGate":
             {
                name: "Forest Gate",
@@ -165,6 +179,18 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Each player must exhaust 1 hero he controls to travel here.",
                   }],
                key: "greatForestWeb",
+            },
+            "impassableBog":
+            {
+               name: "Impassable Bog",
+               threat: 1,
+               questPoints: 12,
+               escape: 2,
+               victory: 7,
+               traitKeys: [Trait.DEAD_MARSHES],
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "impassableBog",
             },
             "mountainsOfMirkwood":
             {
@@ -346,6 +372,17 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "While The Eaves of Mirkwood is the active location, encounter card effects cannot be canceled.",
                   }],
                key: "theEavesOfMirkwood",
+            },
+            "theHeartOfTheMarshes":
+            {
+               name: "The Heart of the Marshes",
+               threat: 3,
+               questPoints: 4,
+               escape: 1,
+               traitKeys: [Trait.DEAD_MARSHES],
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "theHeartOfTheMarshes",
             },
             "theHighlands":
             {

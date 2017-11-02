@@ -14,6 +14,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          EAST_BIGHT_PATROL: "eastBightPatrol",
          EASTERN_CROWS: "easternCrows",
          FOREST_SPIDER: "forestSpider",
+         GIANT_MARSH_WORM: "giantMarshWorm",
          GOBLIN_SNIPER: "goblinSniper",
          GOBLINTOWN_SCAVENGERS: "goblintownScavengers",
          HILL_TROLL: "hillTroll",
@@ -215,6 +216,20 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Defending player must choose and discard 1 attachment he controls.",
                   }],
                key: "forestSpider",
+            },
+            "giantMarshWorm":
+            {
+               name: "Giant Marsh Worm",
+               engagementCost: 36,
+               threat: 1,
+               attack: 3,
+               defense: 2,
+               hitPoints: 6,
+               escape: 2,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "giantMarshWorm",
             },
             "goblinSniper":
             {

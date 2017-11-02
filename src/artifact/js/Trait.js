@@ -16,6 +16,7 @@ define(function()
       CRAFTSMAN: "craftsman",
       CREATURE: "creature",
       DALE: "dale",
+      DEAD_MARSHES: "deadMarshes",
       DISASTER: "disaster",
       DOL_GULDUR: "dolGuldur",
       DUNEDAIN: "dunedain",
@@ -27,6 +28,7 @@ define(function()
       ESGAROTH: "esgaroth",
       FOREST: "forest",
       GOBLIN: "goblin",
+      GOLLUM: "gollum",
       GONDOR: "gondor",
       GOSSIP: "gossip",
       HAZARD: "hazard",
@@ -143,6 +145,11 @@ define(function()
             name: "Dale",
             key: "dale",
          },
+         "deadMarshes":
+         {
+            name: "DeadMarshes",
+            key: "deadMarshes",
+         },
          "disaster":
          {
             name: "Disaster",
@@ -197,6 +204,11 @@ define(function()
          {
             name: "Goblin",
             key: "goblin",
+         },
+         "gollum":
+         {
+            name: "Gollum",
+            key: "gollum",
          },
          "gondor":
          {
