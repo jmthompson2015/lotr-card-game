@@ -20,6 +20,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.DISCARD_SHADOW_CARD = "discardShadowCard";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
    Action.DRAW_QUEST_CARD = "drawQuestCard";
+   Action.ENCOUNTER_TO_AGENT_TABLEAU = "encounterToAgentTableau";
    Action.ENCOUNTER_TO_CARD_ATTACHMENT = "encounterToCardAttachment";
    Action.ENCOUNTER_TO_SET_ASIDE = "encounterToSetAside";
    Action.ENQUEUE_EVENT = "enqueueEvent";
@@ -202,6 +203,19 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: Action.DRAW_QUEST_CARD,
+      });
+   };
+
+   Action.encounterToAgentTableau = function(agent, cardInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.ENCOUNTER_TO_AGENT_TABLEAU,
+         agent: agent,
+         cardInstance: cardInstance,
       });
    };
 

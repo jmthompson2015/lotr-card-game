@@ -51,7 +51,7 @@ define(["qunit", "artifact/js/QuestCard", "artifact/js/Scenario"],
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 41);
+         assert.equal(result.length, 49);
          var i = 0;
          assert.equal(result[i++], QuestCard.PTM1A_FLIES_AND_SPIDERS);
          assert.equal(result[i++], QuestCard.PTM1B_FLIES_AND_SPIDERS);
@@ -101,6 +101,15 @@ define(["qunit", "artifact/js/QuestCard", "artifact/js/Scenario"],
          assert.equal(result[i++], QuestCard.TDM1B_INTO_THE_MARSHES);
          assert.equal(result[i++], QuestCard.TDM2A_THE_CAPTURE);
          assert.equal(result[i++], QuestCard.TDM2B_THE_CAPTURE);
+
+         assert.equal(result[i++], QuestCard.RTM1A_THROUGH_THE_FOREST);
+         assert.equal(result[i++], QuestCard.RTM1B_THROUGH_THE_FOREST);
+         assert.equal(result[i++], QuestCard.RTM2A_ESCAPE_ATTEMPT);
+         assert.equal(result[i++], QuestCard.RTM2B_ESCAPE_ATTEMPT);
+         assert.equal(result[i++], QuestCard.RTM3A_TO_THE_ELVEN_KINGS_HALLS);
+         assert.equal(result[i++], QuestCard.RTM3B_TO_THE_ELVEN_KINGS_HALLS);
+         assert.equal(result[i++], QuestCard.RTM4A_AMBUSH);
+         assert.equal(result[i++], QuestCard.RTM4B_AMBUSH);
       });
 
       QUnit.test("QuestCard.keysByScenario()", function(assert)

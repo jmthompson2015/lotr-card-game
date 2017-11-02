@@ -15,6 +15,8 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          FALSE_LEAD: "falseLead",
          FESTERING_WOUNDS: "festeringWounds",
          FLOODING: "flooding",
+         GOLLUMS_ANGUISH: "gollumsAnguish",
+         GOLLUMS_BITE: "gollumsBite",
          IMPASSABLE_CHASM: "impassableChasm",
          IRON_SHACKLES: "ironShackles",
          MASSING_AT_NIGHT: "massingAtNight",
@@ -31,6 +33,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          THROUGH_THE_MIST: "throughTheMist",
          TREACHEROUS_FOG: "treacherousFog",
          UNDER_THE_SHADOW: "underTheShadow",
+         WASTED_PROVISIONS: "wastedProvisions",
 
          properties:
          {
@@ -150,6 +153,22 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      text: "Resolve the 'when revealed' effect of this card.",
                   }],
                key: "flooding",
+            },
+            "gollumsAnguish":
+            {
+               name: "Gollum's Anguish",
+               traitKeys: [Trait.TANTRUM],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(1, 1),
+               key: "gollumsAnguish",
+            },
+            "gollumsBite":
+            {
+               name: "Gollum's Bite",
+               traitKeys: [Trait.TANTRUM],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(1, 1),
+               key: "gollumsBite",
             },
             "impassableChasm":
             {
@@ -302,6 +321,14 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                gameModeMap: GameMode.createMap(2),
                key: "underTheShadow",
+            },
+            "wastedProvisions":
+            {
+               name: "Wasted Provisions",
+               traitKeys: [Trait.TANTRUM],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(2, 1),
+               key: "wastedProvisions",
             },
          },
       };

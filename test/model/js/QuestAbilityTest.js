@@ -155,6 +155,58 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
          ability.consequent(store, context, callback);
       });
 
+      QUnit.test("consequent() Return to Mirkwood 1A", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.RETURN_TO_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var agent1 = environment.agents().get(0);
+         assert.ok(agent1);
+         assert.equal(environment.encounterDeck().size, 54);
+         assert.equal(environment.stagingArea().size, 0);
+         assert.equal(agent1.tableau().size, 3);
+         var store = environment.store();
+         var context;
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(environment.encounterDeck().size, 51);
+            assert.equal(environment.stagingArea().size, 2);
+            assert.equal(agent1.tableau().size, 4);
+            done();
+         };
+         var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.RTM1A_THROUGH_THE_FOREST];
+
+         // Run.
+         var done = assert.async();
+         ability.consequent(store, context, callback);
+      });
+
+      QUnit.test("consequent() The Dead Marshes 1A", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.THE_DEAD_MARSHES;
+         var environment = createEnvironment(scenarioKey);
+         assert.equal(environment.encounterDeck().size, 54);
+         assert.equal(environment.stagingArea().size, 0);
+         var store = environment.store();
+         var context;
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(environment.encounterDeck().size, 51);
+            assert.equal(environment.stagingArea().size, 3);
+            done();
+         };
+         var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.TDM1A_INTO_THE_MARSHES];
+
+         // Run.
+         var done = assert.async();
+         ability.consequent(store, context, callback);
+      });
+
       QUnit.test("consequent() The Hills of Emyn Muil 1A", function(assert)
       {
          // Setup.

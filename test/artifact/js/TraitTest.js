@@ -49,7 +49,7 @@ define(["qunit", "artifact/js/Trait"], function(QUnit, Trait)
 
       // Verify.
       assert.ok(result);
-      var length = 74;
+      var length = 75;
       assert.equal(result.length, length);
       assert.equal(result[0], Trait.ALLY);
       assert.equal(result[length - 1], Trait.WOODMAN);

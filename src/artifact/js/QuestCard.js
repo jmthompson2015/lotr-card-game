@@ -53,6 +53,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          TDM2A_THE_CAPTURE: "tdm2aTheCapture",
          TDM2B_THE_CAPTURE: "tdm2bTheCapture",
 
+         RTM1A_THROUGH_THE_FOREST: "rtm1aThroughTheForest",
+         RTM1B_THROUGH_THE_FOREST: "rtm1bThroughTheForest",
+         RTM2A_ESCAPE_ATTEMPT: "rtm2aEscapeAttempt",
+         RTM2B_ESCAPE_ATTEMPT: "rtm2bEscapeAttempt",
+         RTM3A_TO_THE_ELVEN_KINGS_HALLS: "rtm3aToTheElvenKingsHalls",
+         RTM3B_TO_THE_ELVEN_KINGS_HALLS: "rtm3bToTheElvenKingsHalls",
+         RTM4A_AMBUSH: "rtm4aAmbush",
+         RTM4B_AMBUSH: "rtm4bAmbush",
+
          properties:
          {
             "ptm1aFliesAndSpiders":
@@ -202,7 +211,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg1aTheNecromancersTower",
             },
-
             "efdg1bTheNecromancersTower":
             {
                name: "The Necromancer's Tower",
@@ -212,7 +220,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg1bTheNecromancersTower",
             },
-
             "efdg2aThroughTheCaverns":
             {
                name: "Through the Caverns",
@@ -221,7 +228,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg2aThroughTheCaverns",
             },
-
             "efdg2bThroughTheCaverns":
             {
                name: "Through the Caverns",
@@ -231,7 +237,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg2bThroughTheCaverns",
             },
-
             "efdg3aOutOfTheDungeons":
             {
                name: "Out of the Dungeons",
@@ -240,7 +245,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                key: "efdg3aOutOfTheDungeons",
             },
-
             "efdg3bOutOfTheDungeons":
             {
                name: "Out of the Dungeons",
@@ -334,7 +338,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                key: "catc1aGrimbeornsQuest",
             },
-
             "catc1bGrimbeornsQuest":
             {
                name: "Grimbeorn's Quest",
@@ -344,7 +347,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                key: "catc1bGrimbeornsQuest",
             },
-
             "catc2aAgainstTheTrolls":
             {
                name: "Against the Trolls",
@@ -353,7 +355,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                key: "catc2aAgainstTheTrolls",
             },
-
             "catc2bAgainstTheTrolls":
             {
                name: "Against the Trolls",
@@ -374,7 +375,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr1aTheWoundedEagle",
             },
-
             "ajtr1bTheWoundedEagle":
             {
                name: "The Wounded Eagle",
@@ -384,7 +384,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr1bTheWoundedEagle",
             },
-
             "ajtr2aRadagastsRequest":
             {
                name: "Radagast's Request",
@@ -393,7 +392,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr2aRadagastsRequest",
             },
-
             "ajtr2bRadagastsRequest":
             {
                name: "Radagast's Request",
@@ -403,7 +401,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr2bRadagastsRequest",
             },
-
             "ajtr3aReturnToRhosgobel":
             {
                name: "Return to Rhosgobel",
@@ -412,7 +409,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                key: "ajtr3aReturnToRhosgobel",
             },
-
             "ajtr3bReturnToRhosgobel":
             {
                name: "Return to Rhosgobel",
@@ -433,7 +429,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
                key: "thoem1aTheHillsOfEmynMuil",
             },
-
             "thoem1bTheHillsOfEmynMuil":
             {
                name: "The Hills of Emyn Muil",
@@ -454,7 +449,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
                key: "tdm1aIntoTheMarshes",
             },
-
             "tdm1bIntoTheMarshes":
             {
                name: "Into the Marshes",
@@ -464,7 +458,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
                key: "tdm1bIntoTheMarshes",
             },
-
             "tdm2aTheCapture":
             {
                name: "The Capture",
@@ -473,7 +466,6 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
                key: "tdm2aTheCapture",
             },
-
             "tdm2bTheCapture":
             {
                name: "The Capture",
@@ -482,6 +474,77 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                questPoints: 3,
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
                key: "tdm1bIntoTheMarshes",
+            },
+
+            ////////////////////////////////////////////////////////////////////
+
+            "rtm1aThroughTheForest":
+            {
+               name: "Through the Forest",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "1A",
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm1aThroughTheForest",
+            },
+            "rtm1bThroughTheForest":
+            {
+               name: "Through the Forest",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "1B",
+               questPoints: 12,
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm1bThroughTheForest",
+            },
+            "rtm2aEscapeAttempt":
+            {
+               name: "Escape Attempt",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "2A",
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm2aEscapeAttempt",
+            },
+            "rtm2bEscapeAttempt":
+            {
+               name: "Escape Attempt",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "2B",
+               questPoints: 3,
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm1bThroughTheForest",
+            },
+            "rtm3aToTheElvenKingsHalls":
+            {
+               name: "To the Elven King's Halls",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "3A",
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm3aToTheElvenKingsHalls",
+            },
+            "rtm3bToTheElvenKingsHalls":
+            {
+               name: "To the Elven King's Halls",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "3B",
+               questPoints: 7,
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm3bToTheElvenKingsHalls",
+            },
+            "rtm4aAmbush":
+            {
+               name: "Ambush",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "4A",
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm4aAmbush",
+            },
+            "rtm4bAmbush":
+            {
+               name: "Ambush",
+               scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
+               sequence: "4B",
+               questPoints: 2,
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               key: "rtm4bAmbush",
             },
          },
       };

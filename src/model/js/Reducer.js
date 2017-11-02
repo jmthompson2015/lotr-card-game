@@ -154,6 +154,10 @@ define(["immutable", "common/js/InputValidator", "artifact/js/GameEvent", "artif
                   }
                   LOGGER.warn("questDeck empty");
                   return state;
+               case Action.ENCOUNTER_TO_AGENT_TABLEAU:
+                  agentId = action.agent.id();
+                  cardId = action.cardInstance.id();
+                  return TransferReducer.reduce(state, "encounterDeck", undefined, cardId, "agentTableau", agentId);
                case Action.ENCOUNTER_TO_CARD_ATTACHMENT:
                   cardId = action.cardInstance.id();
                   attachmentId = state.encounterDeck.first();

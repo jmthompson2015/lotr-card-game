@@ -152,6 +152,32 @@
            },
         };
 
+        // Scenario.RETURN_TO_MIRKWOOD
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.RTM1A_THROUGH_THE_FOREST] = {
+           condition: function(store /*, context*/ )
+           {
+              return isActiveQuest(store, QuestCard.RTM1A_THROUGH_THE_FOREST);
+           },
+           consequent: function(store, context, callback)
+           {
+              // Setup: Search the encounter deck for Gollum. Choose a player to
+              // guard Gollum at the start of the game, and place Gollum in front
+              // of that player. Then shuffle the encounter deck. Reveal 1 card
+              // per player from the encounter deck, and add it to the staging area.
+              var environment = store.getState().environment;
+
+              // FIXME: how to guard Gollum?
+              var agent1 = environment.agents().get(0);
+              environment.encounterToAgentTableau(agent1, ObjectiveCard.GOLLUM_RTM);
+
+              environment.shuffleEncounterDeck(store);
+              encounterToStagingPerPlayer(store);
+
+              // Advance the quest.
+              environment.advanceTheQuest(callback);
+           },
+        };
+
         // Scenario.THE_DEAD_MARSHES
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.TDM1A_INTO_THE_MARSHES] = {
            condition: function(store /*, context*/ )
@@ -164,7 +190,7 @@
               // staging area. Shuffle the encounter deck, then reveal 1 card per
               // player from the encounter deck and add it to the staging area.
               var environment = store.getState().environment;
-              environment.drawEncounterCard(ObjectiveCard.GOLLUM);
+              environment.drawEncounterCard(ObjectiveCard.GOLLUM_TDM);
               environment.shuffleEncounterDeck(store);
               encounterToStagingPerPlayer(store);
 

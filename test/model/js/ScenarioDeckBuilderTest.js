@@ -1,7 +1,7 @@
 "use strict";
 
-define(["redux", "artifact/js/GameMode", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(Redux, GameMode, Reducer, ScenarioDeckBuilder)
+define(["qunit", "redux", "artifact/js/GameMode", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, GameMode, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("ScenarioDeckBuilder");
 

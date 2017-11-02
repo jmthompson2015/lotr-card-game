@@ -7,7 +7,8 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          ATHELAS: "athelas",
          DUNGEON_TORCH: "dungeonTorch",
          GANDALFS_MAP: "gandalfsMap",
-         GOLLUM: "gollum",
+         GOLLUM_RTM: "gollumRtm",
+         GOLLUM_TDM: "gollumTdm",
          GRIMBEORN_THE_OLD: "grimbeornTheOld",
          SHADOW_KEY: "shadowKey",
          SIGNS_OF_GOLLUM: "signsOfGollum",
@@ -39,14 +40,24 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(1),
                key: "gandalfsMap",
             },
-            "gollum":
+            "gollumRtm":
+            {
+               name: "Gollum",
+               isUnique: true,
+               hitPoints: 5,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(1),
+               key: "gollumRtm",
+            },
+            "gollumTdm":
             {
                name: "Gollum",
                isUnique: true,
                traitKeys: [Trait.GOLLUM],
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
                gameModeMap: GameMode.createMap(1),
-               key: "gollum",
+               key: "gollumTdm",
             },
             "grimbeornTheOld":
             {

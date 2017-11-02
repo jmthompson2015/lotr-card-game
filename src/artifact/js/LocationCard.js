@@ -8,6 +8,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          AMON_LHAW: "amonLhaw",
          BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
          BEE_PASTURES: "beePastures",
+         DRY_WATERCOURSE: "dryWatercourse",
          ENCHANTED_STREAM: "enchantedStream",
          ENDLESS_CAVERNS: "endlessCaverns",
          FENS_AND_MIRES: "fensAndMires",
@@ -36,8 +37,11 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          THE_OLD_FORD: "theOldFord",
          THE_OUTER_RIDGE: "theOuterRidge",
          THE_SHORES_OF_NEN_HITHOEL: "theShoresOfNenHithoel",
+         THE_SPIDERS_RING: "theSpidersRing",
          THE_WEST_BANK: "theWestBank",
          TOWER_GATE: "towerGate",
+         WOOD_ELF_PATH: "woodElfPath",
+         WOODMANS_GLADE: "woodmansGlade",
 
          properties:
          {
@@ -89,6 +93,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
                gameModeMap: GameMode.createMap(3),
                key: "beePastures",
+            },
+            "dryWatercourse":
+            {
+               name: "Dry Watercourse",
+               threat: 2,
+               questPoints: 2,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(3),
+               key: "dryWatercourse",
             },
             "enchantedStream":
             {
@@ -446,6 +460,16 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(3),
                key: "theShoresOfNenHithoel",
             },
+            "theSpidersRing":
+            {
+               name: "The Spiders' Ring",
+               threat: 3,
+               questPoints: 2,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "theSpidersRing",
+            },
             "theWestBank":
             {
                name: "The West Bank",
@@ -473,6 +497,26 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                gameModeMap: GameMode.createMap(2),
                key: "towerGate",
+            },
+            "woodElfPath":
+            {
+               name: "Wood Elf Path",
+               threat: 1,
+               questPoints: 3,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(3),
+               key: "woodElfPath",
+            },
+            "woodmansGlade":
+            {
+               name: "Woodman's Glade",
+               threat: 2,
+               questPoints: 2,
+               traitKeys: [Trait.FOREST],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(3),
+               key: "woodmansGlade",
             },
          },
       };

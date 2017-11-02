@@ -10,6 +10,7 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
          ESCAPE_FROM_DOL_GULDUR: "escapeFromDolGuldur",
          JOURNEY_ALONG_THE_ANDUIN: "journeyAlongTheAnduin",
          PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
+         RETURN_TO_MIRKWOOD: "returnToMirkwood",
          SAURONS_REACH: "sauronsReach",
          SPIDERS_OF_MIRKWOOD: "spidersOfMirkwood",
          THE_DEAD_MARSHES: "theDeadMarshes",
@@ -56,6 +57,13 @@ define(["artifact/js/CardSet", "artifact/js/CardSubset"],
                name: "Passage Through Mirkwood",
                cardSetKey: CardSet.CORE,
                key: "passageThroughMirkwood",
+            },
+            "returnToMirkwood":
+            {
+               name: "Return to Mirkwood",
+               cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+               cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
+               key: "returnToMirkwood",
             },
             "sauronsReach":
             {

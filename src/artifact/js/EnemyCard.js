@@ -4,6 +4,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
    function(InputValidator, CardType, EncounterSet, GameHeader, GameMode, Scenario, Trait)
    {
       var EnemyCard = {
+         ATTERCOP_ATTERCOP: "attercopAttercop",
          BLACK_FOREST_BATS_AJTR: "blackForestBatsAjtr",
          BLACK_FOREST_BATS_PTM: "blackForestBatsPtm",
          CAVERN_GUARDIAN: "cavernGuardian",
@@ -23,6 +24,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          KING_SPIDER: "kingSpider",
          LOUIS: "louis",
          MARSH_ADDER: "marshAdder",
+         MIRKWOOD_BATS: "mirkwoodBats",
          MIRKWOOD_FLOCK: "mirkwoodFlock",
          MISTY_MOUNTAIN_GOBLINS: "mistyMountainGoblins",
          MORRIS: "morris",
@@ -37,6 +39,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
 
          properties:
          {
+            "attercopAttercop":
+            {
+               name: "Attercop, Attercop",
+               engagementCost: 44,
+               threat: 2,
+               attack: 8,
+               defense: 4,
+               hitPoints: 6,
+               traitKeys: [Trait.CREATURE, Trait.SPIDER],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(0, 3),
+               key: "attercopAttercop",
+            },
             "blackForestBatsAjtr":
             {
                name: "Black Forest Bats",
@@ -365,6 +380,19 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                encounterSetKey: EncounterSet.WILDERLANDS,
                gameModeMap: GameMode.createMap(0, 1),
                key: "marshAdder",
+            },
+            "mirkwoodBats":
+            {
+               name: "Mirkwood Bats",
+               engagementCost: 22,
+               threat: 1,
+               attack: 1,
+               defense: 1,
+               hitPoints: 1,
+               traitKeys: [Trait.CREATURE],
+               encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               gameModeMap: GameMode.createMap(2, 2),
+               key: "mirkwoodBats",
             },
             "mirkwoodFlock":
             {

@@ -50,6 +50,17 @@ define(["common/js/ArrayAugments", "common/js/InputValidator",
          });
       DeckBuilders.push(EscapeFromDolGuldurDeckBuilder);
 
+      var ReturnToMirkwoodDeckBuilder = new ScenarioDeckBuilder(Scenario.RETURN_TO_MIRKWOOD, "Return to Mirkwood (Shadows of Mirkwood #6)", 2011, "Return to Mirkwood",
+         function(store)
+         {
+            return questBuildFunction(store, Scenario.RETURN_TO_MIRKWOOD);
+         },
+         function(store, gameModeKey)
+         {
+            return encounterBuildFunction(store, gameModeKey, Scenario.RETURN_TO_MIRKWOOD);
+         });
+      DeckBuilders.push(ReturnToMirkwoodDeckBuilder);
+
       var TheDeadMarshesDeckBuilder = new ScenarioDeckBuilder(Scenario.THE_DEAD_MARSHES, "The Dead Marshes (Shadows of Mirkwood #5)", 2011, "The Dead Marshes",
          function(store)
          {

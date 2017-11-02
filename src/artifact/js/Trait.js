@@ -68,6 +68,7 @@ define(function()
       STAFF: "staff",
       STEWARD: "steward",
       STRONGHOLD: "stronghold",
+      TANTRUM: "tantrum",
       TITLE: "title",
       TRAP: "trap",
       TROLL: "troll",
@@ -404,6 +405,11 @@ define(function()
          {
             name: "Stronghold",
             key: "stronghold",
+         },
+         "tantrum":
+         {
+            name: "Tantrum",
+            key: "tantrum",
          },
          "title":
          {

@@ -271,6 +271,29 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          }
       };
 
+      Environment.prototype.encounterToAgentTableau = function(agent, cardKey)
+      {
+         InputValidator.validateNotNull("agent", agent);
+         InputValidator.validateIsString("cardKey", cardKey);
+         LOGGER.info("Environment.encounterToAgentTableau() agent = " + agent);
+         LOGGER.info("Environment.encounterToAgentTableau() cardKey = " + cardKey);
+
+         var store = this.store();
+         var encounterDeck = this.encounterDeck();
+         var cardKeys = encounterDeck.map(function(cardInstance)
+         {
+            return cardInstance.card().key;
+         });
+         var index = cardKeys.indexOf(cardKey);
+         LOGGER.info("Environment.encounterToAgentTableau() index = " + index);
+
+         if (index >= 0)
+         {
+            var cardInstance = encounterDeck.get(index);
+            store.dispatch(Action.encounterToAgentTableau(agent, cardInstance));
+         }
+      };
+
       Environment.prototype.encounterToSetAside = function(cardKey)
       {
          InputValidator.validateIsString("cardKey", cardKey);
