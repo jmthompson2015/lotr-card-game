@@ -1,7 +1,7 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/Select"],
-   function(createReactClass, PropTypes, React, DOM, Select)
+define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/ReactUtilities", "view/js/Select"],
+   function(createReactClass, PropTypes, React, DOM, ReactUtilities, Select)
    {
       var AgentDeckUI = createReactClass(
       {
@@ -12,28 +12,28 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             var deckBuilderTypeUI = this.createDeckBuilderTypeSelect();
             var deckChooserPanel = this.createDeckChooserPanel();
 
-            var topCell = createRow(createCell("Agent " + this.props.agentNumber, "agentCell", "b tc"), "agentRow");
+            var topCell = ReactUtilities.createRow(ReactUtilities.createCell("Agent " + this.props.agentNumber, "agentCell", "b pa1 tc"), "agentRow");
 
             var rows = [];
             var cells = [];
-            cells.push(createCell("Agent Name: ", "agentNameLabel"));
-            cells.push(createCell(agentNameUI, "agentNameValue"));
-            rows.push(createRow(cells, "agentNameRow"));
+            cells.push(ReactUtilities.createCell("Agent Name: ", "agentNameLabel", "pa1"));
+            cells.push(ReactUtilities.createCell(agentNameUI, "agentNameValue", "pa1"));
+            rows.push(ReactUtilities.createRow(cells, "agentNameRow"));
             cells = [];
-            cells.push(createCell("Agent Type: ", "agentTypeLabel"));
-            cells.push(createCell(agentTypeUI, "agentTypeValue"));
-            rows.push(createRow(cells, "agentTypeRow"));
+            cells.push(ReactUtilities.createCell("Agent Type: ", "agentTypeLabel", "pa1"));
+            cells.push(ReactUtilities.createCell(agentTypeUI, "agentTypeValue", "pa1"));
+            rows.push(ReactUtilities.createRow(cells, "agentTypeRow"));
             cells = [];
-            cells.push(createCell("Deck Type: ", "deckTypeLabel"));
-            cells.push(createCell(deckBuilderTypeUI, "deckTypeValue"));
-            rows.push(createRow(cells, "deckTypeRow"));
+            cells.push(ReactUtilities.createCell("Deck Type: ", "deckTypeLabel", "pa1"));
+            cells.push(ReactUtilities.createCell(deckBuilderTypeUI, "deckTypeValue", "pa1"));
+            rows.push(ReactUtilities.createRow(cells, "deckTypeRow"));
             var middleCells = DOM.div(
             {
                key: "middleCells" + this.props.agentNumber + this.props.isHidden,
                className: "dt",
             }, rows);
 
-            var bottomCell = createRow(createCell(deckChooserPanel), "deckChooserRow");
+            var bottomCell = ReactUtilities.createRow(ReactUtilities.createCell(deckChooserPanel, "deckChooserCell", "pa1"), "deckChooserRow");
 
             var mainPanel = DOM.div(
             {
@@ -170,24 +170,6 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
       AgentDeckUI.CUSTOM = "Custom";
       AgentDeckUI.PREFABRICATED = "Prefabricated";
       AgentDeckUI.deckBuilderTypes = [AgentDeckUI.PREFABRICATED, AgentDeckUI.CUSTOM];
-
-      function createCell(element, key, className)
-      {
-         return DOM.div(
-         {
-            key: key,
-            className: "dtc pa1" + (className ? " " + className : ""),
-         }, element);
-      }
-
-      function createRow(cells, key, className)
-      {
-         return DOM.div(
-         {
-            key: key,
-            className: "dt-row" + (className ? " " + className : ""),
-         }, cells);
-      }
 
       AgentDeckUI.propTypes = {
          agentName: PropTypes.string.isRequired,

@@ -14,6 +14,7 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
          return (
          {
             cardInstances: cardInstances,
+            isExpanded: false,
             label: "Hand",
             resourceBase: state.resourceBase,
          });

@@ -2,10 +2,10 @@
 
 define(["create-react-class", "immutable", "prop-types", "react", "react-dom-factories", "redux", "common/js/InputValidator", "artifact/js/CardSet", "artifact/js/GameMode", "artifact/js/Scenario",
   "model/js/Agent", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/SimpleAgentStrategy",
-   "view/js/AgentDeckUI", "view/js/Button", "view/js/OptionPane", "view/js/Select", "controller/js/HumanAgentStrategy"],
+   "view/js/AgentDeckUI", "view/js/Button", "view/js/OptionPane", "view/js/ReactUtilities", "view/js/Select", "controller/js/HumanAgentStrategy"],
    function(createReactClass, Immutable, PropTypes, React, DOM, Redux, InputValidator, CardSet, GameMode, Scenario,
       Agent, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, SimpleAgentStrategy,
-      AgentDeckUI, Button, OptionPane, Select, HumanAgentStrategy)
+      AgentDeckUI, Button, OptionPane, ReactUtilities, Select, HumanAgentStrategy)
    {
       var NewGamePanel = createReactClass(
       {
@@ -60,32 +60,32 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
          {
             var rows = [];
             var cells = [];
-            cells.push(createCell("Card Set: ", "cardSetLabel", "tl"));
-            cells.push(createCell(this.createCardSetSelect(), "cardSetSelect", "tl"));
-            rows.push(createRow(cells, "row" + rows.length));
+            cells.push(ReactUtilities.createCell("Card Set: ", "cardSetLabel", "pa1 tl"));
+            cells.push(ReactUtilities.createCell(this.createCardSetSelect(), "cardSetSelect", "pa1 tl"));
+            rows.push(ReactUtilities.createRow(cells, "row" + rows.length));
 
             cells = [];
-            cells.push(createCell("Scenario: ", "scenarioLabel", "tl"));
-            cells.push(createCell(this.createScenarioSelect(), "scenarioSelect", "tl"));
-            rows.push(createRow(cells, "row" + rows.length));
+            cells.push(ReactUtilities.createCell("Scenario: ", "scenarioLabel", "pa1 tl"));
+            cells.push(ReactUtilities.createCell(this.createScenarioSelect(), "scenarioSelect", "pa1 tl"));
+            rows.push(ReactUtilities.createRow(cells, "row" + rows.length));
 
             cells = [];
-            cells.push(createCell("Game Mode: ", "gameModeLabel", "tl"));
-            cells.push(createCell(this.createGameModeSelect(), "gameModeSelect", "tl"));
-            rows.push(createRow(cells, "row" + rows.length));
+            cells.push(ReactUtilities.createCell("Game Mode: ", "gameModeLabel", "pa1 tl"));
+            cells.push(ReactUtilities.createCell(this.createGameModeSelect(), "gameModeSelect", "pa1 tl"));
+            rows.push(ReactUtilities.createRow(cells, "row" + rows.length));
 
             cells = [];
-            cells.push(createCell("Agent Count: ", "agentCountLabel", "tl"));
-            cells.push(createCell(this.createAgentCountSelect(), "agentCountSelect", "tl"));
-            rows.push(createRow(cells, "row" + rows.length));
+            cells.push(ReactUtilities.createCell("Agent Count: ", "agentCountLabel", "pa1 tl"));
+            cells.push(ReactUtilities.createCell(this.createAgentCountSelect(), "agentCountSelect", "pa1 tl"));
+            rows.push(ReactUtilities.createRow(cells, "row" + rows.length));
 
-            var topCell = createRow(rows, "topCell");
+            var topCell = ReactUtilities.createRow(rows, "topCell");
             rows = [];
 
             for (var agentId = 1; agentId <= 4; agentId++)
             {
                var isHidden = (agentId - 1 >= this.state.agentCount);
-               rows.push(createRow(this.createAgentDeckUI(agentId, isHidden), "agentDeck" + agentId));
+               rows.push(ReactUtilities.createRow(this.createAgentDeckUI(agentId, isHidden), "agentDeck" + agentId));
             }
 
             var message = DOM.div(
@@ -326,24 +326,6 @@ define(["create-react-class", "immutable", "prop-types", "react", "react-dom-fac
 
          this.props.callback(scenarioDeck, playerData);
       };
-
-      function createCell(element, key, className)
-      {
-         return DOM.div(
-         {
-            key: key,
-            className: "dtc pa1" + (className ? " " + className : ""),
-         }, element);
-      }
-
-      function createRow(cells, key, className)
-      {
-         return DOM.div(
-         {
-            key: key,
-            className: "dt-row" + (className ? " " + className : ""),
-         }, cells);
-      }
 
       function getScenarioDeckBuilders(cardSetKey)
       {

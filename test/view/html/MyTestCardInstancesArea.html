@@ -14,6 +14,8 @@
 <body>
   <div id="panel0"></div>
   <div id="panel1"></div>
+  <div id="panel2"></div>
+  <div id="panel3"></div>
   <script>
     "use strict";
 
@@ -82,6 +84,58 @@
         {
           className: "center dt tc",
         }, element1), document.getElementById("panel1"));
+
+        var heroInstance2 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+        heroInstance.isQuesting = true;
+        store.dispatch(CardAction.addResource(heroInstance2, Sphere.LEADERSHIP));
+        store.dispatch(CardAction.addWounds(heroInstance2, 2));
+        var allyInstance2 = new CardInstance(store, AllyCard.properties[AllyCard.GANDALF_CORE]);
+        store.dispatch(CardAction.setReady(allyInstance2, false));
+        store.dispatch(CardAction.addWounds(allyInstance2, 2));
+        var attachmentInstance2 = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
+        store.dispatch(CardAction.addResource(attachmentInstance2, Sphere.LORE));
+        var eventInstance2 = new CardInstance(store, EventCard.properties[EventCard.SNEAK_ATTACK]);
+        var cardInstances2 = [heroInstance2, allyInstance2, attachmentInstance2, eventInstance2];
+
+        var element2 = React.createElement(ReactRedux.Provider,
+        {
+          store: store,
+        }, React.createElement(CardInstancesArea,
+        {
+          cardInstances: cardInstances2,
+          isExpanded: false,
+          label: "Collapsed Area",
+          resourceBase: resourceBase,
+        }));
+
+        ReactDOM.render(DOM.div(
+        {
+          className: "center dt tc",
+        }, element2), document.getElementById("panel2"));
+
+        var enemyInstance3 = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
+        store.dispatch(CardAction.addWounds(enemyInstance3));
+        var locationInstance3 = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+        store.dispatch(CardAction.addProgress(locationInstance3, 2));
+        var objectiveInstance3 = new CardInstance(store, ObjectiveCard.properties[ObjectiveCard.SIGNS_OF_GOLLUM]);
+        var treacheryInstance3 = new CardInstance(store, TreacheryCard.properties[TreacheryCard.CAUGHT_IN_A_WEB]);
+        var cardInstances3 = [enemyInstance3, locationInstance3, objectiveInstance3, treacheryInstance3];
+
+        var element3 = React.createElement(ReactRedux.Provider,
+        {
+          store: store,
+        }, React.createElement(CardInstancesArea,
+        {
+          cardInstances: cardInstances3,
+          isExpanded: false,
+          label: "Collapsed Area",
+          resourceBase: resourceBase,
+        }));
+
+        ReactDOM.render(DOM.div(
+        {
+          className: "center dt tc",
+        }, element3), document.getElementById("panel3"));
       });
   </script>
 </body>
