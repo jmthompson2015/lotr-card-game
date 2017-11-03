@@ -96,39 +96,23 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
       var CardComparator = function(a, b)
       {
-         var answer = -1;
-         var attackA = a.card().attack;
-         var attackB = b.card().attack;
+         var cardA = a.card();
+         var cardB = b.card();
 
-         if (attackA === attackB)
-         {
-            answer = 0;
-         }
-         else if (attackA < attackB)
-         {
-            answer = 1;
-         }
+         var answer = compare(cardB.attack, cardA.attack); // descending
 
          if (answer === 0)
          {
-            var nameA = a.card().name;
-            var nameB = b.card().name;
-            if (nameA === nameB)
-            {
-               answer = 0;
-            }
-            else if (nameA > nameB)
-            {
-               answer = 1;
-            }
-            else
-            {
-               answer = -1;
-            }
+            answer = compare(cardA.name, cardB.name);
          }
 
          return answer;
       };
+
+      function compare(a, b)
+      {
+         return (a === b ? 0 : (a > b ? 1 : -1));
+      }
 
       CharacterAttackersChooser.propTypes = {
          defenderInstance: PropTypes.object.isRequired,

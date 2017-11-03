@@ -31,14 +31,21 @@
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
         store.dispatch(Action.setResourceBase(resourceBase));
-        var characters = [];
-        characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
-        characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
-        characters.push(new CardInstance(store, AllyCard.properties[AllyCard.DENETHOR]));
+        var cardInstances = [];
+        cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
+        cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
+        cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.DENETHOR]));
+        cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.A_BURNING_BRAND]));
+        cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.BLACK_ARROW]));
+        cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.CELEBRIANS_STONE]));
+        cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.ADVANCE_WARNING]));
+        cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.BEHIND_STRONG_WALLS]));
+        cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.CAMPFIRE_TALES]));
+        cardInstances.lotrShuffle();
 
         var element = React.createElement(PlayCardChooser,
         {
-          cardInstances: characters,
+          cardInstances: cardInstances,
           onChange: myOnChange,
         });
 

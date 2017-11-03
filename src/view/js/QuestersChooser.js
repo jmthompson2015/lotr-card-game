@@ -96,39 +96,33 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
       var CardComparator = function(a, b)
       {
-         var answer = -1;
-         var willpowerA = a.card().willpower;
-         var willpowerB = b.card().willpower;
+         var cardA = a.card();
+         var cardB = b.card();
 
-         if (willpowerA === willpowerB)
+         var answer = compare(cardB.willpower, cardA.willpower); // descending
+
+         if (answer === 0)
          {
-            answer = 0;
-         }
-         else if (willpowerA < willpowerB)
-         {
-            answer = 1;
+            answer = compare(cardA.defense, cardB.defense);
          }
 
          if (answer === 0)
          {
-            var nameA = a.card().name;
-            var nameB = b.card().name;
-            if (nameA === nameB)
-            {
-               answer = 0;
-            }
-            else if (nameA > nameB)
-            {
-               answer = 1;
-            }
-            else
-            {
-               answer = -1;
-            }
+            answer = compare(cardA.attack, cardB.attack);
+         }
+
+         if (answer === 0)
+         {
+            answer = compare(cardA.name, cardB.name);
          }
 
          return answer;
       };
+
+      function compare(a, b)
+      {
+         return (a === b ? 0 : (a > b ? 1 : -1));
+      }
 
       QuestersChooser.propTypes = {
          questInstance: PropTypes.object.isRequired,
