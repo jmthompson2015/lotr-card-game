@@ -86,14 +86,16 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   AgentAction.drawPlayerCard = function(agent)
+   AgentAction.drawPlayerCard = function(agent, index)
    {
       InputValidator.validateNotNull("agent", agent);
+      // index optional.
 
       return (
       {
          type: AgentAction.DRAW_PLAYER_CARD,
          agent: agent,
+         index: index,
       });
    };
 

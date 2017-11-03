@@ -227,9 +227,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
       {
          return this.stagingArea().reduce(function(accumulator, cardInstance)
          {
-            var card = cardInstance.card();
-            var threat = (card.threat !== undefined ? card.threat : 0);
-            return accumulator + threat;
+            return accumulator + cardInstance.threat();
          }, 0);
       };
 

@@ -45,7 +45,7 @@ define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/
             case AgentAction.DRAW_PLAYER_CARD:
                LOGGER.debug("Draw player card");
                agentId = action.agent.id();
-               cardId = state.agentPlayerDeck.get(agentId).first();
+               cardId = (action.index === undefined ? state.agentPlayerDeck.get(agentId).first() : state.agentPlayerDeck.get(agentId).get(action.index));
                return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentHand", agentId);
             case AgentAction.INCREMENT_NEXT_AGENT_ID:
                LOGGER.debug("increment next agent ID: " + state.nextAgentId);

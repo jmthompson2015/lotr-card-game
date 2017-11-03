@@ -318,6 +318,24 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          }
       };
 
+      Agent.prototype.drawPlayerCard = function(cardKey)
+      {
+         InputValidator.validateIsString("cardKey", cardKey);
+
+         var store = this.store();
+         var playerDeck = this.playerDeck();
+         var cardKeys = playerDeck.map(function(cardInstance)
+         {
+            return cardInstance.card().key;
+         });
+         var index = cardKeys.indexOf(cardKey);
+
+         if (index >= 0)
+         {
+            store.dispatch(AgentAction.drawPlayerCard(this, index));
+         }
+      };
+
       Agent.prototype.processAgentDeath = function()
       {
          // See core rules p. 22 Player Elimination.

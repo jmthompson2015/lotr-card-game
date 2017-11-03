@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(Immutable, InputValidator, CardResolver, Action, AgentAction, CardAction)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/LocationCard", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(Immutable, InputValidator, CardResolver, CardType, LocationCard, Action, AgentAction, CardAction)
    {
       function CardInstance(store, card, idIn, isNewIn)
       {
@@ -112,6 +112,35 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "mo
          var ids = store.getState().cardShadowCards.get(this.id());
 
          return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      CardInstance.prototype.threat = function()
+      {
+         var store = this.store();
+         var environment = store.getState().environment;
+         var card = this.card();
+         var answer;
+
+         switch (card.key)
+         {
+            case LocationCard.AMON_HEN:
+            case LocationCard.AMON_LHAW:
+               answer = 2 * environment.agents().size;
+               break;
+            case LocationCard.RHOSGOBEL:
+               answer = environment.agents().size;
+               break;
+            case LocationCard.THE_OLD_FORD:
+               answer = environment.cardsInPlay().filter(function(cardInstance)
+               {
+                  return cardInstance.card().cardTypeKey === CardType.ALLY;
+               }).length;
+               break;
+            default:
+               answer = card.threat;
+         }
+
+         return answer;
       };
 
       CardInstance.prototype.toString = function()
