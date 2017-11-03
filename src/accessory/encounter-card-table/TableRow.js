@@ -1,29 +1,32 @@
 "use strict";
 
-define(["common/js/InputValidator"], function(InputValidator)
-{
-   var TableRow = {};
-
-   TableRow.createTableRow = function(card)
+define(["common/js/InputValidator", "artifact/js/CardType"],
+   function(InputValidator, CardType)
    {
-      InputValidator.validateNotNull("card", card);
+      var TableRow = {};
 
-      var isImplemented = (card.isImplemented !== undefined ? card.isImplemented : false);
-
-      return (
+      TableRow.createTableRow = function(card)
       {
-         name: card.name,
-         cardTypeKey: card.cardTypeKey,
-         isImplemented: isImplemented,
-         encounterSetKey: card.encounterSetKey,
-         engagementCost: card.engagementCost,
-         threat: card.threat,
-         questPoints: card.questPoints,
-         attack: card.attack,
-         defense: card.defense,
-         hitPoints: card.hitPoints,
-      });
-   };
+         InputValidator.validateNotNull("card", card);
 
-   return TableRow;
-});
+         var name = card.name + (card.cardTypeKey === CardType.QUEST ? " " + card.sequence : "");
+         var isImplemented = (card.isImplemented !== undefined ? card.isImplemented : false);
+
+         return (
+         {
+            card: card,
+            name: name,
+            cardTypeKey: card.cardTypeKey,
+            isImplemented: isImplemented,
+            encounterSetKey: card.encounterSetKey,
+            engagementCost: card.engagementCost,
+            threat: card.threat,
+            questPoints: card.questPoints,
+            attack: card.attack,
+            defense: card.defense,
+            hitPoints: card.hitPoints,
+         });
+      };
+
+      return TableRow;
+   });

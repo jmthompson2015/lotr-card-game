@@ -75,6 +75,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.SETUP,
                      text: "Search the encounter deck for 1 copy of the Forest Spider and 1 copy of the Old Forest Road, and add them to the staging area. Then, shuffle the encounter deck.",
                   }],
+               isImplemented: true,
                key: "ptm1aFliesAndSpiders",
             },
             "ptm1bFliesAndSpiders":
@@ -84,6 +85,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "1B",
                questPoints: 8,
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+               isImplemented: true,
                key: "ptm1bFliesAndSpiders",
             },
             "ptm2aAForkInTheRoad":
@@ -92,6 +94,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.PASSAGE_THROUGH_MIRKWOOD,
                sequence: "2A",
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+               isImplemented: true,
                key: "ptm2aAForkInTheRoad",
             },
             "ptm2bAForkInTheRoad":
@@ -106,6 +109,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.FORCED,
                      text: "When you defeat this state, proceed to one of the 2 \"A Chosen Path\" stages, at random.",
                   }],
+               isImplemented: true, // see ScenarioDeckBuilder
                key: "ptm2bAForkInTheRoad",
             },
             "ptm3aAChosenPath":
@@ -114,6 +118,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.PASSAGE_THROUGH_MIRKWOOD,
                sequence: "3A",
                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+               isImplemented: true,
                key: "ptm3aAChosenPath",
             },
             "ptm3b1BeornsPath":
@@ -155,6 +160,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "1A",
                encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               isImplemented: true,
                key: "jata1aToTheRiver",
             },
             "jata1bToTheRiver":
@@ -172,6 +178,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "2A",
                encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               isImplemented: true,
                key: "jata2aAnduinPassage",
             },
             "jata2bAnduinPassage":
@@ -189,6 +196,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.JOURNEY_ALONG_THE_ANDUIN,
                sequence: "3A",
                encounterSetKey: EncounterSet.JOURNEY_ALONG_THE_ANDUIN,
+               isImplemented: true,
                key: "jata3AAmbushOnTheShore",
             },
             "jata3BAmbushOnTheShore":
@@ -209,6 +217,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "1A",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               isImplemented: true,
                key: "efdg1aTheNecromancersTower",
             },
             "efdg1bTheNecromancersTower":
@@ -226,6 +235,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "2A",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               isImplemented: true,
                key: "efdg2aThroughTheCaverns",
             },
             "efdg2bThroughTheCaverns":
@@ -243,6 +253,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.ESCAPE_FROM_DOL_GULDUR,
                sequence: "3A",
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
+               isImplemented: true,
                key: "efdg3aOutOfTheDungeons",
             },
             "efdg3bOutOfTheDungeons":

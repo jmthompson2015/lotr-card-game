@@ -152,6 +152,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.RESPONSE,
                      text: "After you travel to Forest Gate, the first player may draw 2 cards.",
                   }],
+               isImplemented: true,
                key: "forestGate",
             },
             "forestGrove":

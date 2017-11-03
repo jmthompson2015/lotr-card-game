@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "controller/js/HumanAgentStrategy"],
-   function(InputValidator, CardType, Action, HumanAgentStrategy)
+define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent", "model/js/Action", "controller/js/HumanAgentStrategy"],
+   function(InputValidator, CardType, GameEvent, Action, HumanAgentStrategy)
    {
       function TravelTask(store)
       {
@@ -73,6 +73,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "
          {
             var store = this.store();
             store.dispatch(Action.setActiveLocation(location));
+            store.dispatch(Action.enqueueEvent(GameEvent.TRAVELED));
             store.dispatch(Action.setUserMessage("Travel to " + location.card().name));
          }
 

@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/Phase",
-  "model/js/Ability", "model/js/Action", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility"],
-   function(InputValidator, Phase, Ability, Action, ObjectiveAbility, Observer, QuestAbility)
+  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility"],
+   function(InputValidator, Phase, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility)
    {
       function PhaseObserver(store)
       {
@@ -59,7 +59,7 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var phaseContext = phaseData.get("phaseContext");
          var store = this.store();
          var environment = store.getState().environment;
-         var abilityObjects = [ObjectiveAbility, QuestAbility];
+         var abilityObjects = [LocationAbility, ObjectiveAbility, QuestAbility];
          var abilityObjectCount = abilityObjects.length;
          var ability;
 

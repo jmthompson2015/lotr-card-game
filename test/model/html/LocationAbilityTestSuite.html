@@ -13,11 +13,7 @@
 
     var prefix = "../test/model/js/";
     var suffix = "Test";
-    var testModules = ["Ability", "Action", "Agent", "AgentReducer", "CardInstance", "CardReducer", "CombatAttackTask", "CombatDealShadowCardsTask",
-      "CombatDefendTask", "CombatTask", "EncounterEngagementCheckTask", "EncounterOptionalEngagementTask", "EncounterTask", "Environment", "EventObserver",
-      "Game", "InitialState", "LocationAbility", "PhaseObserver", "PlanningTask", "PlayerDeckBuilder", "QuestAbility", "QuestTask", "Reducer", "RefreshTask",
-      "ResourceTask", "ScenarioDeckBuilder", "SimpleAgentStrategy", "TransferReducer", "TravelTask"
-    ];
+    var testModules = ["LocationAbility"];
     testModules = testModules.map(function(testModule)
     {
       return prefix + testModule + suffix;

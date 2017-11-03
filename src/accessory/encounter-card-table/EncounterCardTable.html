@@ -29,10 +29,10 @@
   <script>
     "use strict";
 
-    require(["react", "react-dom", "react-redux", "redux", "common/js/Logger",
+    require(["react", "react-dom", "react-redux", "redux", "common/js/Logger", "common/js/MathAugments",
         "accessory/encounter-card-table/CardTableContainer", "accessory/encounter-card-table/Reducer"
       ],
-      function(React, ReactDOM, ReactRedux, Redux, Logger, CardTableContainer, Reducer)
+      function(React, ReactDOM, ReactRedux, Redux, Logger, MathAugments, CardTableContainer, Reducer)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -40,15 +40,10 @@
 
         var resourceBase = "../../../src/view/resource/";
         var store = Redux.createStore(Reducer.root);
-        // var implementedCount = PilotCard.keys().reduce(function(previousValue, pilotKey)
-        // {
-        //   return previousValue + (PilotCard.properties[pilotKey].isImplemented ? 1 : 0);
-        // }, 0);
-        // var upgradeCount = PilotCard.keys().length;
-        // var implementedCount = 0;
-        // var cardCount = 1;
-        // var ratio = Math.lotrRound(100.0 * implementedCount / cardCount, 0);
-        // document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " + cardCount + " = " + ratio + "%";
+        var implementedCount = determineImplementedCount();
+        var cardCount = determineCardCount();
+        var ratio = Math.lotrRound(100.0 * implementedCount / cardCount, 0);
+        document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " + cardCount + " = " + ratio + "%";
 
         var element = React.createElement(ReactRedux.Provider,
         {
@@ -59,6 +54,20 @@
         }));
 
         ReactDOM.render(element, document.getElementById("tableContainer"));
+
+        function determineCardCount()
+        {
+          return store.getState().tableRows.length;
+        }
+
+        function determineImplementedCount()
+        {
+          return store.getState().tableRows.reduce(function(accumulator, tableRow)
+          {
+            var card = tableRow.card;
+            return accumulator + (card !== undefined && card.isImplemented === true ? 1 : 0);
+          }, 0);
+        }
       });
   </script>
 </body>

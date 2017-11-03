@@ -133,6 +133,14 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          return CardInstance.idsToCardInstances(store, ids);
       };
 
+      Environment.prototype.firstAgent = function()
+      {
+         var store = this.store();
+         var firstAgentId = store.getState().firstAgentId;
+
+         return Agent.get(store, firstAgentId);
+      };
+
       Environment.prototype.firstCardInstance = function(cardKey)
       {
          InputValidator.validateIsString("cardKey", cardKey);

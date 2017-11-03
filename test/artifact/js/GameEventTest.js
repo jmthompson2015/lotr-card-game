@@ -49,11 +49,12 @@ define(["qunit", "artifact/js/GameEvent"], function(QUnit, GameEvent)
 
       // Verify.
       assert.ok(result);
-      var length = 3;
+      var length = 4;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], GameEvent.CARD_DRAWN);
       assert.equal(result[i++], GameEvent.QUEST_CARD_DRAWN);
       assert.equal(result[i++], GameEvent.QUEST_SUCCEEDED);
+      assert.equal(result[i++], GameEvent.TRAVELED);
    });
 });
