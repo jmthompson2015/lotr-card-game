@@ -279,6 +279,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.SETUP,
                      text: "Reveal 1 card per player from the encounter deck, and add it to the staging area.",
                   }],
+               isImplemented: true,
                key: "thfg1aTheHuntBegins",
             },
             "thfg1bTheHuntBegins":
@@ -301,6 +302,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.THE_HUNT_FOR_GOLLUM,
                sequence: "2A",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+               isImplemented: true,
                key: "thfg2aANewTerrorAbroad",
             },
             "thfg2bANewTerrorAbroad":
@@ -323,6 +325,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.THE_HUNT_FOR_GOLLUM,
                sequence: "3A",
                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+               isImplemented: true,
                key: "thfg3aOnTheTrail",
             },
             "thfg3bOnTheTrail":
@@ -347,6 +350,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
                sequence: "1A",
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               isImplemented: true,
                key: "catc1aGrimbeornsQuest",
             },
             "catc1bGrimbeornsQuest":
@@ -364,6 +368,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.CONFLICT_AT_THE_CARROCK,
                sequence: "2A",
                encounterSetKey: EncounterSet.CONFLICT_AT_THE_CARROCK,
+               isImplemented: true,
                key: "catc2aAgainstTheTrolls",
             },
             "catc2bAgainstTheTrolls":
@@ -384,6 +389,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
                sequence: "1A",
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               isImplemented: true,
                key: "ajtr1aTheWoundedEagle",
             },
             "ajtr1bTheWoundedEagle":
@@ -393,6 +399,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "1B",
                questPoints: 8,
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               isImplemented: true,
                key: "ajtr1bTheWoundedEagle",
             },
             "ajtr2aRadagastsRequest":
@@ -401,6 +408,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
                sequence: "2A",
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               isImplemented: true,
                key: "ajtr2aRadagastsRequest",
             },
             "ajtr2bRadagastsRequest":
@@ -418,6 +426,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.A_JOURNEY_TO_RHOSGOBEL,
                sequence: "3A",
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
+               isImplemented: true,
                key: "ajtr3aReturnToRhosgobel",
             },
             "ajtr3bReturnToRhosgobel":
@@ -438,6 +447,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.THE_HILLS_OF_EMYN_MUIL,
                sequence: "1A",
                encounterSetKey: EncounterSet.THE_HILLS_OF_EMYN_MUIL,
+               isImplemented: true,
                key: "thoem1aTheHillsOfEmynMuil",
             },
             "thoem1bTheHillsOfEmynMuil":
@@ -458,6 +468,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.THE_DEAD_MARSHES,
                sequence: "1A",
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               isImplemented: true,
                key: "tdm1aIntoTheMarshes",
             },
             "tdm1bIntoTheMarshes":
@@ -467,6 +478,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "1B",
                questPoints: 12,
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               isImplemented: true,
                key: "tdm1bIntoTheMarshes",
             },
             "tdm2aTheCapture":
@@ -475,6 +487,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.THE_DEAD_MARSHES,
                sequence: "2A",
                encounterSetKey: EncounterSet.THE_DEAD_MARSHES,
+               isImplemented: true,
                key: "tdm2aTheCapture",
             },
             "tdm2bTheCapture":
@@ -495,6 +508,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
                sequence: "1A",
                encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               isImplemented: true,
                key: "rtm1aThroughTheForest",
             },
             "rtm1bThroughTheForest":
@@ -504,6 +518,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                sequence: "1B",
                questPoints: 12,
                encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               isImplemented: true,
                key: "rtm1bThroughTheForest",
             },
             "rtm2aEscapeAttempt":
@@ -512,6 +527,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
                sequence: "2A",
                encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               isImplemented: true,
                key: "rtm2aEscapeAttempt",
             },
             "rtm2bEscapeAttempt":
@@ -529,6 +545,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
                sequence: "3A",
                encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               isImplemented: true,
                key: "rtm3aToTheElvenKingsHalls",
             },
             "rtm3bToTheElvenKingsHalls":
@@ -546,6 +563,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
                sequence: "4A",
                encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
+               isImplemented: true,
                key: "rtm4aAmbush",
             },
             "rtm4bAmbush":

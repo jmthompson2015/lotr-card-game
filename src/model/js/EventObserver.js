@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/QuestCard",
-  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility"],
-   function(InputValidator, QuestCard, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility)
+  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
+   function(InputValidator, QuestCard, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function EventObserver(store)
       {
@@ -60,15 +60,14 @@ define(["common/js/InputValidator", "artifact/js/QuestCard",
          var store = this.store();
          var cardInstance = (eventContext ? eventContext.cardInstance : undefined);
          var card = (cardInstance ? cardInstance.card() : undefined);
-         var abilityObjects = [LocationAbility, ObjectiveAbility, QuestAbility];
-         var abilityObjectCount = abilityObjects.length;
+         var abilityObjectCount = EventObserver.ABILITY_OBJECTS.length;
          var ability;
 
          if (card)
          {
             for (var i = 0; i < abilityObjectCount && ability === undefined; i++)
             {
-               var abilityObject = abilityObjects[i];
+               var abilityObject = EventObserver.ABILITY_OBJECTS[i];
 
                if (abilityObject[eventKey] && abilityObject[eventKey][card.key])
                {
@@ -136,6 +135,8 @@ define(["common/js/InputValidator", "artifact/js/QuestCard",
             callback(eventData);
          }
       };
+
+      EventObserver.ABILITY_OBJECTS = [LocationAbility, ObjectiveAbility, QuestAbility, ShadowAbility, TreacheryAbility];
 
       if (Object.freeze)
       {

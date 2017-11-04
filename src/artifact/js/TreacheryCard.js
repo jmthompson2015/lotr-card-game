@@ -104,6 +104,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                name: "Exhaustion",
                encounterSetKey: EncounterSet.A_JOURNEY_TO_RHOSGOBEL,
                gameModeMap: GameMode.createMap(1, 3),
+               isImplemented: true,
                key: "exhaustion",
             },
             "eyesOfTheForest":

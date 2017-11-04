@@ -109,7 +109,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          var agent = this.queue().shift();
          store.dispatch(Action.setActiveAgent(agent));
 
-         var task = new CombatDefendTask(store, agent);
+         var task = new CombatDefendTask(store, agent, this.delay());
          var queueCallback = this.processCombatQueue2.bind(this);
          var taskCallback = function()
          {

@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/Phase",
-  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility"],
-   function(InputValidator, Phase, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility)
+  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
+   function(InputValidator, Phase, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function PhaseObserver(store)
       {
@@ -59,13 +59,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var phaseContext = phaseData.get("phaseContext");
          var store = this.store();
          var environment = store.getState().environment;
-         var abilityObjects = [LocationAbility, ObjectiveAbility, QuestAbility];
-         var abilityObjectCount = abilityObjects.length;
+         var abilityObjectCount = PhaseObserver.ABILITY_OBJECTS.length;
          var ability;
 
          for (var i = 0; i < abilityObjectCount && ability === undefined; i++)
          {
-            var abilityObject = abilityObjects[i];
+            var abilityObject = PhaseObserver.ABILITY_OBJECTS[i];
 
             if (abilityObject[phaseKey])
             {
@@ -144,6 +143,8 @@ define(["common/js/InputValidator", "artifact/js/Phase",
             callback(phaseData);
          }
       };
+
+      PhaseObserver.ABILITY_OBJECTS = [LocationAbility, ObjectiveAbility, QuestAbility, ShadowAbility, TreacheryAbility];
 
       if (Object.freeze)
       {

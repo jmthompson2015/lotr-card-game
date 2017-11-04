@@ -1,12 +1,14 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(InputValidator, Action, AgentAction, CardAction)
+define(["common/js/InputValidator", "artifact/js/GameEvent",
+  "model/js/Ability", "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/QueueProcessor"],
+   function(InputValidator, GameEvent, Ability, Action, AgentAction, CardAction, QueueProcessor)
    {
-      function CombatDefendTask(store, agent)
+      function CombatDefendTask(store, agent, delayIn)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("agent", agent);
+         // delayIn optional. default: 1000
 
          this.store = function()
          {
@@ -16,6 +18,13 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "
          this.agent = function()
          {
             return agent;
+         };
+
+         var delay = (delayIn !== undefined ? delayIn : 1000);
+
+         this.delay = function()
+         {
+            return delay;
          };
 
          var queue = [];
@@ -99,15 +108,27 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/AgentAction", "
 
          if (shadowCards.size > 0)
          {
-            shadowCards.forEach(function(cardInstance)
+            var determineCombatDamage = this.determineCombatDamage.bind(this);
+            var myCallback = function()
+            {
+               determineCombatDamage(attacker, defender, callback);
+            };
+            var elementFunction = function(cardInstance, queueCallback)
             {
                store.dispatch(CardAction.setFaceUp(cardInstance, true));
-               // Look for GameHeader.SHADOW
-               // Do something.
-            });
-         }
+               var context = {
+                  cardInstance: cardInstance,
+               };
+               store.dispatch(Action.enqueueEvent(GameEvent.SHADOW_CARD_REVEALED, context, queueCallback));
+            };
 
-         this.determineCombatDamage(attacker, defender, callback);
+            var queueProcessor = new QueueProcessor(shadowCards.toJS(), myCallback, elementFunction, undefined, this.delay());
+            queueProcessor.processQueue();
+         }
+         else
+         {
+            this.determineCombatDamage(attacker, defender, callback);
+         }
       };
 
       CombatDefendTask.prototype.determineCombatDamage = function(attacker, defender, callback)

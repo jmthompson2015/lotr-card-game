@@ -14,16 +14,21 @@ define(["qunit", "redux",
          var store = environment.store();
          var agent1 = environment.agents().get(0);
          var enemies = environment.stagingEnemies();
-         store.dispatch(Action.agentEngageCard(agent1, enemies.first()));
+         var enemy = enemies.first();
+         store.dispatch(Action.agentEngageCard(agent1, enemy));
+         store.dispatch(Action.dealShadowCard(enemy));
          var task = new CombatDefendTask(store, agent1);
          var callback = function()
          {
             // Verify.
+            assert.ok(true, "test resumed from async operation");
             assert.equal(store.getState().encounterDiscard.size, 0);
-            assert.ok(store.getState().cardShadowCards.size >= 0);
+            assert.ok(store.getState().cardShadowCards.size > 0);
+            done();
          };
 
          // Run.
+         var done = assert.async();
          task.doIt(callback);
       });
 

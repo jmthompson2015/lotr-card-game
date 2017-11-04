@@ -6,6 +6,7 @@ define(function()
       CARD_DRAWN: "cardDrawn",
       QUEST_CARD_DRAWN: "questCardDrawn",
       QUEST_SUCCEEDED: "questSucceeded",
+      SHADOW_CARD_REVEALED: "shadowCardRevealed",
       TRAVELED: "traveled",
 
       properties:
@@ -24,6 +25,11 @@ define(function()
          {
             name: "Quest succeeded",
             key: "questSucceeded",
+         },
+         "shadowCardRevealed":
+         {
+            name: "Shadow card revealed",
+            key: "shadowCardRevealed",
          },
          "traveled":
          {
