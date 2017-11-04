@@ -133,6 +133,10 @@ define(["immutable", "common/js/InputValidator", "artifact/js/GameEvent", "artif
                   cardId = action.cardInstance.id();
                   shadowId = action.shadowInstance.id();
                   return TransferReducer.reduce(state, "cardShadowCards", cardId, shadowId, "encounterDiscard");
+               case Action.DISCARD_STAGING_CARD:
+                  LOGGER.info("Discard staging card: " + action.cardInstance);
+                  cardId = action.cardInstance.id();
+                  return TransferReducer.reduce(state, "stagingArea", undefined, cardId, "encounterDiscard");
                case Action.DRAW_ENCOUNTER_CARD:
                   if (state.encounterDeck.size > 0)
                   {
@@ -231,6 +235,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/GameEvent", "artif
                   {}, state,
                   {
                      encounterDeck: Immutable.List(cardInstanceIds),
+                  });
+               case Action.SET_DELAY:
+                  return Object.assign(
+                  {}, state,
+                  {
+                     delay: action.delay,
                   });
                case Action.SET_ENVIRONMENT:
                   return Object.assign(

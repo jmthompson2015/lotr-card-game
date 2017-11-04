@@ -18,6 +18,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.DISCARD_ACTIVE_LOCATION = "discardActiveLocation";
    Action.DISCARD_ACTIVE_QUEST = "discardActiveQuest";
    Action.DISCARD_SHADOW_CARD = "discardShadowCard";
+   Action.DISCARD_STAGING_CARD = "discardStagingCard";
    Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
    Action.DRAW_QUEST_CARD = "drawQuestCard";
    Action.ENCOUNTER_TO_AGENT_TABLEAU = "encounterToAgentTableau";
@@ -31,6 +32,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_ACTIVE_LOCATION = "setActiveLocation";
    Action.SET_ADJUDICATOR = "setAdjudicator";
    Action.SET_ASIDE_TO_ENCOUNTER_DECK = "setAsideToEncounterDeck";
+   Action.SET_DELAY = "setDelay";
    Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
@@ -187,6 +189,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
+   Action.discardStagingCard = function(cardInstance)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+
+      return (
+      {
+         type: Action.DISCARD_STAGING_CARD,
+         cardInstance: cardInstance,
+      });
+   };
+
    Action.drawEncounterCard = function(index)
    {
       // index optional.
@@ -328,6 +341,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.SET_ASIDE_TO_ENCOUNTER_DECK,
          cardInstance: cardInstance,
+      });
+   };
+
+   Action.setDelay = function(delay)
+   {
+      InputValidator.validateIsNumber("delay", delay);
+
+      return (
+      {
+         type: Action.SET_DELAY,
+         delay: delay,
       });
    };
 

@@ -3,20 +3,13 @@
 define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask"],
    function(InputValidator, Phase, Action, EncounterEngagementCheckTask, EncounterOptionalEngagementTask)
    {
-      function EncounterTask(store, delayIn)
+      function EncounterTask(store)
       {
          InputValidator.validateNotNull("store", store);
 
          this.store = function()
          {
             return store;
-         };
-
-         var delay = (delayIn !== undefined ? delayIn : 1000);
-
-         this.delay = function()
-         {
-            return delay;
          };
 
          var queue = [];
@@ -48,6 +41,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          InputValidator.validateNotNull("callback", callback);
 
          var store = this.store();
+         var delay = store.getState().delay;
 
          if (this.queue().length === 0)
          {
@@ -58,7 +52,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             setTimeout(function()
             {
                phaseCallback(callback);
-            }, this.delay());
+            }, delay);
             return;
          }
 
@@ -75,7 +69,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          setTimeout(function()
          {
             task.doIt(taskCallback);
-         }, this.delay());
+         }, delay);
       };
 
       EncounterTask.prototype.performEncounterPhase2 = function(callback)
@@ -94,6 +88,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          InputValidator.validateNotNull("callback", callback);
 
          var store = this.store();
+         var delay = store.getState().delay;
 
          if (this.queue().length === 0)
          {
@@ -115,7 +110,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
                setTimeout(function()
                {
                   phaseCallback(callback);
-               }, this.delay());
+               }, delay);
             }
             else
             {
@@ -140,7 +135,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          setTimeout(function()
          {
             task.doIt(taskCallback);
-         }, this.delay());
+         }, delay);
       };
 
       EncounterTask.prototype.finishEncounterPhase = function(callback)

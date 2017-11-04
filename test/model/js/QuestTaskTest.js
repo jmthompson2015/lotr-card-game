@@ -29,6 +29,7 @@ define(["qunit", "redux",
       function createGame()
       {
          var store = Redux.createStore(Reducer.root);
+         store.dispatch(Action.setDelay(10));
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var agent1 = new Agent(store, "agent1");
          var agent2 = new Agent(store, "agent2");

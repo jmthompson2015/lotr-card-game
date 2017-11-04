@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/HeroCard",
-  "model/js/AgentAction", "model/js/CardInstance", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
-   function(QUnit, Redux, HeroCard, AgentAction, CardInstance, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
+  "model/js/Action", "model/js/AgentAction", "model/js/CardInstance", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "model/js/Agent"],
+   function(QUnit, Redux, HeroCard, Action, AgentAction, CardInstance, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, Agent)
    {
       QUnit.module("AgentReducer");
 
@@ -214,6 +214,7 @@ define(["qunit", "redux", "artifact/js/HeroCard",
       function createGame(callback)
       {
          var store = Redux.createStore(Reducer.root);
+         store.dispatch(Action.setDelay(10));
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var playerData = [
             {
@@ -230,6 +231,6 @@ define(["qunit", "redux", "artifact/js/HeroCard",
                   },
                ];
 
-         return new Game(store, scenarioDeck, playerData, 10, callback);
+         return new Game(store, scenarioDeck, playerData, callback);
       }
    });

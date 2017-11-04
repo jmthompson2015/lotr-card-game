@@ -61,6 +61,7 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Scenario",
       function createGame(scenarioKey, callback)
       {
          var store = Redux.createStore(Reducer.root);
+         store.dispatch(Action.setDelay(10));
          var scenarioBuilder = ScenarioDeckBuilder.ScenarioDeckBuilder.findByScenario(scenarioKey);
          var scenarioDeck = scenarioBuilder.buildDeck(store, GameMode.EASY);
          var playerData = [
@@ -78,6 +79,6 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Scenario",
             },
          ];
 
-         return new Game(store, scenarioDeck, playerData, 10, callback);
+         return new Game(store, scenarioDeck, playerData, callback);
       }
    });

@@ -4,11 +4,10 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
   "model/js/Ability", "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/QueueProcessor"],
    function(InputValidator, GameEvent, Ability, Action, AgentAction, CardAction, QueueProcessor)
    {
-      function CombatDefendTask(store, agent, delayIn)
+      function CombatDefendTask(store, agent)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("agent", agent);
-         // delayIn optional. default: 1000
 
          this.store = function()
          {
@@ -18,13 +17,6 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
          this.agent = function()
          {
             return agent;
-         };
-
-         var delay = (delayIn !== undefined ? delayIn : 1000);
-
-         this.delay = function()
-         {
-            return delay;
          };
 
          var queue = [];
@@ -117,12 +109,14 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
             {
                store.dispatch(CardAction.setFaceUp(cardInstance, true));
                var context = {
-                  cardInstance: cardInstance,
+                  cardInstance: attacker,
+                  shadowInstance: cardInstance,
                };
                store.dispatch(Action.enqueueEvent(GameEvent.SHADOW_CARD_REVEALED, context, queueCallback));
             };
+            var delay = store.getState().delay;
 
-            var queueProcessor = new QueueProcessor(shadowCards.toJS(), myCallback, elementFunction, undefined, this.delay());
+            var queueProcessor = new QueueProcessor(shadowCards.toJS(), myCallback, elementFunction, undefined, delay);
             queueProcessor.processQueue();
          }
          else

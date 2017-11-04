@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/ObjectiveCard", "artifact/js/Scenario", "artifact/js/Sphere", "artifact/js/TreacheryCard",
+define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/HeroCard", "artifact/js/ObjectiveCard", "artifact/js/Scenario", "artifact/js/Sphere", "artifact/js/TreacheryCard",
    "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/ShadowAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, EnemyCard, GameEvent, ObjectiveCard, Scenario, Sphere, TreacheryCard, Action, Agent, AgentAction, CardAction, CardInstance, EventObserver, Environment, Game, PlayerDeckBuilder, ShadowAbility, Reducer, ScenarioDeckBuilder)
+   function(QUnit, Redux, EnemyCard, GameEvent, HeroCard, ObjectiveCard, Scenario, Sphere, TreacheryCard, Action, Agent, AgentAction, CardAction, CardInstance, EventObserver, Environment, Game, PlayerDeckBuilder, ShadowAbility, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("ShadowAbility");
 
@@ -18,7 +18,10 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
             store.dispatch(CardAction.setReady(cardInstance, false));
             assert.equal(cardInstance.wounds(), 0);
          });
-         var context;
+         var context = {
+            cardInstance: new CardInstance(store, HeroCard.ARAGORN_CORE),
+            shadowInstance: new CardInstance(store, TreacheryCard.EXHAUSTION),
+         };
          var callback = function()
          {
             // Verify.

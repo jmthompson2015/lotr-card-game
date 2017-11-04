@@ -37,6 +37,7 @@ define(["qunit", "redux", "artifact/js/CardType",
       function createGame(callback)
       {
          var store = Redux.createStore(Reducer.root);
+         store.dispatch(Action.setDelay(10));
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var playerData = [
             {
@@ -45,6 +46,6 @@ define(["qunit", "redux", "artifact/js/CardType",
            },
          ];
 
-         return new Game(store, scenarioDeck, playerData, 10, callback);
+         return new Game(store, scenarioDeck, playerData, callback);
       }
    });

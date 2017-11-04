@@ -8,6 +8,7 @@ define(["immutable", "artifact/js/Phase"],
          this.activeAgentId = undefined;
          this.activeLocationId = undefined;
          this.activeQuestId = undefined;
+         this.delay = 1000;
          this.environment = undefined;
          this.eventData = undefined;
          this.eventQueue = Immutable.List();

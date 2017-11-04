@@ -1,8 +1,8 @@
   "use strict";
 
   define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Sphere", "artifact/js/TreacheryCard",
-    "model/js/AgentAction", "model/js/CardAction"],
-     function(ArrayAugments, InputValidator, GameEvent, Sphere, TreacheryCard, AgentAction, CardAction)
+    "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+     function(ArrayAugments, InputValidator, GameEvent, Sphere, TreacheryCard, Action, AgentAction, CardAction)
      {
         var TreacheryAbility = {};
 
@@ -30,6 +30,8 @@
                     store.dispatch(CardAction.addWounds(cardInstance, 2));
                  });
               });
+
+              discard(context.cardInstance);
 
               if (callback)
               {
@@ -81,12 +83,20 @@
                  });
               });
 
+              discard(context.cardInstance);
+
               if (callback)
               {
                  callback();
               }
            },
         };
+
+        function discard(cardInstance)
+        {
+           var store = cardInstance.store();
+           store.dispatch(Action.discardStagingCard(cardInstance));
+        }
 
         TreacheryAbility.toString = function()
         {

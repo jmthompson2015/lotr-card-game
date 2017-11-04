@@ -368,6 +368,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
       function createGame(callback)
       {
          var store = Redux.createStore(Reducer.root);
+         store.dispatch(Action.setDelay(10));
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var playerData = [
             {
@@ -384,6 +385,6 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
                   },
                ];
 
-         return new Game(store, scenarioDeck, playerData, 10, callback);
+         return new Game(store, scenarioDeck, playerData, callback);
       }
    });

@@ -4,12 +4,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/EnemyCard", "artif
   "model/js/Ability", "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Engine", "model/js/Environment", "model/js/EventObserver", "model/js/QuestAbility", "model/js/PhaseObserver"],
    function(Immutable, InputValidator, EnemyCard, GameEvent, GameMode, LocationCard, QuestCard, Scenario, Ability, Action, Adjudicator, AgentAction, CardAction, CardInstance, Engine, Environment, EventObserver, QuestAbility, PhaseObserver)
    {
-      function Game(store, scenarioDeck, playerData, delayIn, engineCallback)
+      function Game(store, scenarioDeck, playerData, engineCallback)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("scenarioDeck", scenarioDeck);
          InputValidator.validateIsArray("playerData", playerData);
-         // delayIn optional. default: 1000 ms
          // engineCallback optional.
 
          this.store = function()
@@ -25,13 +24,6 @@ define(["immutable", "common/js/InputValidator", "artifact/js/EnemyCard", "artif
          this.playerData = function()
          {
             return playerData;
-         };
-
-         var delay = (delayIn !== undefined ? delayIn : 1000);
-
-         this.delay = function()
-         {
-            return delay;
          };
 
          this.engineCallback = function()
@@ -62,13 +54,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/EnemyCard", "artif
          var store = this.store();
          var scenarioDeck = this.scenarioDeck();
          var playerData = this.playerData();
-         var delay = this.delay();
          var engineCallback = this.engineCallback();
 
          // 1. Shuffle Decks
          var environment = new Environment(store, scenarioDeck, playerData);
          var adjudicator = new Adjudicator(store);
-         var engine = new Engine(store, environment, adjudicator, delay, engineCallback);
+         var engine = new Engine(store, environment, adjudicator, engineCallback);
          this.setEngine(engine);
          EventObserver.observeStore(store);
          PhaseObserver.observeStore(store);

@@ -18,7 +18,9 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
             store.dispatch(CardAction.setReady(cardInstance, false));
             assert.equal(cardInstance.wounds(), 0);
          });
-         var context;
+         var context = {
+            cardInstance: new CardInstance(store, TreacheryCard.EXHAUSTION),
+         };
          var callback = function()
          {
             // Verify.
@@ -46,7 +48,9 @@ define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "art
          var cardInstance = agent1.tableauHeroes().get(0);
          store.dispatch(CardAction.addResource(cardInstance, Sphere.LEADERSHIP));
          assert.equal(cardInstance.resourceMap().get(Sphere.LEADERSHIP), 1);
-         var context;
+         var context = {
+            cardInstance: new CardInstance(store, TreacheryCard.OLD_WIVES_TALES),
+         };
          var callback = function()
          {
             // Verify.

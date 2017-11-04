@@ -4,12 +4,11 @@ define(["common/js/InputValidator", "artifact/js/Phase",
   "model/js/Action", "model/js/CombatTask", "model/js/EncounterTask", "model/js/PlanningTask", "model/js/QuestTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
    function(InputValidator, Phase, Action, CombatTask, EncounterTask, PlanningTask, QuestTask, RefreshTask, ResourceTask, TravelTask)
    {
-      function Engine(store, environment, adjudicator, delayIn, callback)
+      function Engine(store, environment, adjudicator, callback)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("environment", environment);
          InputValidator.validateNotNull("adjudicator", adjudicator);
-         // delayIn optional. default: 1000 ms
          // callback optional.
 
          this.store = function()
@@ -25,13 +24,6 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          this.adjudicator = function()
          {
             return adjudicator;
-         };
-
-         var delay = (delayIn !== undefined ? delayIn : 1000);
-
-         this.delay = function()
-         {
-            return delay;
          };
 
          this.callback = function()
@@ -58,11 +50,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
 
             var task = new ResourceTask(store);
             var callback = this.finishResourceQueue.bind(this);
+            var delay = store.getState().delay;
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -71,11 +64,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.RESOURCE_END));
          var phaseCallback = this.performPlanningPhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       Engine.prototype.performPlanningPhase = function()
@@ -91,11 +85,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
 
             var task = new PlanningTask(store);
             var callback = this.finishPlanningQueue.bind(this);
+            var delay = store.getState().delay;
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -104,11 +99,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
          var phaseCallback = this.performQuestPhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       Engine.prototype.performQuestPhase = function()
@@ -124,11 +120,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
 
             var task = new QuestTask(store);
             var callback = this.finishQuestQueue.bind(this);
+            var delay = store.getState().delay;
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -137,11 +134,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.QUEST_END));
          var phaseCallback = this.performTravelPhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       Engine.prototype.performTravelPhase = function()
@@ -157,11 +155,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
 
             var task = new TravelTask(store);
             var callback = this.finishTravelPhase.bind(this);
+            var delay = store.getState().delay;
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -170,11 +169,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
          var phaseCallback = this.performEncounterPhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       Engine.prototype.performEncounterPhase = function()
@@ -188,13 +188,14 @@ define(["common/js/InputValidator", "artifact/js/Phase",
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_START));
 
-            var task = new EncounterTask(store, this.delay());
+            var task = new EncounterTask(store);
             var callback = this.finishEncounterPhase.bind(this);
+            var delay = store.getState().delay;
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -203,11 +204,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
          var phaseCallback = this.performCombatPhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       Engine.prototype.performCombatPhase = function()
@@ -220,14 +222,15 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          {
             var store = this.store();
             store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
+            var delay = store.getState().delay;
 
-            var task = new CombatTask(store, this.delay());
+            var task = new CombatTask(store);
             var callback = this.finishCombatPhase.bind(this);
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -236,11 +239,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
          var phaseCallback = this.performRefreshPhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       Engine.prototype.performRefreshPhase = function()
@@ -256,11 +260,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
 
             var task = new RefreshTask(store);
             var callback = this.finishRefreshPhase.bind(this);
+            var delay = store.getState().delay;
 
             setTimeout(function()
             {
                task.doIt(callback);
-            }, this.delay());
+            }, delay);
          }
       };
 
@@ -269,11 +274,12 @@ define(["common/js/InputValidator", "artifact/js/Phase",
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.REFRESH_END));
          var phaseCallback = this.performResourcePhase.bind(this);
+         var delay = store.getState().delay;
 
          setTimeout(function()
          {
             phaseCallback();
-         }, this.delay());
+         }, delay);
       };
 
       //////////////////////////////////////////////////////////////////////////

@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux",
-  "model/js/Agent", "model/js/CombatAttackTask", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, Agent, CombatAttackTask, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
+  "model/js/Action", "model/js/Agent", "model/js/CombatAttackTask", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, Action, Agent, CombatAttackTask, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("CombatAttackTask");
 
@@ -28,6 +28,7 @@ define(["qunit", "redux",
       function createGame()
       {
          var store = Redux.createStore(Reducer.root);
+         store.dispatch(Action.setDelay(10));
          var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
          var agent1 = new Agent(store, "agent1");
          var agent2 = new Agent(store, "agent2");
