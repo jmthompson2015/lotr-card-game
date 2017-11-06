@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/CardAction"],
-   function(InputValidator, Phase, Action, CardAction)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/CardAction", "model/js/QueueProcessor"],
+   function(InputValidator, Phase, Action, CardAction, QueueProcessor)
    {
       function QuestTask(store)
       {
@@ -10,18 +10,6 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          this.store = function()
          {
             return store;
-         };
-
-         var queue = [];
-
-         this.queue = function(queueIn)
-         {
-            if (queueIn !== undefined)
-            {
-               queue = queueIn;
-            }
-
-            return queue;
          };
       }
 
@@ -34,37 +22,33 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
 
          store.dispatch(Action.enqueuePhase(Phase.QUEST_COMMIT_CHARACTERS_START));
          var environment = store.getState().environment;
-         this.queue(environment.agentQueue());
-         this.processQuestQueue(callback);
-      };
 
-      QuestTask.prototype.processQuestQueue = function(callback)
-      {
-         InputValidator.validateNotNull("callback", callback);
+         var queue = environment.agentQueue();
+         var queueCallback2 = this.setQuesters.bind(this);
+         var elementFunction = function(agent, queueCallback)
+         {
+            store.dispatch(Action.setActiveAgent(agent));
+            var environment = store.getState().environment;
+            var questInstance = environment.activeQuest();
+            var characters = agent.questers().toJS();
+            var taskCallback = function(questers)
+            {
+               queueCallback2(questers, queueCallback);
+            };
 
-         var store = this.store();
-
-         if (this.queue().length === 0)
+            agent.chooseQuesters(questInstance, characters, taskCallback);
+         };
+         var finishQuestPhase = this.finishQuestPhase.bind(this);
+         var finishFunction = function(finishCallback)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.QUEST_COMMIT_CHARACTERS_END));
-            this.finishQuestPhase(callback);
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var environment = store.getState().environment;
-         var questInstance = environment.activeQuest();
-         var characters = agent.questers().toJS();
-         var queueCallback = this.setQuesters.bind(this);
-         var taskCallback = function(questers)
-         {
-            queueCallback(questers, callback);
+            finishQuestPhase(finishCallback);
          };
+         var delay = store.getState().delay;
 
-         agent.chooseQuesters(questInstance, characters, taskCallback);
+         var queueProcessor = new QueueProcessor(queue, callback, elementFunction, finishFunction, delay);
+         queueProcessor.processQueue();
       };
 
       QuestTask.prototype.setQuesters = function(questers, callback)
@@ -82,7 +66,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             });
          }
 
-         this.processQuestQueue(callback);
+         callback();
       };
 
       QuestTask.prototype.finishQuestPhase = function(callback)

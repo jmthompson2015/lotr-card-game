@@ -24,6 +24,7 @@ define(["qunit", "redux", "artifact/js/Sphere",
          var callback = function()
          {
             // Verify.
+            assert.ok(true, "test resumed from async operation");
             var agent1AfterHandSize = store.getState().agentHand.get(agent1.id()).size;
             var cardPlayed0, cardPlayed1, expected;
             if (agent1BeforeHandSize - agent1AfterHandSize === 1)
@@ -59,9 +60,11 @@ define(["qunit", "redux", "artifact/js/Sphere",
 
             assert.equal(store.getState().agentHand.get(agent2.id()).size, 6); // no resources to spend
             assert.equal(store.getState().agentTableau.get(agent2.id()).size, 3); // no resources to spend
+            done();
          };
 
          // Run.
+         var done = assert.async();
          task.doIt(callback);
       });
 

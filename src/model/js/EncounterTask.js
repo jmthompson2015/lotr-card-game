@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask"],
-   function(InputValidator, Phase, Action, EncounterEngagementCheckTask, EncounterOptionalEngagementTask)
+define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/EncounterEngagementCheckTask", "model/js/EncounterOptionalEngagementTask", "model/js/QueueProcessor"],
+   function(InputValidator, Phase, Action, EncounterEngagementCheckTask, EncounterOptionalEngagementTask, QueueProcessor)
    {
       function EncounterTask(store)
       {
@@ -32,44 +32,28 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          var store = this.store();
          store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_START));
          var environment = store.getState().environment;
-         this.queue(environment.agentQueue());
-         this.processEncounterQueue1(callback);
-      };
 
-      EncounterTask.prototype.processEncounterQueue1 = function(callback)
-      {
-         InputValidator.validateNotNull("callback", callback);
-
-         var store = this.store();
-         var delay = store.getState().delay;
-
-         if (this.queue().length === 0)
+         var queue = environment.agentQueue();
+         var elementFunction = function(agent, queueCallback)
+         {
+            store.dispatch(Action.setActiveAgent(agent));
+            var task = new EncounterOptionalEngagementTask(store, agent);
+            setTimeout(function()
+            {
+               task.doIt(queueCallback);
+            }, delay);
+         };
+         var phaseCallback = this.performEncounterPhase2.bind(this);
+         var finishFunction = function(finishCallback)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END));
-            var phaseCallback = this.performEncounterPhase2.bind(this);
-
-            setTimeout(function()
-            {
-               phaseCallback(callback);
-            }, delay);
-            return;
-         }
-
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         var task = new EncounterOptionalEngagementTask(store, agent);
-         var queueCallback = this.processEncounterQueue1.bind(this);
-         var taskCallback = function()
-         {
-            queueCallback(callback);
+            phaseCallback(finishCallback);
          };
+         var delay = store.getState().delay;
 
-         setTimeout(function()
-         {
-            task.doIt(taskCallback);
-         }, delay);
+         var queueProcessor = new QueueProcessor(queue, callback, elementFunction, finishFunction, delay);
+         queueProcessor.processQueue();
       };
 
       EncounterTask.prototype.performEncounterPhase2 = function(callback)

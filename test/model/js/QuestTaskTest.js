@@ -19,10 +19,13 @@ define(["qunit", "redux",
          var callback = function()
          {
             // Verify.
+            assert.ok(true, "test resumed from async operation");
             assert.equal(store.getState().cardIsQuesting.size, 2);
+            done();
          };
 
          // Run.
+         var done = assert.async();
          task.doIt(callback);
       });
 

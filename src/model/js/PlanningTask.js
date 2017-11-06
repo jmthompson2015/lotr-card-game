@@ -1,7 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(Immutable, InputValidator, CardType, Action, AgentAction, CardAction)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType",
+  "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/QueueProcessor"],
+   function(Immutable, InputValidator, CardType, Action, AgentAction, CardAction, QueueProcessor)
    {
       function PlanningTask(store)
       {
@@ -11,18 +12,6 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
          {
             return store;
          };
-
-         var queue = [];
-
-         this.queue = function(queueIn)
-         {
-            if (queueIn !== undefined)
-            {
-               queue = queueIn;
-            }
-
-            return queue;
-         };
       }
 
       PlanningTask.prototype.doIt = function(callback)
@@ -31,27 +20,24 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
 
          var store = this.store();
          var environment = store.getState().environment;
-         this.queue(environment.agentQueue());
-         this.processPlanningQueue(callback);
-      };
 
-      PlanningTask.prototype.processPlanningQueue = function(callback)
-      {
-         InputValidator.validateNotNull("callback", callback);
-
-         var store = this.store();
-
-         if (this.queue().length === 0)
+         var queue = environment.agentQueue();
+         var processAgent = this.processAgent.bind(this);
+         var elementFunction = function(agent, queueCallback)
+         {
+            store.dispatch(Action.setActiveAgent(agent));
+            processAgent(agent, queueCallback);
+         };
+         var finishPlanningPhase = this.finishPlanningPhase.bind(this);
+         var finishFunction = function(finishCallback)
          {
             store.dispatch(Action.setActiveAgent(undefined));
-            this.finishPlanningPhase(callback);
-            return;
-         }
+            finishPlanningPhase(finishCallback);
+         };
+         var delay = store.getState().delay;
 
-         var agent = this.queue().shift();
-         store.dispatch(Action.setActiveAgent(agent));
-
-         this.processAgent(agent, callback);
+         var queueProcessor = new QueueProcessor(queue, callback, elementFunction, finishFunction, delay);
+         queueProcessor.processQueue();
       };
 
       PlanningTask.prototype.processAgent = function(agent, callback)
@@ -87,7 +73,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
          }
          else
          {
-            this.processPlanningQueue(callback);
+            callback();
          }
       };
 
@@ -137,7 +123,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "model/
          }
          else
          {
-            this.processPlanningQueue(callback);
+            callback();
          }
       };
 
