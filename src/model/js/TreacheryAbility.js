@@ -11,9 +11,12 @@
 
         // Scenario.A_JOURNEY_TO_RHOSGOBEL
         TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.EXHAUSTION] = {
-           condition: function( /*store, context*/ )
+           condition: function(store, context)
            {
-              return true;
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateNotNull("context", context);
+
+              return isInStagingArea(context.cardInstance);
            },
            consequent: function(store, context, callback)
            {
@@ -42,9 +45,12 @@
 
         // Scenario.THE_HUNT_FOR_GOLLUM
         TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.OLD_WIVES_TALES] = {
-           condition: function( /*store, context*/ )
+           condition: function(store, context)
            {
-              return true;
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateNotNull("context", context);
+
+              return isInStagingArea(context.cardInstance);
            },
            consequent: function(store, context, callback)
            {
@@ -96,6 +102,19 @@
         {
            var store = cardInstance.store();
            store.dispatch(Action.discardStagingCard(cardInstance));
+        }
+
+        function isInStagingArea(cardInstance)
+        {
+           var answer = false;
+
+           if (cardInstance)
+           {
+              var store = cardInstance.store();
+              answer = store.getState().stagingArea.includes(cardInstance.id());
+           }
+
+           return answer;
         }
 
         TreacheryAbility.toString = function()

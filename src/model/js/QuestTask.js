@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "model/js/CardAction", "model/js/QueueProcessor"],
-   function(InputValidator, Phase, Action, CardAction, QueueProcessor)
+define(["common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Phase", "model/js/Action", "model/js/CardAction", "model/js/QueueProcessor"],
+   function(InputValidator, GameEvent, Phase, Action, CardAction, QueueProcessor)
    {
       function QuestTask(store)
       {
@@ -38,12 +38,12 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
 
             agent.chooseQuesters(questInstance, characters, taskCallback);
          };
-         var finishQuestPhase = this.finishQuestPhase.bind(this);
+         var resolveQuest = this.resolveQuest.bind(this);
          var finishFunction = function(finishCallback)
          {
             store.dispatch(Action.setActiveAgent(undefined));
             store.dispatch(Action.enqueuePhase(Phase.QUEST_COMMIT_CHARACTERS_END));
-            finishQuestPhase(finishCallback);
+            resolveQuest(finishCallback);
          };
          var delay = store.getState().delay;
 
@@ -69,7 +69,7 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
          callback();
       };
 
-      QuestTask.prototype.finishQuestPhase = function(callback)
+      QuestTask.prototype.resolveQuest = function(callback)
       {
          InputValidator.validateNotNull("callback", callback);
 
@@ -80,11 +80,20 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
 
          agents.forEach(function()
          {
+            var beforeSize = environment.stagingArea().size;
             if (store.getState().encounterDeck.size === 0)
             {
                store.dispatch(Action.refillEncounterDeck());
             }
             store.dispatch(Action.drawEncounterCard());
+            var afterSize = environment.stagingArea().size;
+            if (afterSize > beforeSize)
+            {
+               store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN,
+               {
+                  cardInstance: environment.stagingArea().last(),
+               }));
+            }
          });
 
          // 3. Quest resolution.
@@ -144,9 +153,16 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
                LOGGER.debug("applying " + progress + " to " + activeQuest);
                store.dispatch(CardAction.addProgress(activeQuest, progress));
                neededProgress = activeQuest.card().questPoints - activeQuest.progress();
-               if (neededProgress === 0)
+               var finishQuestPhase = this.finishQuestPhase.bind(this);
+               var myCallback = function()
                {
-                  store.dispatch(Action.discardActiveQuest());
+                  finishQuestPhase(callback);
+               };
+
+               if (neededProgress <= 0)
+               {
+                  environment.advanceTheQuest(myCallback);
+                  return;
                }
             }
          }
@@ -167,6 +183,23 @@ define(["common/js/InputValidator", "artifact/js/Phase", "model/js/Action", "mod
             LOGGER.info("Quest tied: no progress, no threat.");
             store.dispatch(Action.setUserMessage("Quest tied: no progress, no threat."));
          }
+         //
+         //  // 4. Cleanup.
+         //  questers.forEach(function(cardInstance)
+         //  {
+         //     store.dispatch(CardAction.setQuesting(cardInstance, false));
+         //  });
+         //
+         //  callback();
+
+         this.finishQuestPhase(callback);
+      };
+
+      QuestTask.prototype.finishQuestPhase = function(callback)
+      {
+         var store = this.store();
+         var environment = store.getState().environment;
+         var questers = environment.questers();
 
          // 4. Cleanup.
          questers.forEach(function(cardInstance)

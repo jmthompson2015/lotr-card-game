@@ -38,6 +38,44 @@
            },
         };
 
+        // Scenario.A_JOURNEY_TO_RHOSGOBEL
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.AJTR2A_RADAGASTS_REQUEST] = {
+           condition: function(store /*, context*/ )
+           {
+              InputValidator.validateNotNull("store", store);
+
+              return isActiveQuest(store, QuestCard.AJTR2A_RADAGASTS_REQUEST);
+           },
+           consequent: function(store, context, callback)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateIsFunction("callback", callback);
+
+              // Advance the quest.
+              var environment = store.getState().environment;
+              environment.advanceTheQuest(callback);
+           },
+        };
+
+        // Scenario.A_JOURNEY_TO_RHOSGOBEL
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.AJTR3A_RETURN_TO_RHOSGOBEL] = {
+           condition: function(store /*, context*/ )
+           {
+              InputValidator.validateNotNull("store", store);
+
+              return isActiveQuest(store, QuestCard.AJTR3A_RETURN_TO_RHOSGOBEL);
+           },
+           consequent: function(store, context, callback)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateIsFunction("callback", callback);
+
+              // Advance the quest.
+              var environment = store.getState().environment;
+              environment.advanceTheQuest(callback);
+           },
+        };
+
         // Scenario.CONFLICT_AT_THE_CARROCK
         QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.CATC1A_GRIMBEORNS_QUEST] = {
            condition: function(store /*, context*/ )
