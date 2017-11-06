@@ -137,7 +137,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
                }).length;
                break;
             default:
-               answer = card.threat;
+               answer = (card.threat !== undefined ? card.threat : 0);
          }
 
          return answer;

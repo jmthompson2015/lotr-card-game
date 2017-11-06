@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/Scenario",
+define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/Scenario",
   "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, AllyCard, AttachmentCard, HeroCard, LocationCard, Scenario, Action, Agent, AgentAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
+   function(QUnit, Redux, AllyCard, AttachmentCard, HeroCard, LocationCard, ObjectiveCard, Scenario, Action, Agent, AgentAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("CardInstance");
 
@@ -69,7 +69,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          assert.equal(result.size, 1);
       });
 
-      QUnit.test("threat()", function(assert)
+      QUnit.test("threat() The Hunt for Gollum", function(assert)
       {
          // Setup.
          var scenarioKey = Scenario.THE_HUNT_FOR_GOLLUM;
@@ -85,6 +85,28 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          // Run.
          assert.ok(cardInstance0);
          assert.equal(cardInstance0.threat(), 1);
+      });
+
+      QUnit.test("threat() A Journey to Rhosgobel", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.A_JOURNEY_TO_RHOSGOBEL;
+         var environment = createEnvironment(scenarioKey);
+         //  var store = environment.store();
+         //  var agent1 = environment.firstAgent();
+         environment.drawEncounterCard(LocationCard.RHOSGOBEL);
+         var cardInstance0 = environment.stagingArea().last();
+         environment.drawEncounterCard(ObjectiveCard.ATHELAS);
+         var cardInstance1 = environment.stagingArea().last();
+         //  store.dispatch(AgentAction.playCard(agent1, cardInstance));
+         //  assert.equal(environment.cardsInPlay().length, 8);
+         //  var cardInstance0 = environment.firstCardInstance(LocationCard.THE_OLD_FORD);
+
+         // Run.
+         assert.ok(cardInstance0);
+         assert.equal(cardInstance0.threat(), 2);
+         assert.ok(cardInstance1);
+         assert.equal(cardInstance1.threat(), 0);
       });
 
       function createEnvironment(scenarioKey)
