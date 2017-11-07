@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/Scenario",
+define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/Scenario",
   "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, AllyCard, AttachmentCard, HeroCard, LocationCard, ObjectiveCard, Scenario, Action, Agent, AgentAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
+   function(QUnit, Redux, AllyCard, AttachmentCard, EnemyCard, HeroCard, LocationCard, ObjectiveCard, QuestCard, Scenario, Action, Agent, AgentAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("CardInstance");
 
@@ -40,6 +40,48 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          assert.equal(result.id(), 1);
          assert.equal(result.card().key, cardKey);
          assert.equal(store.getState().cardInstances.size, 1);
+      });
+
+      QUnit.test("isEncounterType", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardInstance0 = new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS_PTM]);
+         var cardInstance1 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+         var cardInstance2 = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
+
+         // Run / Verify.
+         assert.equal(cardInstance0.isEncounterType(), true);
+         assert.equal(cardInstance1.isEncounterType(), false);
+         assert.equal(cardInstance2.isEncounterType(), false);
+      });
+
+      QUnit.test("isPlayerType()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardInstance0 = new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS_PTM]);
+         var cardInstance1 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+         var cardInstance2 = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
+
+         // Run / Verify.
+         assert.equal(cardInstance0.isPlayerType(), false);
+         assert.equal(cardInstance1.isPlayerType(), true);
+         assert.equal(cardInstance2.isPlayerType(), false);
+      });
+
+      QUnit.test("isQuestType", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardInstance0 = new CardInstance(store, EnemyCard.properties[EnemyCard.BLACK_FOREST_BATS_PTM]);
+         var cardInstance1 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+         var cardInstance2 = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);
+
+         // Run / Verify.
+         assert.equal(cardInstance0.isQuestType(), false);
+         assert.equal(cardInstance1.isQuestType(), false);
+         assert.equal(cardInstance2.isQuestType(), true);
       });
 
       QUnit.test("shadowCards()", function(assert)

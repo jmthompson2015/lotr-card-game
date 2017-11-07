@@ -29,8 +29,7 @@
               environment.drawEncounterCard(LocationCard.RHOSGOBEL);
               environment.drawEncounterCard(ObjectiveCard.WILYADOR);
               var wilyador = environment.firstCardInstance(ObjectiveCard.WILYADOR);
-              var agent = environment.agentWhoControls(wilyador);
-              agent.addCardWounds(wilyador, 2);
+              wilyador.addWounds(2);
 
               environment.shuffleEncounterDeck(store);
 

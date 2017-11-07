@@ -3,8 +3,8 @@
 define(function()
 {
    var CardType = {
-      ATTACHMENT: "attachment",
       ALLY: "ally",
+      ATTACHMENT: "attachment",
       ENEMY: "enemy",
       EVENT: "event",
       HERO: "hero",
@@ -15,15 +15,15 @@ define(function()
 
       properties:
       {
-         "attachment":
-         {
-            name: "Attachment",
-            key: "attachment",
-         },
          "ally":
          {
             name: "Ally",
             key: "ally",
+         },
+         "attachment":
+         {
+            name: "Attachment",
+            key: "attachment",
          },
          "enemy":
          {
@@ -61,11 +61,31 @@ define(function()
             key: "treachery",
          },
       },
+   };
 
-      keys: function()
-      {
-         return Object.getOwnPropertyNames(CardType.properties);
-      },
+   CardType.keys = function()
+   {
+      return Object.keys(CardType.properties);
+   };
+
+   CardType.values = function()
+   {
+      return Object.values(CardType.properties);
+   };
+
+   CardType.isEncounterType = function(cardTypeKey)
+   {
+      return [CardType.ENEMY, CardType.LOCATION, CardType.OBJECTIVE, CardType.TREACHERY].includes(cardTypeKey);
+   };
+
+   CardType.isPlayerType = function(cardTypeKey)
+   {
+      return [CardType.ALLY, CardType.ATTACHMENT, CardType.HERO, CardType.EVENT].includes(cardTypeKey);
+   };
+
+   CardType.isQuestType = function(cardTypeKey)
+   {
+      return CardType.QUEST === cardTypeKey;
    };
 
    if (Object.freeze)

@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/LocationCard", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(Immutable, InputValidator, CardResolver, CardType, LocationCard, Action, AgentAction, CardAction)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/GameEvent", "artifact/js/LocationCard", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(Immutable, InputValidator, CardResolver, CardType, GameEvent, LocationCard, Action, AgentAction, CardAction)
    {
       function CardInstance(store, card, idIn, isNewIn)
       {
@@ -61,6 +61,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          return traitKeys !== undefined && traitKeys.includes(traitKey);
       };
 
+      CardInstance.prototype.isEncounterType = function()
+      {
+         return CardType.isEncounterType(this.card().cardTypeKey);
+      };
+
       CardInstance.prototype.isExhausted = function()
       {
          return !this.isReady();
@@ -72,6 +77,16 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          var answer = store.getState().cardIsFaceUp.get(this.id());
 
          return (answer !== undefined ? answer : true);
+      };
+
+      CardInstance.prototype.isPlayerType = function()
+      {
+         return CardType.isPlayerType(this.card().cardTypeKey);
+      };
+
+      CardInstance.prototype.isQuestType = function()
+      {
+         return CardType.isQuestType(this.card().cardTypeKey);
       };
 
       CardInstance.prototype.isReady = function()
@@ -172,6 +187,40 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
       //////////////////////////////////////////////////////////////////////////
       // Mutator methods.
 
+      CardInstance.prototype.addWounds = function(woundCount, callback)
+      {
+         InputValidator.validateIsNumber("woundCount", woundCount);
+         // callback optional.
+
+         var store = this.store();
+         store.dispatch(CardAction.addWounds(this, woundCount));
+
+         if (this.remainingHitPoints() <= 0)
+         {
+            var message = this.card().cardType.name + " " + this.card().name + " killed.";
+            LOGGER.info(message);
+            store.dispatch(Action.setUserMessage(message));
+            var environment = store.getState().environment;
+            var agent = environment.agentWhoControls(this);
+            this.prepareForDiscard(agent);
+
+            if (this.isEncounterType())
+            {
+               store.dispatch(Action.agentDiscardEnemyCard(agent, this));
+            }
+            else if (this.isPlayerType())
+            {
+               store.dispatch(AgentAction.discardFromTableau(agent, this));
+            }
+         }
+
+         store.dispatch(Action.enqueueEvent(GameEvent.WOUNDED,
+         {
+            cardInstance: this,
+            woundCount: woundCount,
+         }, callback));
+      };
+
       CardInstance.prototype.prepareForDiscard = function(agent)
       {
          var store = this.store();
@@ -187,7 +236,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
 
          shadowCards.forEach(function(shadowInstance)
          {
-            store.dispatch(Action.discardShadowCard(agent, this, shadowInstance));
+            store.dispatch(Action.discardShadowCard(this, shadowInstance));
          }, this);
 
          store.dispatch(CardAction.deleteFaceUp(this));

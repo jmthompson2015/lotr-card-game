@@ -102,8 +102,7 @@ define(["common/js/InputValidator", "model/js/Action"],
 
          if (damage > 0)
          {
-            var agent = this.agent();
-            agent.addCardWounds(defender, damage);
+            defender.addWounds(damage);
          }
 
          this.finishCombatAttackTask(callback);

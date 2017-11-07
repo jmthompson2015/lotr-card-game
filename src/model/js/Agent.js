@@ -285,36 +285,13 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
       Agent.prototype.addCardWounds = function(cardInstance, damage, callback)
       {
-         LOGGER.info("Agent.addCardWounds() cardInstance = " + cardInstance + " damage = " + damage);
-
-         var store = this.store();
-         store.dispatch(CardAction.addWounds(cardInstance, damage));
-         store.dispatch(Action.enqueueEvent(GameEvent.WOUNDED,
-         {
-            cardInstance: cardInstance,
-            woundCount: damage,
-         }));
-
-         if (cardInstance.remainingHitPoints() <= 0)
-         {
-            var message = cardInstance.card().cardType.name + " " + cardInstance.card().name + " killed.";
-            LOGGER.info(message);
-            store.dispatch(Action.setUserMessage(message));
-            cardInstance.prepareForDiscard(this);
-            if (store.getState().agentEngagementArea.get(this.id()).includes(cardInstance.id()))
-            {
-               store.dispatch(Action.agentDiscardEnemyCard(this, cardInstance));
-            }
-            else
-            {
-               store.dispatch(AgentAction.discardFromTableau(this, cardInstance));
-            }
-         }
+         cardInstance.addWounds(damage, callback);
 
          if (this.tableauHeroes().size === 0)
          {
             // I'm dead.
             LOGGER.warn("Agent " + this.name() + " has no heroes: he's dead.");
+            var store = this.store();
             store.dispatch(Action.setUserMessage("Agent " + this.name() + " has no heroes: he's dead."));
             this.processAgentDeath();
          }

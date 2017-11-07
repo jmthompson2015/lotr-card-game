@@ -62,9 +62,8 @@
 
               var environment = store.getState().environment;
               var cardInstance = environment.firstCardInstance(ObjectiveCard.WILYADOR);
-              var agent = environment.agentWhoControls(cardInstance);
               store.dispatch(CardAction.setUsed(cardInstance, true));
-              agent.addCardWounds(cardInstance, 2, callback);
+              cardInstance.addWounds(2, callback);
            },
         };
 

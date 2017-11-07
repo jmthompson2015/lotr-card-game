@@ -89,6 +89,17 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
                answer = agent;
                break;
             }
+
+            if (answer === undefined)
+            {
+               var engagementArea = store.getState().agentEngagementArea.get(agent.id());
+
+               if (engagementArea && engagementArea.includes(cardInstance.id()))
+               {
+                  answer = agent;
+                  break;
+               }
+            }
          }
          return answer;
       };
