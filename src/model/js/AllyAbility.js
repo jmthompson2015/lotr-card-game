@@ -1,8 +1,8 @@
   "use strict";
 
-  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/GameEvent", "artifact/js/Trait",
-    "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-     function(ArrayAugments, InputValidator, AllyCard, GameEvent, Trait, Action, AgentAction, CardAction)
+  define(["common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/GameEvent", "artifact/js/Trait",
+    "model/js/Action", "model/js/CardAction"],
+     function(InputValidator, AllyCard, GameEvent, Trait, Action, CardAction)
      {
         var AllyAbility = {};
 

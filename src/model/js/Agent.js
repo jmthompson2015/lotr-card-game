@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent", "artifact/js/Sphere",
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/Sphere",
   "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/SimpleAgentStrategy"],
-   function(Immutable, InputValidator, CardType, GameEvent, Sphere, Action, AgentAction, CardAction, CardInstance, SimpleAgentStrategy)
+   function(Immutable, InputValidator, CardType, Sphere, Action, AgentAction, CardAction, CardInstance, SimpleAgentStrategy)
    {
       function Agent(store, name, idIn, strategyIn, isNewIn)
       {

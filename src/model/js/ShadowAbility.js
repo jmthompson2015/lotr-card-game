@@ -1,8 +1,7 @@
   "use strict";
 
-  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Sphere", "artifact/js/TreacheryCard",
-    "model/js/Action"],
-     function(ArrayAugments, InputValidator, GameEvent, Sphere, TreacheryCard, Action)
+  define(["common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/TreacheryCard", "model/js/Action"],
+     function(InputValidator, GameEvent, TreacheryCard, Action)
      {
         var ShadowAbility = {};
 

@@ -1,7 +1,7 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/Button", "view/js/CardInstanceUI", "view/js/ReactUtilities"],
-   function(createReactClass, PropTypes, React, DOM, Button, CardInstanceUI, ReactUtilities)
+define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/CardInstanceUI", "view/js/ReactUtilities"],
+   function(createReactClass, PropTypes, React, DOM, CardInstanceUI, ReactUtilities)
    {
       var CardInstancesArea = createReactClass(
       {

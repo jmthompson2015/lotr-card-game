@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/GameMode", "artifact/js/LocationCard", "artifact/js/QuestCard", "artifact/js/Scenario",
-  "model/js/Ability", "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/Engine", "model/js/Environment", "model/js/EventObserver", "model/js/QuestAbility", "model/js/PhaseObserver"],
-   function(Immutable, InputValidator, EnemyCard, GameEvent, GameMode, LocationCard, QuestCard, Scenario, Ability, Action, Adjudicator, AgentAction, CardAction, CardInstance, Engine, Environment, EventObserver, QuestAbility, PhaseObserver)
+define(["immutable", "common/js/InputValidator", "artifact/js/GameMode", "artifact/js/Scenario",
+   "model/js/Action", "model/js/Adjudicator", "model/js/AgentAction", "model/js/CardAction", "model/js/Engine", "model/js/Environment", "model/js/EventObserver", "model/js/PhaseObserver"],
+   function(Immutable, InputValidator, GameMode, Scenario, Action, Adjudicator, AgentAction, CardAction, Engine, Environment, EventObserver, PhaseObserver)
    {
       function Game(store, scenarioDeck, playerData, engineCallback)
       {

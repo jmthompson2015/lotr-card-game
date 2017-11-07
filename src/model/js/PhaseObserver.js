@@ -1,8 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/Phase",
+define(["common/js/InputValidator",
   "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
-   function(InputValidator, Phase, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
+   function(InputValidator, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function PhaseObserver(store)
       {

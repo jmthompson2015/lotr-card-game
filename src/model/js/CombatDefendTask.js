@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/GameEvent",
-  "model/js/Ability", "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/QueueProcessor"],
-   function(InputValidator, GameEvent, Ability, Action, AgentAction, CardAction, QueueProcessor)
+   "model/js/Action", "model/js/CardAction", "model/js/QueueProcessor"],
+   function(InputValidator, GameEvent, Action, CardAction, QueueProcessor)
    {
       function CombatDefendTask(store, agent)
       {

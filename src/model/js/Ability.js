@@ -121,6 +121,11 @@ define(["common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/Attachm
          return this.source() === LocationCard;
       };
 
+      Ability.prototype.isObjective = function()
+      {
+         return this.source() === ObjectiveCard;
+      };
+
       Ability.prototype.isQuest = function()
       {
          return this.source() === QuestCard;

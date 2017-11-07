@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/HeroCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/Scenario", "artifact/js/Sphere",
-   "model/js/Action", "model/js/Agent", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/HeroAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, EnemyCard, GameEvent, HeroCard, ObjectiveCard, QuestCard, Scenario, Sphere, Action, Agent, CardInstance, EventObserver, Environment, Game, PlayerDeckBuilder, HeroAbility, Reducer, ScenarioDeckBuilder)
+define(["qunit", "redux", "artifact/js/GameEvent", "artifact/js/HeroCard", "artifact/js/Scenario", "artifact/js/Sphere",
+   "model/js/Action", "model/js/Agent", "model/js/EventObserver", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/HeroAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, GameEvent, HeroCard, Scenario, Sphere, Action, Agent, EventObserver, Environment, PlayerDeckBuilder, HeroAbility, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("HeroAbility");
 

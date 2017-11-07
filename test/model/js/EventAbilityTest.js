@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/GameEvent", "artifact/js/Scenario", "artifact/js/Trait",
+define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EventCard", "artifact/js/GameEvent", "artifact/js/Scenario",
    "model/js/Action", "model/js/Agent", "model/js/EventObserver", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/EventAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, AllyCard, CardType, EnemyCard, EventCard, GameEvent, Scenario, Trait, Action, Agent, EventObserver, Environment, PlayerDeckBuilder, EventAbility, Reducer, ScenarioDeckBuilder)
+   function(QUnit, Redux, CardType, EventCard, GameEvent, Scenario, Action, Agent, EventObserver, Environment, PlayerDeckBuilder, EventAbility, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("EventAbility");
 

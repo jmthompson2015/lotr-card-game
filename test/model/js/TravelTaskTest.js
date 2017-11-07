@@ -1,8 +1,8 @@
 "use strict";
 
 define(["qunit", "redux", "artifact/js/CardType",
-  "model/js/Action", "model/js/Agent", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/TravelTask", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, CardType, Action, Agent, Environment, Game, PlayerDeckBuilder, Reducer, TravelTask, ScenarioDeckBuilder)
+  "model/js/Action", "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/TravelTask", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, CardType, Action, Agent, Game, PlayerDeckBuilder, Reducer, TravelTask, ScenarioDeckBuilder)
    {
       QUnit.module("TravelTask");
 

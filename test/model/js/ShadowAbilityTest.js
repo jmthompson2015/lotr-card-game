@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/ObjectiveCard", "artifact/js/Scenario", "artifact/js/Sphere", "artifact/js/TreacheryCard",
-   "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/ShadowAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, EnemyCard, GameEvent, ObjectiveCard, Scenario, Sphere, TreacheryCard, Action, Agent, AgentAction, CardAction, CardInstance, EventObserver, Environment, Game, PlayerDeckBuilder, ShadowAbility, Reducer, ScenarioDeckBuilder)
+define(["qunit", "redux", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/Scenario", "artifact/js/TreacheryCard",
+   "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/ShadowAbility", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
+   function(QUnit, Redux, EnemyCard, GameEvent, Scenario, TreacheryCard, Action, Agent, AgentAction, CardAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, ShadowAbility, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("ShadowAbility");
 

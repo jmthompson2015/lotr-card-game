@@ -1,7 +1,7 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "model/js/AgentAction", "model/js/CardInstance", "model/js/TransferReducer"],
-   function(Immutable, InputValidator, AgentAction, CardInstance, TransferReducer)
+define(["immutable", "model/js/AgentAction", "model/js/CardInstance", "model/js/TransferReducer"],
+   function(Immutable, AgentAction, CardInstance, TransferReducer)
    {
       var AgentReducer = {};
 

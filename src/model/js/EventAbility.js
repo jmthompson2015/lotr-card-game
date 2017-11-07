@@ -1,7 +1,7 @@
   "use strict";
 
-  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/EventCard", "artifact/js/GameEvent", "artifact/js/HeroCard", "model/js/AgentAction", "model/js/CardAction"],
-     function(ArrayAugments, InputValidator, CardType, EventCard, GameEvent, HeroCard, AgentAction, CardAction)
+  define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/EventCard", "artifact/js/GameEvent", "model/js/CardAction"],
+     function(InputValidator, CardType, EventCard, GameEvent, CardAction)
      {
         var EventAbility = {};
 

@@ -1,8 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/QuestCard",
+define(["common/js/InputValidator",
   "model/js/Ability", "model/js/Action", "model/js/AllyAbility", "model/js/EventAbility", "model/js/HeroAbility", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
-   function(InputValidator, QuestCard, Ability, Action, AllyAbility, EventAbility, HeroAbility, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
+   function(InputValidator, Ability, Action, AllyAbility, EventAbility, HeroAbility, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function EventObserver(store)
       {
