@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(InputValidator, CardSet, CardSubset, CardType, Sphere, Trait)
+define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Keyword", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(InputValidator, CardSet, CardSubset, CardType, Keyword, Sphere, Trait)
    {
       var AllyCard = {
          ANBORN_TBOG: "anbornTBoG",
@@ -1169,6 +1169,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                defense: 1,
                hitPoints: 1,
                traitKeys: [Trait.GONDOR, Trait.WARRIOR],
+               keywordKeys: [Keyword.SENTINEL],
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
                key: "gondorianSpearman",
@@ -1199,6 +1200,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.GONDOR, Trait.WARRIOR],
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "guardOfTheCitadel",
             },
             "guardianOfArnor":
@@ -1359,8 +1361,10 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                defense: 1,
                hitPoints: 2,
                traitKeys: [Trait.ROHAN, Trait.ARCHER],
+               keywordKeys: [Keyword.RANGED],
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "horsebackArcher",
             },
             "hunterOfLamedon":
@@ -1617,6 +1621,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.DWARF, Trait.WARRIOR],
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "longbeardOrcSlayer",
             },
             "longbeardSentry":
@@ -2041,8 +2046,10 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                defense: 0,
                hitPoints: 1,
                traitKeys: [Trait.ARCHER, Trait.SILVAN],
+               keywordKeys: [Keyword.RANGED],
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "silverlodeArcher",
             },
             "skinbark":
@@ -2169,6 +2176,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.DWARF, Trait.WARRIOR],
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "veteranAxehand",
             },
             "veteranOfNanduhirion":

@@ -167,19 +167,10 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
 
       CombatDefendTask.prototype.finishUndefendedDamage = function(attacker, hero, callback)
       {
-         var store = this.store();
          var agent = this.agent();
          var attack = attacker.card().attack;
          LOGGER.debug("CombatDefendTask undefended damage = " + attack);
          agent.addCardWounds(hero, attack);
-
-         if (hero.remainingHitPoints() <= 0)
-         {
-            // Hero is dead.
-            store.dispatch(Action.setUserMessage("Hero " + hero.card().name + " killed."));
-            hero.prepareForDiscard(agent);
-            store.dispatch(AgentAction.discardFromTableau(agent, hero));
-         }
 
          this.processQueue(callback);
       };

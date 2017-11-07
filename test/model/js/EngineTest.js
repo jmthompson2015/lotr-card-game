@@ -32,7 +32,85 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Scenario",
          engine.performResourcePhase();
       });
 
-      QUnit.skip("Engine() Passage through Mirkwood", function(assert)
+      QUnit.test("Engine() Conflict at the Carrock", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.CONFLICT_AT_THE_CARROCK, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() Escape from Dol Guldur", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.ESCAPE_FROM_DOL_GULDUR, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() Journey Along the Anduin", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.JOURNEY_ALONG_THE_ANDUIN, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() Passage through Mirkwood", function(assert)
       {
          // Setup.
          var callback = function()
@@ -47,6 +125,110 @@ define(["qunit", "redux", "artifact/js/GameMode", "artifact/js/Scenario",
          };
 
          var game = createGame(Scenario.PASSAGE_THROUGH_MIRKWOOD, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() Return to Mirkwood", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.RETURN_TO_MIRKWOOD, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() The Dead Marshes", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.THE_DEAD_MARSHES, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() The Hills of Emyn Muil", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.THE_HILLS_OF_EMYN_MUIL, callback);
+         var engine = game.engine();
+         var store = engine.store();
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+         store.dispatch(Action.drawEncounterCard());
+
+         // Run.
+         var done = assert.async();
+         engine.performResourcePhase();
+      });
+
+      QUnit.test("Engine() The Hunt for Gollum", function(assert)
+      {
+         // Setup.
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = engine.store();
+            var agentCount = store.getState().agents.size;
+            var questCount = store.getState().questDeck.size;
+            assert.ok(agentCount === 0 || questCount === 0);
+            done();
+         };
+
+         var game = createGame(Scenario.THE_HUNT_FOR_GOLLUM, callback);
          var engine = game.engine();
          var store = engine.store();
          store.dispatch(Action.drawEncounterCard());

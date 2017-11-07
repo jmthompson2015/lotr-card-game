@@ -604,6 +604,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                cost: 5,
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "grimResolve",
             },
             "hailOfStones":

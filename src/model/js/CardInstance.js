@@ -52,6 +52,15 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          return CardInstance.idsToCardInstances(store, ids);
       };
 
+      CardInstance.prototype.hasTrait = function(traitKey)
+      {
+         InputValidator.validateIsString("traitKey", traitKey);
+
+         var traitKeys = this.card().traitKeys;
+
+         return traitKeys !== undefined && traitKeys.includes(traitKey);
+      };
+
       CardInstance.prototype.isExhausted = function()
       {
          return !this.isReady();

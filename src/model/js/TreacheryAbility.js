@@ -1,15 +1,15 @@
   "use strict";
 
-  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Sphere", "artifact/js/TreacheryCard",
+  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent", "artifact/js/Sphere", "artifact/js/TreacheryCard",
     "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-     function(ArrayAugments, InputValidator, GameEvent, Sphere, TreacheryCard, Action, AgentAction, CardAction)
+     function(ArrayAugments, InputValidator, CardType, GameEvent, Sphere, TreacheryCard, Action, AgentAction, CardAction)
      {
         var TreacheryAbility = {};
 
         ////////////////////////////////////////////////////////////////////////
         TreacheryAbility[GameEvent.CARD_DRAWN] = {};
 
-        // Scenario.A_JOURNEY_TO_RHOSGOBEL
+        // EncounterSet.A_JOURNEY_TO_RHOSGOBEL
         TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.EXHAUSTION] = {
            condition: function(store, context)
            {
@@ -30,7 +30,7 @@
               {
                  agent.tableauCharacters(isReady).forEach(function(cardInstance)
                  {
-                    store.dispatch(CardAction.addWounds(cardInstance, 2));
+                    agent.addCardWounds(cardInstance, 2);
                  });
               });
 
@@ -43,7 +43,40 @@
            },
         };
 
-        // Scenario.THE_HUNT_FOR_GOLLUM
+        // EncounterSet.SPIDERS_OF_MIRKWOOD
+        TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.EYES_OF_THE_FOREST] = {
+           condition: function(store, context)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateNotNull("context", context);
+
+              return isInStagingArea(context.cardInstance);
+           },
+           consequent: function(store, context, callback)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateIsFunction("callback", callback);
+
+              // When Revealed: Each player discards all event cards in his hand.
+              var environment = store.getState().environment;
+              environment.agentQueue().forEach(function(agent)
+              {
+                 agent.hand(CardType.EVENT).forEach(function(cardInstance)
+                 {
+                    store.dispatch(AgentAction.discardFromHand(agent, cardInstance));
+                 });
+              });
+
+              discard(context.cardInstance);
+
+              if (callback)
+              {
+                 callback();
+              }
+           },
+        };
+
+        // EncounterSet.THE_HUNT_FOR_GOLLUM
         TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.OLD_WIVES_TALES] = {
            condition: function(store, context)
            {
@@ -86,6 +119,40 @@
                     {
                        store.dispatch(CardAction.setReady(cardInstance, false));
                     }
+                 });
+              });
+
+              discard(context.cardInstance);
+
+              if (callback)
+              {
+                 callback();
+              }
+           },
+        };
+
+        // EncounterSet.DOL_GULDUR_ORCS
+        TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.THE_NECROMANCERS_REACH] = {
+           condition: function(store, context)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateNotNull("context", context);
+
+              return isInStagingArea(context.cardInstance);
+           },
+           consequent: function(store, context, callback)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateIsFunction("callback", callback);
+
+              // When Revealed: Deal 1 damage to each exhausted character.
+              var environment = store.getState().environment;
+              var isReady = false;
+              environment.agentQueue().forEach(function(agent)
+              {
+                 agent.tableauCharacters(isReady).forEach(function(cardInstance)
+                 {
+                    agent.addCardWounds(cardInstance, 1);
                  });
               });
 

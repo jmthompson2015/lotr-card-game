@@ -73,6 +73,26 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          return agents.toJS().lotrRotate(index);
       };
 
+      Environment.prototype.agentWhoControls = function(cardInstance)
+      {
+         var answer;
+         var store = this.store();
+         var agents = this.agentQueue();
+
+         for (var i = 0; i < agents.length && answer === undefined; i++)
+         {
+            var agent = agents[i];
+            var tableau = store.getState().agentTableau.get(agent.id());
+
+            if (tableau.includes(cardInstance.id()))
+            {
+               answer = agent;
+               break;
+            }
+         }
+         return answer;
+      };
+
       Environment.prototype.agents = function()
       {
          var store = this.store();

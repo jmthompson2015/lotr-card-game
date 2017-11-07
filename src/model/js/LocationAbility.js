@@ -8,7 +8,42 @@
         ////////////////////////////////////////////////////////////////////////
         LocationAbility[GameEvent.TRAVELED] = {};
 
-        // Scenario.PASSAGE_THROUGH_MIRKWOOD
+        // EncounterSet.DOL_GULDUR_ORCS
+        LocationAbility[GameEvent.TRAVELED][LocationCard.NECROMANCERS_PASS] = {
+           condition: function(store /*, context*/ )
+           {
+              InputValidator.validateNotNull("store", store);
+
+              return isActiveLocation(store, LocationCard.NECROMANCERS_PASS);
+           },
+           consequent: function(store, context, callback)
+           {
+              InputValidator.validateNotNull("store", store);
+              InputValidator.validateIsFunction("callback", callback);
+
+              // Travel: The first player must discard 2 cards from his hand at random to travel here.
+              var environment = store.getState().environment;
+              var firstAgent = environment.firstAgent();
+
+              for (var i = 0; i < 2; i++)
+              {
+                 var hand = firstAgent.hand();
+
+                 if (hand.size > 0)
+                 {
+                    var cardInstance = hand.toJS().lotrRandomElement();
+                    store.dispatch(AgentAction.discardFromHand(firstAgent, cardInstance));
+                 }
+              }
+
+              if (callback)
+              {
+                 callback();
+              }
+           },
+        };
+
+        // EncounterSet.PASSAGE_THROUGH_MIRKWOOD
         LocationAbility[GameEvent.TRAVELED][LocationCard.FOREST_GATE] = {
            condition: function(store /*, context*/ )
            {
@@ -34,7 +69,7 @@
            },
         };
 
-        // Scenario.PASSAGE_THROUGH_MIRKWOOD
+        // EncounterSet.PASSAGE_THROUGH_MIRKWOOD
         LocationAbility[GameEvent.TRAVELED][LocationCard.OLD_FOREST_ROAD] = {
            condition: function(store /*, context*/ )
            {

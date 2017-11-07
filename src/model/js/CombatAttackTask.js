@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
-   function(InputValidator, Action, CardAction)
+define(["common/js/InputValidator", "model/js/Action"],
+   function(InputValidator, Action)
    {
       function CombatAttackTask(store, agent)
       {
@@ -102,15 +102,8 @@ define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
 
          if (damage > 0)
          {
-            store.dispatch(CardAction.addWounds(defender, damage));
-
-            if (defender.remainingHitPoints() <= 0)
-            {
-               // Defender is dead.
-               var agent = this.agent();
-               store.dispatch(Action.agentDiscardEnemyCard(agent, defender));
-               store.dispatch(Action.setUserMessage(defender.card().name + " killed"));
-            }
+            var agent = this.agent();
+            agent.addCardWounds(defender, damage);
          }
 
          this.finishCombatAttackTask(callback);

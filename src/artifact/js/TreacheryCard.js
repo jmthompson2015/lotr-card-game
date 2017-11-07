@@ -117,6 +117,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.WHEN_REVEALED,
                      text: "Each player discards all event cards in his hand.",
                   }],
+               isImplemented: true,
                key: "eyesOfTheForest",
             },
             "falseLead":
@@ -294,6 +295,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.WHEN_REVEALED,
                      text: "Deal 1 damage to each exhausted character.",
                   }],
+               isImplemented: true,
                key: "theNecromancersReach",
             },
             "throughTheMist":

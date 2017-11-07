@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator", "artifact/js/QuestCard",
-  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
-   function(InputValidator, QuestCard, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
+  "model/js/Ability", "model/js/Action", "model/js/AllyAbility", "model/js/EventAbility", "model/js/HeroAbility", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
+   function(InputValidator, QuestCard, Ability, Action, AllyAbility, EventAbility, HeroAbility, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function EventObserver(store)
       {
@@ -136,7 +136,8 @@ define(["common/js/InputValidator", "artifact/js/QuestCard",
          }
       };
 
-      EventObserver.ABILITY_OBJECTS = [LocationAbility, ObjectiveAbility, QuestAbility, ShadowAbility, TreacheryAbility];
+      EventObserver.ABILITY_OBJECTS = [AllyAbility, EventAbility, HeroAbility, LocationAbility,
+        ObjectiveAbility, QuestAbility, ShadowAbility, TreacheryAbility];
 
       if (Object.freeze)
       {

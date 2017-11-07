@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Sphere", "artifact/js/Trait"],
-   function(InputValidator, CardSet, CardSubset, CardType, Sphere, Trait)
+define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubset", "artifact/js/CardType", "artifact/js/Keyword", "artifact/js/Sphere", "artifact/js/Trait"],
+   function(InputValidator, CardSet, CardSubset, CardType, Keyword, Sphere, Trait)
    {
       var HeroCard = {
          AMARTHIUL: "amarthiul",
@@ -106,6 +106,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                defense: 2,
                hitPoints: 5,
                traitKeys: [Trait.DUNEDAIN, Trait.NOBLE, Trait.RANGER],
+               keywordKeys: [Keyword.SENTINEL],
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
                cardSetNumber: 1,
@@ -770,6 +771,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
                cardSetNumber: 3,
+               isImplemented: true,
                key: "gloin",
             },
             "glorfindelCore":
@@ -898,6 +900,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                defense: 1,
                hitPoints: 4,
                traitKeys: [Trait.NOBLE, Trait.SILVAN, Trait.WARRIOR],
+               keywordKeys: [Keyword.RANGED],
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
                cardSetNumber: 5,

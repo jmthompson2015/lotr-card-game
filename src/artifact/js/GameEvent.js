@@ -8,6 +8,7 @@ define(function()
       QUEST_SUCCEEDED: "questSucceeded",
       SHADOW_CARD_REVEALED: "shadowCardRevealed",
       TRAVELED: "traveled",
+      WOUNDED: "wounded",
 
       properties:
       {
@@ -35,6 +36,11 @@ define(function()
          {
             name: "Traveled",
             key: "traveled",
+         },
+         "wounded":
+         {
+            name: "Wounded",
+            key: "wounded",
          },
       },
    };

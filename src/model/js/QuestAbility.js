@@ -1,8 +1,8 @@
   "use strict";
 
   define(["common/js/InputValidator", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/TreacheryCard",
-    "model/js/Action", "model/js/CardAction"],
-     function(InputValidator, EnemyCard, GameEvent, LocationCard, ObjectiveCard, QuestCard, TreacheryCard, Action, CardAction)
+    "model/js/Action"],
+     function(InputValidator, EnemyCard, GameEvent, LocationCard, ObjectiveCard, QuestCard, TreacheryCard, Action)
      {
         var QuestAbility = {};
 
@@ -29,7 +29,8 @@
               environment.drawEncounterCard(LocationCard.RHOSGOBEL);
               environment.drawEncounterCard(ObjectiveCard.WILYADOR);
               var wilyador = environment.firstCardInstance(ObjectiveCard.WILYADOR);
-              store.dispatch(CardAction.addWounds(wilyador, 2));
+              var agent = environment.agentWhoControls(wilyador);
+              agent.addCardWounds(wilyador, 2);
 
               environment.shuffleEncounterDeck(store);
 
@@ -186,6 +187,34 @@
               environment.shuffleEncounterDeck(store);
 
               // Advance the quest.
+              environment.advanceTheQuest(callback);
+           },
+        };
+
+        // Scenario.PASSAGE_THROUGH_MIRKWOOD
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.PTM2A_A_FORK_IN_THE_ROAD] = {
+           condition: function(store /*, context*/ )
+           {
+              return isActiveQuest(store, QuestCard.PTM2A_A_FORK_IN_THE_ROAD);
+           },
+           consequent: function(store, context, callback)
+           {
+              // Advance the quest.
+              var environment = store.getState().environment;
+              environment.advanceTheQuest(callback);
+           },
+        };
+
+        // Scenario.PASSAGE_THROUGH_MIRKWOOD
+        QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.PTM3A_A_CHOSEN_PATH] = {
+           condition: function(store /*, context*/ )
+           {
+              return isActiveQuest(store, QuestCard.PTM3A_A_CHOSEN_PATH);
+           },
+           consequent: function(store, context, callback)
+           {
+              // Advance the quest.
+              var environment = store.getState().environment;
               environment.advanceTheQuest(callback);
            },
         };

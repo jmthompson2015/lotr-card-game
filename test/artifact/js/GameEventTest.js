@@ -49,7 +49,7 @@ define(["qunit", "artifact/js/GameEvent"], function(QUnit, GameEvent)
 
       // Verify.
       assert.ok(result);
-      var length = 5;
+      var length = 6;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], GameEvent.CARD_DRAWN);
@@ -57,5 +57,6 @@ define(["qunit", "artifact/js/GameEvent"], function(QUnit, GameEvent)
       assert.equal(result[i++], GameEvent.QUEST_SUCCEEDED);
       assert.equal(result[i++], GameEvent.SHADOW_CARD_REVEALED);
       assert.equal(result[i++], GameEvent.TRAVELED);
+      assert.equal(result[i++], GameEvent.WOUNDED);
    });
 });

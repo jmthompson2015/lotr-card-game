@@ -239,6 +239,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.TRAVEL,
                      text: "The first player must discard 2 cards from his hand at random to travel here.",
                   }],
+               isImplemented: true,
                key: "necromancersPass",
             },
             "oakWoodGrove":

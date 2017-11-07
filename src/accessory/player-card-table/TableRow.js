@@ -38,6 +38,7 @@ define(["common/js/InputValidator", "common/js/MathAugments", "artifact/js/CardT
 
          return (
          {
+            card: card,
             sphere: card.sphere.name,
             sphereKey: card.sphereKey,
             name: card.name,

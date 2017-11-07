@@ -1,8 +1,8 @@
   "use strict";
 
   define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Sphere", "artifact/js/TreacheryCard",
-    "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-     function(ArrayAugments, InputValidator, GameEvent, Sphere, TreacheryCard, Action, AgentAction, CardAction)
+    "model/js/Action"],
+     function(ArrayAugments, InputValidator, GameEvent, Sphere, TreacheryCard, Action)
      {
         var ShadowAbility = {};
 
@@ -28,7 +28,7 @@
               {
                  agent.tableauCharacters(isReady).forEach(function(cardInstance)
                  {
-                    store.dispatch(CardAction.addWounds(cardInstance));
+                    agent.addCardWounds(cardInstance, 1);
                  });
               });
 
