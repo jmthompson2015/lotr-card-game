@@ -12,7 +12,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
             var labelFunction = function(value)
             {
-               return value.card().name + " (defense " + value.card().defense + ")";
+               return value.card().name + " (defense " + value.defense() + ")";
             };
 
             var initialInput = React.createElement(InputPanel,
@@ -56,8 +56,8 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
       var CardComparator = function(a, b)
       {
          var answer = -1;
-         var sphereKeyA = a.card().defense;
-         var sphereKeyB = b.card().defense;
+         var sphereKeyA = a.defense();
+         var sphereKeyB = b.defense();
 
          if (sphereKeyA === sphereKeyB)
          {

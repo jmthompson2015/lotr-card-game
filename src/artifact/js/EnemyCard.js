@@ -8,7 +8,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          BLACK_FOREST_BATS_AJTR: "blackForestBatsAjtr",
          BLACK_FOREST_BATS_PTM: "blackForestBatsPtm",
          CAVERN_GUARDIAN: "cavernGuardian",
-         CHIEFTAN_UFTHAK: "chieftanUfthak",
+         CHIEFTAIN_UFTHAK: "chieftainUfthak",
          DOL_GULDUR_BEASTMASTER: "dolGuldurBeastmaster",
          DOL_GULDUR_ORCS: "dolGuldurOrcs",
          DUNGEON_JAILOR: "dungeonJailor",
@@ -96,14 +96,15 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                gameModeMap: GameMode.createMap(2),
                key: "cavernGuardian",
             },
-            "chieftanUfthak":
+            "chieftainUfthak":
             {
-               name: "Chieftan Ufthak",
+               name: "Chieftain Ufthak",
                engagementCost: 35,
                threat: 2,
                attack: 3,
                defense: 3,
                hitPoints: 6,
+               victory: 4,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
                gameModeMap: GameMode.createMap(0, 1),
@@ -115,7 +116,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                      headerKey: GameHeader.FORCED,
                      text: "After Chieftain Ufthak attacks, place 1 resource token on him.",
                   }],
-               key: "chieftanUfthak",
+               key: "chieftainUfthak",
             },
             "dolGuldurBeastmaster":
             {

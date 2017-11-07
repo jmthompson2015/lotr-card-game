@@ -131,11 +131,11 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
          var agent = this.agent();
          LOGGER.debug("CombatDefendTask attacker = " + attacker);
          LOGGER.debug("CombatDefendTask defender = " + defender);
-         var attack = attacker.card().attack;
+         var attack = attacker.attack();
 
          if (defender !== undefined)
          {
-            var defense = defender.card().defense;
+            var defense = defender.defense();
             var damage = attack - defense;
             LOGGER.debug("CombatDefendTask damage = " + damage);
             var store = this.store();
@@ -168,7 +168,7 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
       CombatDefendTask.prototype.finishUndefendedDamage = function(attacker, hero, callback)
       {
          var agent = this.agent();
-         var attack = attacker.card().attack;
+         var attack = attacker.attack();
          LOGGER.debug("CombatDefendTask undefended damage = " + attack);
          agent.addCardWounds(hero, attack);
 

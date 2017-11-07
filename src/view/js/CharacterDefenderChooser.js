@@ -13,7 +13,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
             var labelFunction = function(value)
             {
-               return value.card().name + " (defense " + value.card().defense + ")";
+               return value.card().name + " (defense " + value.defense() + ")";
             };
 
             var initialInput = React.createElement(InputPanel,
@@ -27,7 +27,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
             });
 
             var title = "Select Defender";
-            var message = "Attacker: " + attackerInstance.card().name + " (attack " + attackerInstance.card().attack + ")";
+            var message = "Attacker: " + attackerInstance.card().name + " (attack " + attackerInstance.attack() + ")";
             var passButton = React.createElement(Button,
             {
                key: 0,
@@ -65,18 +65,17 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
       var CardComparator = function(a, b)
       {
-         var cardA = a.card();
-         var cardB = b.card();
-
-         var answer = compare(cardB.defense, cardA.defense); // defense
+         var answer = compare(b.defense(), a.defense()); // defense
 
          if (answer === 0)
          {
-            answer = compare(cardA.attack, cardB.attack);
+            answer = compare(a.attack(), b.attack());
          }
 
          if (answer === 0)
          {
+            var cardA = a.card();
+            var cardB = b.card();
             answer = compare(cardA.name, cardB.name);
          }
 

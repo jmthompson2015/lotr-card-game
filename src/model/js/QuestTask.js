@@ -101,7 +101,7 @@ define(["common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Phase"
 
          var questerWillpower = questers.reduce(function(accumulator, cardInstance)
          {
-            return accumulator + cardInstance.card().willpower;
+            return accumulator + cardInstance.willpower();
          }, 0);
 
          LOGGER.debug("questerWillpower = " + questerWillpower);

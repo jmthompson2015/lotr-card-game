@@ -87,13 +87,13 @@ define(["common/js/InputValidator", "model/js/Action"],
          // 2. Determine attack strength.
          var attack = attackers.reduce(function(accumulator, cardInstance, i)
          {
-            LOGGER.debug(i + " CombatAttackTask attack = " + cardInstance + " " + cardInstance.card().attack);
-            return accumulator + cardInstance.card().attack;
+            LOGGER.debug(i + " CombatAttackTask attack = " + cardInstance + " " + cardInstance.attack());
+            return accumulator + cardInstance.attack();
          }, 0);
          LOGGER.debug("CombatAttackTask attack = " + attack);
 
          // 3. Determine combat damage.
-         var defense = defender.card().defense;
+         var defense = defender.defense();
          LOGGER.debug("CombatAttackTask defense = " + defense);
          var damage = attack - defense;
          LOGGER.debug("CombatAttackTask damage = " + damage);

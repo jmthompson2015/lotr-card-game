@@ -21,7 +21,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
             var labelFunction = function(value)
             {
-               return value.card().name + " (willpower " + value.card().willpower + ")";
+               return value.card().name + " (willpower " + value.willpower() + ")";
             };
 
             var initialInput = React.createElement(InputPanel,
@@ -96,23 +96,22 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
       var CardComparator = function(a, b)
       {
-         var cardA = a.card();
-         var cardB = b.card();
-
-         var answer = compare(cardB.willpower, cardA.willpower); // descending
+         var answer = compare(b.willpower(), a.willpower()); // descending
 
          if (answer === 0)
          {
-            answer = compare(cardA.defense, cardB.defense);
+            answer = compare(a.defense(), b.defense());
          }
 
          if (answer === 0)
          {
-            answer = compare(cardA.attack, cardB.attack);
+            answer = compare(a.attack(), b.attack());
          }
 
          if (answer === 0)
          {
+            var cardA = a.card();
+            var cardB = b.card();
             answer = compare(cardA.name, cardB.name);
          }
 

@@ -62,7 +62,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
          return characters.sort(function(a, b)
          {
-            return b.card().attack - a.card().attack;
+            return b.attack() - a.attack();
          });
       };
 
@@ -73,7 +73,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
          return characters.sort(function(a, b)
          {
-            return b.card().defense - a.card().defense;
+            return b.defense() - a.defense();
          });
       };
 
@@ -144,7 +144,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
          return characters.sort(function(a, b)
          {
-            return b.card().willpower - a.card().willpower;
+            return b.willpower() - a.willpower();
          });
       };
 

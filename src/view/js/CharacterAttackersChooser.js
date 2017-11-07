@@ -21,7 +21,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
             var labelFunction = function(value)
             {
-               return value.card().name + " (attack " + value.card().attack + ")";
+               return value.card().name + " (attack " + value.attack() + ")";
             };
 
             var initialInput = React.createElement(InputPanel,
@@ -96,13 +96,12 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
 
       var CardComparator = function(a, b)
       {
-         var cardA = a.card();
-         var cardB = b.card();
-
-         var answer = compare(cardB.attack, cardA.attack); // descending
+         var answer = compare(b.attack(), a.attack()); // descending
 
          if (answer === 0)
          {
+            var cardA = a.card();
+            var cardB = b.card();
             answer = compare(cardA.name, cardB.name);
          }
 

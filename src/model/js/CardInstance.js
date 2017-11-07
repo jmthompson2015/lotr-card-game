@@ -1,7 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/GameEvent", "artifact/js/LocationCard", "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(Immutable, InputValidator, CardResolver, CardType, GameEvent, LocationCard, Action, AgentAction, CardAction)
+define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/Sphere",
+  "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
+   function(Immutable, InputValidator, CardResolver, CardType, EnemyCard, GameEvent, LocationCard, Sphere, Action, AgentAction, CardAction)
    {
       function CardInstance(store, card, idIn, isNewIn)
       {
@@ -50,6 +51,29 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          var ids = store.getState().cardAttachments.get(this.id());
 
          return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      CardInstance.prototype.attack = function()
+      {
+         var card = this.card();
+         var answer = (card.attack !== undefined ? card.attack : 0);
+
+         switch (card.key)
+         {
+            case EnemyCard.CHIEFTAIN_UFTHAK:
+               var resources = this.resourceMap().get(Sphere.NEUTRAL);
+               answer += 2 * (resources !== undefined ? resources : 0);
+               break;
+         }
+
+         return answer;
+      };
+
+      CardInstance.prototype.defense = function()
+      {
+         var card = this.card();
+
+         return (card.defense !== undefined ? card.defense : 0);
       };
 
       CardInstance.prototype.hasTrait = function(traitKey)
@@ -174,6 +198,13 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          var costString = (this.card().cost !== undefined ? " [" + this.card().cost + "]" : "");
 
          return "CardInstance " + this.id() + " " + this.card().name + questString + engagementString + costString;
+      };
+
+      CardInstance.prototype.willpower = function()
+      {
+         var card = this.card();
+
+         return (card.willpower !== undefined ? card.willpower : 0);
       };
 
       CardInstance.prototype.wounds = function()
