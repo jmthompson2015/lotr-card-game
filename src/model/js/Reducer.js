@@ -267,6 +267,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/GameEvent", "artif
                   {
                      resourceBase: action.resourceBase,
                   });
+               case Action.SET_SCENARIO_KEY:
+                  return Object.assign(
+                  {}, state,
+                  {
+                     scenarioKey: action.scenarioKey,
+                  });
                case Action.SET_USER_MESSAGE:
                   return Object.assign(
                   {}, state,

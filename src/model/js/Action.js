@@ -38,6 +38,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    Action.SET_FIRST_AGENT = "setFirstAgent";
    Action.SET_QUEST_DECK = "setQuestDeck";
    Action.SET_RESOURCE_BASE = "setResourceBase";
+   Action.SET_SCENARIO_KEY = "setScenarioKey";
    Action.SET_USER_MESSAGE = "setUserMessage";
    Action.STAGING_TO_AGENT_TABLEAU = "stagingToAgentTableau";
 
@@ -407,6 +408,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       {
          type: Action.SET_RESOURCE_BASE,
          resourceBase: resourceBase,
+      });
+   };
+
+   Action.setScenarioKey = function(scenarioKey)
+   {
+      InputValidator.validateIsString("scenarioKey", scenarioKey);
+
+      return (
+      {
+         type: Action.SET_SCENARIO_KEY,
+         scenarioKey: scenarioKey,
       });
    };
 

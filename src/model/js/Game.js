@@ -55,6 +55,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/GameMode", "artifa
          var scenarioDeck = this.scenarioDeck();
          var playerData = this.playerData();
          var engineCallback = this.engineCallback();
+         store.dispatch(Action.setScenarioKey(scenarioDeck.scenarioKey));
 
          // 1. Shuffle Decks
          var environment = new Environment(store, scenarioDeck, playerData);
