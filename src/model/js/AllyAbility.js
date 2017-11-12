@@ -16,7 +16,7 @@
               InputValidator.validateNotNull("store", store);
               InputValidator.validateNotNull("context", context);
 
-              return context.cardInstance !== undefined && context.cardInstance.card().key === AllyCard.LONGBEARD_ORC_SLAYER;
+              return context.cardInstance !== undefined && !context.cardInstance.isUsed();
            },
            consequent: function(store, context, callback)
            {
@@ -59,6 +59,7 @@
                  });
               });
 
+              store.dispatch(CardAction.setUsed(context.cardInstance, true));
               callback();
            },
         };

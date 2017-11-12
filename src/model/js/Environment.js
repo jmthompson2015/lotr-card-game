@@ -148,6 +148,19 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          return answer;
       };
 
+      Environment.prototype.charactersInPlay = function()
+      {
+         var answer = [];
+         var agents = this.agents();
+
+         agents.forEach(function(agent)
+         {
+            answer = answer.concat(agent.tableauCharacters().toJS());
+         });
+
+         return answer;
+      };
+
       Environment.prototype.encounterDeck = function()
       {
          var store = this.store();

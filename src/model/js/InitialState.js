@@ -51,9 +51,19 @@ define(["immutable", "artifact/js/Phase"],
          this.cardIsQuesting = Immutable.Map();
          this.cardIsReady = Immutable.Map();
          this.cardIsUsed = Immutable.Map();
+         this.cardPhaseBonusAttack = Immutable.Map();
+         this.cardPhaseBonusDefense = Immutable.Map();
+         this.cardPhaseBonusHitPoints = Immutable.Map();
+         this.cardPhaseBonusThreat = Immutable.Map();
+         this.cardPhaseBonusWillpower = Immutable.Map();
          this.cardProgress = Immutable.Map();
          // card instance id: sphereKey: resource count
          this.cardResources = Immutable.Map();
+         this.cardRoundBonusAttack = Immutable.Map();
+         this.cardRoundBonusDefense = Immutable.Map();
+         this.cardRoundBonusHitPoints = Immutable.Map();
+         this.cardRoundBonusThreat = Immutable.Map();
+         this.cardRoundBonusWillpower = Immutable.Map();
          this.cardShadowCards = Immutable.Map();
          this.cardWounds = Immutable.Map();
       }

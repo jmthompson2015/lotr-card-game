@@ -1,8 +1,8 @@
 "use strict";
 
-define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/Scenario", "artifact/js/Sphere",
+define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/EnemyCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard", "artifact/js/QuestCard", "artifact/js/Scenario", "artifact/js/Sphere",
   "model/js/Action", "model/js/Agent", "model/js/AgentAction", "model/js/CardAction", "model/js/CardInstance", "model/js/EventObserver", "model/js/Environment", "model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, AllyCard, EnemyCard, HeroCard, LocationCard, ObjectiveCard, QuestCard, Scenario, Sphere, Action, Agent, AgentAction, CardAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
+   function(QUnit, Redux, AllyCard, AttachmentCard, EnemyCard, HeroCard, LocationCard, ObjectiveCard, QuestCard, Scenario, Sphere, Action, Agent, AgentAction, CardAction, CardInstance, EventObserver, Environment, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder)
    {
       QUnit.module("CardInstance");
 
@@ -43,6 +43,133 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
 
          // Verify.
          assert.equal(result, 5);
+      });
+
+      QUnit.test("bonusAttack() Chieftain Ufthak", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardKey = EnemyCard.CHIEFTAIN_UFTHAK;
+         var card = EnemyCard.properties[cardKey];
+         var cardInstance = new CardInstance(store, card);
+
+         // Run.
+         var result = cardInstance.bonusAttack();
+
+         // Verify.
+         assert.equal(result, 0);
+
+         // Run.
+         store.dispatch(CardAction.addResource(cardInstance, Sphere.NEUTRAL, 1));
+         result = cardInstance.bonusAttack();
+
+         // Verify.
+         assert.equal(result, 2);
+      });
+
+      QUnit.test("bonusAttack() Gimli", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardKey = HeroCard.GIMLI;
+         var card = HeroCard.properties[cardKey];
+         var cardInstance = new CardInstance(store, card);
+
+         // Run.
+         var result = cardInstance.bonusAttack();
+
+         // Verify.
+         assert.equal(result, 0);
+
+         // Run.
+         store.dispatch(CardAction.addWounds(cardInstance, 1));
+         result = cardInstance.bonusAttack();
+
+         // Verify.
+         assert.equal(result, 1);
+      });
+
+      QUnit.test("bonusAttack() Gimli + Dwarven Axe", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent4 = environment.agentQueue()[3];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
+         agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
+         var attachmentInstance = agent4.hand().last();
+         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+
+         // Run.
+         var result = cardInstance.bonusAttack();
+
+         // Verify.
+         assert.equal(result, 2);
+
+         // Run.
+         store.dispatch(CardAction.addWounds(cardInstance, 1));
+         result = cardInstance.bonusAttack();
+
+         // Verify.
+         assert.equal(result, 3);
+      });
+
+      QUnit.test("bonusDefense() Gimli + Dwarven Axe", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent4 = environment.agentQueue()[3];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
+         agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
+         var attachmentInstance = agent4.hand().last();
+         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+
+         // Run.
+         var result = cardInstance.bonusDefense();
+
+         // Verify.
+         assert.equal(result, 0);
+      });
+
+      QUnit.test("bonusHitPoints() Gimli + Dwarven Axe", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent4 = environment.agentQueue()[3];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
+         agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
+         var attachmentInstance = agent4.hand().last();
+         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+
+         // Run.
+         var result = cardInstance.bonusHitPoints();
+
+         // Verify.
+         assert.equal(result, 0);
+      });
+
+      QUnit.test("bonusWillpower() Gimli + Dwarven Axe", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent4 = environment.agentQueue()[3];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
+         agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
+         var attachmentInstance = agent4.hand().last();
+         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+
+         // Run.
+         var result = cardInstance.bonusWillpower();
+
+         // Verify.
+         assert.equal(result, 0);
       });
 
       QUnit.test("get()", function(assert)
@@ -143,7 +270,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          agent1.drawPlayerCard(AllyCard.FARAMIR);
          var cardInstance = agent1.hand().last();
          store.dispatch(AgentAction.playCard(agent1, cardInstance));
-         assert.equal(environment.cardsInPlay().length, 8);
+         assert.equal(environment.cardsInPlay().length, 14);
          var cardInstance0 = environment.firstCardInstance(LocationCard.THE_OLD_FORD);
 
          // Run.
@@ -156,19 +283,14 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          // Setup.
          var scenarioKey = Scenario.A_JOURNEY_TO_RHOSGOBEL;
          var environment = createEnvironment(scenarioKey);
-         //  var store = environment.store();
-         //  var agent1 = environment.firstAgent();
          environment.drawEncounterCard(LocationCard.RHOSGOBEL);
          var cardInstance0 = environment.stagingArea().last();
          environment.drawEncounterCard(ObjectiveCard.ATHELAS);
          var cardInstance1 = environment.stagingArea().last();
-         //  store.dispatch(AgentAction.playCard(agent1, cardInstance));
-         //  assert.equal(environment.cardsInPlay().length, 8);
-         //  var cardInstance0 = environment.firstCardInstance(LocationCard.THE_OLD_FORD);
 
          // Run.
          assert.ok(cardInstance0);
-         assert.equal(cardInstance0.threat(), 2);
+         assert.equal(cardInstance0.threat(), 4);
          assert.ok(cardInstance1);
          assert.equal(cardInstance1.threat(), 0);
       });
@@ -180,6 +302,8 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          var scenarioDeck = scenarioDeckBuilder.buildDeck(store);
          var agent1 = new Agent(store, "agent1");
          var agent2 = new Agent(store, "agent2");
+         var agent3 = new Agent(store, "agent3");
+         var agent4 = new Agent(store, "agent4");
          var playerData = [
             {
                agent: agent1,
@@ -188,6 +312,14 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
             {
                agent: agent2,
                playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+            },
+            {
+               agent: agent3,
+               playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+            },
+            {
+               agent: agent4,
+               playerDeck: PlayerDeckBuilder.CoreTacticsDeckBuilder.buildDeck(store),
             },
          ];
 

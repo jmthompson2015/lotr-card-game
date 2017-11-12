@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardType",
+define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent",
   "model/js/Action", "model/js/AgentAction", "model/js/CardAction", "model/js/QueueProcessor"],
-   function(Immutable, InputValidator, CardType, Action, AgentAction, CardAction, QueueProcessor)
+   function(Immutable, InputValidator, CardType, GameEvent, Action, AgentAction, CardAction, QueueProcessor)
    {
       function PlanningTask(store)
       {
@@ -110,14 +110,16 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType",
                var targetInstance = agent.tableauHeroes().get(0);
                store.dispatch(AgentAction.playAttachmentCard(agent, targetInstance, cardInstance));
             }
-            // else if (cardInstance.card().cardTypeKey === CardType.EVENT)
-            // {
-            //    // Don't add to tableau.
-            // }
             else
             {
                store.dispatch(AgentAction.playCard(agent, cardInstance));
             }
+
+            store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN,
+            {
+               agent: agent,
+               cardInstance: cardInstance,
+            }));
 
             this.processAgent(agent, callback);
          }

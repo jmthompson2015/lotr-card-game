@@ -11,10 +11,50 @@ define(["immutable", "model/js/CardAction"],
 
          var cardId;
          var newResources;
-         var oldCount, oldProgress, oldResources, oldWounds;
+         var oldBonus, oldCount, oldProgress, oldResources, oldWounds;
 
          switch (action.type)
          {
+            case CardAction.ADD_PHASE_BONUS_ATTACK:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardPhaseBonusAttack.get(cardId) !== undefined ? state.cardPhaseBonusAttack.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardPhaseBonusAttack: state.cardPhaseBonusAttack.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_PHASE_BONUS_DEFENSE:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardPhaseBonusDefense.get(cardId) !== undefined ? state.cardPhaseBonusDefense.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardPhaseBonusDefense: state.cardPhaseBonusDefense.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_PHASE_BONUS_HIT_POINTS:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardPhaseBonusHitPoints.get(cardId) !== undefined ? state.cardPhaseBonusHitPoints.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardPhaseBonusHitPoints: state.cardPhaseBonusHitPoints.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_PHASE_BONUS_THREAT:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardPhaseBonusThreat.get(cardId) !== undefined ? state.cardPhaseBonusThreat.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardPhaseBonusThreat: state.cardPhaseBonusThreat.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_PHASE_BONUS_WILLPOWER:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardPhaseBonusWillpower.get(cardId) !== undefined ? state.cardPhaseBonusWillpower.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardPhaseBonusWillpower: state.cardPhaseBonusWillpower.set(cardId, oldBonus + action.value),
+               });
             case CardAction.ADD_PROGRESS:
                cardId = action.cardInstance.id();
                oldProgress = (state.cardProgress.get(cardId) !== undefined ? state.cardProgress.get(cardId) : 0);
@@ -33,6 +73,46 @@ define(["immutable", "model/js/CardAction"],
                {
                   cardResources: state.cardResources.set(cardId, newResources),
                });
+            case CardAction.ADD_ROUND_BONUS_ATTACK:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardRoundBonusAttack.get(cardId) !== undefined ? state.cardRoundBonusAttack.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardRoundBonusAttack: state.cardRoundBonusAttack.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_ROUND_BONUS_DEFENSE:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardRoundBonusDefense.get(cardId) !== undefined ? state.cardRoundBonusDefense.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardRoundBonusDefense: state.cardRoundBonusDefense.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_ROUND_BONUS_HIT_POINTS:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardRoundBonusHitPoints.get(cardId) !== undefined ? state.cardRoundBonusHitPoints.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardRoundBonusHitPoints: state.cardRoundBonusHitPoints.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_ROUND_BONUS_THREAT:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardRoundBonusThreat.get(cardId) !== undefined ? state.cardRoundBonusThreat.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardRoundBonusThreat: state.cardRoundBonusThreat.set(cardId, oldBonus + action.value),
+               });
+            case CardAction.ADD_ROUND_BONUS_WILLPOWER:
+               cardId = action.cardInstance.id();
+               oldBonus = (state.cardRoundBonusWillpower.get(cardId) !== undefined ? state.cardRoundBonusWillpower.get(cardId) : 0);
+               return Object.assign(
+               {}, state,
+               {
+                  cardRoundBonusWillpower: state.cardRoundBonusWillpower.set(cardId, oldBonus + action.value),
+               });
             case CardAction.ADD_WOUNDS:
                cardId = action.cardInstance.id();
                oldWounds = (state.cardWounds.get(cardId) !== undefined ? state.cardWounds.get(cardId) : 0);
@@ -40,6 +120,28 @@ define(["immutable", "model/js/CardAction"],
                {}, state,
                {
                   cardWounds: state.cardWounds.set(cardId, oldWounds + action.value),
+               });
+            case CardAction.CLEAR_PHASE_BONUSES:
+               // LOGGER.info("CLEAR_PHASE_BONUSES");
+               return Object.assign(
+               {}, state,
+               {
+                  cardPhaseBonusThreat: Immutable.Map(),
+                  cardPhaseBonusWillpower: Immutable.Map(),
+                  cardPhaseBonusAttack: Immutable.Map(),
+                  cardPhaseBonusDefense: Immutable.Map(),
+                  cardPhaseBonusHitPoints: Immutable.Map(),
+               });
+            case CardAction.CLEAR_ROUND_BONUSES:
+               // LOGGER.info("CLEAR_ROUND_BONUSES");
+               return Object.assign(
+               {}, state,
+               {
+                  cardRoundBonusThreat: Immutable.Map(),
+                  cardRoundBonusWillpower: Immutable.Map(),
+                  cardRoundBonusAttack: Immutable.Map(),
+                  cardRoundBonusDefense: Immutable.Map(),
+                  cardRoundBonusHitPoints: Immutable.Map(),
                });
             case CardAction.DELETE_FACE_UP:
                return Object.assign(

@@ -289,6 +289,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.ARTIFACT, Trait.ITEM],
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
+               bonusWillpower: 2,
                key: "celebriansStone",
             },
             "citadelPlate":
@@ -298,6 +299,8 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.ITEM, Trait.ARMOR],
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
+               bonusHitPoints: 4,
+               isImplemented: true,
                key: "citadelPlate",
             },
             "cloakOfLorien":
@@ -336,6 +339,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.CONDITION],
                sphereKey: Sphere.LORE,
                cardSetKey: CardSet.CORE,
+               bonusWillpower: -1,
                key: "darkKnowledge",
             },
             "defenderOfTheWest":
@@ -416,6 +420,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.ITEM, Trait.WEAPON],
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
+               isImplemented: true, // see CardInstance.attack()
                key: "dwarvenAxe",
             },
             "elfFriend":
@@ -941,6 +946,8 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.CONDITION],
                sphereKey: Sphere.SPIRIT,
                cardSetKey: CardSet.CORE,
+               bonusThreat: -1,
+               isImplemented: true,
                key: "powerInTheEarth",
             },
             "protectorOfLorien":
@@ -1344,6 +1351,8 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.CONDITION],
                sphereKey: Sphere.SPIRIT,
                cardSetKey: CardSet.CORE,
+               bonusWillpower: 1,
+               isImplemented: true,
                key: "theFavorOfTheLady",
             },
             "theLongDefeat":

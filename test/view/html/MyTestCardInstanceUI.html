@@ -36,16 +36,22 @@
         var agent1 = new Agent(store, "agent1");
 
         var heroInstance1 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+        store.dispatch(CardAction.addPhaseBonusAttack(heroInstance1));
+        store.dispatch(CardAction.addPhaseBonusHitPoints(heroInstance1, 4));
         store.dispatch(CardAction.addResource(heroInstance1, Sphere.LEADERSHIP));
         store.dispatch(CardAction.addWounds(heroInstance1, 2));
 
         var heroInstance2 = new CardInstance(store, HeroCard.properties[HeroCard.GLOIN]);
         store.dispatch(AgentAction.playAttachmentCard(agent1, heroInstance2, new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR])));
+        store.dispatch(CardAction.addPhaseBonusDefense(heroInstance2));
+        store.dispatch(CardAction.addRoundBonusDefense(heroInstance2));
         store.dispatch(CardAction.addResource(heroInstance2, Sphere.LEADERSHIP));
         store.dispatch(CardAction.addWounds(heroInstance2, 1));
 
         var heroInstance3 = new CardInstance(store, HeroCard.properties[HeroCard.THEODRED]);
         store.dispatch(AgentAction.playAttachmentCard(agent1, heroInstance3, new CardInstance(store, AttachmentCard.properties[AttachmentCard.CITADEL_PLATE])));
+        store.dispatch(CardAction.addPhaseBonusWillpower(heroInstance3, 2));
+        store.dispatch(CardAction.addRoundBonusWillpower(heroInstance3, 1));
         store.dispatch(CardAction.setReady(heroInstance3, false));
 
         var heroInstance4 = new CardInstance(store, HeroCard.properties[HeroCard.BERAVOR]);
@@ -57,6 +63,8 @@
         store.dispatch(CardAction.addWounds(heroInstance4, 3));
 
         var locationInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+        store.dispatch(CardAction.addPhaseBonusThreat(locationInstance));
+        store.dispatch(CardAction.addRoundBonusThreat(locationInstance));
         store.dispatch(CardAction.addProgress(locationInstance, 2));
 
         var questInstance = new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]);

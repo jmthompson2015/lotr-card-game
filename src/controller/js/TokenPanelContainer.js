@@ -16,6 +16,11 @@ define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sph
          return (
          {
             bagginsCount: resourceMap.get(Sphere.BAGGINS),
+            bonusAttack: cardInstance.bonusAttack(),
+            bonusDefense: cardInstance.bonusDefense(),
+            bonusHitPoints: cardInstance.bonusHitPoints(),
+            bonusThreat: cardInstance.bonusThreat(),
+            bonusWillpower: cardInstance.bonusWillpower(),
             fellowshipCount: resourceMap.get(Sphere.FELLOWSHIP),
             leadershipCount: resourceMap.get(Sphere.LEADERSHIP),
             loreCount: resourceMap.get(Sphere.LORE),

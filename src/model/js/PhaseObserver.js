@@ -1,8 +1,8 @@
 "use strict";
 
-define(["common/js/InputValidator",
-  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
-   function(InputValidator, Ability, Action, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
+define(["common/js/InputValidator", "artifact/js/Phase",
+  "model/js/Ability", "model/js/Action", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/PhaseAbility", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
+   function(InputValidator, Phase, Ability, Action, LocationAbility, ObjectiveAbility, Observer, PhaseAbility, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function PhaseObserver(store)
       {
@@ -95,14 +95,14 @@ define(["common/js/InputValidator",
             };
             var forwardFunction = function()
             {
-               that.finishOnChange(phaseData);
+               that.performPhaseAbility(phaseData);
             };
 
             this.finish(phaseData, ability, isAccepted, backFunction, forwardFunction);
          }
          else
          {
-            this.finishOnChange(phaseData);
+            this.performPhaseAbility(phaseData);
          }
       };
 
@@ -126,6 +126,37 @@ define(["common/js/InputValidator",
          else
          {
             forwardFunction();
+         }
+      };
+
+      PhaseObserver.prototype.performPhaseAbility = function(phaseData)
+      {
+         InputValidator.validateNotNull("phaseData", phaseData);
+
+         var phaseKey = phaseData.get("phaseKey");
+
+         if (PhaseAbility[phaseKey] && PhaseAbility[phaseKey][phaseKey])
+         {
+            var phaseContext = phaseData.get("phaseContext");
+            var ability = new Ability(Phase, phaseKey, PhaseAbility, phaseKey, phaseContext);
+            var store = this.store();
+
+            if (ability.conditionPasses(store))
+            {
+               var message = ability.sourceObject().name + " ability used.";
+               LOGGER.info(message);
+               store.dispatch(Action.setUserMessage(message));
+               var that = this;
+               var forwardFunction = function()
+               {
+                  that.finishOnChange(phaseData);
+               };
+               ability.executeConsequent(store, forwardFunction);
+            }
+         }
+         else
+         {
+            this.finishOnChange(phaseData);
          }
       };
 

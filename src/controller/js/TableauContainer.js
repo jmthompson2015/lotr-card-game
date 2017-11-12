@@ -36,8 +36,8 @@ define(["react-redux", "common/js/InputValidator", "view/js/CardInstancesArea"],
 
          if (answer === 0)
          {
-            var costA = a.card().hitPoints;
-            var costB = b.card().hitPoints;
+            var costA = a.hitPoints();
+            var costB = b.hitPoints();
             if (costA === costB)
             {
                answer = 0;

@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/Sphere",
+define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/Sphere", "artifact/js/Trait",
   "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(Immutable, InputValidator, CardResolver, CardType, EnemyCard, GameEvent, LocationCard, Sphere, Action, AgentAction, CardAction)
+   function(Immutable, InputValidator, AllyCard, AttachmentCard, CardResolver, CardType, EnemyCard, GameEvent, LocationCard, Sphere, Trait, Action, AgentAction, CardAction)
    {
       function CardInstance(store, card, idIn, isNewIn)
       {
@@ -55,11 +55,97 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
 
       CardInstance.prototype.attack = function()
       {
+         return this.baseAttack() + this.bonusAttack();
+      };
+
+      CardInstance.prototype.baseAttack = function()
+      {
          var card = this.card();
-         var answer = (card.attack !== undefined ? card.attack : 0);
+
+         return (card.attack !== undefined ? card.attack : 0);
+      };
+
+      CardInstance.prototype.baseDefense = function()
+      {
+         var card = this.card();
+
+         return (card.defense !== undefined ? card.defense : 0);
+      };
+
+      CardInstance.prototype.baseHitPoints = function()
+      {
+         var card = this.card();
+
+         return (card.hitPoints !== undefined ? card.hitPoints : 0);
+      };
+
+      CardInstance.prototype.baseThreat = function()
+      {
+         var store = this.store();
+         var environment = store.getState().environment;
+         var card = this.card();
+         var answer;
 
          switch (card.key)
          {
+            case LocationCard.AMON_HEN:
+            case LocationCard.AMON_LHAW:
+               answer = 2 * environment.agents().size;
+               break;
+            case LocationCard.RHOSGOBEL:
+               answer = environment.agents().size;
+               break;
+            case LocationCard.THE_OLD_FORD:
+               answer = environment.cardsInPlay().filter(function(cardInstance)
+               {
+                  return cardInstance.card().cardTypeKey === CardType.ALLY;
+               }).length;
+               break;
+            default:
+               answer = (card.threat !== undefined ? card.threat : 0);
+         }
+
+         return answer;
+      };
+
+      CardInstance.prototype.baseWillpower = function()
+      {
+         var card = this.card();
+
+         return (card.willpower !== undefined ? card.willpower : 0);
+      };
+
+      CardInstance.prototype.bonusAttack = function()
+      {
+         var store = this.store();
+         var card = this.card();
+         var answer = 0;
+
+         var phaseBonus = store.getState().cardPhaseBonusAttack.get(this.id());
+         answer += (phaseBonus !== undefined ? phaseBonus : 0);
+
+         var roundBonus = store.getState().cardRoundBonusAttack.get(this.id());
+         answer += (roundBonus !== undefined ? roundBonus : 0);
+
+         this.attachments().forEach(function(attachmentInstance)
+         {
+            var myCard = attachmentInstance.card();
+
+            switch (myCard.key)
+            {
+               case AttachmentCard.DWARVEN_AXE:
+                  answer += (this.hasTrait(Trait.DWARF) ? 2 : 1);
+                  break;
+               default:
+                  answer += (myCard.bonusAttack !== undefined ? myCard.bonusAttack : 0);
+            }
+         }, this);
+
+         switch (card.key)
+         {
+            case AllyCard.GIMLI:
+               answer += this.wounds();
+               break;
             case EnemyCard.CHIEFTAIN_UFTHAK:
                var resources = this.resourceMap().get(Sphere.NEUTRAL);
                answer += 2 * (resources !== undefined ? resources : 0);
@@ -69,11 +155,89 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          return answer;
       };
 
+      CardInstance.prototype.bonusDefense = function()
+      {
+         var store = this.store();
+         var answer = 0;
+
+         var phaseBonus = store.getState().cardPhaseBonusDefense.get(this.id());
+         answer += (phaseBonus !== undefined ? phaseBonus : 0);
+
+         var roundBonus = store.getState().cardRoundBonusDefense.get(this.id());
+         answer += (roundBonus !== undefined ? roundBonus : 0);
+
+         this.attachments().forEach(function(attachmentInstance)
+         {
+            var myCard = attachmentInstance.card();
+            answer += (myCard.bonusDefense !== undefined ? myCard.bonusDefense : 0);
+         });
+
+         return answer;
+      };
+
+      CardInstance.prototype.bonusHitPoints = function()
+      {
+         var store = this.store();
+         var answer = 0;
+
+         var phaseBonus = store.getState().cardPhaseBonusHitPoints.get(this.id());
+         answer += (phaseBonus !== undefined ? phaseBonus : 0);
+
+         var roundBonus = store.getState().cardRoundBonusHitPoints.get(this.id());
+         answer += (roundBonus !== undefined ? roundBonus : 0);
+
+         this.attachments().forEach(function(attachmentInstance)
+         {
+            var myCard = attachmentInstance.card();
+            answer += (myCard.bonusHitPoints !== undefined ? myCard.bonusHitPoints : 0);
+         });
+
+         return answer;
+      };
+
+      CardInstance.prototype.bonusThreat = function()
+      {
+         var store = this.store();
+         var answer = 0;
+
+         var phaseBonus = store.getState().cardPhaseBonusThreat.get(this.id());
+         answer += (phaseBonus !== undefined ? phaseBonus : 0);
+
+         var roundBonus = store.getState().cardRoundBonusThreat.get(this.id());
+         answer += (roundBonus !== undefined ? roundBonus : 0);
+
+         this.attachments().forEach(function(attachmentInstance)
+         {
+            var myCard = attachmentInstance.card();
+            answer += (myCard.bonusThreat !== undefined ? myCard.bonusThreat : 0);
+         });
+
+         return answer;
+      };
+
+      CardInstance.prototype.bonusWillpower = function()
+      {
+         var store = this.store();
+         var answer = 0;
+
+         var phaseBonus = store.getState().cardPhaseBonusWillpower.get(this.id());
+         answer += (phaseBonus !== undefined ? phaseBonus : 0);
+
+         var roundBonus = store.getState().cardRoundBonusWillpower.get(this.id());
+         answer += (roundBonus !== undefined ? roundBonus : 0);
+
+         this.attachments().forEach(function(attachmentInstance)
+         {
+            var myCard = attachmentInstance.card();
+            answer += (myCard.bonusWillpower !== undefined ? myCard.bonusWillpower : 0);
+         });
+
+         return answer;
+      };
+
       CardInstance.prototype.defense = function()
       {
-         var card = this.card();
-
-         return (card.defense !== undefined ? card.defense : 0);
+         return this.baseDefense() + this.bonusDefense();
       };
 
       CardInstance.prototype.hasTrait = function(traitKey)
@@ -83,6 +247,11 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
          var traitKeys = this.card().traitKeys;
 
          return traitKeys !== undefined && traitKeys.includes(traitKey);
+      };
+
+      CardInstance.prototype.hitPoints = function()
+      {
+         return this.baseHitPoints() + this.bonusHitPoints();
       };
 
       CardInstance.prototype.isEncounterType = function()
@@ -139,8 +308,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
 
       CardInstance.prototype.remainingHitPoints = function()
       {
-         var card = this.card();
-         var hitPoints = (card.hitPoints !== undefined ? card.hitPoints : 0);
+         var hitPoints = this.hitPoints();
          var wounds = this.wounds();
 
          return (hitPoints - wounds);
@@ -164,31 +332,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
 
       CardInstance.prototype.threat = function()
       {
-         var store = this.store();
-         var environment = store.getState().environment;
-         var card = this.card();
-         var answer;
-
-         switch (card.key)
-         {
-            case LocationCard.AMON_HEN:
-            case LocationCard.AMON_LHAW:
-               answer = 2 * environment.agents().size;
-               break;
-            case LocationCard.RHOSGOBEL:
-               answer = environment.agents().size;
-               break;
-            case LocationCard.THE_OLD_FORD:
-               answer = environment.cardsInPlay().filter(function(cardInstance)
-               {
-                  return cardInstance.card().cardTypeKey === CardType.ALLY;
-               }).length;
-               break;
-            default:
-               answer = (card.threat !== undefined ? card.threat : 0);
-         }
-
-         return answer;
+         return this.baseThreat() + this.bonusThreat();
       };
 
       CardInstance.prototype.toString = function()
@@ -202,9 +346,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardResolver", "ar
 
       CardInstance.prototype.willpower = function()
       {
-         var card = this.card();
-
-         return (card.willpower !== undefined ? card.willpower : 0);
+         return this.baseWillpower() + this.bonusWillpower();
       };
 
       CardInstance.prototype.wounds = function()

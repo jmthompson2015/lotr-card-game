@@ -757,6 +757,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                sphereKey: Sphere.TACTICS,
                cardSetKey: CardSet.CORE,
                cardSetNumber: 4,
+               isImplemented: true, // see CardInstance.attack()
                key: "gimli",
             },
             "gloin":
