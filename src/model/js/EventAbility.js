@@ -6,10 +6,10 @@
         var EventAbility = {};
 
         ////////////////////////////////////////////////////////////////////////
-        EventAbility[GameEvent.CARD_DRAWN] = {};
+        EventAbility[GameEvent.CARD_PLAYED] = {};
 
         // CardSet.CORE
-        EventAbility[GameEvent.CARD_DRAWN][EventCard.FOR_GONDOR] = {
+        EventAbility[GameEvent.CARD_PLAYED][EventCard.FOR_GONDOR] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);
@@ -45,7 +45,7 @@
         };
 
         // CardSet.CORE
-        EventAbility[GameEvent.CARD_DRAWN][EventCard.GRIM_RESOLVE] = {
+        EventAbility[GameEvent.CARD_PLAYED][EventCard.GRIM_RESOLVE] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);

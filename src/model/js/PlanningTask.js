@@ -115,7 +115,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
                store.dispatch(AgentAction.playCard(agent, cardInstance));
             }
 
-            store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN,
+            store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED,
             {
                agent: agent,
                cardInstance: cardInstance,

@@ -58,7 +58,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
          var context;
          var callback = function() {};
          store.dispatch(Action.enqueueEvent(GameEvent.QUEST_CARD_DRAWN, context, callback));
-         store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN, context, callback));
+         store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED, context, callback));
          assert.equal(store.getState().eventQueue.size, 2);
          var eventData0 = store.getState().eventQueue.get(0);
          assert.ok(eventData0);
@@ -66,7 +66,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
          //  assert.equal(eventData0.get("eventAgent").id(), agent1.id());
          var eventData1 = store.getState().eventQueue.get(1);
          assert.ok(eventData1);
-         assert.equal(eventData1.get("eventKey"), GameEvent.CARD_DRAWN);
+         assert.equal(eventData1.get("eventKey"), GameEvent.CARD_PLAYED);
          //  assert.equal(eventData1.get("eventAgent").id(), agent2.id());
 
          // Run.
@@ -76,7 +76,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
          assert.equal(store.getState().eventQueue.size, 1);
          eventData0 = store.getState().eventQueue.get(0);
          assert.ok(eventData0);
-         assert.equal(eventData0.get("eventKey"), GameEvent.CARD_DRAWN);
+         assert.equal(eventData0.get("eventKey"), GameEvent.CARD_PLAYED);
          //  assert.equal(eventData0.get("eventAgent"), agent2);
 
          // Run.
@@ -266,7 +266,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
          //  assert.equal(eventData0.get("eventAgent"), agent1);
 
          // Run.
-         store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN, context, callback));
+         store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED, context, callback));
 
          // Verify.
          assert.equal(store.getState().eventQueue.size, 2);
@@ -276,7 +276,7 @@ define(["immutable", "qunit", "redux", "artifact/js/EnemyCard", "artifact/js/Gam
          //  assert.equal(eventData0.get("eventAgent"), agent1);
          var eventData1 = store.getState().eventQueue.get(1);
          assert.ok(eventData1);
-         assert.equal(eventData1.get("eventKey"), GameEvent.CARD_DRAWN);
+         assert.equal(eventData1.get("eventKey"), GameEvent.CARD_PLAYED);
          //  assert.equal(eventData1.get("eventAgent"), agent2);
       });
 

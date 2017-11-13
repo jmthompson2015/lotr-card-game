@@ -41,7 +41,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EventCard", "arti
             });
             done();
          };
-         var ability = EventAbility[GameEvent.CARD_DRAWN][EventCard.FOR_GONDOR];
+         var ability = EventAbility[GameEvent.CARD_PLAYED][EventCard.FOR_GONDOR];
 
          // Run.
          var done = assert.async();
@@ -79,7 +79,7 @@ define(["qunit", "redux", "artifact/js/CardType", "artifact/js/EventCard", "arti
             });
             done();
          };
-         var ability = EventAbility[GameEvent.CARD_DRAWN][EventCard.GRIM_RESOLVE];
+         var ability = EventAbility[GameEvent.CARD_PLAYED][EventCard.GRIM_RESOLVE];
 
          // Run.
          var done = assert.async();

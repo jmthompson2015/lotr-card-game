@@ -314,7 +314,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          {
             var cardInstance = encounterDeck.get(index);
             store.dispatch(Action.drawEncounterCard(index));
-            store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN,
+            store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED,
             {
                cardInstance: cardInstance,
             }));

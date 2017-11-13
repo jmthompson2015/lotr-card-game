@@ -7,10 +7,10 @@
         var TreacheryAbility = {};
 
         ////////////////////////////////////////////////////////////////////////
-        TreacheryAbility[GameEvent.CARD_DRAWN] = {};
+        TreacheryAbility[GameEvent.CARD_PLAYED] = {};
 
         // EncounterSet.A_JOURNEY_TO_RHOSGOBEL
-        TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.EXHAUSTION] = {
+        TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.EXHAUSTION] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);
@@ -44,7 +44,7 @@
         };
 
         // EncounterSet.SPIDERS_OF_MIRKWOOD
-        TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.EYES_OF_THE_FOREST] = {
+        TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.EYES_OF_THE_FOREST] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);
@@ -77,7 +77,7 @@
         };
 
         // EncounterSet.THE_HUNT_FOR_GOLLUM
-        TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.OLD_WIVES_TALES] = {
+        TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.OLD_WIVES_TALES] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);
@@ -132,7 +132,7 @@
         };
 
         // EncounterSet.DOL_GULDUR_ORCS
-        TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.THE_NECROMANCERS_REACH] = {
+        TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.THE_NECROMANCERS_REACH] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);

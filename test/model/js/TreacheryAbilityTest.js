@@ -31,7 +31,7 @@ define(["qunit", "redux", "artifact/js/GameEvent", "artifact/js/Scenario", "arti
             });
             done();
          };
-         var ability = TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.EXHAUSTION];
+         var ability = TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.EXHAUSTION];
 
          // Run.
          var done = assert.async();
@@ -58,7 +58,7 @@ define(["qunit", "redux", "artifact/js/GameEvent", "artifact/js/Scenario", "arti
             assert.equal(cardInstance.resourceMap().get(Sphere.LEADERSHIP), 0);
             done();
          };
-         var ability = TreacheryAbility[GameEvent.CARD_DRAWN][TreacheryCard.OLD_WIVES_TALES];
+         var ability = TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.OLD_WIVES_TALES];
 
          // Run.
          var done = assert.async();

@@ -3,7 +3,7 @@
 define(function()
 {
    var GameEvent = {
-      CARD_DRAWN: "cardDrawn",
+      CARD_PLAYED: "cardPlayed",
       QUEST_CARD_DRAWN: "questCardDrawn",
       QUEST_SUCCEEDED: "questSucceeded",
       SHADOW_CARD_REVEALED: "shadowCardRevealed",
@@ -12,10 +12,10 @@ define(function()
 
       properties:
       {
-         "cardDrawn":
+         "cardPlayed":
          {
-            name: "Card drawn",
-            key: "cardDrawn",
+            name: "Card played",
+            key: "cardPlayed",
          },
          "questCardDrawn":
          {

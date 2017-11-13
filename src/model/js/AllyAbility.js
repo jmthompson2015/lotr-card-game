@@ -7,10 +7,10 @@
         var AllyAbility = {};
 
         ////////////////////////////////////////////////////////////////////////
-        AllyAbility[GameEvent.CARD_DRAWN] = {};
+        AllyAbility[GameEvent.CARD_PLAYED] = {};
 
         // CardSet.CORE
-        AllyAbility[GameEvent.CARD_DRAWN][AllyCard.LONGBEARD_ORC_SLAYER] = {
+        AllyAbility[GameEvent.CARD_PLAYED][AllyCard.LONGBEARD_ORC_SLAYER] = {
            condition: function(store, context)
            {
               InputValidator.validateNotNull("store", store);

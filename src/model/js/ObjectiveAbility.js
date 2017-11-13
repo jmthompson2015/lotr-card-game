@@ -6,9 +6,9 @@
         var ObjectiveAbility = {};
 
         ////////////////////////////////////////////////////////////////////////
-        ObjectiveAbility[GameEvent.CARD_DRAWN] = {};
+        ObjectiveAbility[GameEvent.CARD_PLAYED] = {};
 
-        ObjectiveAbility[GameEvent.CARD_DRAWN][ObjectiveCard.WILYADOR] = {
+        ObjectiveAbility[GameEvent.CARD_PLAYED][ObjectiveCard.WILYADOR] = {
            // No attachments. The first player gains control of Wilyador.
            // Forced: At the end of each round, Wilyador suffers 2 damage.
            // Wilyador cannot be healed of more than 5 wounds by a single effect.

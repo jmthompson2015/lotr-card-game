@@ -89,7 +89,7 @@ define(["common/js/InputValidator", "artifact/js/GameEvent", "artifact/js/Phase"
             var afterSize = environment.stagingArea().size;
             if (afterSize > beforeSize)
             {
-               store.dispatch(Action.enqueueEvent(GameEvent.CARD_DRAWN,
+               store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED,
                {
                   cardInstance: environment.stagingArea().last(),
                }));

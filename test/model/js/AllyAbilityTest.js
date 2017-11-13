@@ -38,7 +38,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
             });
             done();
          };
-         var ability = AllyAbility[GameEvent.CARD_DRAWN][AllyCard.LONGBEARD_ORC_SLAYER];
+         var ability = AllyAbility[GameEvent.CARD_PLAYED][AllyCard.LONGBEARD_ORC_SLAYER];
 
          // Run.
          var done = assert.async();
