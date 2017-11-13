@@ -1,7 +1,7 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "view/js/MultipleCardChooser"],
-   function(createReactClass, PropTypes, React, MultipleCardChooser)
+define(["create-react-class", "prop-types", "react", "view/js/CardComparator", "view/js/MultipleCardChooser"],
+   function(createReactClass, PropTypes, React, CardComparator, MultipleCardChooser)
    {
       var CharacterAttackersChooser = createReactClass(
       {
@@ -16,29 +16,12 @@ define(["create-react-class", "prop-types", "react", "view/js/MultipleCardChoose
                cardInstances: this.props.cardInstances,
                onChange: this.props.onChange,
                title: "Select Attackers",
-               comparator: CardComparator,
+               comparator: CardComparator.AttackName,
                labelFunction: labelFunction,
                message: message,
             });
          },
       });
-
-      var CardComparator = function(a, b)
-      {
-         var answer = compare(b.attack(), a.attack()); // descending
-
-         if (answer === 0)
-         {
-            answer = compare(a.card().name, b.card().name);
-         }
-
-         return answer;
-      };
-
-      function compare(a, b)
-      {
-         return (a === b ? 0 : (a > b ? 1 : -1));
-      }
 
       function labelFunction(value)
       {
