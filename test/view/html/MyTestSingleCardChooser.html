@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MyTestPlayCardChooser</title>
+  <title>MyTestSingleCardChooser</title>
 
   <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
   <link rel="stylesheet" href="../../../src/view/css/style.css">
@@ -12,17 +12,18 @@
 
 </head>
 <body>
-  <div id="panel"></div>
+  <div id="panel1"></div>
+  <div id="panel2"></div>
   <script>
     "use strict";
 
     require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/AllyCard", "artifact/js/AttachmentCard",
         "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard",
         "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/Action", "model/js/CardInstance", "model/js/Reducer",
-        "view/js/PlayCardChooser"
+        "view/js/SingleCardChooser"
       ],
       function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard,
-        QuestCard, Sphere, TreacheryCard, Action, CardInstance, Reducer, PlayCardChooser)
+        QuestCard, Sphere, TreacheryCard, Action, CardInstance, Reducer, SingleCardChooser)
       {
         window.LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
@@ -43,13 +44,32 @@
         cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.CAMPFIRE_TALES]));
         cardInstances.lotrShuffle();
 
-        var element = React.createElement(PlayCardChooser,
+        var element1 = React.createElement(SingleCardChooser,
         {
-          cardInstances: cardInstances,
+          cardInstances: cardInstances.slice(),
           onChange: myOnChange,
+          title: "Select a card",
         });
 
-        ReactDOM.render(element, document.getElementById("panel"));
+        ReactDOM.render(element1, document.getElementById("panel1"));
+
+        var element2 = React.createElement(SingleCardChooser,
+        {
+          cardInstances: cardInstances.slice(),
+          onChange: myOnChange,
+          title: "Select a card",
+          comparator: function(a, b)
+          {
+            return a.card().cost - b.card().cost;
+          },
+          labelFunction: function(value)
+          {
+            return value.card().name + " [" + value.card().cost + "]";
+          },
+          message: "DO SOMETHING!",
+        });
+
+        ReactDOM.render(element2, document.getElementById("panel2"));
 
         function myOnChange(selected, isAccepted)
         {

@@ -236,9 +236,10 @@ define(["react", "react-dom", "common/js/InputValidator",
 
          //////////////////////////////////////////////////////////////////////////
 
-         chooseUndefendedAttackHero: function(agent, heroes, callback)
+         chooseUndefendedAttackHero: function(agent, attacker, heroes, callback)
          {
             InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attacker", attacker);
             InputValidator.validateIsArray("heroes", heroes);
             InputValidator.validateIsFunction("callback", callback);
 
@@ -250,6 +251,7 @@ define(["react", "react-dom", "common/js/InputValidator",
 
             var element = React.createElement(UndefendedAttackHeroChooser,
             {
+               attack: attacker.attack(),
                cardInstances: heroes,
                onChange: chooseCallback,
             });

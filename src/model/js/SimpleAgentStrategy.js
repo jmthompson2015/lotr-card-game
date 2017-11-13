@@ -90,9 +90,10 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
             callback(questers);
          },
 
-         chooseUndefendedAttackHero: function(agent, heroes, callback)
+         chooseUndefendedAttackHero: function(agent, attacker, heroes, callback)
          {
             InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attacker", attacker);
             InputValidator.validateIsArray("heroes", heroes);
             InputValidator.validateNotEmpty("heroes", heroes);
             InputValidator.validateIsFunction("callback", callback);

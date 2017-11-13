@@ -156,7 +156,7 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
                   finishUndefendedDamageFunction(attacker, hero, callback);
                };
 
-               agent.chooseUndefendedAttackHero(heroes, myCallback);
+               agent.chooseUndefendedAttackHero(attacker, heroes, myCallback);
             }
             else
             {

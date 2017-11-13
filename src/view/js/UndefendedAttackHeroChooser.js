@@ -1,96 +1,53 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/InputPanel", "view/js/OptionPane"],
-   function(createReactClass, PropTypes, React, DOM, InputPanel, OptionPane)
+define(["create-react-class", "prop-types", "react", "view/js/SingleCardChooser"],
+   function(createReactClass, PropTypes, React, SingleCardChooser)
    {
       var UndefendedAttackHeroChooser = createReactClass(
       {
          render: function()
          {
-            var cardInstances = this.props.cardInstances;
-            cardInstances.sort(CardComparator);
+            var message = "to take undefended damage " + this.props.attack;
 
-            var labelFunction = function(value)
+            return React.createElement(SingleCardChooser,
             {
-               return value.card().name + " (defense " + value.defense() + ")";
-            };
-
-            var initialInput = React.createElement(InputPanel,
-            {
-               type: InputPanel.Type.RADIO,
-               values: cardInstances,
-               name: "selectHero",
+               cardInstances: this.props.cardInstances,
+               onChange: this.props.onChange,
+               title: "Select Hero",
+               comparator: CardComparator,
+               hasButtons: false,
                labelFunction: labelFunction,
-               onChange: this.myOnChange,
-               panelClass: "f6 tl",
+               message: message,
             });
-
-            var title = "Select Hero";
-            var buttons = DOM.span();
-
-            return React.createElement(OptionPane,
-            {
-               panelClass: "bg-lotr-light",
-               title: title,
-               titleClass: "bg-lotr-dark",
-               message: "for undefended damage",
-               messageClass: "ma2 pa2",
-               initialInput: initialInput,
-               buttons: buttons,
-            });
-         },
-
-         myOnChange: function(event, selected)
-         {
-            var isAccepted = (selected !== undefined);
-            this.props.onChange(selected, isAccepted);
-         },
-
-         pass: function()
-         {
-            var isAccepted = false;
-            this.props.onChange(undefined, isAccepted);
          },
       });
 
       var CardComparator = function(a, b)
       {
-         var answer = -1;
-         var sphereKeyA = a.defense();
-         var sphereKeyB = b.defense();
-
-         if (sphereKeyA === sphereKeyB)
-         {
-            answer = 0;
-         }
-         else if (sphereKeyA < sphereKeyB)
-         {
-            answer = 1;
-         }
+         var answer = compare(b.remainingHitPoints(), a.remainingHitPoints()); // descending
 
          if (answer === 0)
          {
-            var nameA = a.card().name;
-            var nameB = b.card().name;
-            if (nameA === nameB)
-            {
-               answer = 0;
-            }
-            else if (nameA > nameB)
-            {
-               answer = 1;
-            }
-            else
-            {
-               answer = -1;
-            }
+            answer = compare(a.card().name, b.card().name);
          }
 
          return answer;
       };
 
+      function compare(a, b)
+      {
+         return (a === b ? 0 : (a > b ? 1 : -1));
+      }
+
+      function labelFunction(value)
+      {
+         return value.card().name + " (hit points " + value.remainingHitPoints() + ")";
+      }
+
       UndefendedAttackHeroChooser.propTypes = {
+         attack: PropTypes.number.isRequired,
          cardInstances: PropTypes.array.isRequired,
+         onChange: PropTypes.func.isRequired,
       };
 
       return UndefendedAttackHeroChooser;

@@ -164,6 +164,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          // Setup.
          var strategy = SimpleAgentStrategy;
          var store = Redux.createStore(Reducer.root);
+         var attacker = new CardInstance(store, EnemyCard.FOREST_SPIDER);
          var agent = new Agent(store, "agent");
          var heroes = [];
          heroes.push(new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]));
@@ -177,6 +178,6 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/EnemyCard", "arti
          };
 
          // Run.
-         strategy.chooseUndefendedAttackHero(agent, heroes, callback);
+         strategy.chooseUndefendedAttackHero(agent, attacker, heroes, callback);
       });
    });

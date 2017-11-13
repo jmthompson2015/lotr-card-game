@@ -306,6 +306,13 @@ define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifa
          return (answer !== undefined ? answer : 0);
       };
 
+      CardInstance.prototype.questPoints = function()
+      {
+         var card = this.card();
+
+         return (card.questPoints !== undefined ? card.questPoints : 0);
+      };
+
       CardInstance.prototype.remainingHitPoints = function()
       {
          var hitPoints = this.hitPoints();
