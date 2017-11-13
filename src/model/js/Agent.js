@@ -255,9 +255,24 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          return this._strategy().chooseCharacterDefender(this, attacker, characters, callback);
       };
 
+      Agent.prototype.chooseCharacterForAttachment = function(attachmentInstance, characters, callback)
+      {
+         return this._strategy().chooseCharacterForAttachment(this, attachmentInstance, characters, callback);
+      };
+
       Agent.prototype.chooseEnemyDefender = function(enemies, callback)
       {
          return this._strategy().chooseEnemyDefender(this, enemies, callback);
+      };
+
+      Agent.prototype.chooseEngagedEnemyForAttachment = function(attachmentInstance, enemies, callback)
+      {
+         return this._strategy().chooseEngagedEnemyForAttachment(this, attachmentInstance, enemies, callback);
+      };
+
+      Agent.prototype.chooseHeroForAttachment = function(attachmentInstance, heroes, callback)
+      {
+         return this._strategy().chooseHeroForAttachment(this, attachmentInstance, heroes, callback);
       };
 
       Agent.prototype.chooseLocation = function(locations, callback)

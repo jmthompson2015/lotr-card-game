@@ -56,8 +56,17 @@ define(["common/js/InputValidator", "artifact/js/GameEvent",
 
          var attacker = this.queue().shift();
          LOGGER.debug("CombatDefendTask.processQueue() attacker = " + attacker);
+         var store = this.store();
+         var adjudicator = store.getState().adjudicator;
 
-         this.declareDefender(attacker, callback);
+         if (adjudicator.canAttack(attacker))
+         {
+            this.declareDefender(attacker, callback);
+         }
+         else
+         {
+            this.processQueue(callback);
+         }
       };
 
       CombatDefendTask.prototype.declareDefender = function(attacker, callback)

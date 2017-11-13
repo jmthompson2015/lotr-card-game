@@ -544,6 +544,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                traitKeys: [Trait.ITEM, Trait.TRAP],
                sphereKey: Sphere.LORE,
                cardSetKey: CardSet.CORE,
+               isImplemented: true,
                key: "forestSnare",
             },
             "gandalfsStaff":

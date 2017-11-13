@@ -104,24 +104,17 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
             }
 
             // Play the card.
-            if (cardInstance.card().cardTypeKey === CardType.ATTACHMENT)
+            store.dispatch(AgentAction.playCard(agent, cardInstance));
+            var processAgent = this.processAgent.bind(this);
+            var myCallback = function()
             {
-               // FIXME: need target instance from user.
-               var targetInstance = agent.tableauHeroes().get(0);
-               store.dispatch(AgentAction.playAttachmentCard(agent, targetInstance, cardInstance));
-            }
-            else
-            {
-               store.dispatch(AgentAction.playCard(agent, cardInstance));
-            }
-
+               processAgent(agent, callback);
+            };
             store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED,
             {
                agent: agent,
                cardInstance: cardInstance,
-            }));
-
-            this.processAgent(agent, callback);
+            }, myCallback));
          }
          else
          {

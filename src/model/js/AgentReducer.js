@@ -21,6 +21,18 @@ define(["immutable", "model/js/AgentAction", "model/js/CardInstance", "model/js/
                {
                   agentThreat: state.agentThreat.set(agentId, oldThreat + action.value),
                });
+            case AgentAction.ATTACH_CARD:
+               LOGGER.info("Attach card: " + action.attachmentInstance + " to " + action.cardInstance);
+               agentId = action.agent.id();
+               cardId = action.cardInstance.id();
+               attachmentId = action.attachmentInstance.id();
+               return TransferReducer.reduce(state, "agentTableau", agentId, attachmentId, "cardAttachments", cardId);
+            case AgentAction.ATTACH_TO_ENGAGED_ENEMY:
+               LOGGER.info("Attach card: " + action.attachmentInstance + " to " + action.cardInstance);
+               agentId = action.agent.id();
+               cardId = action.cardInstance.id();
+               attachmentId = action.attachmentInstance.id();
+               return TransferReducer.reduce(state, "agentTableau", agentId, attachmentId, "cardAttachments", cardId);
             case AgentAction.DISCARD_ATTACHMENT_CARD:
                LOGGER.debug("Discard attachment: " + action.attachmentInstance + " from " + action.cardInstance);
                agentId = action.agent.id();
@@ -54,12 +66,6 @@ define(["immutable", "model/js/AgentAction", "model/js/CardInstance", "model/js/
                {
                   nextAgentId: state.nextAgentId + 1,
                });
-            case AgentAction.PLAY_ATTACHMENT_CARD:
-               LOGGER.debug("Play attachment: " + action.attachmentInstance + " to " + action.cardInstance);
-               agentId = action.agent.id();
-               cardId = action.cardInstance.id();
-               attachmentId = action.attachmentInstance.id();
-               return TransferReducer.reduce(state, "agentHand", agentId, attachmentId, "cardAttachments", cardId);
             case AgentAction.PLAY_CARD:
                LOGGER.debug("Play card: " + action.cardInstance);
                agentId = action.agent.id();

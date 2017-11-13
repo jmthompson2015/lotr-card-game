@@ -1,8 +1,8 @@
 "use strict";
 
 define(["common/js/InputValidator",
-  "model/js/Ability", "model/js/Action", "model/js/AllyAbility", "model/js/EventAbility", "model/js/HeroAbility", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
-   function(InputValidator, Ability, Action, AllyAbility, EventAbility, HeroAbility, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
+  "model/js/Ability", "model/js/Action", "model/js/AllyAbility", "model/js/AttachmentAbility", "model/js/EventAbility", "model/js/HeroAbility", "model/js/LocationAbility", "model/js/ObjectiveAbility", "model/js/Observer", "model/js/QuestAbility", "model/js/ShadowAbility", "model/js/TreacheryAbility"],
+   function(InputValidator, Ability, Action, AllyAbility, AttachmentAbility, EventAbility, HeroAbility, LocationAbility, ObjectiveAbility, Observer, QuestAbility, ShadowAbility, TreacheryAbility)
    {
       function EventObserver(store)
       {
@@ -136,7 +136,7 @@ define(["common/js/InputValidator",
          }
       };
 
-      EventObserver.ABILITY_OBJECTS = [AllyAbility, EventAbility, HeroAbility, LocationAbility,
+      EventObserver.ABILITY_OBJECTS = [AllyAbility, AttachmentAbility, EventAbility, HeroAbility, LocationAbility,
         ObjectiveAbility, QuestAbility, ShadowAbility, TreacheryAbility];
 
       if (Object.freeze)

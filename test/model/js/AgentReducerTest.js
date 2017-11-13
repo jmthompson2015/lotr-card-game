@@ -26,6 +26,56 @@ define(["qunit", "redux", "artifact/js/HeroCard",
          assert.equal(store.getState().agentThreat.get(agent.id()), 6);
       });
 
+      QUnit.test("attachCard()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         var store = environment.store();
+         var agent = environment.agents().first();
+         var cardInstance = agent.tableau().first();
+         var attachmentInstance = agent.hand().first();
+         store.dispatch(AgentAction.playCard(agent, attachmentInstance));
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 4);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()), undefined);
+
+         // Run.
+         store.dispatch(AgentAction.attachCard(agent, cardInstance, attachmentInstance));
+
+         // Verify.
+         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).get(0), attachmentInstance.id());
+      });
+
+      QUnit.test("attachToEngagedEnemy()", function(assert)
+      {
+         // Setup.
+         var game = createGame();
+         var environment = game.engine().environment();
+         var store = environment.store();
+         var agent = environment.agents().first();
+         store.dispatch(Action.drawEncounterCard());
+         var cardInstance = environment.stagingArea().first();
+         store.dispatch(Action.agentEngageCard(agent, cardInstance));
+         var attachmentInstance = agent.hand().first();
+         store.dispatch(AgentAction.playCard(agent, attachmentInstance));
+         assert.equal(store.getState().agentEngagementArea.get(agent.id()).size, 1);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 4);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()), undefined);
+
+         // Run.
+         store.dispatch(AgentAction.attachToEngagedEnemy(agent, cardInstance, attachmentInstance));
+
+         // Verify.
+         assert.equal(store.getState().agentEngagementArea.get(agent.id()).size, 1);
+         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
+         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).get(0), attachmentInstance.id());
+      });
+
       QUnit.test("discardAttachmentCard()", function(assert)
       {
          // Setup.
@@ -35,7 +85,8 @@ define(["qunit", "redux", "artifact/js/HeroCard",
          var agent = environment.agents().first();
          var cardInstance = agent.tableau().first();
          var attachmentInstance = agent.hand().first();
-         store.dispatch(AgentAction.playAttachmentCard(agent, cardInstance, attachmentInstance));
+         store.dispatch(AgentAction.playCard(agent, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent, cardInstance, attachmentInstance));
          assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
          assert.equal(store.getState().agentPlayerDiscard.get(agent.id()), undefined);
          assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
@@ -106,28 +157,6 @@ define(["qunit", "redux", "artifact/js/HeroCard",
 
          // Verify.
          assert.equal(store.getState().nextAgentId, 3);
-      });
-
-      QUnit.test("playAttachmentCard()", function(assert)
-      {
-         // Setup.
-         var game = createGame();
-         var environment = game.engine().environment();
-         var store = environment.store();
-         var agent = environment.agents().get(0);
-         var cardInstance = agent.tableau().get(0);
-         var attachmentInstance = agent.hand().get(1);
-         assert.equal(store.getState().agentHand.get(agent.id()).size, 6);
-         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-         assert.equal(store.getState().cardAttachments.get(cardInstance.id()), undefined);
-
-         // Run.
-         store.dispatch(AgentAction.playAttachmentCard(agent, cardInstance, attachmentInstance));
-
-         // Verify.
-         assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
-         assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-         assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
       });
 
       QUnit.test("playCard()", function(assert)

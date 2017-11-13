@@ -99,7 +99,8 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
          agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
          var attachmentInstance = agent4.hand().last();
-         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+         store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
          // Run.
          var result = cardInstance.bonusAttack();
@@ -125,7 +126,8 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
          agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
          var attachmentInstance = agent4.hand().last();
-         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+         store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
          // Run.
          var result = cardInstance.bonusDefense();
@@ -144,7 +146,8 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
          agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
          var attachmentInstance = agent4.hand().last();
-         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+         store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
          // Run.
          var result = cardInstance.bonusHitPoints();
@@ -163,7 +166,8 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
          agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
          var attachmentInstance = agent4.hand().last();
-         store.dispatch(AgentAction.playAttachmentCard(agent4, cardInstance, attachmentInstance));
+         store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
          // Run.
          var result = cardInstance.bonusWillpower();

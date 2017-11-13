@@ -177,6 +177,19 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
          return CardInstance.idsToCardInstances(store, ids);
       };
 
+      Environment.prototype.engagedEnemies = function()
+      {
+         var answer = [];
+         var agents = this.agents();
+
+         agents.forEach(function(agent)
+         {
+            answer = answer.concat(agent.engagementArea().toJS());
+         });
+
+         return answer;
+      };
+
       Environment.prototype.firstAgent = function()
       {
          var store = this.store();

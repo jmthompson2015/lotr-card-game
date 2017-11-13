@@ -40,6 +40,18 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
             callback(defender);
          },
 
+         chooseCharacterForAttachment: function(agent, attachmentInstance, characters, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+            InputValidator.validateIsArray("characters", characters);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var character = characters.lotrRandomElement();
+
+            callback(character);
+         },
+
          chooseEnemyDefender: function(agent, enemies, callback)
          {
             InputValidator.validateNotNull("agent", agent);
@@ -49,6 +61,30 @@ define(["common/js/ArrayAugments", "common/js/InputValidator"],
             var defender = enemies.lotrRandomElement();
 
             callback(defender);
+         },
+
+         chooseEngagedEnemyForAttachment: function(agent, attachmentInstance, enemies, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+            InputValidator.validateIsArray("enemies", enemies);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var enemy = enemies.lotrRandomElement();
+
+            callback(enemy);
+         },
+
+         chooseHeroForAttachment: function(agent, attachmentInstance, heroes, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+            InputValidator.validateIsArray("heroes", heroes);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var hero = heroes.lotrRandomElement();
+
+            callback(hero);
          },
 
          chooseLocation: function(agent, locations, callback)

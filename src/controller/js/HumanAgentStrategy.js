@@ -1,8 +1,8 @@
 "use strict";
 
 define(["react", "react-dom", "common/js/InputValidator",
-  "view/js/CharacterAttackersChooser", "view/js/CharacterDefenderChooser", "view/js/EnemyDefenderChooser", "view/js/LocationChooser", "view/js/OptionalEngagementEnemyChooser", "view/js/PlayCardChooser", "view/js/QuestersChooser", "view/js/UndefendedAttackHeroChooser"],
-   function(React, ReactDOM, InputValidator, CharacterAttackersChooser, CharacterDefenderChooser, EnemyDefenderChooser, LocationChooser, OptionalEngagementEnemyChooser, PlayCardChooser, QuestersChooser, UndefendedAttackHeroChooser)
+  "view/js/CharacterAttackersChooser", "view/js/CharacterDefenderChooser", "view/js/EnemyDefenderChooser", "view/js/LocationChooser", "view/js/OptionalEngagementEnemyChooser", "view/js/PlayCardChooser", "view/js/QuestersChooser", "view/js/SingleCardChooser", "view/js/UndefendedAttackHeroChooser"],
+   function(React, ReactDOM, InputValidator, CharacterAttackersChooser, CharacterDefenderChooser, EnemyDefenderChooser, LocationChooser, OptionalEngagementEnemyChooser, PlayCardChooser, QuestersChooser, SingleCardChooser, UndefendedAttackHeroChooser)
    {
       var HumanAgentStrategy = {
 
@@ -106,6 +106,41 @@ define(["react", "react-dom", "common/js/InputValidator",
 
          //////////////////////////////////////////////////////////////////////////
 
+         chooseCharacterForAttachment: function(agent, attachmentInstance, characters, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+            InputValidator.validateIsArray("characters", characters);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var finishFunction = this.finishChooseHeroForAttachment.bind(this);
+            var chooseCallback = function(selected, isAccepted)
+            {
+               finishFunction(agent, selected, isAccepted, callback);
+            };
+
+            var element = React.createElement(SingleCardChooser,
+            {
+               cardInstances: characters,
+               onChange: chooseCallback,
+               title: "Select Character for Attachment",
+               message: "Attachment: " + attachmentInstance.name,
+            });
+
+            ReactDOM.render(element, document.getElementById("inputPanel" + agent.id()));
+         },
+
+         finishChooseCharacterForAttachment: function(agent, selected, isAccepted, callback)
+         {
+            document.getElementById("inputPanel" + agent.id()).innerHTML = "";
+
+            var character = (isAccepted === true ? selected : undefined);
+
+            callback(character);
+         },
+
+         //////////////////////////////////////////////////////////////////////////
+
          chooseEnemyDefender: function(agent, enemies, callback)
          {
             InputValidator.validateNotNull("agent", agent);
@@ -134,6 +169,76 @@ define(["react", "react-dom", "common/js/InputValidator",
             var defender = (isAccepted === true ? selected : undefined);
 
             callback(defender);
+         },
+
+         //////////////////////////////////////////////////////////////////////////
+
+         chooseEngagedEnemyForAttachment: function(agent, attachmentInstance, heroes, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+            InputValidator.validateIsArray("heroes", heroes);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var finishFunction = this.finishChooseEngagedEnemyForAttachment.bind(this);
+            var chooseCallback = function(selected, isAccepted)
+            {
+               finishFunction(agent, selected, isAccepted, callback);
+            };
+
+            var element = React.createElement(SingleCardChooser,
+            {
+               cardInstances: heroes,
+               onChange: chooseCallback,
+               title: "Select Engaged Enemy for Attachment",
+               message: "Attachment: " + attachmentInstance.name,
+            });
+
+            ReactDOM.render(element, document.getElementById("inputPanel" + agent.id()));
+         },
+
+         finishChooseEngagedEnemyForAttachment: function(agent, selected, isAccepted, callback)
+         {
+            document.getElementById("inputPanel" + agent.id()).innerHTML = "";
+
+            var enemy = (isAccepted === true ? selected : undefined);
+
+            callback(enemy);
+         },
+
+         //////////////////////////////////////////////////////////////////////////
+
+         chooseHeroForAttachment: function(agent, attachmentInstance, heroes, callback)
+         {
+            InputValidator.validateNotNull("agent", agent);
+            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+            InputValidator.validateIsArray("heroes", heroes);
+            InputValidator.validateIsFunction("callback", callback);
+
+            var finishFunction = this.finishChooseHeroForAttachment.bind(this);
+            var chooseCallback = function(selected, isAccepted)
+            {
+               finishFunction(agent, selected, isAccepted, callback);
+            };
+
+            var element = React.createElement(SingleCardChooser,
+            {
+               cardInstances: heroes,
+               onChange: chooseCallback,
+               title: "Select Hero for Attachment",
+               message: "Attachment: " + attachmentInstance.name,
+            });
+
+            ReactDOM.render(element, document.getElementById("inputPanel" + agent.id()));
+         },
+
+         finishChooseHeroForAttachment: function(agent, selected, isAccepted, callback)
+         {
+            document.getElementById("inputPanel" + agent.id()).innerHTML = "";
+
+            var hero = (isAccepted === true ? selected : undefined);
+
+            callback(hero);
          },
 
          //////////////////////////////////////////////////////////////////////////

@@ -5,13 +5,14 @@ define(["common/js/InputValidator"], function(InputValidator)
    var AgentAction = {};
 
    AgentAction.ADD_THREAT = "addThreat";
+   AgentAction.ATTACH_CARD = "attachCard";
+   AgentAction.ATTACH_TO_ENGAGED_ENEMY = "attachToEngagedEnemy";
    AgentAction.DISCARD_ATTACHMENT_CARD = "discardAttachmentCard";
    AgentAction.DISCARD_FROM_HAND = "discardFromHand";
    AgentAction.DISCARD_FROM_PLAYER_DECK = "discardFromPlayerDeck";
    AgentAction.DISCARD_FROM_TABLEAU = "discardFromTableau";
    AgentAction.DRAW_PLAYER_CARD = "drawPlayerCard";
    AgentAction.INCREMENT_NEXT_AGENT_ID = "incrementNextAgentId";
-   AgentAction.PLAY_ATTACHMENT_CARD = "playAttachmentCard";
    AgentAction.PLAY_CARD = "playCard";
    AgentAction.SET_PLAYER_DECK = "setPlayerDeck";
    AgentAction.SET_TABLEAU = "setTableau";
@@ -29,6 +30,36 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: AgentAction.ADD_THREAT,
          agent: agent,
          value: myValue,
+      });
+   };
+
+   AgentAction.attachCard = function(agent, cardInstance, attachmentInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+
+      return (
+      {
+         type: AgentAction.ATTACH_CARD,
+         agent: agent,
+         cardInstance: cardInstance,
+         attachmentInstance: attachmentInstance,
+      });
+   };
+
+   AgentAction.attachToEngagedEnemy = function(agent, cardInstance, attachmentInstance)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+
+      return (
+      {
+         type: AgentAction.ATTACH_TO_ENGAGED_ENEMY,
+         agent: agent,
+         cardInstance: cardInstance,
+         attachmentInstance: attachmentInstance,
       });
    };
 
@@ -104,21 +135,6 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: AgentAction.INCREMENT_NEXT_AGENT_ID,
-      });
-   };
-
-   AgentAction.playAttachmentCard = function(agent, cardInstance, attachmentInstance)
-   {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
-
-      return (
-      {
-         type: AgentAction.PLAY_ATTACHMENT_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
-         attachmentInstance: attachmentInstance,
       });
    };
 
