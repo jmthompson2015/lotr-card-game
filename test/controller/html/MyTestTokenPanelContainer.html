@@ -38,7 +38,7 @@
 				LOGGER.info("cardInstance = " + cardInstance);
 				store.dispatch(CardAction.addWounds(cardInstance));
 				store.dispatch(CardAction.addProgress(cardInstance, 2));
-				store.dispatch(CardAction.addResource(cardInstance, Sphere.LEADERSHIP, 3));
+				store.dispatch(CardAction.addResources(cardInstance, 3));
 
 				var element = React.createElement(ReactRedux.Provider,
 				{

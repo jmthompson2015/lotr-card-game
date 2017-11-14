@@ -317,10 +317,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
 
          var store = this.store();
          var encounterDeck = this.encounterDeck();
-         var cardKeys = encounterDeck.map(function(cardInstance)
-         {
-            return cardInstance.card().key;
-         });
+         var cardKeys = CardInstance.cardInstancesToKeys(encounterDeck);
          var index = cardKeys.indexOf(cardKey);
 
          if (index >= 0)
@@ -343,10 +340,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
 
          var store = this.store();
          var encounterDeck = this.encounterDeck();
-         var cardKeys = encounterDeck.map(function(cardInstance)
-         {
-            return cardInstance.card().key;
-         });
+         var cardKeys = CardInstance.cardInstancesToKeys(encounterDeck);
          var index = cardKeys.indexOf(cardKey);
          LOGGER.info("Environment.encounterToAgentTableau() index = " + index);
 
@@ -363,10 +357,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
 
          var store = this.store();
          var encounterDeck = this.encounterDeck();
-         var cardKeys = encounterDeck.map(function(cardInstance)
-         {
-            return cardInstance.card().key;
-         });
+         var cardKeys = CardInstance.cardInstancesToKeys(encounterDeck);
          var index = cardKeys.indexOf(cardKey);
 
          if (index >= 0)
@@ -382,10 +373,7 @@ define(["immutable", "common/js/ArrayAugments", "common/js/InputValidator", "art
 
          var store = this.store();
          var encounterSetAside = this.encounterSetAside();
-         var cardKeys = encounterSetAside.map(function(cardInstance)
-         {
-            return cardInstance.card().key;
-         });
+         var cardKeys = CardInstance.cardInstancesToKeys(encounterSetAside);
          var index = cardKeys.indexOf(cardKey);
 
          if (index >= 0)

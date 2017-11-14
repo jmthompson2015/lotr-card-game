@@ -14,7 +14,7 @@ define(["qunit", "redux", "artifact/js/Sphere",
          var store = environment.store();
          var agent1 = environment.agents().get(0);
          var agent2 = environment.agents().get(1);
-         store.dispatch(CardAction.addResource(agent1.tableauHeroes().get(0), Sphere.LEADERSHIP, 2));
+         store.dispatch(CardAction.addResources(agent1.tableauHeroes().get(0), 2));
          var agent1BeforeHandSize = store.getState().agentHand.get(agent1.id()).size;
          assert.equal(store.getState().agentHand.get(agent1.id()).size, 6);
          assert.equal(store.getState().agentTableau.get(agent1.id()).size, 3);

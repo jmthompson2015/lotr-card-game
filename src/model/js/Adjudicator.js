@@ -19,20 +19,7 @@ define(["common/js/InputValidator", "artifact/js/AttachmentCard", "model/js/Acti
       {
          InputValidator.validateNotNull("cardInstance", cardInstance);
 
-         var answer = true;
-         var attachments = cardInstance.attachments();
-
-         if (attachments.size > 0)
-         {
-            var attachmentKeys = attachments.map(function(attachmentInstance)
-            {
-               return attachmentInstance.card().key;
-            });
-
-            answer = !attachmentKeys.includes(AttachmentCard.FOREST_SNARE);
-         }
-
-         return answer;
+         return !cardInstance.hasAttachment(AttachmentCard.FOREST_SNARE);
       };
 
       Adjudicator.prototype.isGameOver = function()

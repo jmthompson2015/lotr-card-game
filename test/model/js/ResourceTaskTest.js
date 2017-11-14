@@ -23,8 +23,7 @@ define(["qunit", "redux", "artifact/js/GameMode",
             agent.tableauHeroes().forEach(function(cardInstance)
             {
                cardResources = store.getState().cardResources.get(cardInstance.id());
-               var sphereKey = cardInstance.card().sphereKey;
-               assert.equal(cardResources.get(sphereKey), 1);
+               assert.equal(cardResources, 1);
             });
             agentHand = store.getState().agentHand.get(agent.id());
             assert.equal(agentHand.size, 1);

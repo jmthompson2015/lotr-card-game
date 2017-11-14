@@ -38,7 +38,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          assert.equal(result, 3);
 
          // Run.
-         store.dispatch(CardAction.addResource(cardInstance, Sphere.NEUTRAL, 1));
+         store.dispatch(CardAction.addResources(cardInstance, 1));
          result = cardInstance.attack();
 
          // Verify.
@@ -60,7 +60,7 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          assert.equal(result, 0);
 
          // Run.
-         store.dispatch(CardAction.addResource(cardInstance, Sphere.NEUTRAL, 1));
+         store.dispatch(CardAction.addResources(cardInstance, 1));
          result = cardInstance.bonusAttack();
 
          // Verify.
@@ -195,6 +195,32 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          assert.equal(store.getState().cardInstances.size, 1);
       });
 
+      QUnit.test("hasAttachment() Gimli + Dwarven Axe", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent4 = environment.agentQueue()[3];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
+
+         // Run.
+         var result = cardInstance.hasAttachment(AttachmentCard.DWARVEN_AXE);
+
+         // Verify.
+         assert.equal(result, false);
+
+         // Run.
+         agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
+         var attachmentInstance = agent4.hand().last();
+         store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
+         result = cardInstance.hasAttachment(AttachmentCard.DWARVEN_AXE);
+
+         // Verify.
+         assert.equal(result, true);
+      });
+
       QUnit.test("isEncounterType", function(assert)
       {
          // Setup.
@@ -262,6 +288,66 @@ define(["qunit", "redux", "artifact/js/AllyCard", "artifact/js/AttachmentCard", 
          // Verify.
          assert.ok(result);
          assert.equal(result.size, 1);
+      });
+
+      QUnit.test("sphereKeys() Aragorn", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+
+         // Run.
+         var result = cardInstance.sphereKeys();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0], Sphere.LEADERSHIP);
+      });
+
+      QUnit.test("sphereKeys() Aragorn with Celebrian's Stone", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent1 = environment.agentQueue()[0];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+         agent1.drawPlayerCard(AttachmentCard.CELEBRIANS_STONE);
+         var attachmentInstance = agent1.hand().last();
+         store.dispatch(AgentAction.playCard(agent1, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent1, cardInstance, attachmentInstance));
+
+         // Run.
+         var result = cardInstance.sphereKeys();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         assert.equal(result[0], Sphere.LEADERSHIP);
+         assert.equal(result[1], Sphere.SPIRIT);
+      });
+
+      QUnit.test("sphereKeys() Gimli with Celebrian's Stone", function(assert)
+      {
+         // Setup.
+         var scenarioKey = Scenario.PASSAGE_THROUGH_MIRKWOOD;
+         var environment = createEnvironment(scenarioKey);
+         var store = environment.store();
+         var agent1 = environment.agentQueue()[0];
+         var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
+         agent1.drawPlayerCard(AttachmentCard.CELEBRIANS_STONE);
+         var attachmentInstance = agent1.hand().last();
+         store.dispatch(AgentAction.playCard(agent1, attachmentInstance));
+         store.dispatch(AgentAction.attachCard(agent1, cardInstance, attachmentInstance));
+
+         // Run.
+         var result = cardInstance.sphereKeys();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0], Sphere.TACTICS);
       });
 
       QUnit.test("threat() The Hunt for Gollum", function(assert)

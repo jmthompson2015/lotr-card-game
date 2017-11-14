@@ -290,6 +290,7 @@ define(["common/js/InputValidator", "artifact/js/CardSet", "artifact/js/CardSubs
                sphereKey: Sphere.LEADERSHIP,
                cardSetKey: CardSet.CORE,
                bonusWillpower: 2,
+               isImplemented: true,
                key: "celebriansStone",
             },
             "citadelPlate":

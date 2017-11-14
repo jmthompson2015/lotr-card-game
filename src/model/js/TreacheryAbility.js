@@ -1,8 +1,8 @@
   "use strict";
 
-  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent", "artifact/js/Sphere", "artifact/js/TreacheryCard",
+  define(["common/js/ArrayAugments", "common/js/InputValidator", "artifact/js/CardType", "artifact/js/GameEvent", "artifact/js/TreacheryCard",
     "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-     function(ArrayAugments, InputValidator, CardType, GameEvent, Sphere, TreacheryCard, Action, AgentAction, CardAction)
+     function(ArrayAugments, InputValidator, CardType, GameEvent, TreacheryCard, Action, AgentAction, CardAction)
      {
         var TreacheryAbility = {};
 
@@ -97,25 +97,13 @@
               {
                  agent.tableauHeroes().forEach(function(cardInstance)
                  {
-                    var resourceDiscarded = false;
-                    var resourceMap = cardInstance.resourceMap();
-                    var sphereKeys = Sphere.keys();
-                    sphereKeys.lotrShuffle();
+                    var resources = cardInstance.resources();
 
-                    for (var i = 0; i < sphereKeys.length && !resourceDiscarded; i++)
+                    if (resources > 0)
                     {
-                       var sphereKey = sphereKeys[i];
-                       var resourceCount = (resourceMap.get(sphereKey) ? resourceMap.get(sphereKey) : 0);
-
-                       if (resourceCount > 0)
-                       {
-                          store.dispatch(CardAction.addResource(cardInstance, sphereKey, -1));
-                          resourceDiscarded = true;
-                          break;
-                       }
+                       store.dispatch(CardAction.addResources(cardInstance, -1));
                     }
-
-                    if (!resourceDiscarded && cardInstance.isReady())
+                    else if (cardInstance.isReady())
                     {
                        store.dispatch(CardAction.setReady(cardInstance, false));
                     }

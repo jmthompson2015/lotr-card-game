@@ -18,12 +18,12 @@ define(["qunit", "redux", "artifact/js/GameEvent", "artifact/js/HeroCard", "arti
             cardInstance: gloinInstance,
             woundCount: 2,
          };
-         assert.equal(gloinInstance.resourceMap().get(Sphere.LEADERSHIP), undefined);
+         assert.equal(gloinInstance.resources(), 0);
          var callback = function()
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
-            assert.equal(gloinInstance.resourceMap().get(Sphere.LEADERSHIP), 2);
+            assert.equal(gloinInstance.resources(), 2);
             done();
          };
          var ability = HeroAbility[GameEvent.WOUNDED][HeroCard.GLOIN];

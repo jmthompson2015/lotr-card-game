@@ -84,7 +84,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/GameMode", "artifa
             {
                agent.tableauHeroes().forEach(function(cardInstance)
                {
-                  store.dispatch(CardAction.addResource(cardInstance, cardInstance.card().sphereKey));
+                  store.dispatch(CardAction.addResources(cardInstance));
                });
             });
          }

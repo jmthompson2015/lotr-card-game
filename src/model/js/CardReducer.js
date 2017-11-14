@@ -10,8 +10,7 @@ define(["immutable", "model/js/CardAction"],
          LOGGER.debug("CardReducer.root() type = " + action.type);
 
          var cardId;
-         var newResources;
-         var oldBonus, oldCount, oldProgress, oldResources, oldWounds;
+         var oldAttachments, oldBonus, oldProgress, oldResources, oldWounds;
 
          switch (action.type)
          {
@@ -63,15 +62,13 @@ define(["immutable", "model/js/CardAction"],
                {
                   cardProgress: state.cardProgress.set(cardId, oldProgress + action.value),
                });
-            case CardAction.ADD_RESOURCE:
+            case CardAction.ADD_RESOURCES:
                cardId = action.cardInstance.id();
-               oldResources = (state.cardResources.get(cardId) !== undefined ? state.cardResources.get(cardId) : Immutable.Map());
-               oldCount = (oldResources.get(action.sphereKey) ? oldResources.get(action.sphereKey) : 0);
-               newResources = oldResources.set(action.sphereKey, oldCount + action.value);
+               oldResources = (state.cardResources.get(cardId) !== undefined ? state.cardResources.get(cardId) : 0);
                return Object.assign(
                {}, state,
                {
-                  cardResources: state.cardResources.set(cardId, newResources),
+                  cardResources: state.cardResources.set(cardId, oldResources + action.value),
                });
             case CardAction.ADD_ROUND_BONUS_ATTACK:
                cardId = action.cardInstance.id();
@@ -120,6 +117,15 @@ define(["immutable", "model/js/CardAction"],
                {}, state,
                {
                   cardWounds: state.cardWounds.set(cardId, oldWounds + action.value),
+               });
+            case CardAction.ATTACH:
+               LOGGER.info("Attach: " + action.attachmentInstance + " to " + action.cardInstance);
+               cardId = action.cardInstance.id();
+               oldAttachments = (state.cardAttachments.get(cardId) !== undefined ? state.cardAttachments.get(cardId) : Immutable.List());
+               return Object.assign(
+               {}, state,
+               {
+                  cardAttachments: state.cardAttachments.set(cardId, oldAttachments.push(action.attachmentInstance.id())),
                });
             case CardAction.CLEAR_PHASE_BONUSES:
                // LOGGER.info("CLEAR_PHASE_BONUSES");
@@ -209,14 +215,11 @@ define(["immutable", "model/js/CardAction"],
                {
                   cardIsReady: state.cardIsReady.set(action.cardInstance.id(), action.isReady),
                });
-            case CardAction.SET_RESOURCE:
-               cardId = action.cardInstance.id();
-               oldResources = (state.cardResources.get(cardId) !== undefined ? state.cardResources.get(cardId) : Immutable.Map());
-               newResources = oldResources.set(action.sphereKey, action.value);
+            case CardAction.SET_RESOURCES:
                return Object.assign(
                {}, state,
                {
-                  cardResources: state.cardResources.set(cardId, newResources),
+                  cardResources: state.cardResources.set(action.cardInstance.id(), action.value),
                });
             case CardAction.SET_USED:
                return Object.assign(

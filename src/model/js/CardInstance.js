@@ -1,8 +1,8 @@
 "use strict";
 
-define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/LocationCard", "artifact/js/Sphere", "artifact/js/Trait",
+define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifact/js/AttachmentCard", "artifact/js/CardResolver", "artifact/js/CardType", "artifact/js/EnemyCard", "artifact/js/GameEvent", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/Sphere", "artifact/js/Trait",
   "model/js/Action", "model/js/AgentAction", "model/js/CardAction"],
-   function(Immutable, InputValidator, AllyCard, AttachmentCard, CardResolver, CardType, EnemyCard, GameEvent, LocationCard, Sphere, Trait, Action, AgentAction, CardAction)
+   function(Immutable, InputValidator, AllyCard, AttachmentCard, CardResolver, CardType, EnemyCard, GameEvent, HeroCard, LocationCard, Sphere, Trait, Action, AgentAction, CardAction)
    {
       function CardInstance(store, card, idIn, isNewIn)
       {
@@ -147,7 +147,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifa
                answer += this.wounds();
                break;
             case EnemyCard.CHIEFTAIN_UFTHAK:
-               var resources = this.resourceMap().get(Sphere.NEUTRAL);
+               var resources = this.resources();
                answer += 2 * (resources !== undefined ? resources : 0);
                break;
          }
@@ -240,6 +240,13 @@ define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifa
          return this.baseDefense() + this.bonusDefense();
       };
 
+      CardInstance.prototype.hasAttachment = function(attachmentKey)
+      {
+         var attachmentKeys = CardInstance.cardInstancesToKeys(this.attachments());
+
+         return attachmentKeys.includes(attachmentKey);
+      };
+
       CardInstance.prototype.hasTrait = function(traitKey)
       {
          InputValidator.validateIsString("traitKey", traitKey);
@@ -321,12 +328,12 @@ define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifa
          return (hitPoints - wounds);
       };
 
-      CardInstance.prototype.resourceMap = function()
+      CardInstance.prototype.resources = function()
       {
          var store = this.store();
          var answer = store.getState().cardResources.get(this.id());
 
-         return (answer !== undefined ? answer : Immutable.Map());
+         return (answer !== undefined ? answer : 0);
       };
 
       CardInstance.prototype.shadowCards = function()
@@ -335,6 +342,19 @@ define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifa
          var ids = store.getState().cardShadowCards.get(this.id());
 
          return CardInstance.idsToCardInstances(store, ids);
+      };
+
+      CardInstance.prototype.sphereKeys = function()
+      {
+         var card = this.card();
+         var answer = [card.sphereKey];
+
+         if (card.name === "Aragorn" && this.hasAttachment(AttachmentCard.CELEBRIANS_STONE))
+         {
+            answer.push(Sphere.SPIRIT);
+         }
+
+         return answer;
       };
 
       CardInstance.prototype.threat = function()
@@ -452,6 +472,16 @@ define(["immutable", "common/js/InputValidator", "artifact/js/AllyCard", "artifa
          return cardInstances.map(function(cardInstance)
          {
             return cardInstance.id();
+         });
+      };
+
+      CardInstance.cardInstancesToKeys = function(cardInstances)
+      {
+         InputValidator.validateNotNull("cardInstances", cardInstances);
+
+         return cardInstances.map(function(cardInstance)
+         {
+            return cardInstance.card().key;
          });
       };
 

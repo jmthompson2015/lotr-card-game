@@ -26,7 +26,7 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Loca
          assert.equal(store.getState().cardProgress.get(cardInstance.id()), 6);
       });
 
-      QUnit.test("addResource()", function(assert)
+      QUnit.test("addResources()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
@@ -34,22 +34,21 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Loca
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
          store.dispatch(AgentAction.setTableau(agent, heroDeck));
          var cardInstance = heroDeck[0];
-         var sphereKey = Sphere.LEADERSHIP;
          assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
 
          // Run.
-         store.dispatch(CardAction.addResource(cardInstance, sphereKey));
+         store.dispatch(CardAction.addResources(cardInstance));
 
          // Verify.
          assert.ok(store.getState().cardResources);
          assert.ok(store.getState().cardResources.get(cardInstance.id()));
-         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 1);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), 1);
 
          // Run.
-         store.dispatch(CardAction.addResource(cardInstance, sphereKey, 5));
+         store.dispatch(CardAction.addResources(cardInstance, 5));
 
          // Verify.
-         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 6);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), 6);
       });
 
       QUnit.test("addWounds()", function(assert)
@@ -152,9 +151,8 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Loca
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
          store.dispatch(AgentAction.setTableau(agent, heroDeck));
          var cardInstance = heroDeck[0];
-         var sphereKey = cardInstance.card().sphereKey;
-         store.dispatch(CardAction.setResource(cardInstance, sphereKey, 5));
-         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 5);
+         store.dispatch(CardAction.setResources(cardInstance, 5));
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), 5);
 
          // Run.
          store.dispatch(CardAction.deleteResources(cardInstance));
@@ -292,7 +290,7 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Loca
          assert.equal(store.getState().cardIsReady.get(cardInstance.id()), false);
       });
 
-      QUnit.test("setResource()", function(assert)
+      QUnit.test("setResources()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
@@ -300,22 +298,20 @@ define(["immutable", "qunit", "redux", "artifact/js/HeroCard", "artifact/js/Loca
          var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
          store.dispatch(AgentAction.setTableau(agent, heroDeck));
          var cardInstance = heroDeck[0];
-         var sphereKey = cardInstance.card().sphereKey;
          assert.equal(store.getState().cardResources.get(cardInstance.id()), undefined);
 
          // Run.
-         store.dispatch(CardAction.setResource(cardInstance, sphereKey));
+         store.dispatch(CardAction.setResources(cardInstance));
 
          // Verify.
          assert.ok(store.getState().cardResources);
-         assert.ok(store.getState().cardResources.get(cardInstance.id()));
-         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 0);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), 0);
 
          // Run.
-         store.dispatch(CardAction.setResource(cardInstance, sphereKey, 5));
+         store.dispatch(CardAction.setResources(cardInstance, 5));
 
          // Verify.
-         assert.equal(store.getState().cardResources.get(cardInstance.id()).get(sphereKey), 5);
+         assert.equal(store.getState().cardResources.get(cardInstance.id()), 5);
       });
 
       QUnit.test("setWounds()", function(assert)

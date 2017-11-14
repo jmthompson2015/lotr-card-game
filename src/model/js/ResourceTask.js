@@ -28,8 +28,7 @@ define(["common/js/InputValidator", "model/js/AgentAction", "model/js/CardAction
 
             cardInstances.forEach(function(cardInstance)
             {
-               var sphereKey = cardInstance.card().sphereKey;
-               store.dispatch(CardAction.addResource(cardInstance, sphereKey));
+               store.dispatch(CardAction.addResources(cardInstance));
             });
 
             // Draw one card.

@@ -37,13 +37,13 @@
 
         var heroInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
         heroInstance.isQuesting = true;
-        store.dispatch(CardAction.addResource(heroInstance, Sphere.LEADERSHIP));
+        store.dispatch(CardAction.addResources(heroInstance));
         store.dispatch(CardAction.addWounds(heroInstance, 2));
         var allyInstance = new CardInstance(store, AllyCard.properties[AllyCard.GANDALF_CORE]);
         store.dispatch(CardAction.setReady(allyInstance, false));
         store.dispatch(CardAction.addWounds(allyInstance, 2));
         var attachmentInstance = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
-        store.dispatch(CardAction.addResource(attachmentInstance, Sphere.LORE));
+        store.dispatch(CardAction.addResources(attachmentInstance));
         var eventInstance = new CardInstance(store, EventCard.properties[EventCard.SNEAK_ATTACK]);
         var cardInstances0 = [heroInstance, allyInstance, attachmentInstance, eventInstance];
 
@@ -87,13 +87,13 @@
 
         var heroInstance2 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
         heroInstance.isQuesting = true;
-        store.dispatch(CardAction.addResource(heroInstance2, Sphere.LEADERSHIP));
+        store.dispatch(CardAction.addResources(heroInstance2));
         store.dispatch(CardAction.addWounds(heroInstance2, 2));
         var allyInstance2 = new CardInstance(store, AllyCard.properties[AllyCard.GANDALF_CORE]);
         store.dispatch(CardAction.setReady(allyInstance2, false));
         store.dispatch(CardAction.addWounds(allyInstance2, 2));
         var attachmentInstance2 = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
-        store.dispatch(CardAction.addResource(attachmentInstance2, Sphere.LORE));
+        store.dispatch(CardAction.addResources(attachmentInstance2));
         var eventInstance2 = new CardInstance(store, EventCard.properties[EventCard.SNEAK_ATTACK]);
         var cardInstances2 = [heroInstance2, allyInstance2, attachmentInstance2, eventInstance2];
 

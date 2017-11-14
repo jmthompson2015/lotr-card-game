@@ -1,7 +1,7 @@
 "use strict";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories", "view/js/LabeledImage", "view/js/ReactUtilities"],
-   function(createReactClass, PropTypes, React, DOM, LabeledImage, ReactUtilities)
+define(["create-react-class", "prop-types", "react", "react-dom-factories", "artifact/js/Sphere", "view/js/LabeledImage", "view/js/ReactUtilities"],
+   function(createReactClass, PropTypes, React, DOM, Sphere, LabeledImage, ReactUtilities)
    {
       var TokenPanel = createReactClass(
       {
@@ -9,19 +9,29 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
          {
             var cells = [];
 
+            this.maybeAddAttribute(cells, this.props.bonusWillpower, "token/Willpower20.png", "Willpower Bonus");
+            this.maybeAddAttribute(cells, this.props.bonusThreat, "token/Threat20.png", "Threat Bonus");
             this.maybeAddAttribute(cells, this.props.bonusAttack, "token/Attack20.png", "Attack Bonus");
             this.maybeAddAttribute(cells, this.props.bonusDefense, "token/Defense20.png", "Defense Bonus");
             this.maybeAddAttribute(cells, this.props.bonusHitPoints, "token/HitPoints20.png", "Hit Points Bonus");
-            this.maybeAddAttribute(cells, this.props.bonusThreat, "token/Threat20.png", "Threat Bonus");
-            this.maybeAddAttribute(cells, this.props.bonusWillpower, "token/Willpower20.png", "Willpower Bonus");
+
+            var sphereKey = this.props.sphereKey;
+            var sphereKeys = this.props.sphereKeys;
+
+            if (sphereKey && sphereKeys && sphereKeys.length > 1)
+            {
+               sphereKeys.forEach(function(key)
+               {
+                  if (key !== sphereKey)
+                  {
+                     var sphere = Sphere.properties[key];
+                     this.maybeAddToken(cells, 1, sphere.image, sphere.name);
+                  }
+               }, this);
+            }
+
+            this.maybeAddToken(cells, this.props.resourceCount, "token/Resource32.png", "Resource");
             this.maybeAddToken(cells, this.props.progressCount, "token/Progress32.png", "Progress");
-            this.maybeAddToken(cells, this.props.neutralCount, "token/Resource32.png", "Neutral Resource");
-            this.maybeAddToken(cells, this.props.leadershipCount, "token/LeadershipResource32.png", "Leadership Resource");
-            this.maybeAddToken(cells, this.props.loreCount, "token/LoreResource32.png", "Lore Resource");
-            this.maybeAddToken(cells, this.props.spiritCount, "token/SpiritResource32.png", "Spirit Resource");
-            this.maybeAddToken(cells, this.props.tacticsCount, "token/TacticsResource32.png", "Tactics Resource");
-            this.maybeAddToken(cells, this.props.bagginsCount, "token/Resource32.png", "Baggins Resource");
-            this.maybeAddToken(cells, this.props.fellowshipCount, "token/Resource32.png", "Fellowship Resource");
             this.maybeAddToken(cells, this.props.woundCount, "token/Wound32.png", "Wound");
 
             var row = ReactUtilities.createRow(cells, "tokenRow");
@@ -40,7 +50,7 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
       {
          if (count !== undefined && count !== 0)
          {
-            var prefix = (count > 0 ? "+" : "-");
+            var prefix = (count > 0 ? "+" : "");
             var image = DOM.img(
             {
                className: "v-mid",
@@ -82,20 +92,16 @@ define(["create-react-class", "prop-types", "react", "react-dom-factories", "vie
       TokenPanel.propTypes = {
          resourceBase: PropTypes.string.isRequired,
 
-         bagginsCount: PropTypes.number,
          bonusAttack: PropTypes.number,
          bonusDefense: PropTypes.number,
          bonusHitPoints: PropTypes.number,
          bonusThreat: PropTypes.number,
          bonusWillpower: PropTypes.number,
-         fellowshipCount: PropTypes.number,
-         leadershipCount: PropTypes.number,
-         loreCount: PropTypes.number,
          myKey: PropTypes.string,
-         neutralCount: PropTypes.number,
          progressCount: PropTypes.number,
-         spiritCount: PropTypes.number,
-         tacticsCount: PropTypes.number,
+         resourceCount: PropTypes.number,
+         sphereKey: PropTypes.string,
+         sphereKeys: PropTypes.array,
          woundCount: PropTypes.number,
       };
 

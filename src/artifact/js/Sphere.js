@@ -49,12 +49,23 @@ define(function()
             key: "tactics",
          },
       },
-
-      keys: function()
-      {
-         return Object.getOwnPropertyNames(Sphere.properties);
-      },
    };
+
+   Sphere.keys = function()
+   {
+      return Object.keys(Sphere.properties);
+   };
+
+   Sphere.values = function()
+   {
+      return Object.values(Sphere.properties);
+   };
+
+   Sphere.keys().forEach(function(sphereKey)
+   {
+      var sphere = Sphere.properties[sphereKey];
+      sphere.image = "sphere/" + sphere.name + "24.png";
+   });
 
    if (Object.freeze)
    {

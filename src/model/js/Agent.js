@@ -150,17 +150,19 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
       Agent.prototype.resourceMap = function()
       {
-         var answer = {};
-         var store = this.store();
          var heroes = this.tableauHeroes();
 
-         answer = Sphere.keys().reduce(function(accumulator, sphereKey)
+         var answer = Sphere.keys().reduce(function(accumulator, sphereKey)
          {
             var value = heroes.reduce(function(accumulator2, cardInstance)
             {
-               var resourceMap = store.getState().cardResources.get(cardInstance.id());
-               var newValue = (resourceMap && resourceMap.get(sphereKey) ? resourceMap.get(sphereKey) : 0);
-               return accumulator2 + newValue;
+               var resources = 0;
+               var sphereKeys = cardInstance.sphereKeys();
+               if (sphereKeys.includes(sphereKey))
+               {
+                  resources = cardInstance.resources();
+               }
+               return accumulator2 + resources;
             }, 0);
 
             accumulator[sphereKey] = value;
@@ -199,7 +201,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
          {
             answer = answer.filter(function(cardInstance)
             {
-               return cardInstance.card().sphereKey === sphereKey;
+               return cardInstance.sphereKeys().includes(sphereKey);
             });
          }
 
@@ -337,10 +339,7 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
 
          var store = this.store();
          var playerDeck = this.playerDeck();
-         var cardKeys = playerDeck.map(function(cardInstance)
-         {
-            return cardInstance.card().key;
-         });
+         var cardKeys = CardInstance.cardInstancesToKeys(playerDeck);
          var index = cardKeys.indexOf(cardKey);
 
          if (index >= 0)

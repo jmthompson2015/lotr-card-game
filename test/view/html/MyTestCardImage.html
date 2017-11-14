@@ -43,7 +43,7 @@
         var heroInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
         heroInstance.isQuesting = true;
         store.dispatch(CardAction.setReady(heroInstance, false));
-        store.dispatch(CardAction.addResource(heroInstance, Sphere.LEADERSHIP));
+        store.dispatch(CardAction.addResources(heroInstance));
         store.dispatch(CardAction.addWounds(heroInstance, 2));
 
         var allyInstance = new CardInstance(store, AllyCard.properties[AllyCard.GANDALF_CORE]);

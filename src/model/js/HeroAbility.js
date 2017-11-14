@@ -15,7 +15,7 @@
               InputValidator.validateNotNull("store", store);
               InputValidator.validateNotNull("context", context);
 
-              return context.cardInstance !== undefined && context.cardInstance.card().key === HeroCard.GLOIN && !context.cardInstance.isUsed();
+              return context.cardInstance !== undefined && !context.cardInstance.isUsed();
            },
            consequent: function(store, context, callback)
            {
@@ -26,9 +26,8 @@
               // Response: After Glóin suffers damage, add 1 resource to his resource
               // pool for each point of damage he just suffered.
               var cardInstance = context.cardInstance;
-              var sphereKey = cardInstance.card().sphereKey;
               var woundCount = context.woundCount;
-              store.dispatch(CardAction.addResource(cardInstance, sphereKey, woundCount));
+              store.dispatch(CardAction.addResources(cardInstance, woundCount));
               store.dispatch(CardAction.setUsed(cardInstance, true));
 
               callback();

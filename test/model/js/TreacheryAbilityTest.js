@@ -46,8 +46,8 @@ define(["qunit", "redux", "artifact/js/GameEvent", "artifact/js/Scenario", "arti
          var store = environment.store();
          var agent1 = environment.firstAgent();
          var cardInstance = agent1.tableauHeroes().get(0);
-         store.dispatch(CardAction.addResource(cardInstance, Sphere.LEADERSHIP));
-         assert.equal(cardInstance.resourceMap().get(Sphere.LEADERSHIP), 1);
+         store.dispatch(CardAction.addResources(cardInstance));
+         assert.equal(cardInstance.resources(), 1);
          var context = {
             cardInstance: new CardInstance(store, TreacheryCard.OLD_WIVES_TALES),
          };
@@ -55,7 +55,7 @@ define(["qunit", "redux", "artifact/js/GameEvent", "artifact/js/Scenario", "arti
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
-            assert.equal(cardInstance.resourceMap().get(Sphere.LEADERSHIP), 0);
+            assert.equal(cardInstance.resources(), 0);
             done();
          };
          var ability = TreacheryAbility[GameEvent.CARD_PLAYED][TreacheryCard.OLD_WIVES_TALES];

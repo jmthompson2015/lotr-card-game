@@ -9,14 +9,15 @@ define(["common/js/InputValidator"], function(InputValidator)
    CardAction.ADD_PHASE_BONUS_HIT_POINTS = "addPhaseBonusHitPoints";
    CardAction.ADD_PHASE_BONUS_THREAT = "addPhaseBonusThreat";
    CardAction.ADD_PHASE_BONUS_WILLPOWER = "addPhaseBonusWillpower";
+   CardAction.ADD_PROGRESS = "addProgress";
+   CardAction.ADD_RESOURCES = "addResources";
    CardAction.ADD_ROUND_BONUS_ATTACK = "addRoundBonusAttack";
    CardAction.ADD_ROUND_BONUS_DEFENSE = "addRoundBonusDefense";
    CardAction.ADD_ROUND_BONUS_HIT_POINTS = "addRoundBonusHitPoints";
    CardAction.ADD_ROUND_BONUS_THREAT = "addRoundBonusThreat";
    CardAction.ADD_ROUND_BONUS_WILLPOWER = "addRoundBonusWillpower";
-   CardAction.ADD_PROGRESS = "addProgress";
-   CardAction.ADD_RESOURCE = "addResource";
    CardAction.ADD_WOUNDS = "addWounds";
+   CardAction.ATTACH = "attach";
    CardAction.CLEAR_PHASE_BONUSES = "clearPhaseBonuses";
    CardAction.CLEAR_ROUND_BONUSES = "clearRoundBonuses";
    CardAction.DELETE_FACE_UP = "deleteFaceUp";
@@ -30,7 +31,7 @@ define(["common/js/InputValidator"], function(InputValidator)
    CardAction.SET_PROGRESS = "setProgress";
    CardAction.SET_QUESTING = "setQuesting";
    CardAction.SET_READY = "setReady";
-   CardAction.SET_RESOURCE = "setResource";
+   CardAction.SET_RESOURCES = "setResources";
    CardAction.SET_USED = "setUsed";
    CardAction.SET_WOUNDS = "setWounds";
 
@@ -104,6 +105,36 @@ define(["common/js/InputValidator"], function(InputValidator)
       return (
       {
          type: CardAction.ADD_PHASE_BONUS_WILLPOWER,
+         cardInstance: cardInstance,
+         value: myValue,
+      });
+   };
+
+   CardAction.addProgress = function(cardInstance, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      // value optional. default: 1
+
+      var myValue = (value !== undefined ? value : 1);
+
+      return (
+      {
+         type: CardAction.ADD_PROGRESS,
+         cardInstance: cardInstance,
+         value: myValue,
+      });
+   };
+
+   CardAction.addResources = function(cardInstance, value)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      // value optional. default: 1
+
+      var myValue = (value !== undefined ? value : 1);
+
+      return (
+      {
+         type: CardAction.ADD_RESOURCES,
          cardInstance: cardInstance,
          value: myValue,
       });
@@ -184,38 +215,6 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   CardAction.addProgress = function(cardInstance, value)
-   {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      // value optional. default: 1
-
-      var myValue = (value !== undefined ? value : 1);
-
-      return (
-      {
-         type: CardAction.ADD_PROGRESS,
-         cardInstance: cardInstance,
-         value: myValue,
-      });
-   };
-
-   CardAction.addResource = function(cardInstance, sphereKey, value)
-   {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateIsString("sphereKey", sphereKey);
-      // value optional. default: 1
-
-      var myValue = (value !== undefined ? value : 1);
-
-      return (
-      {
-         type: CardAction.ADD_RESOURCE,
-         cardInstance: cardInstance,
-         sphereKey: sphereKey,
-         value: myValue,
-      });
-   };
-
    CardAction.addWounds = function(cardInstance, value)
    {
       InputValidator.validateNotNull("cardInstance", cardInstance);
@@ -228,6 +227,19 @@ define(["common/js/InputValidator"], function(InputValidator)
          type: CardAction.ADD_WOUNDS,
          cardInstance: cardInstance,
          value: myValue,
+      });
+   };
+
+   CardAction.attach = function(cardInstance, attachmentInstance)
+   {
+      InputValidator.validateNotNull("cardInstance", cardInstance);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+
+      return (
+      {
+         type: CardAction.ATTACH,
+         cardInstance: cardInstance,
+         attachmentInstance: attachmentInstance,
       });
    };
 
@@ -375,19 +387,17 @@ define(["common/js/InputValidator"], function(InputValidator)
       });
    };
 
-   CardAction.setResource = function(cardInstance, sphereKey, value)
+   CardAction.setResources = function(cardInstance, value)
    {
       InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateIsString("sphereKey", sphereKey);
       // value optional. default: 0
 
       var myValue = (value !== undefined ? value : 0);
 
       return (
       {
-         type: CardAction.SET_RESOURCE,
+         type: CardAction.SET_RESOURCES,
          cardInstance: cardInstance,
-         sphereKey: sphereKey,
          value: myValue,
       });
    };

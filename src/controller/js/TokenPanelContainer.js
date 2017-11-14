@@ -8,28 +8,20 @@ define(["immutable", "react-redux", "common/js/InputValidator", "artifact/js/Sph
          InputValidator.validateNotNull("ownProps.cardInstance", ownProps.cardInstance);
 
          var cardInstance = ownProps.cardInstance;
-         var id = cardInstance.id();
-         var progressCount = state.cardProgress.get(id);
-         var woundCount = state.cardWounds.get(id);
-         var resourceMap = (state.cardResources.get(id) ? state.cardResources.get(id) : Immutable.Map());
 
          return (
          {
-            bagginsCount: resourceMap.get(Sphere.BAGGINS),
             bonusAttack: cardInstance.bonusAttack(),
             bonusDefense: cardInstance.bonusDefense(),
             bonusHitPoints: cardInstance.bonusHitPoints(),
             bonusThreat: cardInstance.bonusThreat(),
             bonusWillpower: cardInstance.bonusWillpower(),
-            fellowshipCount: resourceMap.get(Sphere.FELLOWSHIP),
-            leadershipCount: resourceMap.get(Sphere.LEADERSHIP),
-            loreCount: resourceMap.get(Sphere.LORE),
-            neutralCount: resourceMap.get(Sphere.NEUTRAL),
-            progressCount: progressCount,
+            progressCount: cardInstance.progress(),
             resourceBase: state.resourceBase,
-            spiritCount: resourceMap.get(Sphere.SPIRIT),
-            tacticsCount: resourceMap.get(Sphere.TACTICS),
-            woundCount: woundCount,
+            resourceCount: cardInstance.resources(),
+            sphereKey: cardInstance.card().sphereKey,
+            sphereKeys: cardInstance.sphereKeys(),
+            woundCount: cardInstance.wounds(),
          });
       }
 

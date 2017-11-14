@@ -95,9 +95,9 @@ define(["immutable", "common/js/InputValidator", "artifact/js/CardType", "artifa
                {
                   var myCardInstance = heroes.get(i);
 
-                  if (cost > 0 && myCardInstance.resourceMap().get(sphereKey) > 0)
+                  if (cost > 0 && myCardInstance.resources() > 0)
                   {
-                     store.dispatch(CardAction.addResource(myCardInstance, sphereKey, -1));
+                     store.dispatch(CardAction.addResources(myCardInstance, -1));
                      cost--;
                   }
                }

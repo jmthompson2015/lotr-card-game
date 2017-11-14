@@ -178,9 +178,9 @@ define(["qunit", "redux", "artifact/js/HeroCard", "artifact/js/Sphere",
          var agent1 = environment.agents().get(0);
          var store = environment.store();
          var heroes = agent1.tableauHeroes();
-         store.dispatch(CardAction.addResource(heroes.get(0), Sphere.LEADERSHIP, 1));
-         store.dispatch(CardAction.addResource(heroes.get(1), Sphere.LEADERSHIP, 2));
-         store.dispatch(CardAction.addResource(heroes.get(2), Sphere.LEADERSHIP, 3));
+         store.dispatch(CardAction.addResources(heroes.get(0), 1));
+         store.dispatch(CardAction.addResources(heroes.get(1), 2));
+         store.dispatch(CardAction.addResources(heroes.get(2), 3));
 
          // Run.
          var result = agent1.resourceMap();
