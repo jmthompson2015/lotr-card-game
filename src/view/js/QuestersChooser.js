@@ -9,7 +9,7 @@ define(["create-react-class", "prop-types", "react", "view/js/CardComparator", "
          {
             var questInstance = this.props.questInstance;
             var remainingPoints = questInstance.card().questPoints - questInstance.progress();
-            var message = "Quest: " + questInstance.card().name + " (points " + remainingPoints + ")";
+            var message = "Quest: " + questInstance.card().name + " (quest " + remainingPoints + ")";
 
             return React.createElement(MultipleCardChooser,
             {

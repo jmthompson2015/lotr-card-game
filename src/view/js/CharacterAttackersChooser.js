@@ -9,7 +9,7 @@ define(["create-react-class", "prop-types", "react", "view/js/CardComparator", "
          {
             var defenderInstance = this.props.defenderInstance;
             var remainingPoints = defenderInstance.remainingHitPoints();
-            var message = "Defender: " + defenderInstance.card().name + " (hit points " + remainingPoints + ")";
+            var message = "Defender: " + defenderInstance.card().name + " (hit points " + remainingPoints + ", defense " + defenderInstance.defense() + ")";
 
             return React.createElement(MultipleCardChooser,
             {
