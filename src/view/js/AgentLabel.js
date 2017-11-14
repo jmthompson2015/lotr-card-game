@@ -10,6 +10,7 @@ define(["create-react-class", "prop-types", "react-dom-factories"],
             var firstAgentToken = DOM.div(
             {
                className: (this.props.isFirstAgent ? "" : "dn"),
+               title: "First Player",
             }, DOM.img(
             {
                className: "dtc tc",
