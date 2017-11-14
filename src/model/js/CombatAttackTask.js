@@ -1,7 +1,7 @@
 "use strict";
 
-define(["common/js/InputValidator", "model/js/Action"],
-   function(InputValidator, Action)
+define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
+   function(InputValidator, Action, CardAction)
    {
       function CombatAttackTask(store, agent)
       {
@@ -84,25 +84,34 @@ define(["common/js/InputValidator", "model/js/Action"],
       {
          LOGGER.debug("CombatAttackTask attackers = " + attackers);
 
-         // 2. Determine attack strength.
-         var attack = attackers.reduce(function(accumulator, cardInstance, i)
+         if (attackers)
          {
-            LOGGER.debug(i + " CombatAttackTask attack = " + cardInstance + " " + cardInstance.attack());
-            return accumulator + cardInstance.attack();
-         }, 0);
-         LOGGER.debug("CombatAttackTask attack = " + attack);
+            var store = this.store();
 
-         // 3. Determine combat damage.
-         var defense = defender.defense();
-         LOGGER.debug("CombatAttackTask defense = " + defense);
-         var damage = attack - defense;
-         LOGGER.debug("CombatAttackTask damage = " + damage);
-         var store = this.store();
-         store.dispatch(Action.setUserMessage("Attacker combat damage: " + damage));
+            attackers.forEach(function(cardInstance)
+            {
+               store.dispatch(CardAction.setReady(cardInstance, false));
+            });
 
-         if (damage > 0)
-         {
-            defender.addWounds(damage);
+            // 2. Determine attack strength.
+            var attack = attackers.reduce(function(accumulator, cardInstance, i)
+            {
+               LOGGER.debug(i + " CombatAttackTask attack = " + cardInstance + " " + cardInstance.attack());
+               return accumulator + cardInstance.attack();
+            }, 0);
+            LOGGER.debug("CombatAttackTask attack = " + attack);
+
+            // 3. Determine combat damage.
+            var defense = defender.defense();
+            LOGGER.debug("CombatAttackTask defense = " + defense);
+            var damage = attack - defense;
+            LOGGER.debug("CombatAttackTask damage = " + damage);
+            store.dispatch(Action.setUserMessage("Attacker combat damage: " + damage));
+
+            if (damage > 0)
+            {
+               defender.addWounds(damage);
+            }
          }
 
          this.finishCombatAttackTask(callback);
