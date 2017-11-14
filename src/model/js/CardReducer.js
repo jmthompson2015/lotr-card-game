@@ -60,7 +60,7 @@ define(["immutable", "model/js/CardAction"],
                return Object.assign(
                {}, state,
                {
-                  cardProgress: state.cardProgress.set(cardId, oldProgress + action.value),
+                  cardProgress: state.cardProgress.set(cardId, Math.max(oldProgress + action.value, 0)),
                });
             case CardAction.ADD_RESOURCES:
                cardId = action.cardInstance.id();
@@ -68,7 +68,7 @@ define(["immutable", "model/js/CardAction"],
                return Object.assign(
                {}, state,
                {
-                  cardResources: state.cardResources.set(cardId, oldResources + action.value),
+                  cardResources: state.cardResources.set(cardId, Math.max(oldResources + action.value, 0)),
                });
             case CardAction.ADD_ROUND_BONUS_ATTACK:
                cardId = action.cardInstance.id();
@@ -116,7 +116,7 @@ define(["immutable", "model/js/CardAction"],
                return Object.assign(
                {}, state,
                {
-                  cardWounds: state.cardWounds.set(cardId, oldWounds + action.value),
+                  cardWounds: state.cardWounds.set(cardId, Math.max(oldWounds + action.value, 0)),
                });
             case CardAction.ATTACH:
                LOGGER.info("Attach: " + action.attachmentInstance + " to " + action.cardInstance);
