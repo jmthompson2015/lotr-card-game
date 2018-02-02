@@ -359,6 +359,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             "louis":
             {
                name: "Louis",
+               isUnique: true,
                engagementCost: 34,
                threat: 2,
                attack: 4,
@@ -433,6 +434,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             "morris":
             {
                name: "Morris",
+               isUnique: true,
                engagementCost: 34,
                threat: 2,
                attack: 4,
@@ -485,6 +487,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             "rupert":
             {
                name: "Rupert",
+               isUnique: true,
                engagementCost: 34,
                threat: 2,
                attack: 4,
@@ -498,6 +501,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             "stuart":
             {
                name: "Stuart",
+               isUnique: true,
                engagementCost: 34,
                threat: 2,
                attack: 4,
@@ -579,6 +583,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
          card.lotrType = EnemyCard;
 
          var imagePath = card.name;
+         imagePath = imagePath.replace(/,/g, "");
          imagePath = imagePath.replace(/ /g, "-");
 
          switch (cardKey)

@@ -281,6 +281,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             "rhosgobel":
             {
                name: "Rhosgobel",
+               isUnique: true,
                threat: undefined,
                questPoints: 4,
                traitKeys: [Trait.FOREST],
@@ -329,6 +330,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
             "theCarrock":
             {
                name: "The Carrock",
+               isUnique: true,
                threat: 2,
                questPoints: 6,
                traitKeys: [Trait.RIVERLAND],
