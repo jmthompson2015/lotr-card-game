@@ -166,6 +166,7 @@ define(["common/js/InputValidator", "artifact/js/CardType", "artifact/js/Encount
                attack: 2,
                defense: 3,
                hitPoints: 5,
+               victory: 5,
                traitKeys: [Trait.DOL_GULDUR, Trait.ORC],
                encounterSetKey: EncounterSet.ESCAPE_FROM_DOL_GULDUR,
                gameModeMap: GameMode.createMap(0, 2),
