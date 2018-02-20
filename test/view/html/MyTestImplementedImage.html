@@ -9,6 +9,7 @@
 	<script src="../../../lib/requirejs/require-2.3.5.js"></script>
 	<script src="../js/require-config.js"></script>
 	<script src="../../../src/main.js"></script>
+	<script src="../js/MyTestImplementedImage.js"></script>
 
 </head>
 <body>
@@ -23,39 +24,6 @@
 			<td id="panel3" style="height: 16px; width: 16px;"></td>
 		</tr>
 	</table>
-	<script>
-		"use strict";
-
-		require(["react", "react-dom", "react-dom-factories", "common/js/Logger", "view/js/ImplementedImage"],
-			function(React, ReactDOM, DOM, Logger, ImplementedImage)
-			{
-				window.LOGGER = new Logger();
-				LOGGER.setTraceEnabled(false);
-				LOGGER.setDebugEnabled(false);
-
-				var resourceBase = "../../../src/view/resource/";
-
-				var element1 = React.createElement(ImplementedImage,
-				{
-					resourceBase: resourceBase,
-					isImplemented: true,
-				});
-				ReactDOM.render(element1, document.getElementById("panel1"));
-
-				var element2 = React.createElement(ImplementedImage,
-				{
-					resourceBase: resourceBase,
-					isImplemented: false,
-				});
-				ReactDOM.render(element2, document.getElementById("panel2"));
-
-				var element3 = React.createElement(ImplementedImage,
-				{
-					resourceBase: resourceBase,
-				});
-				ReactDOM.render(element3, document.getElementById("panel3"));
-			});
-	</script>
 </body>
 
 </html>

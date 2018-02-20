@@ -7,29 +7,7 @@
   <link rel="stylesheet" href="../../../lib/qunitjs/qunit-2.4.0.css">
 
   <script src="../../../lib/requirejs/require-2.3.5.js" data-main="../../../src/main"></script>
-
-  <script>
-    "use strict";
-
-    var prefix = "../test/common/js/";
-    var suffix = "Test";
-    var testModules = ["ArrayAugments", "InputValidator", "MathAugments", "TimePrinter"];
-    testModules = testModules.map(function(testModule)
-    {
-      return prefix + testModule + suffix;
-    });
-    testModules.unshift("common/js/Logger");
-
-    require(testModules, function(Logger)
-    {
-      window.LOGGER = new Logger();
-      LOGGER.setTraceEnabled(false);
-      LOGGER.setDebugEnabled(false);
-      LOGGER.setInfoEnabled(false);
-
-      QUnit.start();
-    });
-  </script>
+  <script src="../js/TestSuite.js"></script>
 </head>
 <body>
   <div id="qunit"></div>

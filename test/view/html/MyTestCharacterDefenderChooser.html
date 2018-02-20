@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MyTestCardInstanceUI</title>
+  <title>MyTestCharacterDefenderChooser</title>
 
   <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
   <link rel="stylesheet" href="../../../src/view/css/style.css">
@@ -9,52 +9,11 @@
   <script src="../../../lib/requirejs/require-2.3.5.js"></script>
   <script src="../js/require-config.js"></script>
   <script src="../../../src/main.js"></script>
+  <script src="../js/MyTestCharacterDefenderChooser.js"></script>
 
 </head>
 <body>
   <div id="panel"></div>
-  <script>
-    "use strict";
-
-    require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/AllyCard", "artifact/js/AttachmentCard",
-        "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard",
-        "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/Action", "model/js/CardInstance", "model/js/Reducer",
-        "view/js/CharacterDefenderChooser"
-      ],
-      function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard,
-        QuestCard, Sphere, TreacheryCard, Action, CardInstance, Reducer, CharacterDefenderChooser)
-      {
-        window.LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
-
-        var resourceBase = "../../../src/view/resource/";
-        var store = Redux.createStore(Reducer.root);
-        store.dispatch(Action.setResourceBase(resourceBase));
-        var attacker = new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]);
-        var characters = [];
-        characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
-        characters.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
-        characters.push(new CardInstance(store, AllyCard.properties[AllyCard.DENETHOR]));
-        characters.push(new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]));
-        characters.push(new CardInstance(store, HeroCard.properties[HeroCard.GLOIN]));
-        characters.push(new CardInstance(store, HeroCard.properties[HeroCard.THEODRED]));
-
-        var element = React.createElement(CharacterDefenderChooser,
-        {
-          attackerInstance: attacker,
-          cardInstances: characters,
-          onChange: myOnChange,
-        });
-
-        ReactDOM.render(element, document.getElementById("panel"));
-
-        function myOnChange(selected, isAccepted)
-        {
-          LOGGER.info("myOnChange() selected = " + selected + " isAccepted ? " + isAccepted);
-        }
-      });
-  </script>
 </body>
 
 </html>
