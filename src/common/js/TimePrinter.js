@@ -1,77 +1,73 @@
 /*
  * Provides convenience methods to print time.
  */
-"use strict";
 
-define(function()
-{
-   var TimePrinter = {
-      SECONDS_TO_MS: 1000,
-      MINUTES_TO_MS: 60 * 1000,
+var TimePrinter = {
+   SECONDS_TO_MS: 1000,
+   MINUTES_TO_MS: 60 * 1000,
 
-      /*
-       * @param title Title.
-       * @param start Start time. (ms)
-       * @param end End time. (ms)
-       *
-       * @return a formatted string.
-       */
-      formatElapsedTime: function(title, start, end)
+   /*
+    * @param title Title.
+    * @param start Start time. (ms)
+    * @param end End time. (ms)
+    *
+    * @return a formatted string.
+    */
+   formatElapsedTime: function(title, start, end)
+   {
+      var myStart = Math.min(start, end);
+      var myEnd = Math.max(start, end);
+
+      var elapsed = myEnd - myStart;
+      var minutes = Math.floor(elapsed / this.MINUTES_TO_MS);
+      var leftover = elapsed - (minutes * this.MINUTES_TO_MS);
+      var seconds = Math.floor(leftover / this.SECONDS_TO_MS);
+
+      var sb = "";
+
+      sb += this.createTitleString(title);
+      sb += minutes;
+      sb += ":";
+
+      if (seconds < 10)
       {
-         var myStart = Math.min(start, end);
-         var myEnd = Math.max(start, end);
+         sb += "0";
+      }
 
-         var elapsed = myEnd - myStart;
-         var minutes = Math.floor(elapsed / this.MINUTES_TO_MS);
-         var leftover = elapsed - (minutes * this.MINUTES_TO_MS);
-         var seconds = Math.floor(leftover / this.SECONDS_TO_MS);
+      sb += seconds;
+      sb += " (";
+      sb += elapsed;
+      sb += " ms)";
 
-         var sb = "";
+      return sb;
+   },
 
-         sb += this.createTitleString(title);
-         sb += minutes;
-         sb += ":";
+   /*
+    * @param title Title.
+    * @param start Start time. (ms)
+    * @param end End time. (ms)
+    */
+   printElapsedTime: function(title, start, end)
+   {
+      console.info(this.formatElapsedTime(title, start, end));
+   },
 
-         if (seconds < 10)
-         {
-            sb += "0";
-         }
+   createTitleString: function(title)
+   {
+      var sb = "";
 
-         sb += seconds;
-         sb += " (";
-         sb += elapsed;
-         sb += " ms)";
-
-         return sb;
-      },
-
-      /*
-       * @param title Title.
-       * @param start Start time. (ms)
-       * @param end End time. (ms)
-       */
-      printElapsedTime: function(title, start, end)
+      if (!title || title.length === 0)
       {
-         console.info(this.formatElapsedTime(title, start, end));
-      },
-
-      createTitleString: function(title)
+         sb += "Elapsed time ";
+      }
+      else
       {
-         var sb = "";
+         sb += title;
+         sb += " elapsed time ";
+      }
 
-         if (!title || title.length === 0)
-         {
-            sb += "Elapsed time ";
-         }
-         else
-         {
-            sb += title;
-            sb += " elapsed time ";
-         }
+      return sb;
+   },
+};
 
-         return sb;
-      },
-   };
-
-   return TimePrinter;
-});
+export default TimePrinter;

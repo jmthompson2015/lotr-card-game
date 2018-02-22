@@ -1,18 +1,15 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
+import FilterUI from "./FilterUI.js";
 
-define(["react-redux", "common/js/InputValidator", "accessory/encounter-card-table/FilterUI"],
-   function(ReactRedux, InputValidator, FilterUI)
+function mapStateToProps(state, ownProps)
+{
+   InputValidator.validateNotNull("resourceBase", ownProps.resourceBase);
+
+   return (
    {
-      function mapStateToProps(state, ownProps)
-      {
-         InputValidator.validateNotNull("resourceBase", ownProps.resourceBase);
-
-         return (
-         {
-            filters: state.filters,
-            resourceBase: ownProps.resourceBase,
-         });
-      }
-
-      return ReactRedux.connect(mapStateToProps)(FilterUI);
+      filters: state.filters,
+      resourceBase: ownProps.resourceBase,
    });
+}
+
+export default ReactRedux.connect(mapStateToProps)(FilterUI);

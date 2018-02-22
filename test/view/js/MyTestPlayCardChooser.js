@@ -1,42 +1,40 @@
-"use strict";
+import Logger from "../../../src/common/js/Logger.js";
+import AllyCard from "../../../src/artifact/js/AllyCard.js";
+import AttachmentCard from "../../../src/artifact/js/AttachmentCard.js";
+import EventCard from "../../../src/artifact/js/EventCard.js";
+import Action from "../../../src/model/js/Action.js";
+import CardInstance from "../../../src/model/js/CardInstance.js";
+import Reducer from "../../../src/model/js/Reducer.js";
+import PlayCardChooser from "../../../src/view/js/PlayCardChooser.js";
 
-require(["react", "react-dom", "react-dom-factories", "react-redux", "redux", "common/js/Logger", "artifact/js/AllyCard", "artifact/js/AttachmentCard",
-        "artifact/js/EnemyCard", "artifact/js/EventCard", "artifact/js/HeroCard", "artifact/js/LocationCard", "artifact/js/ObjectiveCard",
-        "artifact/js/QuestCard", "artifact/js/Sphere", "artifact/js/TreacheryCard", "model/js/Action", "model/js/CardInstance", "model/js/Reducer",
-        "view/js/PlayCardChooser"
-      ],
-   function(React, ReactDOM, DOM, ReactRedux, Redux, Logger, AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, ObjectiveCard,
-      QuestCard, Sphere, TreacheryCard, Action, CardInstance, Reducer, PlayCardChooser)
-   {
-      window.LOGGER = new Logger();
-      LOGGER.setTraceEnabled(false);
-      LOGGER.setDebugEnabled(false);
+window.LOGGER = new Logger();
+LOGGER.setTraceEnabled(false);
+LOGGER.setDebugEnabled(false);
 
-      var resourceBase = "../../../src/view/resource/";
-      var store = Redux.createStore(Reducer.root);
-      store.dispatch(Action.setResourceBase(resourceBase));
-      var cardInstances = [];
-      cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
-      cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
-      cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.DENETHOR]));
-      cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.A_BURNING_BRAND]));
-      cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.BLACK_ARROW]));
-      cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.CELEBRIANS_STONE]));
-      cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.ADVANCE_WARNING]));
-      cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.BEHIND_STRONG_WALLS]));
-      cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.CAMPFIRE_TALES]));
-      cardInstances.lotrShuffle();
+var resourceBase = "../../../src/view/resource/";
+var store = Redux.createStore(Reducer.root);
+store.dispatch(Action.setResourceBase(resourceBase));
+var cardInstances = [];
+cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.BEORN]));
+cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.BIFUR]));
+cardInstances.push(new CardInstance(store, AllyCard.properties[AllyCard.DENETHOR]));
+cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.A_BURNING_BRAND]));
+cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.BLACK_ARROW]));
+cardInstances.push(new CardInstance(store, AttachmentCard.properties[AttachmentCard.CELEBRIANS_STONE]));
+cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.ADVANCE_WARNING]));
+cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.BEHIND_STRONG_WALLS]));
+cardInstances.push(new CardInstance(store, EventCard.properties[EventCard.CAMPFIRE_TALES]));
+cardInstances.lotrShuffle();
 
-      var element = React.createElement(PlayCardChooser,
-      {
-         cardInstances: cardInstances,
-         onChange: myOnChange,
-      });
+var element = React.createElement(PlayCardChooser,
+{
+   cardInstances: cardInstances,
+   onChange: myOnChange,
+});
 
-      ReactDOM.render(element, document.getElementById("panel"));
+ReactDOM.render(element, document.getElementById("panel"));
 
-      function myOnChange(selected, isAccepted)
-      {
-         LOGGER.info("myOnChange() selected = " + selected + " isAccepted ? " + isAccepted);
-      }
-   });
+function myOnChange(selected, isAccepted)
+{
+   LOGGER.info("myOnChange() selected = " + selected + " isAccepted ? " + isAccepted);
+}

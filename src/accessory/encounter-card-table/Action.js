@@ -1,48 +1,45 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
 
-define(["common/js/InputValidator"], function(InputValidator)
+var Action = {};
+
+Action.REMOVE_FILTERS = "removeFilters";
+Action.SET_DEFAULT_FILTERS = "setDefaultFilters";
+Action.SET_FILTERS = "setFilters";
+Action.TOGGLE_FILTER_SHOWN = "toggleFilterShown";
+
+Action.removeFilters = function()
 {
-   var Action = {};
-
-   Action.REMOVE_FILTERS = "removeFilters";
-   Action.SET_DEFAULT_FILTERS = "setDefaultFilters";
-   Action.SET_FILTERS = "setFilters";
-   Action.TOGGLE_FILTER_SHOWN = "toggleFilterShown";
-
-   Action.removeFilters = function()
+   return (
    {
-      return (
-      {
-         type: Action.REMOVE_FILTERS,
-      });
-   };
+      type: Action.REMOVE_FILTERS,
+   });
+};
 
-   Action.setDefaultFilters = function()
+Action.setDefaultFilters = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.SET_DEFAULT_FILTERS,
-      });
-   };
+      type: Action.SET_DEFAULT_FILTERS,
+   });
+};
 
-   Action.setFilters = function(filters)
+Action.setFilters = function(filters)
+{
+   InputValidator.validateNotNull("filters", filters);
+
+   return (
    {
-      InputValidator.validateNotNull("filters", filters);
+      type: Action.SET_FILTERS,
+      filters: filters,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_FILTERS,
-         filters: filters,
-      });
-   };
-
-   Action.toggleFilterShown = function()
+Action.toggleFilterShown = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.TOGGLE_FILTER_SHOWN,
-      });
-   };
+      type: Action.TOGGLE_FILTER_SHOWN,
+   });
+};
 
-   return Action;
-});
+export default Action;

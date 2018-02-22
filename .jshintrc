@@ -1,9 +1,8 @@
 {
    "curly": true,
-   "esversion": 5,
+   "esversion": 6,
    "nonbsp": true,
    "nonew": true,
-   "strict": "global",
    "undef": true,
    "unused": true,
    "globals": {
@@ -15,8 +14,17 @@
       "localStorage": false,
       "LOGGER": false,
       "Reactable": false,
-      "require": false,
       "setTimeout": false,
-      "window": false
+      "window": false,
+
+      "createReactClass": false,
+      "Immutable": false,
+      "PropTypes": false,
+      "QUnit": false,
+      "React": false,
+      "ReactDOM": false,
+      "ReactDOMFactories": false,
+      "ReactRedux": false,
+      "Redux": false
    }
 }

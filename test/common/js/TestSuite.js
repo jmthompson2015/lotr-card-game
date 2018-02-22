@@ -1,20 +1,13 @@
-    "use strict";
+import Logger from "../../../src/common/js/Logger.js";
 
-    var prefix = "../test/common/js/";
-    var suffix = "Test";
-    var testModules = ["ArrayAugments", "InputValidator", "MathAugments", "TimePrinter"];
-    testModules = testModules.map(function(testModule)
-    {
-       return prefix + testModule + suffix;
-    });
-    testModules.unshift("common/js/Logger");
+import ArrayAugmentsTest from "../js/ArrayAugmentsTest.js";
+import InputValidatorTest from "../js/InputValidatorTest.js";
+import MathAugmentsTest from "../js/MathAugmentsTest.js";
+import TimePrinterTest from "../js/TimePrinterTest.js";
 
-    require(testModules, function(Logger)
-    {
-       window.LOGGER = new Logger();
-       LOGGER.setTraceEnabled(false);
-       LOGGER.setDebugEnabled(false);
-       LOGGER.setInfoEnabled(false);
+window.LOGGER = new Logger();
+LOGGER.setTraceEnabled(false);
+LOGGER.setDebugEnabled(false);
+LOGGER.setInfoEnabled(false);
 
-       QUnit.start();
-    });
+QUnit.start();

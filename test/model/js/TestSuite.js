@@ -1,25 +1,48 @@
-"use strict";
+import Logger from "../../../src/common/js/Logger.js";
 
-var prefix = "../test/model/js/";
-var suffix = "Test";
-var testModules = ["Ability", "Action", "Adjudicator", "Agent", "AgentReducer", "AllyAbility", "AttachmentAbility", "CardInstance", "CardReducer",
-  "CombatAttackTask", "CombatDealShadowCardsTask", "CombatDefendTask", "CombatTask", "EncounterEngagementCheckTask", "EncounterOptionalEngagementTask",
-  "EncounterTask", "Environment", "EventAbility", "EventObserver", "Game", "HeroAbility", "InitialState", "LocationAbility", "PhaseAbility",
-  "PhaseObserver", "PlanningTask", "PlayerDeckBuilder", "QueueProcessor", "QuestAbility", "QuestTask", "Reducer", "RefreshTask", "ResourceTask",
-  "ScenarioDeckBuilder", "ShadowAbility", "SimpleAgentStrategy", "TransferReducer", "TravelTask", "TreacheryAbility"
-];
-testModules = testModules.map(function(testModule)
-{
-   return prefix + testModule + suffix;
-});
-testModules.unshift("common/js/Logger");
+import AbilityTest from "../js/AbilityTest.js";
+import ActionTest from "../js/ActionTest.js";
+import AdjudicatorTest from "../js/AdjudicatorTest.js";
+import AgentTest from "../js/AgentTest.js";
+import AgentReducerTest from "../js/AgentReducerTest.js";
+import AllyAbilityTest from "../js/AllyAbilityTest.js";
+import AttachmentAbilityTest from "../js/AttachmentAbilityTest.js";
+import CardInstanceTest from "../js/CardInstanceTest.js";
+import CardReducerTest from "../js/CardReducerTest.js";
+import CombatAttackTaskTest from "../js/CombatAttackTaskTest.js";
+import CombatDealShadowCardsTaskTest from "../js/CombatDealShadowCardsTaskTest.js";
+import CombatDefendTaskTest from "../js/CombatDefendTaskTest.js";
+import CombatTaskTest from "../js/CombatTaskTest.js";
+import EncounterEngagementCheckTaskTest from "../js/EncounterEngagementCheckTaskTest.js";
+import EncounterOptionalEngagementTaskTest from "../js/EncounterOptionalEngagementTaskTest.js";
+import EncounterTaskTest from "../js/EncounterTaskTest.js";
+import EnvironmentTest from "../js/EnvironmentTest.js";
+import EventAbilityTest from "../js/EventAbilityTest.js";
+import EventObserverTest from "../js/EventObserverTest.js";
+import GameTest from "../js/GameTest.js";
+import HeroAbilityTest from "../js/HeroAbilityTest.js";
+import InitialStateTest from "../js/InitialStateTest.js";
+import LocationAbilityTest from "../js/LocationAbilityTest.js";
+import PhaseAbilityTest from "../js/PhaseAbilityTest.js";
+import PhaseObserverTest from "../js/PhaseObserverTest.js";
+import PlanningTaskTest from "../js/PlanningTaskTest.js";
+import PlayerDeckBuilderTest from "../js/PlayerDeckBuilderTest.js";
+import QueueProcessorTest from "../js/QueueProcessorTest.js";
+import QuestAbilityTest from "../js/QuestAbilityTest.js";
+import QuestTaskTest from "../js/QuestTaskTest.js";
+import ReducerTest from "../js/ReducerTest.js";
+import RefreshTaskTest from "../js/RefreshTaskTest.js";
+import ResourceTaskTest from "../js/ResourceTaskTest.js";
+import ScenarioDeckBuilderTest from "../js/ScenarioDeckBuilderTest.js";
+import ShadowAbilityTest from "../js/ShadowAbilityTest.js";
+import SimpleAgentStrategyTest from "../js/SimpleAgentStrategyTest.js";
+import TransferReducerTest from "../js/TransferReducerTest.js";
+import TravelTaskTest from "../js/TravelTaskTest.js";
+import TreacheryAbilityTest from "../js/TreacheryAbilityTest.js";
 
-require(testModules, function(Logger)
-{
-   window.LOGGER = new Logger();
-   LOGGER.setTraceEnabled(false);
-   LOGGER.setDebugEnabled(false);
-   LOGGER.setInfoEnabled(false);
+window.LOGGER = new Logger();
+LOGGER.setTraceEnabled(false);
+LOGGER.setDebugEnabled(false);
+LOGGER.setInfoEnabled(false);
 
-   QUnit.start();
-});
+QUnit.start();

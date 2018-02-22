@@ -1,25 +1,22 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
+import AgentLabel from "../../view/js/AgentLabel.js";
 
-define(["react-redux", "common/js/InputValidator", "view/js/AgentLabel"],
-   function(ReactRedux, InputValidator, AgentLabel)
+function mapStateToProps(state, ownProps)
+{
+   InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
+
+   var agent = ownProps.agent;
+   var environment = state.environment;
+   var firstAgent = environment.agentQueue()[0];
+   var isFirstAgent = (firstAgent !== undefined && agent.id() === firstAgent.id());
+
+   return (
    {
-      function mapStateToProps(state, ownProps)
-      {
-         InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
-
-         var agent = ownProps.agent;
-         var environment = state.environment;
-         var firstAgent = environment.agentQueue()[0];
-         var isFirstAgent = (firstAgent !== undefined && agent.id() === firstAgent.id());
-
-         return (
-         {
-            agentName: agent.name(),
-            isFirstAgent: isFirstAgent,
-            resourceBase: state.resourceBase,
-            threatLevel: agent.threatLevel(),
-         });
-      }
-
-      return ReactRedux.connect(mapStateToProps)(AgentLabel);
+      agentName: agent.name(),
+      isFirstAgent: isFirstAgent,
+      resourceBase: state.resourceBase,
+      threatLevel: agent.threatLevel(),
    });
+}
+
+export default ReactRedux.connect(mapStateToProps)(AgentLabel);

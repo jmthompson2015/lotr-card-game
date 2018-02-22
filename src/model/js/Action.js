@@ -1,450 +1,447 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
 
-define(["common/js/InputValidator"], function(InputValidator)
+var Action = {};
+
+Action.ADD_AGENT = "addAgent";
+Action.ADD_CARD_INSTANCE = "addCardInstance";
+Action.AGENT_DISCARD_ENEMY_CARD = "agentDiscardEnemyCard";
+Action.AGENT_ENGAGE_CARD = "agentEngageCard";
+Action.AGENT_ENGAGEMENT_TO_STAGING = "agentEngagementToStaging";
+Action.CLEAR_EVENT = "clearEvent";
+Action.CLEAR_PHASE = "clearPhase";
+Action.DEAL_SHADOW_CARD = "dealShadowCard";
+Action.DELETE_AGENT = "deleteAgent";
+Action.DEQUEUE_EVENT = "dequeueEvent";
+Action.DEQUEUE_PHASE = "dequeuePhase";
+Action.DISCARD_ACTIVE_LOCATION = "discardActiveLocation";
+Action.DISCARD_ACTIVE_QUEST = "discardActiveQuest";
+Action.DISCARD_SHADOW_CARD = "discardShadowCard";
+Action.DISCARD_STAGING_CARD = "discardStagingCard";
+Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
+Action.DRAW_QUEST_CARD = "drawQuestCard";
+Action.ENCOUNTER_TO_AGENT_TABLEAU = "encounterToAgentTableau";
+Action.ENCOUNTER_TO_CARD_ATTACHMENT = "encounterToCardAttachment";
+Action.ENCOUNTER_TO_SET_ASIDE = "encounterToSetAside";
+Action.ENQUEUE_EVENT = "enqueueEvent";
+Action.ENQUEUE_PHASE = "enqueuePhase";
+Action.INCREMENT_ROUND = "incrementRound";
+Action.REFILL_ENCOUNTER_DECK = "refillEncounterDeck";
+Action.SET_ACTIVE_AGENT = "setActiveAgent";
+Action.SET_ACTIVE_LOCATION = "setActiveLocation";
+Action.SET_ADJUDICATOR = "setAdjudicator";
+Action.SET_ASIDE_TO_ENCOUNTER_DECK = "setAsideToEncounterDeck";
+Action.SET_DELAY = "setDelay";
+Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
+Action.SET_ENVIRONMENT = "setEnvironment";
+Action.SET_FIRST_AGENT = "setFirstAgent";
+Action.SET_QUEST_DECK = "setQuestDeck";
+Action.SET_RESOURCE_BASE = "setResourceBase";
+Action.SET_SCENARIO_KEY = "setScenarioKey";
+Action.SET_USER_MESSAGE = "setUserMessage";
+Action.STAGING_TO_AGENT_TABLEAU = "stagingToAgentTableau";
+
+Action.addAgent = function(id, values)
 {
-   var Action = {};
+   InputValidator.validateIsNumber("id", id);
+   InputValidator.validateNotNull("values", values);
 
-   Action.ADD_AGENT = "addAgent";
-   Action.ADD_CARD_INSTANCE = "addCardInstance";
-   Action.AGENT_DISCARD_ENEMY_CARD = "agentDiscardEnemyCard";
-   Action.AGENT_ENGAGE_CARD = "agentEngageCard";
-   Action.AGENT_ENGAGEMENT_TO_STAGING = "agentEngagementToStaging";
-   Action.CLEAR_EVENT = "clearEvent";
-   Action.CLEAR_PHASE = "clearPhase";
-   Action.DEAL_SHADOW_CARD = "dealShadowCard";
-   Action.DELETE_AGENT = "deleteAgent";
-   Action.DEQUEUE_EVENT = "dequeueEvent";
-   Action.DEQUEUE_PHASE = "dequeuePhase";
-   Action.DISCARD_ACTIVE_LOCATION = "discardActiveLocation";
-   Action.DISCARD_ACTIVE_QUEST = "discardActiveQuest";
-   Action.DISCARD_SHADOW_CARD = "discardShadowCard";
-   Action.DISCARD_STAGING_CARD = "discardStagingCard";
-   Action.DRAW_ENCOUNTER_CARD = "drawEncounterCard";
-   Action.DRAW_QUEST_CARD = "drawQuestCard";
-   Action.ENCOUNTER_TO_AGENT_TABLEAU = "encounterToAgentTableau";
-   Action.ENCOUNTER_TO_CARD_ATTACHMENT = "encounterToCardAttachment";
-   Action.ENCOUNTER_TO_SET_ASIDE = "encounterToSetAside";
-   Action.ENQUEUE_EVENT = "enqueueEvent";
-   Action.ENQUEUE_PHASE = "enqueuePhase";
-   Action.INCREMENT_ROUND = "incrementRound";
-   Action.REFILL_ENCOUNTER_DECK = "refillEncounterDeck";
-   Action.SET_ACTIVE_AGENT = "setActiveAgent";
-   Action.SET_ACTIVE_LOCATION = "setActiveLocation";
-   Action.SET_ADJUDICATOR = "setAdjudicator";
-   Action.SET_ASIDE_TO_ENCOUNTER_DECK = "setAsideToEncounterDeck";
-   Action.SET_DELAY = "setDelay";
-   Action.SET_ENCOUNTER_DECK = "setEncounterDeck";
-   Action.SET_ENVIRONMENT = "setEnvironment";
-   Action.SET_FIRST_AGENT = "setFirstAgent";
-   Action.SET_QUEST_DECK = "setQuestDeck";
-   Action.SET_RESOURCE_BASE = "setResourceBase";
-   Action.SET_SCENARIO_KEY = "setScenarioKey";
-   Action.SET_USER_MESSAGE = "setUserMessage";
-   Action.STAGING_TO_AGENT_TABLEAU = "stagingToAgentTableau";
-
-   Action.addAgent = function(id, values)
+   return (
    {
-      InputValidator.validateIsNumber("id", id);
-      InputValidator.validateNotNull("values", values);
+      type: Action.ADD_AGENT,
+      id: id,
+      values: values,
+   });
+};
 
-      return (
-      {
-         type: Action.ADD_AGENT,
-         id: id,
-         values: values,
-      });
-   };
+Action.addCardInstance = function(id, values)
+{
+   InputValidator.validateIsNumber("id", id);
+   InputValidator.validateNotNull("values", values);
 
-   Action.addCardInstance = function(id, values)
+   return (
    {
-      InputValidator.validateIsNumber("id", id);
-      InputValidator.validateNotNull("values", values);
+      type: Action.ADD_CARD_INSTANCE,
+      id: id,
+      values: values,
+   });
+};
 
-      return (
-      {
-         type: Action.ADD_CARD_INSTANCE,
-         id: id,
-         values: values,
-      });
-   };
+Action.agentDiscardEnemyCard = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.agentDiscardEnemyCard = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.AGENT_DISCARD_ENEMY_CARD,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.AGENT_DISCARD_ENEMY_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+Action.agentEngageCard = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.agentEngageCard = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.AGENT_ENGAGE_CARD,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.AGENT_ENGAGE_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+Action.agentEngagementToStaging = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.agentEngagementToStaging = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.AGENT_ENGAGEMENT_TO_STAGING,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.AGENT_ENGAGEMENT_TO_STAGING,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
-
-   Action.clearEvent = function()
+Action.clearEvent = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.CLEAR_EVENT,
-      });
-   };
+      type: Action.CLEAR_EVENT,
+   });
+};
 
-   Action.clearPhase = function()
+Action.clearPhase = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.CLEAR_PHASE,
-      });
-   };
+      type: Action.CLEAR_PHASE,
+   });
+};
 
-   Action.dealShadowCard = function(cardInstance)
+Action.dealShadowCard = function(cardInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+
+   return (
    {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.DEAL_SHADOW_CARD,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.DEAL_SHADOW_CARD,
-         cardInstance: cardInstance,
-      });
-   };
+Action.deleteAgent = function(agent)
+{
+   InputValidator.validateNotNull("agent", agent);
 
-   Action.deleteAgent = function(agent)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
+      type: Action.DELETE_AGENT,
+      agent: agent,
+   });
+};
 
-      return (
-      {
-         type: Action.DELETE_AGENT,
-         agent: agent,
-      });
-   };
-
-   Action.dequeueEvent = function()
+Action.dequeueEvent = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.DEQUEUE_EVENT,
-      });
-   };
+      type: Action.DEQUEUE_EVENT,
+   });
+};
 
-   Action.dequeuePhase = function()
+Action.dequeuePhase = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.DEQUEUE_PHASE,
-      });
-   };
+      type: Action.DEQUEUE_PHASE,
+   });
+};
 
-   Action.discardActiveLocation = function()
+Action.discardActiveLocation = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.DISCARD_ACTIVE_LOCATION,
-      });
-   };
+      type: Action.DISCARD_ACTIVE_LOCATION,
+   });
+};
 
-   Action.discardActiveQuest = function()
+Action.discardActiveQuest = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.DISCARD_ACTIVE_QUEST,
-      });
-   };
+      type: Action.DISCARD_ACTIVE_QUEST,
+   });
+};
 
-   Action.discardShadowCard = function(cardInstance, shadowInstance)
+Action.discardShadowCard = function(cardInstance, shadowInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+   InputValidator.validateNotNull("shadowInstance", shadowInstance);
+
+   return (
    {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateNotNull("shadowInstance", shadowInstance);
+      type: Action.DISCARD_SHADOW_CARD,
+      cardInstance: cardInstance,
+      shadowInstance: shadowInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.DISCARD_SHADOW_CARD,
-         cardInstance: cardInstance,
-         shadowInstance: shadowInstance,
-      });
-   };
+Action.discardStagingCard = function(cardInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.discardStagingCard = function(cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.DISCARD_STAGING_CARD,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.DISCARD_STAGING_CARD,
-         cardInstance: cardInstance,
-      });
-   };
+Action.drawEncounterCard = function(index)
+{
+   // index optional.
 
-   Action.drawEncounterCard = function(index)
+   return (
    {
-      // index optional.
+      type: Action.DRAW_ENCOUNTER_CARD,
+      index: index,
+   });
+};
 
-      return (
-      {
-         type: Action.DRAW_ENCOUNTER_CARD,
-         index: index,
-      });
-   };
-
-   Action.drawQuestCard = function()
+Action.drawQuestCard = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.DRAW_QUEST_CARD,
-      });
-   };
+      type: Action.DRAW_QUEST_CARD,
+   });
+};
 
-   Action.encounterToAgentTableau = function(agent, cardInstance)
+Action.encounterToAgentTableau = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.ENCOUNTER_TO_AGENT_TABLEAU,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.ENCOUNTER_TO_AGENT_TABLEAU,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+Action.encounterToCardAttachment = function(cardInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.encounterToCardAttachment = function(cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.ENCOUNTER_TO_CARD_ATTACHMENT,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.ENCOUNTER_TO_CARD_ATTACHMENT,
-         cardInstance: cardInstance,
-      });
-   };
+Action.encounterToSetAside = function(cardInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.encounterToSetAside = function(cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.ENCOUNTER_TO_SET_ASIDE,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.ENCOUNTER_TO_SET_ASIDE,
-         cardInstance: cardInstance,
-      });
-   };
+Action.enqueueEvent = function(eventKey, eventContext, eventCallback)
+{
+   InputValidator.validateNotNull("eventKey", eventKey);
+   // eventContext optional.
+   // eventCallback optional.
 
-   Action.enqueueEvent = function(eventKey, eventContext, eventCallback)
+   return (
    {
-      InputValidator.validateNotNull("eventKey", eventKey);
-      // eventContext optional.
-      // eventCallback optional.
+      type: Action.ENQUEUE_EVENT,
+      eventKey: eventKey,
+      eventContext: eventContext,
+      eventCallback: eventCallback,
+   });
+};
 
-      return (
-      {
-         type: Action.ENQUEUE_EVENT,
-         eventKey: eventKey,
-         eventContext: eventContext,
-         eventCallback: eventCallback,
-      });
-   };
+Action.enqueuePhase = function(phaseKey, phaseContext, phaseCallback)
+{
+   InputValidator.validateNotNull("phaseKey", phaseKey);
+   // phaseContext optional.
+   // phaseCallback optional.
 
-   Action.enqueuePhase = function(phaseKey, phaseContext, phaseCallback)
+   return (
    {
-      InputValidator.validateNotNull("phaseKey", phaseKey);
-      // phaseContext optional.
-      // phaseCallback optional.
+      type: Action.ENQUEUE_PHASE,
+      phaseKey: phaseKey,
+      phaseContext: phaseContext,
+      phaseCallback: phaseCallback,
+   });
+};
 
-      return (
-      {
-         type: Action.ENQUEUE_PHASE,
-         phaseKey: phaseKey,
-         phaseContext: phaseContext,
-         phaseCallback: phaseCallback,
-      });
-   };
-
-   Action.incrementRound = function()
+Action.incrementRound = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.INCREMENT_ROUND,
-      });
-   };
+      type: Action.INCREMENT_ROUND,
+   });
+};
 
-   Action.refillEncounterDeck = function()
+Action.refillEncounterDeck = function()
+{
+   return (
    {
-      return (
-      {
-         type: Action.REFILL_ENCOUNTER_DECK,
-      });
-   };
+      type: Action.REFILL_ENCOUNTER_DECK,
+   });
+};
 
-   Action.setActiveAgent = function(agent)
+Action.setActiveAgent = function(agent)
+{
+   // agent optional.
+
+   return (
    {
-      // agent optional.
+      type: Action.SET_ACTIVE_AGENT,
+      agent: agent,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_ACTIVE_AGENT,
-         agent: agent,
-      });
-   };
+Action.setActiveLocation = function(cardInstance)
+{
+   // cardInstance optional.
 
-   Action.setActiveLocation = function(cardInstance)
+   return (
    {
-      // cardInstance optional.
+      type: Action.SET_ACTIVE_LOCATION,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_ACTIVE_LOCATION,
-         cardInstance: cardInstance,
-      });
-   };
+Action.setAdjudicator = function(adjudicator)
+{
+   InputValidator.validateNotNull("adjudicator", adjudicator);
 
-   Action.setAdjudicator = function(adjudicator)
+   return (
    {
-      InputValidator.validateNotNull("adjudicator", adjudicator);
+      type: Action.SET_ADJUDICATOR,
+      adjudicator: adjudicator,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_ADJUDICATOR,
-         adjudicator: adjudicator,
-      });
-   };
+Action.setAsideToEncounterDeck = function(cardInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.setAsideToEncounterDeck = function(cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.SET_ASIDE_TO_ENCOUNTER_DECK,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_ASIDE_TO_ENCOUNTER_DECK,
-         cardInstance: cardInstance,
-      });
-   };
+Action.setDelay = function(delay)
+{
+   InputValidator.validateIsNumber("delay", delay);
 
-   Action.setDelay = function(delay)
+   return (
    {
-      InputValidator.validateIsNumber("delay", delay);
+      type: Action.SET_DELAY,
+      delay: delay,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_DELAY,
-         delay: delay,
-      });
-   };
+Action.setEncounterDeck = function(deck)
+{
+   InputValidator.validateIsArray("deck", deck);
 
-   Action.setEncounterDeck = function(deck)
+   return (
    {
-      InputValidator.validateIsArray("deck", deck);
+      type: Action.SET_ENCOUNTER_DECK,
+      deck: deck,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_ENCOUNTER_DECK,
-         deck: deck,
-      });
-   };
+Action.setEnvironment = function(environment)
+{
+   InputValidator.validateNotNull("environment", environment);
 
-   Action.setEnvironment = function(environment)
+   return (
    {
-      InputValidator.validateNotNull("environment", environment);
+      type: Action.SET_ENVIRONMENT,
+      environment: environment,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_ENVIRONMENT,
-         environment: environment,
-      });
-   };
+Action.setFirstAgent = function(agent)
+{
+   InputValidator.validateNotNull("agent", agent);
 
-   Action.setFirstAgent = function(agent)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
+      type: Action.SET_FIRST_AGENT,
+      agent: agent,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_FIRST_AGENT,
-         agent: agent,
-      });
-   };
+Action.setQuestDeck = function(deck)
+{
+   InputValidator.validateIsArray("deck", deck);
 
-   Action.setQuestDeck = function(deck)
+   return (
    {
-      InputValidator.validateIsArray("deck", deck);
+      type: Action.SET_QUEST_DECK,
+      deck: deck,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_QUEST_DECK,
-         deck: deck,
-      });
-   };
+Action.setResourceBase = function(resourceBase)
+{
+   InputValidator.validateIsString("resourceBase", resourceBase);
 
-   Action.setResourceBase = function(resourceBase)
+   return (
    {
-      InputValidator.validateIsString("resourceBase", resourceBase);
+      type: Action.SET_RESOURCE_BASE,
+      resourceBase: resourceBase,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_RESOURCE_BASE,
-         resourceBase: resourceBase,
-      });
-   };
+Action.setScenarioKey = function(scenarioKey)
+{
+   InputValidator.validateIsString("scenarioKey", scenarioKey);
 
-   Action.setScenarioKey = function(scenarioKey)
+   return (
    {
-      InputValidator.validateIsString("scenarioKey", scenarioKey);
+      type: Action.SET_SCENARIO_KEY,
+      scenarioKey: scenarioKey,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_SCENARIO_KEY,
-         scenarioKey: scenarioKey,
-      });
-   };
+Action.setUserMessage = function(userMessage)
+{
+   // userMessage optional.
 
-   Action.setUserMessage = function(userMessage)
+   return (
    {
-      // userMessage optional.
+      type: Action.SET_USER_MESSAGE,
+      userMessage: userMessage,
+   });
+};
 
-      return (
-      {
-         type: Action.SET_USER_MESSAGE,
-         userMessage: userMessage,
-      });
-   };
+Action.stagingToAgentTableau = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   Action.stagingToAgentTableau = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: Action.STAGING_TO_AGENT_TABLEAU,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: Action.STAGING_TO_AGENT_TABLEAU,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
-
-   return Action;
-});
+export default Action;

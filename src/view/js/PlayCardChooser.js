@@ -1,33 +1,30 @@
-"use strict";
+import CardComparator from "./CardComparator.js";
+import SingleCardChooser from "./SingleCardChooser.js";
 
-define(["create-react-class", "prop-types", "react", "view/js/CardComparator", "view/js/SingleCardChooser"],
-   function(createReactClass, PropTypes, React, CardComparator, SingleCardChooser)
+var PlayCardChooser = createReactClass(
+{
+   render: function()
    {
-      var PlayCardChooser = createReactClass(
+      return React.createElement(SingleCardChooser,
       {
-         render: function()
-         {
-            return React.createElement(SingleCardChooser,
-            {
-               cardInstances: this.props.cardInstances,
-               onChange: this.props.onChange,
-               title: "Select Card to Play",
-               comparator: CardComparator.TypeCostSphereName,
-               labelFunction: labelFunction,
-            });
-         },
+         cardInstances: this.props.cardInstances,
+         onChange: this.props.onChange,
+         title: "Select Card to Play",
+         comparator: CardComparator.TypeCostSphereName,
+         labelFunction: labelFunction,
       });
+   },
+});
 
-      function labelFunction(value)
-      {
-         var card = value.card();
-         return card.name + " (" + card.cardType.name + ", " + card.sphere.name + " " + card.cost + ")";
-      }
+function labelFunction(value)
+{
+   var card = value.card();
+   return card.name + " (" + card.cardType.name + ", " + card.sphere.name + " " + card.cost + ")";
+}
 
-      PlayCardChooser.propTypes = {
-         cardInstances: PropTypes.array.isRequired,
-         onChange: PropTypes.func.isRequired,
-      };
+PlayCardChooser.propTypes = {
+   cardInstances: PropTypes.array.isRequired,
+   onChange: PropTypes.func.isRequired,
+};
 
-      return PlayCardChooser;
-   });
+export default PlayCardChooser;

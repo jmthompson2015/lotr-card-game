@@ -1,21 +1,17 @@
-"use strict";
+import CardInstancesArea from "../../view/js/CardInstancesArea.js";
 
-define(["react-redux", "view/js/CardInstancesArea"],
-   function(ReactRedux, CardInstancesArea)
+function mapStateToProps(state)
+{
+   var environment = state.environment;
+   var cardInstances = environment.stagingArea().toJS();
+   var threat = environment.stagingThreat();
+
+   return (
    {
-      function mapStateToProps(state)
-      {
-         var environment = state.environment;
-         var cardInstances = environment.stagingArea().toJS();
-         var threat = environment.stagingThreat();
-
-         return (
-         {
-            cardInstances: cardInstances,
-            label: "Staging Area (threat: " + threat + ")",
-            resourceBase: state.resourceBase,
-         });
-      }
-
-      return ReactRedux.connect(mapStateToProps)(CardInstancesArea);
+      cardInstances: cardInstances,
+      label: "Staging Area (threat: " + threat + ")",
+      resourceBase: state.resourceBase,
    });
+}
+
+export default ReactRedux.connect(mapStateToProps)(CardInstancesArea);

@@ -1,20 +1,16 @@
-"use strict";
+import CardInstancesArea from "../../view/js/CardInstancesArea.js";
 
-define(["react-redux", "view/js/CardInstancesArea"],
-   function(ReactRedux, CardInstancesArea)
+function mapStateToProps(state)
+{
+   var environment = state.environment;
+   var cardInstance = environment.activeQuest();
+
+   return (
    {
-      function mapStateToProps(state)
-      {
-         var environment = state.environment;
-         var cardInstance = environment.activeQuest();
-
-         return (
-         {
-            cardInstances: (cardInstance ? [cardInstance] : []),
-            label: "Active Quest",
-            resourceBase: state.resourceBase,
-         });
-      }
-
-      return ReactRedux.connect(mapStateToProps)(CardInstancesArea);
+      cardInstances: (cardInstance ? [cardInstance] : []),
+      label: "Active Quest",
+      resourceBase: state.resourceBase,
    });
+}
+
+export default ReactRedux.connect(mapStateToProps)(CardInstancesArea);

@@ -1,55 +1,50 @@
-"use strict";
+var GameMode = {
+   EASY: "easy", // grey border
+   STANDARD: "standard", // gold border
+   NIGHTMARE: "nightmare",
 
-define(["immutable"], function(Immutable)
+   properties:
+   {
+      "easy":
+      {
+         name: "Easy",
+         key: "easy",
+      },
+      "standard":
+      {
+         name: "Standard",
+         key: "standard",
+      },
+      "nightmare":
+      {
+         name: "Nightmare",
+         key: "nightmare",
+      },
+   },
+
+   keys: function()
+   {
+      return Object.getOwnPropertyNames(GameMode.properties);
+   },
+};
+
+GameMode.createMap = function(easyCountIn, standardCountIn, nightmareCountIn)
 {
-   var GameMode = {
-      EASY: "easy", // grey border
-      STANDARD: "standard", // gold border
-      NIGHTMARE: "nightmare",
+   var easyCount = (easyCountIn !== undefined ? easyCountIn : 0);
+   var standardCount = (standardCountIn !== undefined ? standardCountIn : 0);
+   var nightmareCount = (nightmareCountIn !== undefined ? nightmareCountIn : 0);
 
-      properties:
-      {
-         "easy":
-         {
-            name: "Easy",
-            key: "easy",
-         },
-         "standard":
-         {
-            name: "Standard",
-            key: "standard",
-         },
-         "nightmare":
-         {
-            name: "Nightmare",
-            key: "nightmare",
-         },
-      },
+   var map = {};
+   map[GameMode.EASY] = easyCount;
+   map[GameMode.STANDARD] = standardCount;
+   map[GameMode.NIGHTMARE] = nightmareCount;
 
-      keys: function()
-      {
-         return Object.getOwnPropertyNames(GameMode.properties);
-      },
-   };
+   return Immutable.Map(map);
+};
 
-   GameMode.createMap = function(easyCountIn, standardCountIn, nightmareCountIn)
-   {
-      var easyCount = (easyCountIn !== undefined ? easyCountIn : 0);
-      var standardCount = (standardCountIn !== undefined ? standardCountIn : 0);
-      var nightmareCount = (nightmareCountIn !== undefined ? nightmareCountIn : 0);
+if (Object.freeze)
+{
+   Object.freeze(GameMode);
+}
 
-      var map = {};
-      map[GameMode.EASY] = easyCount;
-      map[GameMode.STANDARD] = standardCount;
-      map[GameMode.NIGHTMARE] = nightmareCount;
-
-      return Immutable.Map(map);
-   };
-
-   if (Object.freeze)
-   {
-      Object.freeze(GameMode);
-   }
-
-   return GameMode;
-});
+export default GameMode;

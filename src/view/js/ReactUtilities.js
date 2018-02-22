@@ -1,35 +1,30 @@
-"use strict";
+var ReactUtilities = {};
 
-define(["react-dom-factories"], function(DOM)
+ReactUtilities.createCell = function(element, key, className)
 {
-   var ReactUtilities = {};
-
-   ReactUtilities.createCell = function(element, key, className)
+   return ReactDOMFactories.div(
    {
-      return DOM.div(
-      {
-         key: key,
-         className: "dtc" + (className ? " " + className : ""),
-      }, element);
-   };
+      key: key,
+      className: "dtc" + (className ? " " + className : ""),
+   }, element);
+};
 
-   ReactUtilities.createRow = function(cells, key, className)
+ReactUtilities.createRow = function(cells, key, className)
+{
+   return ReactDOMFactories.div(
    {
-      return DOM.div(
-      {
-         key: key,
-         className: "dt-row" + (className ? " " + className : ""),
-      }, cells);
-   };
+      key: key,
+      className: "dt-row" + (className ? " " + className : ""),
+   }, cells);
+};
 
-   ReactUtilities.createTable = function(rows, key, className)
+ReactUtilities.createTable = function(rows, key, className)
+{
+   return ReactDOMFactories.div(
    {
-      return DOM.div(
-      {
-         key: key,
-         className: "dt" + (className ? " " + className : ""),
-      }, rows);
-   };
+      key: key,
+      className: "dt" + (className ? " " + className : ""),
+   }, rows);
+};
 
-   return ReactUtilities;
-});
+export default ReactUtilities;

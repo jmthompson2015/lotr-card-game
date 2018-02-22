@@ -3,82 +3,19 @@
 <head>
   <title>Hero Card Gallery</title>
   <meta charset="utf-8">
-
   <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
   <link rel="stylesheet" href="../../view/css/style.css">
 
-  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
-  <script>
-    require.config(
-    {
-      "baseUrl": "../../../src",
-    });
-  </script>
-  <script src="../../../src/main.js"></script>
-
+  <script src="../../../lib/prop-types/prop-types-15.5.10.js"></script>
+  <script src="../../../lib/react/react-15.6.1.js"></script>
+  <script src="../../../lib/create-react-class/create-react-class-15.6.0.js"></script>
+  <script src="../../../lib/react-dom/react-dom-15.6.1.js"></script>
+  <script src="../../../lib/react-dom-factories/react-dom-factories-1.0.1.js"></script>
+  <script src="./HeroCardGallery.js" type="module"></script>
 </head>
 <body>
   <h1>Hero Card Gallery</h1>
   <div id="mainPanel"></div>
-  <script>
-    "use strict";
-
-    require(["create-react-class", "react", "react-dom", "react-dom-factories",
-        "common/js/Logger", "artifact/js/HeroCard", "artifact/js/Sphere", "view/js/CardImage"
-      ],
-      function(createReactClass, React, ReactDOM, DOM, Logger, HeroCard, Sphere, CardImage)
-      {
-        window.LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
-
-        var HeroGallery = createReactClass(
-        {
-          render: function()
-          {
-            var cardKeys = HeroCard.keysBySphere(this.props.sphereKey);
-
-            var cells = [];
-
-            cardKeys.forEach(function(cardKey)
-            {
-              var element = React.createElement(CardImage,
-              {
-                key: "cardInstance" + cardKey,
-                card: HeroCard.properties[cardKey],
-                width: 200,
-              });
-              cells.push(element);
-            });
-
-            return DOM.div(
-            {}, cells);
-          },
-        });
-
-        var rows = [];
-
-        Sphere.keys().forEach(function(sphereKey, i)
-        {
-          var sphere = Sphere.properties[sphereKey];
-
-          rows.push(DOM.h2(
-          {
-            key: "cardHeader" + rows.length,
-          }, sphere.name));
-
-          rows.push(React.createElement(HeroGallery,
-          {
-            key: "cardGallery" + rows.length,
-            sphereKey: sphereKey,
-          }));
-        });
-
-        var mainPanel = DOM.div(
-        {}, rows);
-        ReactDOM.render(mainPanel, document.getElementById("mainPanel"));
-      });
-  </script>
 </body>
 
 </html>

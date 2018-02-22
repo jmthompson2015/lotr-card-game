@@ -1,116 +1,112 @@
 /*
  * Provides methods for input validation.
  */
-"use strict";
 
-define(function()
-{
-   var InputValidator = {
-      EMPTY: " is null or empty.",
-      NULL: " is null.",
-      UNDEFINED: " is undefined.",
+var InputValidator = {
+   EMPTY: " is null or empty.",
+   NULL: " is null.",
+   UNDEFINED: " is undefined.",
 
-      validateInRange: function(objectName, object, low, high)
+   validateInRange: function(objectName, object, low, high)
+   {
+      this.validateIsNumber(objectName, object);
+
+      if (object < low || high < object)
       {
-         this.validateIsNumber(objectName, object);
+         LOGGER.error(new Error().stack);
+         throw objectName + " is out of range [" + low + ", " + high + "]: " +
+            object;
+      }
+   },
 
-         if (object < low || high < object)
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + " is out of range [" + low + ", " + high + "]: " +
-               object;
-         }
-      },
-
-      validateIsArray: function(objectName, object)
+   validateIsArray: function(objectName, object)
+   {
+      if (!Array.isArray(object))
       {
-         if (!Array.isArray(object))
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + " is not an array: " + object;
-         }
-      },
+         LOGGER.error(new Error().stack);
+         throw objectName + " is not an array: " + object;
+      }
+   },
 
-      validateIsBoolean: function(objectName, object)
+   validateIsBoolean: function(objectName, object)
+   {
+      if (typeof object !== "boolean")
       {
-         if (typeof object !== "boolean")
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + " is not a boolean: " + object;
-         }
-      },
+         LOGGER.error(new Error().stack);
+         throw objectName + " is not a boolean: " + object;
+      }
+   },
 
-      validateIsFunction: function(objectName, object)
+   validateIsFunction: function(objectName, object)
+   {
+      if (typeof object !== "function")
       {
-         if (typeof object !== "function")
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + " is not a function: " + object;
-         }
-      },
+         LOGGER.error(new Error().stack);
+         throw objectName + " is not a function: " + object;
+      }
+   },
 
-      validateIsNumber: function(objectName, object)
+   validateIsNumber: function(objectName, object)
+   {
+      if (typeof object !== "number")
       {
-         if (typeof object !== "number")
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + " is not a number: " + object;
-         }
-      },
+         LOGGER.error(new Error().stack);
+         throw objectName + " is not a number: " + object;
+      }
+   },
 
-      validateIsString: function(objectName, object)
+   validateIsString: function(objectName, object)
+   {
+      if (typeof object !== "string")
       {
-         if (typeof object !== "string")
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + " is not a string: " + object;
-         }
-      },
+         LOGGER.error(new Error().stack);
+         throw objectName + " is not a string: " + object;
+      }
+   },
 
-      validateNotEmpty: function(objectName, object)
+   validateNotEmpty: function(objectName, object)
+   {
+      if (Array.isArray(object))
       {
-         if (Array.isArray(object))
+         if (object.length == 0)
          {
-            if (object.length == 0)
-            {
-               // Empty array.
-               LOGGER.error(new Error().stack);
-               throw objectName + InputValidator.EMPTY;
-            }
-         }
-         else if (!isNaN(parseFloat(object)) && isFinite(object))
-         {
-            // Valid.
-         }
-         else if (object === true || object === false)
-         {
-            // Valid.
-         }
-         else
-         {
-            if (!object)
-            {
-               LOGGER.error(new Error().stack);
-               throw objectName + InputValidator.EMPTY;
-            }
-         }
-      },
-
-      validateNotNull: function(objectName, object)
-      {
-         if (object === undefined)
-         {
+            // Empty array.
             LOGGER.error(new Error().stack);
-            throw objectName + InputValidator.UNDEFINED;
-         }
-
-         if (object === null)
-         {
-            LOGGER.error(new Error().stack);
-            throw objectName + InputValidator.NULL;
+            throw objectName + InputValidator.EMPTY;
          }
       }
-   };
+      else if (!isNaN(parseFloat(object)) && isFinite(object))
+      {
+         // Valid.
+      }
+      else if (object === true || object === false)
+      {
+         // Valid.
+      }
+      else
+      {
+         if (!object)
+         {
+            LOGGER.error(new Error().stack);
+            throw objectName + InputValidator.EMPTY;
+         }
+      }
+   },
 
-   return InputValidator;
-});
+   validateNotNull: function(objectName, object)
+   {
+      if (object === undefined)
+      {
+         LOGGER.error(new Error().stack);
+         throw objectName + InputValidator.UNDEFINED;
+      }
+
+      if (object === null)
+      {
+         LOGGER.error(new Error().stack);
+         throw objectName + InputValidator.NULL;
+      }
+   }
+};
+
+export default InputValidator;

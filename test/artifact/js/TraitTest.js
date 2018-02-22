@@ -1,57 +1,57 @@
-"use strict";
+import Trait from "../../../src/artifact/js/Trait.js";
 
-define(["qunit", "artifact/js/Trait"], function(QUnit, Trait)
+QUnit.module("Trait");
+
+QUnit.test("Trait properties Archer", function(assert)
 {
-   QUnit.module("Trait");
+   var cardKey = Trait.ARCHER;
+   var properties = Trait.properties[cardKey];
+   assert.equal(properties.name, "Archer");
+   assert.equal(properties.key, "archer");
+});
 
-   QUnit.test("Trait properties Archer", function(assert)
+QUnit.test("keys and values", function(assert)
+{
+   // Setup.
+
+   // Run.
+   var result = Trait.keys();
+   var ownPropertyNames = Object.getOwnPropertyNames(Trait);
+
+   // Verify.
+   ownPropertyNames.forEach(function(key)
    {
-      var cardKey = Trait.ARCHER;
-      var properties = Trait.properties[cardKey];
-      assert.equal(properties.name, "Archer");
-      assert.equal(properties.key, "archer");
+      var key2 = Trait[key];
+
+      if (key !== "properties" && typeof key2 === "string")
+      {
+         assert.ok(Trait.properties[key2], "Missing value for key = " + key);
+      }
    });
 
-   QUnit.test("keys and values", function(assert)
+   result.forEach(function(value)
    {
-      // Setup.
-
-      // Run.
-      var result = Trait.keys();
-      var ownPropertyNames = Object.getOwnPropertyNames(Trait);
-
-      // Verify.
-      ownPropertyNames.forEach(function(key)
+      var p = ownPropertyNames.filter(function(key)
       {
-         var key2 = Trait[key];
-
-         if (key !== "properties" && typeof key2 === "string")
-         {
-            assert.ok(Trait.properties[key2], "Missing value for key = " + key);
-         }
+         return Trait[key] === value;
       });
 
-      result.forEach(function(value)
-      {
-         var p = ownPropertyNames.filter(function(key)
-         {
-            return Trait[key] === value;
-         });
-
-         assert.equal(p.length, 1, "Missing key for value = " + value);
-      });
-   });
-
-   QUnit.test("Trait.keys()", function(assert)
-   {
-      // Run.
-      var result = Trait.keys();
-
-      // Verify.
-      assert.ok(result);
-      var length = 75;
-      assert.equal(result.length, length);
-      assert.equal(result[0], Trait.ALLY);
-      assert.equal(result[length - 1], Trait.WOODMAN);
+      assert.equal(p.length, 1, "Missing key for value = " + value);
    });
 });
+
+QUnit.test("Trait.keys()", function(assert)
+{
+   // Run.
+   var result = Trait.keys();
+
+   // Verify.
+   assert.ok(result);
+   var length = 75;
+   assert.equal(result.length, length);
+   assert.equal(result[0], Trait.ALLY);
+   assert.equal(result[length - 1], Trait.WOODMAN);
+});
+
+var TraitTest = {};
+export default TraitTest;

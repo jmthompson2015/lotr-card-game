@@ -3,82 +3,20 @@
 <head>
   <title>Treachery Card Gallery</title>
   <meta charset="utf-8">
-
   <link rel="stylesheet" href="../../../lib/tachyons/tachyons-4.8.1.css">
   <link rel="stylesheet" href="../../view/css/style.css">
 
-  <script src="../../../lib/requirejs/require-2.3.5.js"></script>
-  <script>
-    require.config(
-    {
-      "baseUrl": "../../../src",
-    });
-  </script>
-  <script src="../../../src/main.js"></script>
-
+  <script src="../../../lib/immutable/immutable-3.8.1.min.js"></script>
+  <script src="../../../lib/prop-types/prop-types-15.5.10.js"></script>
+  <script src="../../../lib/react/react-15.6.1.js"></script>
+  <script src="../../../lib/create-react-class/create-react-class-15.6.0.js"></script>
+  <script src="../../../lib/react-dom/react-dom-15.6.1.js"></script>
+  <script src="../../../lib/react-dom-factories/react-dom-factories-1.0.1.js"></script>
+  <script src="./TreacheryCardGallery.js" type="module"></script>
 </head>
 <body>
   <h1>Treachery Card Gallery</h1>
   <div id="mainPanel"></div>
-  <script>
-    "use strict";
-
-    require(["create-react-class", "react", "react-dom", "react-dom-factories",
-        "common/js/Logger", "artifact/js/EncounterSet", "artifact/js/TreacheryCard", "view/js/CardImage"
-      ],
-      function(createReactClass, React, ReactDOM, DOM, Logger, EncounterSet, TreacheryCard, CardImage)
-      {
-        window.LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
-
-        var TreacheryGallery = createReactClass(
-        {
-          render: function()
-          {
-            var cardKeys = TreacheryCard.keysByEncounterSet(this.props.encounterSetKey);
-
-            var cells = [];
-
-            cardKeys.forEach(function(cardKey)
-            {
-              var element = React.createElement(CardImage,
-              {
-                key: "cardInstance" + cardKey,
-                card: TreacheryCard.properties[cardKey],
-                width: 200,
-              });
-              cells.push(element);
-            });
-
-            return DOM.div(
-            {}, cells);
-          },
-        });
-
-        var rows = [];
-
-        EncounterSet.keys().forEach(function(encounterSetKey, i)
-        {
-          var encounterSet = EncounterSet.properties[encounterSetKey];
-
-          rows.push(DOM.h2(
-          {
-            key: "cardHeader" + rows.length,
-          }, encounterSet.name));
-
-          rows.push(React.createElement(TreacheryGallery,
-          {
-            key: "cardGallery" + rows.length,
-            encounterSetKey: encounterSetKey,
-          }));
-        });
-
-        var mainPanel = DOM.div(
-        {}, rows);
-        ReactDOM.render(mainPanel, document.getElementById("mainPanel"));
-      });
-  </script>
 </body>
 
 </html>

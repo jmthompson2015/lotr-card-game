@@ -1,36 +1,34 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
+import AttachmentCard from "../../artifact/js/AttachmentCard.js";
+import Action from "./Action.js";
 
-define(["common/js/InputValidator", "artifact/js/AttachmentCard", "model/js/Action"],
-   function(InputValidator, AttachmentCard, Action)
+function Adjudicator(store)
+{
+   InputValidator.validateNotNull("store", store);
+
+   this.store = function()
    {
-      function Adjudicator(store)
-      {
-         InputValidator.validateNotNull("store", store);
+      return store;
+   };
 
-         this.store = function()
-         {
-            return store;
-         };
+   store.dispatch(Action.setAdjudicator(this));
+}
 
-         store.dispatch(Action.setAdjudicator(this));
-      }
+Adjudicator.prototype.canAttack = function(cardInstance)
+{
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-      Adjudicator.prototype.canAttack = function(cardInstance)
-      {
-         InputValidator.validateNotNull("cardInstance", cardInstance);
+   return !cardInstance.hasAttachment(AttachmentCard.FOREST_SNARE);
+};
 
-         return !cardInstance.hasAttachment(AttachmentCard.FOREST_SNARE);
-      };
+Adjudicator.prototype.isGameOver = function()
+{
+   var store = this.store();
+   var questDeck = store.getState().questDeck;
+   var activeQuestId = store.getState().activeQuestId;
+   var agents = store.getState().agents;
 
-      Adjudicator.prototype.isGameOver = function()
-      {
-         var store = this.store();
-         var questDeck = store.getState().questDeck;
-         var activeQuestId = store.getState().activeQuestId;
-         var agents = store.getState().agents;
+   return ((questDeck.size === 0 && activeQuestId === undefined) || agents.size === 0);
+};
 
-         return ((questDeck.size === 0 && activeQuestId === undefined) || agents.size === 0);
-      };
-
-      return Adjudicator;
-   });
+export default Adjudicator;

@@ -1,306 +1,310 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
+import Phase from "../../artifact/js/Phase.js";
+import Action from "./Action.js";
+import CombatTask from "./CombatTask.js";
+import EncounterTask from "./EncounterTask.js";
+import PlanningTask from "./PlanningTask.js";
+import QuestTask from "./QuestTask.js";
+import RefreshTask from "./RefreshTask.js";
+import ResourceTask from "./ResourceTask.js";
+import TravelTask from "./TravelTask.js";
 
-define(["common/js/InputValidator", "artifact/js/Phase",
-  "model/js/Action", "model/js/CombatTask", "model/js/EncounterTask", "model/js/PlanningTask", "model/js/QuestTask", "model/js/RefreshTask", "model/js/ResourceTask", "model/js/TravelTask"],
-   function(InputValidator, Phase, Action, CombatTask, EncounterTask, PlanningTask, QuestTask, RefreshTask, ResourceTask, TravelTask)
+function Engine(store, environment, adjudicator, callback)
+{
+   InputValidator.validateNotNull("store", store);
+   InputValidator.validateNotNull("environment", environment);
+   InputValidator.validateNotNull("adjudicator", adjudicator);
+   // callback optional.
+
+   this.store = function()
    {
-      function Engine(store, environment, adjudicator, callback)
+      return store;
+   };
+
+   this.environment = function()
+   {
+      return environment;
+   };
+
+   this.adjudicator = function()
+   {
+      return adjudicator;
+   };
+
+   this.callback = function()
+   {
+      return callback;
+   };
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Phase methods.
+
+Engine.prototype.performResourcePhase = function()
+{
+   var store = this.store();
+   store.dispatch(Action.incrementRound());
+
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      store.dispatch(Action.enqueuePhase(Phase.RESOURCE_START));
+
+      var task = new ResourceTask(store);
+      var callback = this.finishResourceQueue.bind(this);
+      var delay = store.getState().delay;
+
+      setTimeout(function()
       {
-         InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("environment", environment);
-         InputValidator.validateNotNull("adjudicator", adjudicator);
-         // callback optional.
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-         this.store = function()
-         {
-            return store;
-         };
+Engine.prototype.finishResourceQueue = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.RESOURCE_END));
+   var phaseCallback = this.performPlanningPhase.bind(this);
+   var delay = store.getState().delay;
 
-         this.environment = function()
-         {
-            return environment;
-         };
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
 
-         this.adjudicator = function()
-         {
-            return adjudicator;
-         };
+Engine.prototype.performPlanningPhase = function()
+{
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      var store = this.store();
+      store.dispatch(Action.enqueuePhase(Phase.PLANNING_START));
 
-         this.callback = function()
-         {
-            return callback;
-         };
-      }
+      var task = new PlanningTask(store);
+      var callback = this.finishPlanningQueue.bind(this);
+      var delay = store.getState().delay;
 
-      //////////////////////////////////////////////////////////////////////////
-      // Phase methods.
-
-      Engine.prototype.performResourcePhase = function()
+      setTimeout(function()
       {
-         var store = this.store();
-         store.dispatch(Action.incrementRound());
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            store.dispatch(Action.enqueuePhase(Phase.RESOURCE_START));
+Engine.prototype.finishPlanningQueue = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
+   var phaseCallback = this.performQuestPhase.bind(this);
+   var delay = store.getState().delay;
 
-            var task = new ResourceTask(store);
-            var callback = this.finishResourceQueue.bind(this);
-            var delay = store.getState().delay;
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
 
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
+Engine.prototype.performQuestPhase = function()
+{
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      var store = this.store();
+      store.dispatch(Action.enqueuePhase(Phase.QUEST_START));
 
-      Engine.prototype.finishResourceQueue = function()
+      var task = new QuestTask(store);
+      var callback = this.finishQuestQueue.bind(this);
+      var delay = store.getState().delay;
+
+      setTimeout(function()
       {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.RESOURCE_END));
-         var phaseCallback = this.performPlanningPhase.bind(this);
-         var delay = store.getState().delay;
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
+Engine.prototype.finishQuestQueue = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.QUEST_END));
+   var phaseCallback = this.performTravelPhase.bind(this);
+   var delay = store.getState().delay;
 
-      Engine.prototype.performPlanningPhase = function()
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
+
+Engine.prototype.performTravelPhase = function()
+{
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      var store = this.store();
+      store.dispatch(Action.enqueuePhase(Phase.TRAVEL_START));
+
+      var task = new TravelTask(store);
+      var callback = this.finishTravelPhase.bind(this);
+      var delay = store.getState().delay;
+
+      setTimeout(function()
       {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.PLANNING_START));
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-            var task = new PlanningTask(store);
-            var callback = this.finishPlanningQueue.bind(this);
-            var delay = store.getState().delay;
+Engine.prototype.finishTravelPhase = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
+   var phaseCallback = this.performEncounterPhase.bind(this);
+   var delay = store.getState().delay;
 
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
 
-      Engine.prototype.finishPlanningQueue = function()
+Engine.prototype.performEncounterPhase = function()
+{
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      var store = this.store();
+      store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_START));
+
+      var task = new EncounterTask(store);
+      var callback = this.finishEncounterPhase.bind(this);
+      var delay = store.getState().delay;
+
+      setTimeout(function()
       {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
-         var phaseCallback = this.performQuestPhase.bind(this);
-         var delay = store.getState().delay;
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
+Engine.prototype.finishEncounterPhase = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
+   var phaseCallback = this.performCombatPhase.bind(this);
+   var delay = store.getState().delay;
 
-      Engine.prototype.performQuestPhase = function()
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
+
+Engine.prototype.performCombatPhase = function()
+{
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      var store = this.store();
+      store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
+      var delay = store.getState().delay;
+
+      var task = new CombatTask(store);
+      var callback = this.finishCombatPhase.bind(this);
+
+      setTimeout(function()
       {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.QUEST_START));
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-            var task = new QuestTask(store);
-            var callback = this.finishQuestQueue.bind(this);
-            var delay = store.getState().delay;
+Engine.prototype.finishCombatPhase = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
+   var phaseCallback = this.performRefreshPhase.bind(this);
+   var delay = store.getState().delay;
 
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
 
-      Engine.prototype.finishQuestQueue = function()
+Engine.prototype.performRefreshPhase = function()
+{
+   if (this.isGameOver())
+   {
+      this.processGameOver();
+   }
+   else
+   {
+      var store = this.store();
+      store.dispatch(Action.enqueuePhase(Phase.REFRESH_START));
+
+      var task = new RefreshTask(store);
+      var callback = this.finishRefreshPhase.bind(this);
+      var delay = store.getState().delay;
+
+      setTimeout(function()
       {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.QUEST_END));
-         var phaseCallback = this.performTravelPhase.bind(this);
-         var delay = store.getState().delay;
+         task.doIt(callback);
+      }, delay);
+   }
+};
 
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
+Engine.prototype.finishRefreshPhase = function()
+{
+   var store = this.store();
+   store.dispatch(Action.enqueuePhase(Phase.REFRESH_END));
+   var phaseCallback = this.performResourcePhase.bind(this);
+   var delay = store.getState().delay;
 
-      Engine.prototype.performTravelPhase = function()
-      {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.TRAVEL_START));
+   setTimeout(function()
+   {
+      phaseCallback();
+   }, delay);
+};
 
-            var task = new TravelTask(store);
-            var callback = this.finishTravelPhase.bind(this);
-            var delay = store.getState().delay;
+//////////////////////////////////////////////////////////////////////////
+// Utility methods.
 
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
+Engine.prototype.isGameOver = function()
+{
+   return this.adjudicator().isGameOver();
+};
 
-      Engine.prototype.finishTravelPhase = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.TRAVEL_END));
-         var phaseCallback = this.performEncounterPhase.bind(this);
-         var delay = store.getState().delay;
+Engine.prototype.processGameOver = function()
+{
+   LOGGER.info("Game over.");
 
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
+   var callback = this.callback();
 
-      Engine.prototype.performEncounterPhase = function()
-      {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_START));
+   if (callback)
+   {
+      callback();
+   }
+};
 
-            var task = new EncounterTask(store);
-            var callback = this.finishEncounterPhase.bind(this);
-            var delay = store.getState().delay;
-
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
-
-      Engine.prototype.finishEncounterPhase = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_END));
-         var phaseCallback = this.performCombatPhase.bind(this);
-         var delay = store.getState().delay;
-
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
-
-      Engine.prototype.performCombatPhase = function()
-      {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
-            var delay = store.getState().delay;
-
-            var task = new CombatTask(store);
-            var callback = this.finishCombatPhase.bind(this);
-
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
-
-      Engine.prototype.finishCombatPhase = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
-         var phaseCallback = this.performRefreshPhase.bind(this);
-         var delay = store.getState().delay;
-
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
-
-      Engine.prototype.performRefreshPhase = function()
-      {
-         if (this.isGameOver())
-         {
-            this.processGameOver();
-         }
-         else
-         {
-            var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.REFRESH_START));
-
-            var task = new RefreshTask(store);
-            var callback = this.finishRefreshPhase.bind(this);
-            var delay = store.getState().delay;
-
-            setTimeout(function()
-            {
-               task.doIt(callback);
-            }, delay);
-         }
-      };
-
-      Engine.prototype.finishRefreshPhase = function()
-      {
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.REFRESH_END));
-         var phaseCallback = this.performResourcePhase.bind(this);
-         var delay = store.getState().delay;
-
-         setTimeout(function()
-         {
-            phaseCallback();
-         }, delay);
-      };
-
-      //////////////////////////////////////////////////////////////////////////
-      // Utility methods.
-
-      Engine.prototype.isGameOver = function()
-      {
-         return this.adjudicator().isGameOver();
-      };
-
-      Engine.prototype.processGameOver = function()
-      {
-         LOGGER.info("Game over.");
-
-         var callback = this.callback();
-
-         if (callback)
-         {
-            callback();
-         }
-      };
-
-      return Engine;
-   });
+export default Engine;

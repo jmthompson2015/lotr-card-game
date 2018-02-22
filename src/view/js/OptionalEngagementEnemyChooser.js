@@ -1,32 +1,29 @@
-"use strict";
+import CardComparator from "./CardComparator.js";
+import SingleCardChooser from "./SingleCardChooser.js";
 
-define(["create-react-class", "prop-types", "react", "view/js/CardComparator", "view/js/SingleCardChooser"],
-   function(createReactClass, PropTypes, React, CardComparator, SingleCardChooser)
+var OptionalEngagementEnemyChooser = createReactClass(
+{
+   render: function()
    {
-      var OptionalEngagementEnemyChooser = createReactClass(
+      return React.createElement(SingleCardChooser,
       {
-         render: function()
-         {
-            return React.createElement(SingleCardChooser,
-            {
-               cardInstances: this.props.cardInstances,
-               onChange: this.props.onChange,
-               title: "Select Enemy",
-               comparator: CardComparator.DefenseName,
-               labelFunction: labelFunction,
-               message: "for optional engagement",
-            });
-         },
+         cardInstances: this.props.cardInstances,
+         onChange: this.props.onChange,
+         title: "Select Enemy",
+         comparator: CardComparator.DefenseName,
+         labelFunction: labelFunction,
+         message: "for optional engagement",
       });
+   },
+});
 
-      function labelFunction(value)
-      {
-         return value.card().name + " (defense " + value.defense() + ")";
-      }
+function labelFunction(value)
+{
+   return value.card().name + " (defense " + value.defense() + ")";
+}
 
-      OptionalEngagementEnemyChooser.propTypes = {
-         cardInstances: PropTypes.array.isRequired,
-      };
+OptionalEngagementEnemyChooser.propTypes = {
+   cardInstances: PropTypes.array.isRequired,
+};
 
-      return OptionalEngagementEnemyChooser;
-   });
+export default OptionalEngagementEnemyChooser;

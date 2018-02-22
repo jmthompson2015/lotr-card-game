@@ -1,62 +1,63 @@
-"use strict";
+import GameEvent from "../../../src/artifact/js/GameEvent.js";
 
-define(["qunit", "artifact/js/GameEvent"], function(QUnit, GameEvent)
+QUnit.module("GameEvent");
+
+var GameEventTest = {};
+
+QUnit.test("GameEvent properties Quest card drawn", function(assert)
 {
-   QUnit.module("GameEvent");
+   var eventKey = GameEvent.QUEST_CARD_DRAWN;
+   var properties = GameEvent.properties[eventKey];
+   assert.equal(properties.name, "Quest card drawn");
+   assert.equal(properties.key, "questCardDrawn");
+});
 
-   QUnit.test("GameEvent properties Quest card drawn", function(assert)
+QUnit.test("keys and values", function(assert)
+{
+   // Setup.
+
+   // Run.
+   var result = GameEvent.keys();
+   var ownPropertyNames = Object.getOwnPropertyNames(GameEvent);
+
+   // Verify.
+   ownPropertyNames.forEach(function(key)
    {
-      var eventKey = GameEvent.QUEST_CARD_DRAWN;
-      var properties = GameEvent.properties[eventKey];
-      assert.equal(properties.name, "Quest card drawn");
-      assert.equal(properties.key, "questCardDrawn");
+      var key2 = GameEvent[key];
+
+      if (key !== "properties" && typeof key2 === "string")
+      {
+         assert.ok(GameEvent.properties[key2], "Missing value for key = " + key);
+      }
    });
 
-   QUnit.test("keys and values", function(assert)
+   result.forEach(function(value)
    {
-      // Setup.
-
-      // Run.
-      var result = GameEvent.keys();
-      var ownPropertyNames = Object.getOwnPropertyNames(GameEvent);
-
-      // Verify.
-      ownPropertyNames.forEach(function(key)
+      var p = ownPropertyNames.filter(function(key)
       {
-         var key2 = GameEvent[key];
-
-         if (key !== "properties" && typeof key2 === "string")
-         {
-            assert.ok(GameEvent.properties[key2], "Missing value for key = " + key);
-         }
+         return GameEvent[key] === value;
       });
 
-      result.forEach(function(value)
-      {
-         var p = ownPropertyNames.filter(function(key)
-         {
-            return GameEvent[key] === value;
-         });
-
-         assert.equal(p.length, 1, "Missing key for value = " + value);
-      });
-   });
-
-   QUnit.test("GameEvent.keys()", function(assert)
-   {
-      // Run.
-      var result = GameEvent.keys();
-
-      // Verify.
-      assert.ok(result);
-      var length = 6;
-      assert.equal(result.length, length);
-      var i = 0;
-      assert.equal(result[i++], GameEvent.CARD_PLAYED);
-      assert.equal(result[i++], GameEvent.QUEST_CARD_DRAWN);
-      assert.equal(result[i++], GameEvent.QUEST_SUCCEEDED);
-      assert.equal(result[i++], GameEvent.SHADOW_CARD_REVEALED);
-      assert.equal(result[i++], GameEvent.TRAVELED);
-      assert.equal(result[i++], GameEvent.WOUNDED);
+      assert.equal(p.length, 1, "Missing key for value = " + value);
    });
 });
+
+QUnit.test("GameEvent.keys()", function(assert)
+{
+   // Run.
+   var result = GameEvent.keys();
+
+   // Verify.
+   assert.ok(result);
+   var length = 6;
+   assert.equal(result.length, length);
+   var i = 0;
+   assert.equal(result[i++], GameEvent.CARD_PLAYED);
+   assert.equal(result[i++], GameEvent.QUEST_CARD_DRAWN);
+   assert.equal(result[i++], GameEvent.QUEST_SUCCEEDED);
+   assert.equal(result[i++], GameEvent.SHADOW_CARD_REVEALED);
+   assert.equal(result[i++], GameEvent.TRAVELED);
+   assert.equal(result[i++], GameEvent.WOUNDED);
+});
+
+export default GameEventTest;

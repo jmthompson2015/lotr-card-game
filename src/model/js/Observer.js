@@ -1,42 +1,40 @@
 /*
  * @see https://github.com/reactjs/redux/issues/303#issuecomment-125184409
  */
-"use strict";
 
-define(["common/js/InputValidator"], function(InputValidator)
+import InputValidator from "../../common/js/InputValidator.js";
+
+var Observer = {};
+
+Observer.observeStore = function(store, select, onChange)
 {
-   var Observer = {};
+   InputValidator.validateNotNull("store", store);
+   InputValidator.validateNotNull("select", select);
+   InputValidator.validateNotNull("onChange", onChange);
 
-   Observer.observeStore = function(store, select, onChange)
+   var currentState;
+
+   function handleChange()
    {
-      InputValidator.validateNotNull("store", store);
-      InputValidator.validateNotNull("select", select);
-      InputValidator.validateNotNull("onChange", onChange);
+      var nextState = select(store.getState());
 
-      var currentState;
-
-      function handleChange()
+      if (nextState !== currentState)
       {
-         var nextState = select(store.getState());
-
-         if (nextState !== currentState)
-         {
-            currentState = nextState;
-            onChange(nextState);
-         }
+         currentState = nextState;
+         onChange(nextState);
       }
-
-      var unsubscribe = store.subscribe(handleChange);
-
-      handleChange();
-
-      return unsubscribe;
-   };
-
-   if (Object.freeze)
-   {
-      Object.freeze(Observer);
    }
 
-   return Observer;
-});
+   var unsubscribe = store.subscribe(handleChange);
+
+   handleChange();
+
+   return unsubscribe;
+};
+
+if (Object.freeze)
+{
+   Object.freeze(Observer);
+}
+
+export default Observer;

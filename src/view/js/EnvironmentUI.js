@@ -1,77 +1,76 @@
-"use strict";
+import ActiveLocationContainer from "../../controller/js/ActiveLocationContainer.js";
+import ActiveQuestContainer from "../../controller/js/ActiveQuestContainer.js";
+import AgentAreaContainer from "../../controller/js/AgentAreaContainer.js";
+import StagingAreaContainer from "../../controller/js/StagingAreaContainer.js";
+import StatusBarContainer from "../../controller/js/StatusBarContainer.js";
 
-define(["create-react-class", "prop-types", "react", "react-dom-factories",
-  "controller/js/ActiveLocationContainer", "controller/js/ActiveQuestContainer", "controller/js/AgentAreaContainer", "controller/js/StagingAreaContainer", "controller/js/StatusBarContainer"],
-   function(createReactClass, PropTypes, React, DOM, ActiveLocationContainer, ActiveQuestContainer, AgentAreaContainer, StagingAreaContainer, StatusBarContainer)
+var EnvironmentUI = createReactClass(
+{
+   render: function()
    {
-      var EnvironmentUI = createReactClass(
+      var environment = this.props.environment;
+
+      var statusBar = React.createElement(StatusBarContainer);
+
+      var cell = React.createElement(ActiveQuestContainer,
+      {});
+      var questArea = ReactDOMFactories.div(
       {
-         render: function()
+         key: "questArea",
+         className: "dt fl pa1",
+      }, cell);
+
+      cell = React.createElement(ActiveLocationContainer,
+      {});
+      var locationArea = ReactDOMFactories.div(
+      {
+         key: "locationArea",
+         className: "dt fl pa1",
+      }, cell);
+
+      cell = React.createElement(StagingAreaContainer,
+      {});
+      var stagingArea = ReactDOMFactories.div(
+      {
+         key: "stagingArea",
+         className: "dt fl pa1",
+      }, cell);
+
+      // Agent Area for each agent.
+      var agents = environment.agents();
+      var cells = agents.reduce(function(accumulator, agent)
+      {
+         var cell = React.createElement(AgentAreaContainer,
          {
-            var environment = this.props.environment;
+            agent: agent,
+         });
+         accumulator.push(ReactDOMFactories.div(
+         {
+            key: "agent" + agent.id(),
+         }, cell));
+         return accumulator;
+      }, []);
 
-            var statusBar = React.createElement(StatusBarContainer);
+      var agentsArea = ReactDOMFactories.div(
+      {
+         key: "agentsArea",
+         className: "dt fl",
+      }, cells);
 
-            var cell = React.createElement(ActiveQuestContainer,
-            {});
-            var questArea = DOM.div(
-            {
-               key: "questArea",
-               className: "dt fl pa1",
-            }, cell);
+      var areas = ReactDOMFactories.div(
+      {
+         key: "areas",
+      }, questArea, locationArea, stagingArea, agentsArea);
 
-            cell = React.createElement(ActiveLocationContainer,
-            {});
-            var locationArea = DOM.div(
-            {
-               key: "locationArea",
-               className: "dt fl pa1",
-            }, cell);
+      return ReactDOMFactories.div(
+      {
+         key: "environmentUI",
+      }, statusBar, areas);
+   },
+});
 
-            cell = React.createElement(StagingAreaContainer,
-            {});
-            var stagingArea = DOM.div(
-            {
-               key: "stagingArea",
-               className: "dt fl pa1",
-            }, cell);
+EnvironmentUI.propTypes = {
+   environment: PropTypes.object.isRequired,
+};
 
-            // Agent Area for each agent.
-            var agents = environment.agents();
-            var cells = agents.reduce(function(accumulator, agent)
-            {
-               var cell = React.createElement(AgentAreaContainer,
-               {
-                  agent: agent,
-               });
-               accumulator.push(DOM.div(
-               {
-                  key: "agent" + agent.id(),
-               }, cell));
-               return accumulator;
-            }, []);
-
-            var agentsArea = DOM.div(
-            {
-               key: "agentsArea",
-               className: "dt fl",
-            }, cells);
-
-            var areas = DOM.div(
-            {
-               key: "areas",
-            }, questArea, locationArea, stagingArea, agentsArea);
-
-            return DOM.div(
-            {
-               key: "environmentUI",
-            }, statusBar, areas);
-         },
-      });
-
-      EnvironmentUI.propTypes = {
-         environment: PropTypes.object.isRequired,
-      };
-
-      return EnvironmentUI;
-   });
+export default EnvironmentUI;

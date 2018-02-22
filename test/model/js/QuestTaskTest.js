@@ -1,52 +1,55 @@
-"use strict";
+import Action from "../../../src/model/js/Action.js";
+import Agent from "../../../src/model/js/Agent.js";
+import Game from "../../../src/model/js/Game.js";
+import PlayerDeckBuilder from "../../../src/model/js/PlayerDeckBuilder.js";
+import QuestTask from "../../../src/model/js/QuestTask.js";
+import Reducer from "../../../src/model/js/Reducer.js";
+import ScenarioDeckBuilder from "../../../src/model/js/ScenarioDeckBuilder.js";
 
-define(["qunit", "redux",
-   "model/js/Action", "model/js/Agent", "model/js/Game", "model/js/PlayerDeckBuilder", "model/js/QuestTask", "model/js/Reducer", "model/js/ScenarioDeckBuilder"],
-   function(QUnit, Redux, Action, Agent, Game, PlayerDeckBuilder, QuestTask, Reducer, ScenarioDeckBuilder)
+QUnit.module("QuestTask");
+
+QUnit.test("doIt()", function(assert)
+{
+   // Setup.
+   var game = createGame();
+   var environment = game.engine().environment();
+   var store = environment.store();
+   var locations = environment.stagingLocations();
+   store.dispatch(Action.setActiveLocation(locations.first()));
+   assert.equal(store.getState().cardIsQuesting.size, 0);
+   var task = new QuestTask(store);
+   var callback = function()
    {
-      QUnit.module("QuestTask");
+      // Verify.
+      assert.ok(true, "test resumed from async operation");
+      assert.equal(store.getState().cardIsQuesting.size, 2);
+      done();
+   };
 
-      QUnit.test("doIt()", function(assert)
-      {
-         // Setup.
-         var game = createGame();
-         var environment = game.engine().environment();
-         var store = environment.store();
-         var locations = environment.stagingLocations();
-         store.dispatch(Action.setActiveLocation(locations.first()));
-         assert.equal(store.getState().cardIsQuesting.size, 0);
-         var task = new QuestTask(store);
-         var callback = function()
-         {
-            // Verify.
-            assert.ok(true, "test resumed from async operation");
-            assert.equal(store.getState().cardIsQuesting.size, 2);
-            done();
-         };
+   // Run.
+   var done = assert.async();
+   task.doIt(callback);
+});
 
-         // Run.
-         var done = assert.async();
-         task.doIt(callback);
-      });
+function createGame()
+{
+   var store = Redux.createStore(Reducer.root);
+   store.dispatch(Action.setDelay(10));
+   var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+   var agent1 = new Agent(store, "agent1");
+   var agent2 = new Agent(store, "agent2");
+   var playerData = [
+   {
+      agent: agent1,
+      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+    },
+   {
+      agent: agent2,
+      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+    }, ];
 
-      function createGame()
-      {
-         var store = Redux.createStore(Reducer.root);
-         store.dispatch(Action.setDelay(10));
-         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
-         var agent1 = new Agent(store, "agent1");
-         var agent2 = new Agent(store, "agent2");
-         var playerData = [
-            {
-               agent: agent1,
-               playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
-            },
-            {
-               agent: agent2,
-               playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
-            },
-         ];
+   return new Game(store, scenarioDeck, playerData);
+}
 
-         return new Game(store, scenarioDeck, playerData);
-      }
-   });
+var QuestTaskTest = {};
+export default QuestTaskTest;

@@ -1,143 +1,141 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
+import Action from "./Action.js";
+import CardAction from "./CardAction.js";
 
-define(["common/js/InputValidator", "model/js/Action", "model/js/CardAction"],
-   function(InputValidator, Action, CardAction)
+function CombatAttackTask(store, agent)
+{
+   InputValidator.validateNotNull("store", store);
+   InputValidator.validateNotNull("agent", agent);
+
+   this.store = function()
    {
-      function CombatAttackTask(store, agent)
+      return store;
+   };
+
+   this.agent = function()
+   {
+      return agent;
+   };
+}
+
+CombatAttackTask.prototype.doIt = function(callback)
+{
+   InputValidator.validateNotNull("callback", callback);
+
+   // 1a. Declare target of attack.
+   var agent = this.agent();
+   var enemies = agent.engagementArea();
+   LOGGER.debug("CombatAttackTask enemies = " + enemies);
+
+   if (enemies.size === 1)
+   {
+      this.declareAttackers(enemies.first(), callback);
+   }
+   else if (enemies.size > 1)
+   {
+      var declareAttackersFunction = this.declareAttackers.bind(this);
+      var myCallback = function(defender)
       {
-         InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("agent", agent);
+         declareAttackersFunction(defender, callback);
+      };
 
-         this.store = function()
+      agent.chooseEnemyDefender(enemies.toJS(), myCallback);
+   }
+   else
+   {
+      this.finishCombatAttackTask(callback);
+   }
+};
+
+CombatAttackTask.prototype.declareAttackers = function(defender, callback)
+{
+   LOGGER.debug("CombatAttackTask defender = " + defender);
+
+   if (defender)
+   {
+      // 1b. Declare attackers.
+      var agent = this.agent();
+      var characters = agent.attackers();
+      LOGGER.debug("CombatAttackTask characters = " + characters);
+
+      if (characters.size > 0)
+      {
+         var determineAttackStrengthFunction = this.determineAttackStrength.bind(this);
+         var myCallback = function(attackers)
          {
-            return store;
+            determineAttackStrengthFunction(attackers, defender, callback);
          };
 
-         this.agent = function()
-         {
-            return agent;
-         };
+         agent.chooseCharacterAttackers(characters.toJS(), defender, myCallback);
       }
-
-      CombatAttackTask.prototype.doIt = function(callback)
+      else
       {
-         InputValidator.validateNotNull("callback", callback);
+         this.determineAttackStrength([], defender, callback);
+      }
+   }
+   else
+   {
+      this.finishCombatAttackTask(callback);
+   }
+};
 
-         // 1a. Declare target of attack.
-         var agent = this.agent();
-         var enemies = agent.engagementArea();
-         LOGGER.debug("CombatAttackTask enemies = " + enemies);
+CombatAttackTask.prototype.determineAttackStrength = function(attackers, defender, callback)
+{
+   LOGGER.debug("CombatAttackTask attackers = " + attackers);
 
-         if (enemies.size === 1)
-         {
-            this.declareAttackers(enemies.first(), callback);
-         }
-         else if (enemies.size > 1)
-         {
-            var declareAttackersFunction = this.declareAttackers.bind(this);
-            var myCallback = function(defender)
-            {
-               declareAttackersFunction(defender, callback);
-            };
+   if (attackers)
+   {
+      var store = this.store();
 
-            agent.chooseEnemyDefender(enemies.toJS(), myCallback);
-         }
-         else
-         {
-            this.finishCombatAttackTask(callback);
-         }
-      };
-
-      CombatAttackTask.prototype.declareAttackers = function(defender, callback)
+      attackers.forEach(function(cardInstance)
       {
-         LOGGER.debug("CombatAttackTask defender = " + defender);
+         store.dispatch(CardAction.setReady(cardInstance, false));
+      });
 
-         if (defender)
-         {
-            // 1b. Declare attackers.
-            var agent = this.agent();
-            var characters = agent.attackers();
-            LOGGER.debug("CombatAttackTask characters = " + characters);
-
-            if (characters.size > 0)
-            {
-               var determineAttackStrengthFunction = this.determineAttackStrength.bind(this);
-               var myCallback = function(attackers)
-               {
-                  determineAttackStrengthFunction(attackers, defender, callback);
-               };
-
-               agent.chooseCharacterAttackers(characters.toJS(), defender, myCallback);
-            }
-            else
-            {
-               this.determineAttackStrength([], defender, callback);
-            }
-         }
-         else
-         {
-            this.finishCombatAttackTask(callback);
-         }
-      };
-
-      CombatAttackTask.prototype.determineAttackStrength = function(attackers, defender, callback)
+      // 2. Determine attack strength.
+      var attack = attackers.reduce(function(accumulator, cardInstance, i)
       {
-         LOGGER.debug("CombatAttackTask attackers = " + attackers);
+         LOGGER.debug(i + " CombatAttackTask attack = " + cardInstance + " " + cardInstance.attack());
+         return accumulator + cardInstance.attack();
+      }, 0);
+      LOGGER.debug("CombatAttackTask attack = " + attack);
 
-         if (attackers)
-         {
-            var store = this.store();
+      // 3. Determine combat damage.
+      var defense = defender.defense();
+      LOGGER.debug("CombatAttackTask defense = " + defense);
+      var damage = attack - defense;
+      LOGGER.debug("CombatAttackTask damage = " + damage);
+      store.dispatch(Action.setUserMessage("Attacker combat damage: " + damage));
 
-            attackers.forEach(function(cardInstance)
-            {
-               store.dispatch(CardAction.setReady(cardInstance, false));
-            });
-
-            // 2. Determine attack strength.
-            var attack = attackers.reduce(function(accumulator, cardInstance, i)
-            {
-               LOGGER.debug(i + " CombatAttackTask attack = " + cardInstance + " " + cardInstance.attack());
-               return accumulator + cardInstance.attack();
-            }, 0);
-            LOGGER.debug("CombatAttackTask attack = " + attack);
-
-            // 3. Determine combat damage.
-            var defense = defender.defense();
-            LOGGER.debug("CombatAttackTask defense = " + defense);
-            var damage = attack - defense;
-            LOGGER.debug("CombatAttackTask damage = " + damage);
-            store.dispatch(Action.setUserMessage("Attacker combat damage: " + damage));
-
-            if (damage > 0)
-            {
-               defender.addWounds(damage);
-            }
-         }
-
-         this.finishCombatAttackTask(callback);
-      };
-
-      CombatAttackTask.prototype.finishCombatAttackTask = function(callback)
+      if (damage > 0)
       {
-         // Discard shadow cards.
-         var store = this.store();
-         LOGGER.debug("0 cardShadowCards = " + store.getState().cardShadowCards);
-         var agent = this.agent();
-         var engagementArea = agent.engagementArea();
-         engagementArea.forEach(function(cardInstance)
-         {
-            var shadowCards = cardInstance.shadowCards();
+         defender.addWounds(damage);
+      }
+   }
 
-            shadowCards.forEach(function(shadowInstance)
-            {
-               store.dispatch(Action.discardShadowCard(cardInstance, shadowInstance));
-            });
-         });
-         LOGGER.debug("encounterDiscard = " + store.getState().encounterDiscard);
-         LOGGER.debug("1 cardShadowCards = " + store.getState().cardShadowCards);
+   this.finishCombatAttackTask(callback);
+};
 
-         callback();
-      };
+CombatAttackTask.prototype.finishCombatAttackTask = function(callback)
+{
+   // Discard shadow cards.
+   var store = this.store();
+   LOGGER.debug("0 cardShadowCards = " + store.getState().cardShadowCards);
+   var agent = this.agent();
+   var engagementArea = agent.engagementArea();
+   engagementArea.forEach(function(cardInstance)
+   {
+      var shadowCards = cardInstance.shadowCards();
 
-      return CombatAttackTask;
+      shadowCards.forEach(function(shadowInstance)
+      {
+         store.dispatch(Action.discardShadowCard(cardInstance, shadowInstance));
+      });
    });
+   LOGGER.debug("encounterDiscard = " + store.getState().encounterDiscard);
+   LOGGER.debug("1 cardShadowCards = " + store.getState().cardShadowCards);
+
+   callback();
+};
+
+export default CombatAttackTask;

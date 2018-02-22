@@ -1,51 +1,52 @@
-"use strict";
+import Logger from "../../../src/common/js/Logger.js";
+import Action from "../../../src/model/js/Action.js";
+import Agent from "../../../src/model/js/Agent.js";
+import Game from "../../../src/model/js/Game.js";
+import PlayerDeckBuilder from "../../../src/model/js/PlayerDeckBuilder.js";
+import Reducer from "../../../src/model/js/Reducer.js";
+import ScenarioDeckBuilder from "../../../src/model/js/ScenarioDeckBuilder.js";
+import TableauContainer from "../../../src/controller/js/TableauContainer.js";
 
-require(["react", "react-dom", "react-redux", "redux", "common/js/Logger", "model/js/Action", "model/js/Agent", "model/js/Game",
-				"model/js/PlayerDeckBuilder", "model/js/Reducer", "model/js/ScenarioDeckBuilder", "controller/js/TableauContainer"
-			],
-   function(React, ReactDOM, ReactRedux, Redux, Logger, Action, Agent, Game, PlayerDeckBuilder, Reducer, ScenarioDeckBuilder, TableauContainer)
+window.LOGGER = new Logger();
+LOGGER.setTraceEnabled(false);
+LOGGER.setDebugEnabled(false);
+
+var resourceBase = "../../../src/view/resource/";
+var game = createGame();
+var store = game.store();
+store.dispatch(Action.setResourceBase(resourceBase));
+var environment = game.engine().environment();
+var agent1 = environment.agents().first();
+var cardInstance = environment.stagingArea().first();
+store.dispatch(Action.agentEngageCard(agent1, cardInstance));
+
+var element = React.createElement(ReactRedux.Provider,
+{
+   store: store,
+}, React.createElement(TableauContainer,
+{
+   agent: agent1,
+}));
+
+ReactDOM.render(element, document.getElementById("panel"));
+
+function createGame(callback)
+{
+   var store = Redux.createStore(Reducer.root);
+   var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
+   var playerData = [
    {
-      window.LOGGER = new Logger();
-      LOGGER.setTraceEnabled(false);
-      LOGGER.setDebugEnabled(false);
+      agent: new Agent(store, "agent1"),
+      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+    },
+   {
+      agent: new Agent(store, "agent2"),
+      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+    },
+   {
+      agent: new Agent(store, "agent3"),
+      playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+    }, ];
 
-      var resourceBase = "../../../src/view/resource/";
-      var game = createGame();
-      var store = game.store();
-      store.dispatch(Action.setResourceBase(resourceBase));
-      var environment = game.engine().environment();
-      var agent1 = environment.agents().first();
-      var cardInstance = environment.stagingArea().first();
-      store.dispatch(Action.agentEngageCard(agent1, cardInstance));
-
-      var element = React.createElement(ReactRedux.Provider,
-      {
-         store: store,
-      }, React.createElement(TableauContainer,
-      {
-         agent: agent1,
-      }));
-
-      ReactDOM.render(element, document.getElementById("panel"));
-
-      function createGame(callback)
-      {
-         var store = Redux.createStore(Reducer.root);
-         var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
-         var playerData = [
-            {
-               agent: new Agent(store, "agent1"),
-               playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
-					},
-            {
-               agent: new Agent(store, "agent2"),
-               playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
-					},
-            {
-               agent: new Agent(store, "agent3"),
-               playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
-					}, ];
-
-         return new Game(store, scenarioDeck, playerData, 10, callback);
-      }
-   });
+   return new Game(store, scenarioDeck, playerData, 10, callback);
+}

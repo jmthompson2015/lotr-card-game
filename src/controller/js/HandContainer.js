@@ -1,24 +1,22 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
+import CardComparator from "../../view/js/CardComparator.js";
+import CardInstancesArea from "../../view/js/CardInstancesArea.js";
 
-define(["react-redux", "common/js/InputValidator", "view/js/CardComparator", "view/js/CardInstancesArea"],
-   function(ReactRedux, InputValidator, CardComparator, CardInstancesArea)
+function mapStateToProps(state, ownProps)
+{
+   InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
+
+   var agent = ownProps.agent;
+   var cardInstances = agent.hand().toJS();
+   cardInstances.sort(CardComparator.TypeCostSphereName);
+
+   return (
    {
-      function mapStateToProps(state, ownProps)
-      {
-         InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
-
-         var agent = ownProps.agent;
-         var cardInstances = agent.hand().toJS();
-         cardInstances.sort(CardComparator.TypeCostSphereName);
-
-         return (
-         {
-            cardInstances: cardInstances,
-            isExpanded: false,
-            label: "Hand",
-            resourceBase: state.resourceBase,
-         });
-      }
-
-      return ReactRedux.connect(mapStateToProps)(CardInstancesArea);
+      cardInstances: cardInstances,
+      isExpanded: false,
+      label: "Hand",
+      resourceBase: state.resourceBase,
    });
+}
+
+export default ReactRedux.connect(mapStateToProps)(CardInstancesArea);

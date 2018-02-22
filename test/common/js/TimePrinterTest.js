@@ -1,15 +1,15 @@
-"use strict";
+import TimePrinter from "../../../src/common/js/TimePrinter.js";
 
-define(["qunit", "common/js/TimePrinter"],
-   function(QUnit, TimePrinter)
-   {
-      QUnit.module("TimePrinter");
+QUnit.module("TimePrinter");
 
-      QUnit.test("formatElapsedTime()", function(assert)
-      {
-         // Setup.
+var TimePrinterTest = {};
 
-         // Run / Verify.
-         assert.equal(TimePrinter.formatElapsedTime("title", 150, 3150), "title elapsed time 0:03 (3000 ms)");
-      });
-   });
+QUnit.test("formatElapsedTime()", function(assert)
+{
+   // Setup.
+
+   // Run / Verify.
+   assert.equal(TimePrinter.formatElapsedTime("title", 150, 3150), "title elapsed time 0:03 (3000 ms)");
+});
+
+export default TimePrinterTest;

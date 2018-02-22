@@ -1,146 +1,143 @@
-"use strict";
+import ArrayAugments from "../../common/js/ArrayAugments.js";
+import InputValidator from "../../common/js/InputValidator.js";
 
-define(["common/js/ArrayAugments", "common/js/InputValidator"],
-   function(ArrayAugments, InputValidator)
+var SimpleAgentStrategy = {
+
+   chooseCardToPlay: function(agent, possibleCards, callback)
    {
-      var SimpleAgentStrategy = {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsArray("possibleCards", possibleCards);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseCardToPlay: function(agent, possibleCards, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateIsArray("possibleCards", possibleCards);
-            InputValidator.validateIsFunction("callback", callback);
+      var cardToPlay = possibleCards.lotrRandomElement();
 
-            var cardToPlay = possibleCards.lotrRandomElement();
+      callback(cardToPlay);
+   },
 
-            callback(cardToPlay);
-         },
+   chooseCharacterAttackers: function(agent, characters, defender, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsArray("characters", characters);
+      InputValidator.validateNotNull("defender", defender);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseCharacterAttackers: function(agent, characters, defender, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateIsArray("characters", characters);
-            InputValidator.validateNotNull("defender", defender);
-            InputValidator.validateIsFunction("callback", callback);
+      var attackers = [characters.lotrRandomElement()];
 
-            var attackers = [characters.lotrRandomElement()];
+      callback(attackers);
+   },
 
-            callback(attackers);
-         },
+   chooseCharacterDefender: function(agent, attacker, characters, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("attacker", attacker);
+      InputValidator.validateIsArray("characters", characters);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseCharacterDefender: function(agent, attacker, characters, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateIsArray("characters", characters);
-            InputValidator.validateIsFunction("callback", callback);
+      var defender = characters.lotrRandomElement();
 
-            var defender = characters.lotrRandomElement();
+      callback(defender);
+   },
 
-            callback(defender);
-         },
+   chooseCharacterForAttachment: function(agent, attachmentInstance, characters, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+      InputValidator.validateIsArray("characters", characters);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseCharacterForAttachment: function(agent, attachmentInstance, characters, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
-            InputValidator.validateIsArray("characters", characters);
-            InputValidator.validateIsFunction("callback", callback);
+      var character = characters.lotrRandomElement();
 
-            var character = characters.lotrRandomElement();
+      callback(character);
+   },
 
-            callback(character);
-         },
+   chooseEnemyDefender: function(agent, enemies, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsArray("enemies", enemies);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseEnemyDefender: function(agent, enemies, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateIsArray("enemies", enemies);
-            InputValidator.validateIsFunction("callback", callback);
+      var defender = enemies.lotrRandomElement();
 
-            var defender = enemies.lotrRandomElement();
+      callback(defender);
+   },
 
-            callback(defender);
-         },
+   chooseEngagedEnemyForAttachment: function(agent, attachmentInstance, enemies, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+      InputValidator.validateIsArray("enemies", enemies);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseEngagedEnemyForAttachment: function(agent, attachmentInstance, enemies, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
-            InputValidator.validateIsArray("enemies", enemies);
-            InputValidator.validateIsFunction("callback", callback);
+      var enemy = enemies.lotrRandomElement();
 
-            var enemy = enemies.lotrRandomElement();
+      callback(enemy);
+   },
 
-            callback(enemy);
-         },
+   chooseHeroForAttachment: function(agent, attachmentInstance, heroes, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+      InputValidator.validateIsArray("heroes", heroes);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseHeroForAttachment: function(agent, attachmentInstance, heroes, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
-            InputValidator.validateIsArray("heroes", heroes);
-            InputValidator.validateIsFunction("callback", callback);
+      var hero = heroes.lotrRandomElement();
 
-            var hero = heroes.lotrRandomElement();
+      callback(hero);
+   },
 
-            callback(hero);
-         },
+   chooseLocation: function(agent, locations, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsArray("locations", locations);
+      InputValidator.validateNotEmpty("locations", locations);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseLocation: function(agent, locations, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateIsArray("locations", locations);
-            InputValidator.validateNotEmpty("locations", locations);
-            InputValidator.validateIsFunction("callback", callback);
+      var location = locations.lotrRandomElement();
 
-            var location = locations.lotrRandomElement();
+      callback(location);
+   },
 
-            callback(location);
-         },
+   chooseOptionalEngagementEnemy: function(agent, enemies, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateIsArray("enemies", enemies);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseOptionalEngagementEnemy: function(agent, enemies, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateIsArray("enemies", enemies);
-            InputValidator.validateIsFunction("callback", callback);
+      // SimpleAgentStrategy does not optionally engage.
+      callback();
+   },
 
-            // SimpleAgentStrategy does not optionally engage.
-            callback();
-         },
+   chooseQuesters: function(agent, questInstance, characters, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("questInstance", questInstance);
+      InputValidator.validateIsArray("characters", characters);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseQuesters: function(agent, questInstance, characters, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateNotNull("questInstance", questInstance);
-            InputValidator.validateIsArray("characters", characters);
-            InputValidator.validateIsFunction("callback", callback);
+      var questers;
 
-            var questers;
+      if (characters.length > 0)
+      {
+         questers = [characters.lotrRandomElement()];
+      }
 
-            if (characters.length > 0)
-            {
-               questers = [characters.lotrRandomElement()];
-            }
+      callback(questers);
+   },
 
-            callback(questers);
-         },
+   chooseUndefendedAttackHero: function(agent, attacker, heroes, callback)
+   {
+      InputValidator.validateNotNull("agent", agent);
+      InputValidator.validateNotNull("attacker", attacker);
+      InputValidator.validateIsArray("heroes", heroes);
+      InputValidator.validateNotEmpty("heroes", heroes);
+      InputValidator.validateIsFunction("callback", callback);
 
-         chooseUndefendedAttackHero: function(agent, attacker, heroes, callback)
-         {
-            InputValidator.validateNotNull("agent", agent);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateIsArray("heroes", heroes);
-            InputValidator.validateNotEmpty("heroes", heroes);
-            InputValidator.validateIsFunction("callback", callback);
+      var hero = heroes.lotrRandomElement();
 
-            var hero = heroes.lotrRandomElement();
+      callback(hero);
+   },
+};
 
-            callback(hero);
-         },
-      };
+SimpleAgentStrategy.shortName = "SimpleAgent";
 
-      SimpleAgentStrategy.shortName = "SimpleAgent";
-
-      return SimpleAgentStrategy;
-   });
+export default SimpleAgentStrategy;

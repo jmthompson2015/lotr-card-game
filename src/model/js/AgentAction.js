@@ -1,196 +1,193 @@
-"use strict";
+import InputValidator from "../../common/js/InputValidator.js";
 
-define(["common/js/InputValidator"], function(InputValidator)
+var AgentAction = {};
+
+AgentAction.ADD_THREAT = "addThreat";
+AgentAction.ATTACH_CARD = "attachCard";
+AgentAction.ATTACH_TO_ENGAGED_ENEMY = "attachToEngagedEnemy";
+AgentAction.DISCARD_ATTACHMENT_CARD = "discardAttachmentCard";
+AgentAction.DISCARD_FROM_HAND = "discardFromHand";
+AgentAction.DISCARD_FROM_PLAYER_DECK = "discardFromPlayerDeck";
+AgentAction.DISCARD_FROM_TABLEAU = "discardFromTableau";
+AgentAction.DRAW_PLAYER_CARD = "drawPlayerCard";
+AgentAction.INCREMENT_NEXT_AGENT_ID = "incrementNextAgentId";
+AgentAction.PLAY_CARD = "playCard";
+AgentAction.SET_PLAYER_DECK = "setPlayerDeck";
+AgentAction.SET_TABLEAU = "setTableau";
+AgentAction.SET_THREAT = "setThreat";
+
+AgentAction.addThreat = function(agent, value)
 {
-   var AgentAction = {};
+   InputValidator.validateNotNull("agent", agent);
+   // value optional. default: 1
 
-   AgentAction.ADD_THREAT = "addThreat";
-   AgentAction.ATTACH_CARD = "attachCard";
-   AgentAction.ATTACH_TO_ENGAGED_ENEMY = "attachToEngagedEnemy";
-   AgentAction.DISCARD_ATTACHMENT_CARD = "discardAttachmentCard";
-   AgentAction.DISCARD_FROM_HAND = "discardFromHand";
-   AgentAction.DISCARD_FROM_PLAYER_DECK = "discardFromPlayerDeck";
-   AgentAction.DISCARD_FROM_TABLEAU = "discardFromTableau";
-   AgentAction.DRAW_PLAYER_CARD = "drawPlayerCard";
-   AgentAction.INCREMENT_NEXT_AGENT_ID = "incrementNextAgentId";
-   AgentAction.PLAY_CARD = "playCard";
-   AgentAction.SET_PLAYER_DECK = "setPlayerDeck";
-   AgentAction.SET_TABLEAU = "setTableau";
-   AgentAction.SET_THREAT = "setThreat";
+   var myValue = (value !== undefined ? value : 1);
 
-   AgentAction.addThreat = function(agent, value)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      // value optional. default: 1
+      type: AgentAction.ADD_THREAT,
+      agent: agent,
+      value: myValue,
+   });
+};
 
-      var myValue = (value !== undefined ? value : 1);
+AgentAction.attachCard = function(agent, cardInstance, attachmentInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+   InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
 
-      return (
-      {
-         type: AgentAction.ADD_THREAT,
-         agent: agent,
-         value: myValue,
-      });
-   };
-
-   AgentAction.attachCard = function(agent, cardInstance, attachmentInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+      type: AgentAction.ATTACH_CARD,
+      agent: agent,
+      cardInstance: cardInstance,
+      attachmentInstance: attachmentInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.ATTACH_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
-         attachmentInstance: attachmentInstance,
-      });
-   };
+AgentAction.attachToEngagedEnemy = function(agent, cardInstance, attachmentInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+   InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
 
-   AgentAction.attachToEngagedEnemy = function(agent, cardInstance, attachmentInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+      type: AgentAction.ATTACH_TO_ENGAGED_ENEMY,
+      agent: agent,
+      cardInstance: cardInstance,
+      attachmentInstance: attachmentInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.ATTACH_TO_ENGAGED_ENEMY,
-         agent: agent,
-         cardInstance: cardInstance,
-         attachmentInstance: attachmentInstance,
-      });
-   };
+AgentAction.discardAttachmentCard = function(agent, cardInstance, attachmentInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+   InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
 
-   AgentAction.discardAttachmentCard = function(agent, cardInstance, attachmentInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
-      InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
+      type: AgentAction.DISCARD_ATTACHMENT_CARD,
+      agent: agent,
+      cardInstance: cardInstance,
+      attachmentInstance: attachmentInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.DISCARD_ATTACHMENT_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
-         attachmentInstance: attachmentInstance,
-      });
-   };
+AgentAction.discardFromHand = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   AgentAction.discardFromHand = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: AgentAction.DISCARD_FROM_HAND,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.DISCARD_FROM_HAND,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+AgentAction.discardFromPlayerDeck = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   AgentAction.discardFromPlayerDeck = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: AgentAction.DISCARD_FROM_PLAYER_DECK,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.DISCARD_FROM_PLAYER_DECK,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+AgentAction.discardFromTableau = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
 
-   AgentAction.discardFromTableau = function(agent, cardInstance)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: AgentAction.DISCARD_FROM_TABLEAU,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.DISCARD_FROM_TABLEAU,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+AgentAction.drawPlayerCard = function(agent, index)
+{
+   InputValidator.validateNotNull("agent", agent);
+   // index optional.
 
-   AgentAction.drawPlayerCard = function(agent, index)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      // index optional.
+      type: AgentAction.DRAW_PLAYER_CARD,
+      agent: agent,
+      index: index,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.DRAW_PLAYER_CARD,
-         agent: agent,
-         index: index,
-      });
-   };
-
-   AgentAction.incrementNextAgentId = function()
+AgentAction.incrementNextAgentId = function()
+{
+   return (
    {
-      return (
-      {
-         type: AgentAction.INCREMENT_NEXT_AGENT_ID,
-      });
-   };
+      type: AgentAction.INCREMENT_NEXT_AGENT_ID,
+   });
+};
 
-   AgentAction.playCard = function(agent, cardInstance)
+AgentAction.playCard = function(agent, cardInstance)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateNotNull("cardInstance", cardInstance);
+
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateNotNull("cardInstance", cardInstance);
+      type: AgentAction.PLAY_CARD,
+      agent: agent,
+      cardInstance: cardInstance,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.PLAY_CARD,
-         agent: agent,
-         cardInstance: cardInstance,
-      });
-   };
+AgentAction.setPlayerDeck = function(agent, deck)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateIsArray("deck", deck);
 
-   AgentAction.setPlayerDeck = function(agent, deck)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateIsArray("deck", deck);
+      type: AgentAction.SET_PLAYER_DECK,
+      agent: agent,
+      deck: deck,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.SET_PLAYER_DECK,
-         agent: agent,
-         deck: deck,
-      });
-   };
+AgentAction.setTableau = function(agent, deck)
+{
+   InputValidator.validateNotNull("agent", agent);
+   InputValidator.validateIsArray("deck", deck);
 
-   AgentAction.setTableau = function(agent, deck)
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      InputValidator.validateIsArray("deck", deck);
+      type: AgentAction.SET_TABLEAU,
+      agent: agent,
+      deck: deck,
+   });
+};
 
-      return (
-      {
-         type: AgentAction.SET_TABLEAU,
-         agent: agent,
-         deck: deck,
-      });
-   };
+AgentAction.setThreat = function(agent, value)
+{
+   InputValidator.validateNotNull("agent", agent);
+   // value optional. default: 0
 
-   AgentAction.setThreat = function(agent, value)
+   var myValue = (value !== undefined ? value : 0);
+
+   return (
    {
-      InputValidator.validateNotNull("agent", agent);
-      // value optional. default: 0
+      type: AgentAction.SET_THREAT,
+      agent: agent,
+      value: myValue,
+   });
+};
 
-      var myValue = (value !== undefined ? value : 0);
-
-      return (
-      {
-         type: AgentAction.SET_THREAT,
-         agent: agent,
-         value: myValue,
-      });
-   };
-
-   return AgentAction;
-});
+export default AgentAction;

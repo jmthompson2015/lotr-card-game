@@ -1,43 +1,37 @@
-"use strict";
-
-define(["create-react-class", "prop-types", "react-dom-factories"],
-   function(createReactClass, PropTypes, DOM)
+var ImplementedImage = createReactClass(
+{
+   propTypes:
    {
-      var ImplementedImage = createReactClass(
+      resourceBase: PropTypes.string.isRequired,
+
+      isImplemented: PropTypes.bool,
+   },
+
+   render: function()
+   {
+      var isImplemented = this.props.isImplemented;
+      var answer;
+
+      if (isImplemented !== undefined)
       {
-         propTypes:
+         var resourceBase = this.props.resourceBase;
+         var src = resourceBase + "icon/" + (isImplemented ? "accept.png" : "delete.png");
+         var title = (isImplemented ? "Implemented" : "Not Implemented");
+
+         answer = ReactDOMFactories.img(
          {
-            resourceBase: PropTypes.string.isRequired,
+            src: src,
+            title: title,
+         });
+      }
+      else
+      {
+         answer = ReactDOMFactories.span(
+         {});
+      }
 
-            isImplemented: PropTypes.bool,
-         },
+      return answer;
+   },
+});
 
-         render: function()
-         {
-            var isImplemented = this.props.isImplemented;
-            var answer;
-
-            if (isImplemented !== undefined)
-            {
-               var resourceBase = this.props.resourceBase;
-               var src = resourceBase + "icon/" + (isImplemented ? "accept.png" : "delete.png");
-               var title = (isImplemented ? "Implemented" : "Not Implemented");
-
-               answer = DOM.img(
-               {
-                  src: src,
-                  title: title,
-               });
-            }
-            else
-            {
-               answer = DOM.span(
-               {});
-            }
-
-            return answer;
-         },
-      });
-
-      return ImplementedImage;
-   });
+export default ImplementedImage;
