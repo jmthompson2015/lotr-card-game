@@ -58,8 +58,8 @@ var QuestCard = {
    RTM1B_THROUGH_THE_FOREST: "rtm1bThroughTheForest",
    RTM2A_ESCAPE_ATTEMPT: "rtm2aEscapeAttempt",
    RTM2B_ESCAPE_ATTEMPT: "rtm2bEscapeAttempt",
-   RTM3A_TO_THE_ELVEN_KINGS_HALLS: "rtm3aToTheElvenKingsHalls",
-   RTM3B_TO_THE_ELVEN_KINGS_HALLS: "rtm3bToTheElvenKingsHalls",
+   RTM3A_TO_THE_ELVIN_KINGS_HALLS: "rtm3aToTheElvinKingsHalls",
+   RTM3B_TO_THE_ELVIN_KINGS_HALLS: "rtm3bToTheElvinKingsHalls",
    RTM4A_AMBUSH: "rtm4aAmbush",
    RTM4B_AMBUSH: "rtm4bAmbush",
 
@@ -540,23 +540,23 @@ var QuestCard = {
          encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
          key: "rtm1bThroughTheForest",
       },
-      "rtm3aToTheElvenKingsHalls":
+      "rtm3aToTheElvinKingsHalls":
       {
-         name: "To the Elven King's Halls",
+         name: "To the Elvin King's Halls",
          scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
          sequence: "3A",
          encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
          isImplemented: true,
-         key: "rtm3aToTheElvenKingsHalls",
+         key: "rtm3aToTheElvinKingsHalls",
       },
-      "rtm3bToTheElvenKingsHalls":
+      "rtm3bToTheElvinKingsHalls":
       {
-         name: "To the Elven King's Halls",
+         name: "To the Elvin King's Halls",
          scenarioKey: Scenario.RETURN_TO_MIRKWOOD,
          sequence: "3B",
          questPoints: 7,
          encounterSetKey: EncounterSet.RETURN_TO_MIRKWOOD,
-         key: "rtm3bToTheElvenKingsHalls",
+         key: "rtm3bToTheElvinKingsHalls",
       },
       "rtm4aAmbush":
       {

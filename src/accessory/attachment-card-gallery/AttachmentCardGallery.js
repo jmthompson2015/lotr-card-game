@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var AttachmentGallery = createReactClass(
+class AttachmentGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = AttachmentCard.keysBySphere(this.props.sphereKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var AttachmentGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

@@ -20,25 +20,26 @@ import Trait from "../../artifact/js/Trait.js";
 import TreacheryCard from "../../artifact/js/TreacheryCard.js";
 
 var GameColumns = [
-{
-   key: "item",
-   label: "Item",
-   className: "textCell tl",
-},
-{
-   key: "count",
-   label: "Count",
-   className: "numberCell tr",
-}, ];
+   {
+      key: "item",
+      label: "Item",
+      className: "textCell tl",
+   },
+   {
+      key: "count",
+      label: "Count",
+      className: "numberCell tr",
+   },
+];
 
-var GameDataTable = createReactClass(
-{
-   // Factories.
-   Table: React.createFactory(Reactable.Table),
-   Tr: React.createFactory(Reactable.Tr),
-   Td: React.createFactory(Reactable.Td),
+// Factories.
+let Table = React.createFactory(Reactable.Table);
+let Tr = React.createFactory(Reactable.Tr);
+let Td = React.createFactory(Reactable.Td);
 
-   render: function()
+class GameDataTable extends React.Component
+{
+   render()
    {
       var rows = [];
 
@@ -63,26 +64,26 @@ var GameDataTable = createReactClass(
       rows.push(this.createRow("Trait", Trait.keys().length, rows.length));
       rows.push(this.createRow("TreacheryCard", TreacheryCard.keys().length, rows.length));
 
-      return this.Table(
+      return Table(
       {
          id: "gameTable",
          className: "bg-white f6",
          columns: GameColumns,
          sortable: true,
       }, rows);
-   },
+   }
 
-   createCell: function(key, column, value)
+   createCell(key, column, value)
    {
-      return this.Td(
+      return Td(
       {
          key: key,
          className: column.className,
          column: column.key,
       }, (value !== undefined ? value : ""));
-   },
+   }
 
-   createRow: function(item, count, key)
+   createRow(item, count, key)
    {
       var cells = [];
       var j = 0;
@@ -90,12 +91,12 @@ var GameDataTable = createReactClass(
       cells.push(this.createCell(cells.length, GameColumns[j++], item));
       cells.push(this.createCell(cells.length, GameColumns[j++], count));
 
-      return this.Tr(
+      return Tr(
       {
          key: key,
          className: "striped--light-gray",
       }, cells);
-   },
-});
+   }
+}
 
 export default GameDataTable;

@@ -5,17 +5,18 @@
 
 import InputValidator from "../../common/js/InputValidator.js";
 
-var Select = createReactClass(
+class Select extends React.Component
 {
-   getInitialState: function()
+   constructor(props)
    {
-      return (
-      {
-         selectedValue: this.props.initialSelectedValue,
-      });
-   },
+      super(props);
 
-   handleChange: function(event)
+      this.state = {
+         selectedValue: this.props.initialSelectedValue,
+      };
+   }
+
+   handleChange(event)
    {
       this.setState(
       {
@@ -28,9 +29,9 @@ var Select = createReactClass(
       {
          onChange(event);
       }
-   },
+   }
 
-   render: function()
+   render()
    {
       var values = this.props.values;
       InputValidator.validateNotEmpty("values", values);
@@ -67,8 +68,8 @@ var Select = createReactClass(
       }
 
       return ReactDOMFactories.select(selectProps, options);
-   },
-});
+   }
+}
 
 Select.propTypes = {
    // Option values. (required)

@@ -154,7 +154,7 @@ CardInstance.prototype.bonusAttack = function()
       case AllyCard.GIMLI:
          answer += this.wounds();
          break;
-      case EnemyCard.CHIEFTAIN_UFTHAK:
+      case EnemyCard.CHIEFTAN_UFTHAK:
          var resources = this.resources();
          answer += 2 * (resources !== undefined ? resources : 0);
          break;

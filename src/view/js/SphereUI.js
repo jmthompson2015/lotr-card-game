@@ -1,6 +1,6 @@
-var SphereUI = createReactClass(
+class SphereUI extends React.Component
 {
-   render: function()
+   render()
    {
       var sphere = this.props.sphere;
       var myKey = (this.props.myKey !== undefined ? this.props.myKey : sphere.key);
@@ -25,8 +25,8 @@ var SphereUI = createReactClass(
       }
 
       return answer;
-   },
-});
+   }
+}
 
 SphereUI.propTypes = {
    resourceBase: PropTypes.string.isRequired,

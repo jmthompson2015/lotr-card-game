@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import SingleCardChooser from "./SingleCardChooser.js";
 
-var OptionalEngagementEnemyChooser = createReactClass(
+class OptionalEngagementEnemyChooser extends React.Component
 {
-   render: function()
+   render()
    {
       return React.createElement(SingleCardChooser,
       {
@@ -14,8 +14,8 @@ var OptionalEngagementEnemyChooser = createReactClass(
          labelFunction: labelFunction,
          message: "for optional engagement",
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

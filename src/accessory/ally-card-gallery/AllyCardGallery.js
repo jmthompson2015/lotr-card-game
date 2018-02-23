@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var AllyGallery = createReactClass(
+class AllyGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = AllyCard.keysBySphere(this.props.sphereKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var AllyGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

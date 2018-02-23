@@ -104,8 +104,8 @@ QUnit.test("QuestCard.keys()", function(assert)
    assert.equal(result[i++], QuestCard.RTM1B_THROUGH_THE_FOREST);
    assert.equal(result[i++], QuestCard.RTM2A_ESCAPE_ATTEMPT);
    assert.equal(result[i++], QuestCard.RTM2B_ESCAPE_ATTEMPT);
-   assert.equal(result[i++], QuestCard.RTM3A_TO_THE_ELVEN_KINGS_HALLS);
-   assert.equal(result[i++], QuestCard.RTM3B_TO_THE_ELVEN_KINGS_HALLS);
+   assert.equal(result[i++], QuestCard.RTM3A_TO_THE_ELVIN_KINGS_HALLS);
+   assert.equal(result[i++], QuestCard.RTM3B_TO_THE_ELVIN_KINGS_HALLS);
    assert.equal(result[i++], QuestCard.RTM4A_AMBUSH);
    assert.equal(result[i++], QuestCard.RTM4B_AMBUSH);
 });

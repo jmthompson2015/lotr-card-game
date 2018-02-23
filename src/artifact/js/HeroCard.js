@@ -87,7 +87,7 @@ var HeroCard = {
    {
       "amarthiul":
       {
-         name: "Amarthiúl",
+         name: "Amarthi\u00FAl",
          threatCost: 10,
          willpower: 1,
          attack: 3,
@@ -160,7 +160,7 @@ var HeroCard = {
       },
       "arwenUndomiel":
       {
-         name: "Arwen Undómiel",
+         name: "Arwen Und\u00F3miel",
          threatCost: 9,
          willpower: 3,
          attack: 1,
@@ -462,7 +462,7 @@ var HeroCard = {
       },
       "dunhere":
       {
-         name: "Dúnhere",
+         name: "D\u00FAnhere",
          threatCost: 8,
          willpower: 1,
          attack: 2,
@@ -549,7 +549,7 @@ var HeroCard = {
       },
       "eomer":
       {
-         name: "Éomer",
+         name: "\u00C9omer",
          threatCost: 10,
          willpower: 1,
          attack: 3,
@@ -563,7 +563,7 @@ var HeroCard = {
       },
       "eowyn":
       {
-         name: "Éowyn",
+         name: "\u00C9owyn",
          threatCost: 9,
          willpower: 4,
          attack: 1,
@@ -765,7 +765,7 @@ var HeroCard = {
       },
       "gloin":
       {
-         name: "Glóin",
+         name: "Gl\u00F3in",
          threatCost: 9,
          willpower: 2,
          attack: 2,
@@ -837,7 +837,7 @@ var HeroCard = {
       },
       "haldirOfLorien":
       {
-         name: "Haldir of Lórien",
+         name: "Haldir of L\u00F3rien",
          threatCost: 9,
          willpower: 2,
          attack: 3,
@@ -985,7 +985,7 @@ var HeroCard = {
       },
       "oin":
       {
-         name: "Óin",
+         name: "\u00D3in",
          threatCost: 8,
          willpower: 2,
          attack: 1,
@@ -1100,7 +1100,7 @@ var HeroCard = {
       },
       "theodenTMV":
       {
-         name: "Théoden",
+         name: "Th\u00E9oden",
          threatCost: 12,
          willpower: 2,
          attack: 3,
@@ -1115,7 +1115,7 @@ var HeroCard = {
       },
       "theodenTToS":
       {
-         name: "Théoden",
+         name: "Th\u00E9oden",
          threatCost: 12,
          willpower: 2,
          attack: 3,
@@ -1129,7 +1129,7 @@ var HeroCard = {
       },
       "theodred":
       {
-         name: "Théodred",
+         name: "Th\u00E9odred",
          threatCost: 8,
          willpower: 1,
          attack: 2,

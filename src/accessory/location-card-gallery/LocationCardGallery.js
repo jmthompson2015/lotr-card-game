@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var LocationGallery = createReactClass(
+class LocationGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = LocationCard.keysByEncounterSet(this.props.encounterSetKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var LocationGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

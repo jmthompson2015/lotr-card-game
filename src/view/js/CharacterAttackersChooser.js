@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import MultipleCardChooser from "./MultipleCardChooser.js";
 
-var CharacterAttackersChooser = createReactClass(
+class CharacterAttackersChooser extends React.Component
 {
-   render: function()
+   render()
    {
       var defenderInstance = this.props.defenderInstance;
       var remainingPoints = defenderInstance.remainingHitPoints();
@@ -18,8 +18,8 @@ var CharacterAttackersChooser = createReactClass(
          labelFunction: labelFunction,
          message: message,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

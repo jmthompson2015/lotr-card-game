@@ -14,10 +14,12 @@ import ReactUtilities from "./ReactUtilities.js";
 import Select from "./Select.js";
 import HumanAgentStrategy from "../../controller/js/HumanAgentStrategy.js";
 
-var NewGamePanel = createReactClass(
+class NewGamePanel extends React.Component
 {
-   getInitialState: function()
+   constructor(props)
    {
+      super(props);
+
       var agentNames = Immutable.Map(
       {
          1: "Bilbo",
@@ -47,10 +49,9 @@ var NewGamePanel = createReactClass(
          4: PlayerDeckBuilder.CoreTacticsDeckBuilder,
       });
       var scenarioDeckBuilders = getScenarioDeckBuilders(this.props.cardSetKey);
-      LOGGER.debug("NewGamePanel.getInitialState() scenarioDeckBuilders = " + scenarioDeckBuilders);
+      LOGGER.debug("NewGamePanel.constructor() scenarioDeckBuilders = " + scenarioDeckBuilders);
 
-      return (
-      {
+      this.state = {
          agentCount: this.props.agentCount,
          agentNames: agentNames,
          agentTypes: agentTypes,
@@ -60,10 +61,10 @@ var NewGamePanel = createReactClass(
          playerDeckBuilders: playerDeckBuilders,
          scenarioKey: this.props.scenarioKey,
          scenarioDeckBuilders: scenarioDeckBuilders,
-      });
-   },
+      };
+   }
 
-   render: function()
+   render()
    {
       var rows = [];
       var cells = [];
@@ -107,8 +108,8 @@ var NewGamePanel = createReactClass(
          message: message,
          title: "New Game",
       });
-   },
-});
+   }
+}
 
 NewGamePanel.prototype.createAgentCountSelect = function()
 {

@@ -1,22 +1,13 @@
 import InputValidator from "../../common/js/InputValidator.js";
 
-var DataTable = createReactClass(
+// Factories.
+let Table = React.createFactory(Reactable.Table);
+let Tr = React.createFactory(Reactable.Tr);
+let Td = React.createFactory(Reactable.Td);
+
+class DataTable extends React.Component
 {
-   propTypes:
-   {
-      columns: PropTypes.array.isRequired,
-      rowData: PropTypes.array.isRequired,
-
-      cellFunctions: PropTypes.object,
-      valueFunctions: PropTypes.object,
-   },
-
-   // Factories.
-   Table: React.createFactory(Reactable.Table),
-   Tr: React.createFactory(Reactable.Tr),
-   Td: React.createFactory(Reactable.Td),
-
-   render: function()
+   render()
    {
       var rowData = this.props.rowData;
       var table = this.createTable(rowData);
@@ -47,9 +38,9 @@ var DataTable = createReactClass(
       return ReactDOMFactories.table(
       {}, ReactDOMFactories.tbody(
       {}, rows));
-   },
+   }
 
-   createRow: function(data, key)
+   createRow(data, key)
    {
       InputValidator.validateNotNull("data", data);
       InputValidator.validateNotNull("key", key);
@@ -60,7 +51,7 @@ var DataTable = createReactClass(
       {
          var value = this.determineValue(column, data);
          var cell = this.determineCell(column, data, value);
-         cells.push(this.Td(
+         cells.push(Td(
          {
             key: cells.length,
             className: column.className,
@@ -69,14 +60,14 @@ var DataTable = createReactClass(
          }, (cell === undefined ? "" : cell)));
       }, this);
 
-      return this.Tr(
+      return Tr(
       {
          key: key,
          className: "striped--light-gray",
       }, cells);
-   },
+   }
 
-   createTable: function(rowData)
+   createTable(rowData)
    {
       InputValidator.validateNotNull("rowData", rowData);
 
@@ -88,15 +79,15 @@ var DataTable = createReactClass(
          rows.push(this.createRow(data, i));
       }.bind(this));
 
-      return this.Table(
+      return Table(
       {
          className: "dataTable bg-white collapse f6",
          columns: columns,
          sortable: true,
       }, rows);
-   },
+   }
 
-   determineCell: function(column, data, value)
+   determineCell(column, data, value)
    {
       InputValidator.validateNotNull("column", column);
       InputValidator.validateNotNull("data", data);
@@ -114,9 +105,9 @@ var DataTable = createReactClass(
       }
 
       return answer;
-   },
+   }
 
-   determineValue: function(column, data)
+   determineValue(column, data)
    {
       InputValidator.validateNotNull("column", column);
       InputValidator.validateNotNull("data", data);
@@ -134,7 +125,15 @@ var DataTable = createReactClass(
       }
 
       return answer;
-   },
-});
+   }
+}
+
+DataTable.propTypes = {
+   columns: PropTypes.array.isRequired,
+   rowData: PropTypes.array.isRequired,
+
+   cellFunctions: PropTypes.object,
+   valueFunctions: PropTypes.object,
+};
 
 export default DataTable;

@@ -1,17 +1,18 @@
 import CardInstanceUI from "./CardInstanceUI.js";
 import ReactUtilities from "./ReactUtilities.js";
 
-var CardInstancesArea = createReactClass(
+class CardInstancesArea extends React.Component
 {
-   getInitialState: function()
+   constructor(props)
    {
-      return (
-      {
-         isExpanded: this.props.isExpanded,
-      });
-   },
+      super(props);
 
-   render: function()
+      this.state = {
+         isExpanded: props.isExpanded,
+      };
+   }
+
+   render()
    {
       var rows = [];
 
@@ -19,8 +20,8 @@ var CardInstancesArea = createReactClass(
       rows.push(this.createCardInstanceCells());
 
       return ReactUtilities.createTable(rows, undefined, "bg-lotr-light");
-   },
-});
+   }
+}
 
 CardInstancesArea.prototype.createCardInstanceCells = function()
 {

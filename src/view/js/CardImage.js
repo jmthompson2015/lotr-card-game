@@ -1,18 +1,18 @@
 import CardType from "../../artifact/js/CardType.js";
 
-var CardImage = createReactClass(
+class CardImage extends React.Component
 {
-   componentDidMount: function()
+   componentDidMount()
    {
       this.paint();
-   },
+   }
 
-   componentDidUpdate: function()
+   componentDidUpdate()
    {
       this.paint();
-   },
+   }
 
-   render: function()
+   render()
    {
       var className;
       var isReady = (this.isQuestCard() ? false : this.props.isReady);
@@ -39,8 +39,8 @@ var CardImage = createReactClass(
          title: this.props.card.name,
          width: canvasWidth,
       });
-   },
-});
+   }
+}
 
 CardImage.prototype.canvasId = function()
 {

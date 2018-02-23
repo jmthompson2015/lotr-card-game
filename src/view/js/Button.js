@@ -1,6 +1,6 @@
-var Button = createReactClass(
+class Button extends React.Component
 {
-   render: function()
+   render()
    {
       var className = "ba br3 f6 ph2";
 
@@ -16,8 +16,8 @@ var Button = createReactClass(
          onClick: this.props.onClick,
          disabled: this.props.disabled,
       }, this.props.name);
-   },
-});
+   }
+}
 
 Button.propTypes = {
    name: PropTypes.string.isRequired,

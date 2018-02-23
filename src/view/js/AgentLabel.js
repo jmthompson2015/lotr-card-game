@@ -1,6 +1,6 @@
-var AgentLabel = createReactClass(
+class AgentLabel extends React.Component
 {
-   render: function()
+   render()
    {
       var firstAgentToken = ReactDOMFactories.div(
       {
@@ -32,8 +32,8 @@ var AgentLabel = createReactClass(
       {
          key: "agentLabel",
       }, panel);
-   },
-});
+   }
+}
 
 AgentLabel.propTypes = {
    agentName: PropTypes.string.isRequired,

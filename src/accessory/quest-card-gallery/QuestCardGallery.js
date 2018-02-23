@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var QuestGallery = createReactClass(
+class QuestGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = QuestCard.keysByEncounterSet(this.props.encounterSetKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var QuestGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

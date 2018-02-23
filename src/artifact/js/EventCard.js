@@ -395,7 +395,7 @@ var EventCard = {
       },
       "dunedainMessage":
       {
-         name: "Dúnedain Message",
+         name: "D\u00FAnedain Message",
          cost: 1,
          traitKeys: [Trait.SIGNAL],
          sphereKey: Sphere.LEADERSHIP,
@@ -770,7 +770,7 @@ var EventCard = {
       },
       "legacyOfNumenor":
       {
-         name: "Legacy of Númenor",
+         name: "Legacy of N\u00FAmenor",
          cost: 0,
          sphereKey: Sphere.LEADERSHIP,
          cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
@@ -804,7 +804,7 @@ var EventCard = {
       },
       "loriensWealth":
       {
-         name: "Lórien's Wealth",
+         name: "L\u00F3rien's Wealth",
          cost: 3,
          sphereKey: Sphere.LORE,
          cardSetKey: CardSet.CORE,
@@ -1248,7 +1248,7 @@ var EventCard = {
       },
       "taleOfTinuviel":
       {
-         name: "Tale of Tinúviel",
+         name: "Tale of Tin\u00FAviel",
          cost: 1,
          sphereKey: Sphere.SPIRIT,
          cardSetKey: CardSet.ANGMAR_AWAKENED,
@@ -1528,9 +1528,6 @@ EventCard.keys().forEach(function(cardKey)
 
    switch (card.key)
    {
-      case EventCard.A_ELBERETH_GILTHONIEL:
-         imagePath = imagePath.replace("Gilthoniel", "Gilthonial");
-         break;
       case EventCard.THE_WIZARDS_VOICE:
          imagePath = "The-Wizards's-Voice";
          break;

@@ -3,9 +3,9 @@ import EngagementAreaContainer from "../../controller/js/EngagementAreaContainer
 import HandContainer from "../../controller/js/HandContainer.js";
 import TableauContainer from "../../controller/js/TableauContainer.js";
 
-var AgentArea = createReactClass(
+class AgentArea extends React.Component
 {
-   render: function()
+   render()
    {
       var agent = this.props.agent;
       var agentLabel = this.createAgentLabel();
@@ -33,8 +33,8 @@ var AgentArea = createReactClass(
          key: "agentArea",
          className: "bg-lotr-green overflow-auto",
       }, panel);
-   },
-});
+   }
+}
 
 AgentArea.prototype.createAgentLabel = function()
 {

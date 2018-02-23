@@ -2,17 +2,18 @@ import Button from "./Button.js";
 import InputPanel from "./InputPanel.js";
 import OptionPane from "./OptionPane.js";
 
-var MultipleCardChooser = createReactClass(
+class MultipleCardChooser extends React.Component
 {
-   getInitialState: function()
+   constructor(props)
    {
-      return (
-      {
-         selected: [],
-      });
-   },
+      super(props);
 
-   render: function()
+      this.state = {
+         selected: [],
+      };
+   }
+
+   render()
    {
       var cardInstances = this.props.cardInstances;
 
@@ -38,8 +39,8 @@ var MultipleCardChooser = createReactClass(
          buttons: buttons,
          buttonsClass: "pa2 tr",
       });
-   },
-});
+   }
+}
 
 MultipleCardChooser.prototype.cancel = function()
 {

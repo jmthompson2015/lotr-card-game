@@ -41,7 +41,7 @@ QUnit.test("attack() Chieftain Ufthak", function(assert)
 {
    // Setup.
    var store = Redux.createStore(Reducer.root);
-   var cardKey = EnemyCard.CHIEFTAIN_UFTHAK;
+   var cardKey = EnemyCard.CHIEFTAN_UFTHAK;
    var card = EnemyCard.properties[cardKey];
    var cardInstance = new CardInstance(store, card);
 
@@ -63,7 +63,7 @@ QUnit.test("bonusAttack() Chieftain Ufthak", function(assert)
 {
    // Setup.
    var store = Redux.createStore(Reducer.root);
-   var cardKey = EnemyCard.CHIEFTAIN_UFTHAK;
+   var cardKey = EnemyCard.CHIEFTAN_UFTHAK;
    var card = EnemyCard.properties[cardKey];
    var cardInstance = new CardInstance(store, card);
 
@@ -409,21 +409,21 @@ function createEnvironment(scenarioKey)
    var agent3 = new Agent(store, "agent3");
    var agent4 = new Agent(store, "agent4");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent3,
-      playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+      {
+         agent: agent3,
+         playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent4,
-      playerDeck: PlayerDeckBuilder.CoreTacticsDeckBuilder.buildDeck(store),
+      {
+         agent: agent4,
+         playerDeck: PlayerDeckBuilder.CoreTacticsDeckBuilder.buildDeck(store),
     }, ];
 
    var environment = new Environment(store, scenarioDeck, playerData);

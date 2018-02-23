@@ -2,9 +2,9 @@ import Sphere from "../../artifact/js/Sphere.js";
 import LabeledImage from "./LabeledImage.js";
 import ReactUtilities from "./ReactUtilities.js";
 
-var TokenPanel = createReactClass(
+class TokenPanel extends React.Component
 {
-   render: function()
+   render()
    {
       var cells = [];
 
@@ -42,8 +42,8 @@ var TokenPanel = createReactClass(
          key: this.props.myKey + keySuffix,
          className: "w-100",
       }, centerCell);
-   },
-});
+   }
+}
 
 TokenPanel.prototype.maybeAddAttribute = function(cells, count, src, title)
 {

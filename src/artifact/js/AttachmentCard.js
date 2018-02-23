@@ -223,7 +223,7 @@ var AttachmentCard = {
       },
       "bloodOfNumenor":
       {
-         name: "Blood of Númenor",
+         name: "Blood of N\u00FAmenor",
          cost: 0,
          traitKeys: [Trait.CONDITION],
          sphereKey: Sphere.SPIRIT,
@@ -285,7 +285,7 @@ var AttachmentCard = {
       },
       "celebriansStone":
       {
-         name: "Celebrían's Stone",
+         name: "Celebr\u00EDan's Stone",
          isUnique: true,
          cost: 2,
          traitKeys: [Trait.ARTIFACT, Trait.ITEM],
@@ -308,7 +308,7 @@ var AttachmentCard = {
       },
       "cloakOfLorien":
       {
-         name: "Cloak of Lórien",
+         name: "Cloak of L\u00F3rien",
          cost: 1,
          traitKeys: [Trait.ITEM],
          sphereKey: Sphere.LORE,
@@ -359,7 +359,7 @@ var AttachmentCard = {
       },
       "dunedainCache":
       {
-         name: "Dúnedain Cache",
+         name: "D\u00FAnedain Cache",
          cost: 2,
          traitKeys: [Trait.ITEM],
          sphereKey: Sphere.LEADERSHIP,
@@ -369,7 +369,7 @@ var AttachmentCard = {
       },
       "dunedainMark":
       {
-         name: "Dúnedain Mark",
+         name: "D\u00FAnedain Mark",
          cost: 1,
          traitKeys: [Trait.SIGNAL],
          sphereKey: Sphere.LEADERSHIP,
@@ -379,7 +379,7 @@ var AttachmentCard = {
       },
       "dunedainQuest":
       {
-         name: "Dúnedain Quest",
+         name: "D\u00FAnedain Quest",
          cost: 2,
          traitKeys: [Trait.SIGNAL],
          sphereKey: Sphere.LEADERSHIP,
@@ -389,7 +389,7 @@ var AttachmentCard = {
       },
       "dunedainSignal":
       {
-         name: "Dúnedain Signal",
+         name: "D\u00FAnedain Signal",
          cost: 1,
          traitKeys: [Trait.SIGNAL],
          sphereKey: Sphere.LEADERSHIP,
@@ -399,7 +399,7 @@ var AttachmentCard = {
       },
       "dunedainWarning":
       {
-         name: "Dúnedain Warning",
+         name: "D\u00FAnedain Warning",
          cost: 1,
          traitKeys: [Trait.SIGNAL],
          sphereKey: Sphere.LEADERSHIP,
@@ -904,7 +904,7 @@ var AttachmentCard = {
       },
       "oLorien":
       {
-         name: "O Lórien!",
+         name: "O L\u00F3rien!",
          cost: 1,
          traitKeys: [Trait.SONG],
          sphereKey: Sphere.LEADERSHIP,
@@ -956,7 +956,7 @@ var AttachmentCard = {
       },
       "protectorOfLorien":
       {
-         name: "Protector of Lórien",
+         name: "Protector of L\u00F3rien",
          cost: 1,
          traitKeys: [Trait.TITLE],
          sphereKey: Sphere.LORE,
@@ -1296,7 +1296,7 @@ var AttachmentCard = {
       },
       "swordOfNumenor":
       {
-         name: "Sword of Númenor",
+         name: "Sword of N\u00FAmenor",
          cost: 1,
          traitKeys: [Trait.ITEM, Trait.WEAPON],
          sphereKey: Sphere.LEADERSHIP,
@@ -1372,7 +1372,7 @@ var AttachmentCard = {
       },
       "throrsKey":
       {
-         name: "Thrór's Key",
+         name: "Thr\u00F3r's Key",
          isUnique: true,
          cost: 1,
          traitKeys: [Trait.ARTIFACT, Trait.ITEM],
@@ -1382,7 +1382,7 @@ var AttachmentCard = {
       },
       "throrsMap":
       {
-         name: "Thrór's Map",
+         name: "Thr\u00F3r's Map",
          cost: 1,
          traitKeys: [Trait.ARTIFACT, Trait.ITEM],
          sphereKey: Sphere.LORE,

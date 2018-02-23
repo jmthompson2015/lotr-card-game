@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var ObjectiveGallery = createReactClass(
+class ObjectiveGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = ObjectiveCard.keysByEncounterSet(this.props.encounterSetKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var ObjectiveGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

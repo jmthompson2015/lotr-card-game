@@ -4,9 +4,9 @@ import AgentAreaContainer from "../../controller/js/AgentAreaContainer.js";
 import StagingAreaContainer from "../../controller/js/StagingAreaContainer.js";
 import StatusBarContainer from "../../controller/js/StatusBarContainer.js";
 
-var EnvironmentUI = createReactClass(
+class EnvironmentUI extends React.Component
 {
-   render: function()
+   render()
    {
       var environment = this.props.environment;
 
@@ -66,8 +66,8 @@ var EnvironmentUI = createReactClass(
       {
          key: "environmentUI",
       }, statusBar, areas);
-   },
-});
+   }
+}
 
 EnvironmentUI.propTypes = {
    environment: PropTypes.object.isRequired,

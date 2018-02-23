@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import SingleCardChooser from "./SingleCardChooser.js";
 
-var CharacterDefenderChooser = createReactClass(
+class CharacterDefenderChooser extends React.Component
 {
-   render: function()
+   render()
    {
       var attackerInstance = this.props.attackerInstance;
       var message = "Attacker: " + attackerInstance.card().name + " (attack " + attackerInstance.attack() + ")";
@@ -17,8 +17,8 @@ var CharacterDefenderChooser = createReactClass(
          labelFunction: labelFunction,
          message: message,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

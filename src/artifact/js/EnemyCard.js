@@ -11,7 +11,7 @@ var EnemyCard = {
    BLACK_FOREST_BATS_AJTR: "blackForestBatsAjtr",
    BLACK_FOREST_BATS_PTM: "blackForestBatsPtm",
    CAVERN_GUARDIAN: "cavernGuardian",
-   CHIEFTAIN_UFTHAK: "chieftainUfthak",
+   CHIEFTAN_UFTHAK: "chieftanUfthak",
    DOL_GULDUR_BEASTMASTER: "dolGuldurBeastmaster",
    DOL_GULDUR_ORCS: "dolGuldurOrcs",
    DUNGEON_JAILOR: "dungeonJailor",
@@ -99,9 +99,9 @@ var EnemyCard = {
          gameModeMap: GameMode.createMap(2),
          key: "cavernGuardian",
       },
-      "chieftainUfthak":
+      "chieftanUfthak":
       {
-         name: "Chieftain Ufthak",
+         name: "Chieftan Ufthak",
          engagementCost: 35,
          threat: 2,
          attack: 3,
@@ -113,13 +113,13 @@ var EnemyCard = {
          gameModeMap: GameMode.createMap(0, 1),
          gameText: [
             {
-               text: "Chieftain Ufthak gets +2 Attack for each resource token on him.",
+               text: "Chieftan Ufthak gets +2 Attack for each resource token on him.",
             },
             {
                headerKey: GameHeader.FORCED,
-               text: "After Chieftain Ufthak attacks, place 1 resource token on him.",
+               text: "After Chieftan Ufthak attacks, place 1 resource token on him.",
             }],
-         key: "chieftainUfthak",
+         key: "chieftanUfthak",
       },
       "dolGuldurBeastmaster":
       {

@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import SingleCardChooser from "./SingleCardChooser.js";
 
-var LocationChooser = createReactClass(
+class LocationChooser extends React.Component
 {
-   render: function()
+   render()
    {
       return React.createElement(SingleCardChooser,
       {
@@ -13,8 +13,8 @@ var LocationChooser = createReactClass(
          comparator: CardComparator.ThreatQuestName,
          labelFunction: labelFunction,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

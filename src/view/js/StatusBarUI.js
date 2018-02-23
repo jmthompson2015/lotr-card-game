@@ -1,14 +1,6 @@
-var StatusBarUI = createReactClass(
+class StatusBarUI extends React.Component
 {
-   propTypes:
-   {
-      activeAgentName: PropTypes.string.isRequired,
-      phase: PropTypes.object.isRequired,
-      round: PropTypes.number.isRequired,
-      userMessage: PropTypes.string.isRequired,
-   },
-
-   render: function()
+   render()
    {
       var round = this.props.round;
       var phase = this.props.phase;
@@ -66,7 +58,14 @@ var StatusBarUI = createReactClass(
          className: "bg-lotr-light w-100",
       }, ReactDOMFactories.tbody(
       {}, row));
-   },
-});
+   }
+}
+
+StatusBarUI.propTypes = {
+   activeAgentName: PropTypes.string.isRequired,
+   phase: PropTypes.object.isRequired,
+   round: PropTypes.number.isRequired,
+   userMessage: PropTypes.string.isRequired,
+};
 
 export default StatusBarUI;

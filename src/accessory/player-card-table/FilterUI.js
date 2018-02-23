@@ -9,31 +9,22 @@ import InputPanel from "../../view/js/InputPanel.js";
 import Action from "./Action.js";
 import DefaultFilters from "./DefaultFilters.js";
 
-var FilterUI = createReactClass(
+class FilterUI extends React.Component
 {
-   contextTypes:
+   constructor(props)
    {
-      store: PropTypes.object.isRequired,
-   },
+      super(props);
 
-   propTypes:
-   {
-      filters: PropTypes.object.isRequired,
-   },
-
-   getInitialState: function()
-   {
-      return (
-      {
+      this.state = {
          sphereValues: (this.props.filters.sphereKey ? this.props.filters.sphereKey.values() : []),
          cardTypeValues: (this.props.filters.cardTypeKey ? this.props.filters.cardTypeKey.values() : []),
          cardSetValues: (this.props.filters.cardSetKey ? this.props.filters.cardSetKey.values() : []),
          cardSubsetValues: (this.props.filters.cardSubsetKey ? this.props.filters.cardSubsetKey.values() : []),
          isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
-      });
-   },
+      };
+   }
 
-   render: function()
+   render()
    {
       var cells = [];
       cells.push(ReactDOMFactories.td(
@@ -65,9 +56,9 @@ var FilterUI = createReactClass(
          className: "f6 v-top",
       }, ReactDOMFactories.tbody(
       {}, rows));
-   },
+   }
 
-   createButtonTable: function()
+   createButtonTable()
    {
       var restoreButton = React.createElement(Button,
       {
@@ -104,9 +95,9 @@ var FilterUI = createReactClass(
       return ReactDOMFactories.table(
       {}, ReactDOMFactories.tbody(
       {}, row));
-   },
+   }
 
-   createEntityTable: function()
+   createEntityTable()
    {
       var cells = [];
 
@@ -203,9 +194,9 @@ var FilterUI = createReactClass(
          className: "f6 v-top",
       }, ReactDOMFactories.tbody(
       {}, row));
-   },
+   }
 
-   createRangeTable: function()
+   createRangeTable()
    {
       var rows = [];
 
@@ -272,9 +263,9 @@ var FilterUI = createReactClass(
          className: "bg-white",
       }, ReactDOMFactories.tbody(
       {}, rows));
-   },
+   }
 
-   filterActionPerformed: function()
+   filterActionPerformed()
    {
       LOGGER.trace("FilterUI.filterActionPerformed() start");
 
@@ -323,9 +314,9 @@ var FilterUI = createReactClass(
       this.context.store.dispatch(Action.setFilters(filters));
 
       LOGGER.trace("FilterUI.filterActionPerformed() end");
-   },
+   }
 
-   handleEntityChange: function(event, selected)
+   handleEntityChange(event, selected)
    {
       LOGGER.trace("FilterUI.handleEntityChange() start");
 
@@ -371,21 +362,29 @@ var FilterUI = createReactClass(
       }
 
       LOGGER.trace("FilterUI.handleEntityChange() end");
-   },
+   }
 
-   restoreActionPerformed: function()
+   restoreActionPerformed()
    {
       LOGGER.trace("FilterUI.restoreActionPerformed() start");
       this.context.store.dispatch(Action.setDefaultFilters());
       LOGGER.trace("FilterUI.restoreActionPerformed() end");
-   },
+   }
 
-   unfilterActionPerformed: function()
+   unfilterActionPerformed()
    {
       LOGGER.trace("FilterUI.unfilterActionPerformed() start");
       this.context.store.dispatch(Action.removeFilters());
       LOGGER.trace("FilterUI.unfilterActionPerformed() end");
-   },
-});
+   }
+}
+
+FilterUI.contextTypes = {
+   store: PropTypes.object.isRequired,
+};
+
+FilterUI.propTypes = {
+   filters: PropTypes.object.isRequired,
+};
 
 export default FilterUI;

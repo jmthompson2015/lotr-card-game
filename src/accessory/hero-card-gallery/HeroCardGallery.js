@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var HeroGallery = createReactClass(
+class HeroGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = HeroCard.keysBySphere(this.props.sphereKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var HeroGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

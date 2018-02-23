@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var TreacheryGallery = createReactClass(
+class TreacheryGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = TreacheryCard.keysByEncounterSet(this.props.encounterSetKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var TreacheryGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

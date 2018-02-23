@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import SingleCardChooser from "./SingleCardChooser.js";
 
-var UndefendedAttackHeroChooser = createReactClass(
+class UndefendedAttackHeroChooser extends React.Component
 {
-   render: function()
+   render()
    {
       var message = "to take undefended damage " + this.props.attack;
 
@@ -17,8 +17,8 @@ var UndefendedAttackHeroChooser = createReactClass(
          labelFunction: labelFunction,
          message: message,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

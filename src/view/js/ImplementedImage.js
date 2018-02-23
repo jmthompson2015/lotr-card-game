@@ -1,13 +1,6 @@
-var ImplementedImage = createReactClass(
+class ImplementedImage extends React.Component
 {
-   propTypes:
-   {
-      resourceBase: PropTypes.string.isRequired,
-
-      isImplemented: PropTypes.bool,
-   },
-
-   render: function()
+   render()
    {
       var isImplemented = this.props.isImplemented;
       var answer;
@@ -31,7 +24,13 @@ var ImplementedImage = createReactClass(
       }
 
       return answer;
-   },
-});
+   }
+}
+
+ImplementedImage.propTypes = {
+   resourceBase: PropTypes.string.isRequired,
+
+   isImplemented: PropTypes.bool,
+};
 
 export default ImplementedImage;

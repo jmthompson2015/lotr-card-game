@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var EnemyGallery = createReactClass(
+class EnemyGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = EnemyCard.keysByEncounterSet(this.props.encounterSetKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var EnemyGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

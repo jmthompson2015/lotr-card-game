@@ -1,17 +1,18 @@
 import CardImageContainer from "../../controller/js/CardImageContainer.js";
 import TokenPanelContainer from "../../controller/js/TokenPanelContainer.js";
 
-var CardInstanceUI = createReactClass(
+class CardInstanceUI extends React.Component
 {
-   getInitialState: function()
+   constructor(props)
    {
-      return (
-      {
-         isSmall: true,
-      });
-   },
+      super(props);
 
-   render: function()
+      this.state = {
+         isSmall: true,
+      };
+   }
+
+   render()
    {
       var rows = [];
       var cardInstance = this.props.cardInstance;
@@ -69,16 +70,16 @@ var CardInstanceUI = createReactClass(
       {
          className: "bg-lotr-light dt ma0 pa0",
       }, rows);
-   },
+   }
 
-   toggleSize: function()
+   toggleSize()
    {
       this.setState(
       {
          isSmall: !this.state.isSmall,
       });
-   },
-});
+   }
+}
 
 CardInstanceUI.prototype.createAttachmentUI = function(cardInstance)
 {

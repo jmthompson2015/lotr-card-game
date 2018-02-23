@@ -215,7 +215,7 @@ var AllyCard = {
       },
       "arwenUndomiel":
       {
-         name: "Arwen Undómiel",
+         name: "Arwen Und\u00F3miel",
          isUnique: true,
          cost: 2,
          willpower: 2,
@@ -590,7 +590,7 @@ var AllyCard = {
       },
       "dunedainHunter":
       {
-         name: "Dúnedain Hunter",
+         name: "D\u00FAnedain Hunter",
          cost: 0,
          willpower: 1,
          attack: 3,
@@ -604,7 +604,7 @@ var AllyCard = {
       },
       "dunedainWanderer":
       {
-         name: "Dúnedain Wanderer",
+         name: "D\u00FAnedain Wanderer",
          cost: 5,
          willpower: 1,
          attack: 2,
@@ -618,7 +618,7 @@ var AllyCard = {
       },
       "dunedainWatcher":
       {
-         name: "Dúnedain Watcher",
+         name: "D\u00FAnedain Watcher",
          cost: 3,
          willpower: 1,
          attack: 1,
@@ -748,7 +748,7 @@ var AllyCard = {
       },
       "eomund":
       {
-         name: "Éomund",
+         name: "\u00C9omund",
          isUnique: true,
          cost: 3,
          willpower: 2,
@@ -763,7 +763,7 @@ var AllyCard = {
       },
       "eothain":
       {
-         name: "Éothain",
+         name: "\u00C9othain",
          isUnique: true,
          cost: 4,
          willpower: 2,
@@ -1137,7 +1137,7 @@ var AllyCard = {
       },
       "gleowine":
       {
-         name: "Gléowine",
+         name: "Gl\u00E9owine",
          isUnique: true,
          cost: 2,
          willpower: 1,
@@ -1151,7 +1151,7 @@ var AllyCard = {
       },
       "gloin":
       {
-         name: "Glóin",
+         name: "Gl\u00F3in",
          isUnique: true,
          cost: 3,
          willpower: 2,
@@ -1254,7 +1254,7 @@ var AllyCard = {
       },
       "haldirOfLorien":
       {
-         name: "Haldir of Lórien",
+         name: "Haldir of L\u00F3rien",
          isUnique: true,
          cost: 4,
          willpower: 2,
@@ -1327,7 +1327,7 @@ var AllyCard = {
       },
       "heraldOfAnorien":
       {
-         name: "Herald of Anórien",
+         name: "Herald of An\u00F3rien",
          cost: 2,
          willpower: 1,
          attack: 0,
@@ -1644,7 +1644,7 @@ var AllyCard = {
       },
       "lorienGuide":
       {
-         name: "Lórien Guide",
+         name: "L\u00F3rien Guide",
          cost: 3,
          willpower: 1,
          attack: 1,
@@ -1957,7 +1957,7 @@ var AllyCard = {
       },
       "rumil":
       {
-         name: "Rúmil",
+         name: "R\u00FAmil",
          cost: 4,
          willpower: 2,
          attack: 2,
@@ -2240,7 +2240,7 @@ var AllyCard = {
       },
       "wardenOfAnnuminas":
       {
-         name: "Warden of Annúminas",
+         name: "Warden of Ann\u00FAminas",
          cost: 4,
          willpower: 0,
          attack: 2,

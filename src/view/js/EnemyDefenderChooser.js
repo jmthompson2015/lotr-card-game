@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import SingleCardChooser from "./SingleCardChooser.js";
 
-var EnemyDefenderChooser = createReactClass(
+class EnemyDefenderChooser extends React.Component
 {
-   render: function()
+   render()
    {
       return React.createElement(SingleCardChooser,
       {
@@ -13,8 +13,8 @@ var EnemyDefenderChooser = createReactClass(
          comparator: CardComparator.DefenseName,
          labelFunction: labelFunction,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

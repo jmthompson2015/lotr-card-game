@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import MultipleCardChooser from "./MultipleCardChooser.js";
 
-var QuestersChooser = createReactClass(
+class QuestersChooser extends React.Component
 {
-   render: function()
+   render()
    {
       var questInstance = this.props.questInstance;
       var remainingPoints = questInstance.card().questPoints - questInstance.progress();
@@ -18,8 +18,8 @@ var QuestersChooser = createReactClass(
          labelFunction: labelFunction,
          message: message,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {

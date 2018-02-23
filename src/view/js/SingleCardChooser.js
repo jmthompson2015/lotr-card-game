@@ -2,9 +2,9 @@ import Button from "./Button.js";
 import InputPanel from "./InputPanel.js";
 import OptionPane from "./OptionPane.js";
 
-var SingleCardChooser = createReactClass(
+class SingleCardChooser extends React.Component
 {
-   render: function()
+   render()
    {
       var cardInstances = this.props.cardInstances;
 
@@ -27,8 +27,8 @@ var SingleCardChooser = createReactClass(
          buttons: buttons,
          buttonsClass: "pa2 tr",
       });
-   },
-});
+   }
+}
 
 SingleCardChooser.prototype.createButtons = function()
 {

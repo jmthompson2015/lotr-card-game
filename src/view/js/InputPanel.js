@@ -2,10 +2,12 @@ import ArrayAugments from "../../common/js/ArrayAugments.js";
 import InputValidator from "../../common/js/InputValidator.js";
 import ObjectAugments from "../../common/js/ObjectAugments.js";
 
-var InputPanel = createReactClass(
+class InputPanel extends React.Component
 {
-   getInitialState: function()
+   constructor(props)
    {
+      super(props);
+
       var selected;
 
       switch (this.props.type)
@@ -36,13 +38,14 @@ var InputPanel = createReactClass(
          }
       }
 
-      return (
-      {
+      this.state = {
          selected: selected,
-      });
-   },
+      };
 
-   render: function()
+      this.handleChange = this.handleChange.bind(this);
+   }
+
+   render()
    {
       this.validateProps();
 
@@ -59,9 +62,9 @@ var InputPanel = createReactClass(
          className: this.props.panelClass,
       }, ReactDOMFactories.tbody(
       {}, rows));
-   },
+   }
 
-   createInputProps: function()
+   createInputProps()
    {
       var answer = {
          name: this.props.name, // needed for radio
@@ -77,9 +80,9 @@ var InputPanel = createReactClass(
       }
 
       return answer;
-   },
+   }
 
-   createRow: function(i, value, inputProps)
+   createRow(i, value, inputProps)
    {
       var selected = this.state.selected;
       var labelFunction = this.props.labelFunction;
@@ -136,9 +139,9 @@ var InputPanel = createReactClass(
          key: "row" + value + i,
          className: "striped--light-gray",
       }, cells);
-   },
+   }
 
-   handleChange: function(event)
+   handleChange(event)
    {
       var source = event.target;
       var id = event.target.id;
@@ -172,16 +175,16 @@ var InputPanel = createReactClass(
             selected: selected,
          },
          this.props.onChange(event, selected));
-   },
+   }
 
-   validateProps: function()
+   validateProps()
    {
       if (this.props.type === InputPanel.Type.RADIO)
       {
          InputValidator.validateNotNull("name", this.props.name);
       }
    }
-});
+}
 
 InputPanel.propTypes = {
    // Function called when the selection changes.

@@ -1,9 +1,9 @@
 import ReactUtilities from "./ReactUtilities.js";
 import Select from "./Select.js";
 
-var AgentDeckUI = createReactClass(
+class AgentDeckUI extends React.Component
 {
-   render: function()
+   render()
    {
       var agentNameUI = this.createAgentNameUI();
       var agentTypeUI = this.createAgentTypeSelect();
@@ -44,8 +44,8 @@ var AgentDeckUI = createReactClass(
          key: "agentDeckUI" + this.props.agentNumber + this.props.hidden,
          className: (this.props.isHidden ? "dn" : undefined),
       }, mainPanel);
-   },
-});
+   }
+}
 
 AgentDeckUI.prototype.createAgentNameUI = function()
 {

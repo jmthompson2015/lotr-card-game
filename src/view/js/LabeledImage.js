@@ -1,6 +1,6 @@
-var LabeledImage = createReactClass(
+class LabeledImage extends React.Component
 {
-   render: function()
+   render()
    {
       var title = this.props.title;
       var label = this.props.label;
@@ -30,8 +30,8 @@ var LabeledImage = createReactClass(
             width: this.props.width,
          }
       }, cell);
-   },
-});
+   }
+}
 
 LabeledImage.propTypes = {
    label: PropTypes.string.isRequired,

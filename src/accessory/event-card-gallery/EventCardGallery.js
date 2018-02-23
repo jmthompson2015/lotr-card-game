@@ -7,9 +7,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var EventGallery = createReactClass(
+class EventGallery extends React.Component
 {
-   render: function()
+   render()
    {
       var cardKeys = EventCard.keysBySphere(this.props.sphereKey);
       var resourceBase = "../../../src/view/resource/";
@@ -29,8 +29,8 @@ var EventGallery = createReactClass(
 
       return ReactDOMFactories.div(
       {}, cells);
-   },
-});
+   }
+}
 
 var rows = [];
 

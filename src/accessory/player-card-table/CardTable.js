@@ -25,21 +25,9 @@ function createImageLink(src, href)
    }, image);
 }
 
-var PlayerCardTable = createReactClass(
+class PlayerCardTable extends React.Component
 {
-   contextTypes:
-   {
-      store: PropTypes.object.isRequired,
-   },
-
-   propTypes:
-   {
-      isFilterShown: PropTypes.bool.isRequired,
-      filters: PropTypes.object.isRequired,
-      rowData: PropTypes.array.isRequired,
-   },
-
-   render: function()
+   render()
    {
       var filterShownButton = React.createElement(Button,
       {
@@ -151,14 +139,24 @@ var PlayerCardTable = createReactClass(
       return ReactDOMFactories.table(
       {}, ReactDOMFactories.tbody(
       {}, rows));
-   },
+   }
 
-   toggleFilterShownActionPerformed: function()
+   toggleFilterShownActionPerformed()
    {
       LOGGER.trace("PlayerCardTable.toggleFilterShownActionPerformed() start");
       this.context.store.dispatch(Action.toggleFilterShown());
       LOGGER.trace("PlayerCardTable.toggleFilterShownActionPerformed() end");
-   },
-});
+   }
+}
+
+PlayerCardTable.contextTypes = {
+   store: PropTypes.object.isRequired,
+};
+
+PlayerCardTable.propTypes = {
+   isFilterShown: PropTypes.bool.isRequired,
+   filters: PropTypes.object.isRequired,
+   rowData: PropTypes.array.isRequired,
+};
 
 export default PlayerCardTable;

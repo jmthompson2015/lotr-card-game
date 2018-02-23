@@ -1,9 +1,9 @@
 import CardComparator from "./CardComparator.js";
 import SingleCardChooser from "./SingleCardChooser.js";
 
-var PlayCardChooser = createReactClass(
+class PlayCardChooser extends React.Component
 {
-   render: function()
+   render()
    {
       return React.createElement(SingleCardChooser,
       {
@@ -13,8 +13,8 @@ var PlayCardChooser = createReactClass(
          comparator: CardComparator.TypeCostSphereName,
          labelFunction: labelFunction,
       });
-   },
-});
+   }
+}
 
 function labelFunction(value)
 {
