@@ -10,9 +10,9 @@ window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var App = {};
+var RuleGenerator = {};
 
-App.loadFile = function(callback)
+RuleGenerator.loadFile = function(callback)
 {
    // let filepath = "../../../../lotr-lcg-data/data/ally.js";
    let filepath = "../../../../lotr-lcg-data/data/hero.js";
@@ -26,7 +26,7 @@ App.loadFile = function(callback)
    JSONFileLoader.loadFile(filepath, myCallback);
 };
 
-App.loadFile(function(data)
+RuleGenerator.loadFile(function(data)
 {
    let interpretations = [];
 
