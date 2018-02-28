@@ -5,104 +5,41 @@
 import CardSetType from "./CardSetType.js";
 
 var CardSet = {
-   AGAINST_THE_SHADOW: "againstTheShadow",
-   ANGMAR_AWAKENED: "angmarAwakened",
+   // Main line.
    CORE: "core",
-   DREAM_CHASER: "dreamChaser",
-   DWARROWDELF: "dwarrowdelf",
-   HARADRIM: "haradrim",
-   HEIRS_OF_NUMENOR: "heirsOfNumenor",
-   KHAZAD_DUM: "khazadDum",
-   ON_THE_DOORSTEP: "onTheDoorstep",
-   OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
    SHADOWS_OF_MIRKWOOD: "shadowsOfMirkwood",
-   THE_BLACK_RIDERS: "theBlackRiders",
-   THE_FLAME_OF_THE_WEST: "theFlameOfTheWest",
-   THE_GREY_HAVENS: "theGreyHavens",
-   THE_LAND_OF_SHADOW: "theLandOfShadow",
-   THE_LOST_REALM: "theLostRealm",
-   THE_MOUNTAIN_OF_FIRE: "theMountainOfFire",
-   THE_RING_MAKER: "theRingMaker",
-   THE_ROAD_DARKENS: "theRoadDarkens",
-   THE_SANDS_OF_HARAD: "theSandsOfHarad",
-   THE_TREASON_OF_SARUMAN: "theTreasonOfSaruman",
+   KHAZAD_DUM: "khazadDum",
+   DWARROWDELF: "dwarrowdelf",
+   HEIRS_OF_NUMENOR: "heirsOfNumenor",
+   AGAINST_THE_SHADOW: "againstTheShadow",
    THE_VOICE_OF_ISENGARD: "theVoiceOfIsengard",
+   THE_RING_MAKER: "theRingMaker",
+   THE_LOST_REALM: "theLostRealm",
+   ANGMAR_AWAKENED: "angmarAwakened",
+   THE_GREY_HAVENS: "theGreyHavens",
+   DREAM_CHASER: "dreamChaser",
+   THE_SANDS_OF_HARAD: "theSandsOfHarad",
+   HARADRIM: "haradrim",
+
+   // Saga.
+   OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
+   ON_THE_DOORSTEP: "onTheDoorstep",
+   THE_BLACK_RIDERS: "theBlackRiders",
+   THE_ROAD_DARKENS: "theRoadDarkens",
+   THE_TREASON_OF_SARUMAN: "theTreasonOfSaruman",
+   THE_LAND_OF_SHADOW: "theLandOfShadow",
+   THE_FLAME_OF_THE_WEST: "theFlameOfTheWest",
+   THE_MOUNTAIN_OF_FIRE: "theMountainOfFire",
 
    properties:
    {
-      "againstTheShadow":
-      {
-         name: "Against the Shadow",
-         number: 6,
-         typeKey: CardSetType.CYCLE,
-         key: "againstTheShadow",
-      },
-      "angmarAwakened":
-      {
-         name: "Angmar Awakened",
-         number: 10,
-         typeKey: CardSetType.CYCLE,
-         key: "angmarAwakened",
-      },
+      // Main line.
       "core":
       {
          name: "Core Set",
          number: 1,
          typeKey: CardSetType.CORE,
          key: "core",
-      },
-      "dreamChaser":
-      {
-         name: "Dream-chaser",
-         number: 12,
-         typeKey: CardSetType.CYCLE,
-         key: "dreamChaser",
-      },
-      "dwarrowdelf":
-      {
-         name: "Dwarrowdelf",
-         number: 4,
-         typeKey: CardSetType.CYCLE,
-         key: "dwarrowdelf",
-      },
-      "haradrim":
-      {
-         name: "Haradrim",
-         number: 14,
-         typeKey: CardSetType.CYCLE,
-         key: "haradrim",
-      },
-      "heirsOfNumenor":
-      {
-         name: "Heirs of Númenor",
-         number: 5,
-         shortName: "HoN",
-         typeKey: CardSetType.DELUXE,
-         key: "heirsOfNumenor",
-      },
-      "khazadDum":
-      {
-         name: "Khazad-Dûm",
-         number: 3,
-         shortName: "KD",
-         typeKey: CardSetType.DELUXE,
-         key: "khazadDum",
-      },
-      "onTheDoorstep":
-      {
-         name: "On the Doorstep",
-         number: 102,
-         shortName: "OtD",
-         typeKey: CardSetType.SAGA,
-         key: "onTheDoorstep",
-      },
-      "overHillAndUnderHill":
-      {
-         name: "Over Hill and Under Hill",
-         number: 101,
-         shortName: "OHaUH",
-         typeKey: CardSetType.SAGA,
-         key: "overHillAndUnderHill",
       },
       "shadowsOfMirkwood":
       {
@@ -112,36 +49,50 @@ var CardSet = {
          typeKey: CardSetType.CYCLE,
          key: "shadowsOfMirkwood",
       },
-      "theBlackRiders":
+      "khazadDum":
       {
-         name: "The Black Riders",
-         number: 103,
-         shortName: "TBR",
-         typeKey: CardSetType.SAGA,
-         key: "theBlackRiders",
-      },
-      "theFlameOfTheWest":
-      {
-         name: "The Flame of the West",
-         number: 107,
-         typeKey: CardSetType.SAGA,
-         key: "theFlameOfTheWest",
-      },
-      "theGreyHavens":
-      {
-         name: "The Grey Havens",
-         number: 11,
-         shortName: "MEC47",
+         name: "Khazad-Dûm",
+         number: 3,
+         shortName: "KD",
          typeKey: CardSetType.DELUXE,
-         key: "theGreyHavens",
+         key: "khazadDum",
       },
-      "theLandOfShadow":
+      "dwarrowdelf":
       {
-         name: "The Land of Shadow",
-         number: 106,
-         shortName: "MEC46",
-         typeKey: CardSetType.SAGA,
-         key: "theLandOfShadow",
+         name: "Dwarrowdelf",
+         number: 4,
+         typeKey: CardSetType.CYCLE,
+         key: "dwarrowdelf",
+      },
+      "heirsOfNumenor":
+      {
+         name: "Heirs of Númenor",
+         number: 5,
+         shortName: "HoN",
+         typeKey: CardSetType.DELUXE,
+         key: "heirsOfNumenor",
+      },
+      "againstTheShadow":
+      {
+         name: "Against the Shadow",
+         number: 6,
+         typeKey: CardSetType.CYCLE,
+         key: "againstTheShadow",
+      },
+      "theVoiceOfIsengard":
+      {
+         name: "The Voice of Isengard",
+         number: 7,
+         shortName: "VoI",
+         typeKey: CardSetType.DELUXE,
+         key: "theVoiceOfIsengard",
+      },
+      "theRingMaker":
+      {
+         name: "The Ring-Maker",
+         number: 8,
+         typeKey: CardSetType.CYCLE,
+         key: "theRingMaker",
       },
       "theLostRealm":
       {
@@ -151,19 +102,67 @@ var CardSet = {
          typeKey: CardSetType.DELUXE,
          key: "theLostRealm",
       },
-      "theMountainOfFire":
+      "angmarAwakened":
       {
-         name: "The Mountain of Fire",
-         number: 108,
-         typeKey: CardSetType.SAGA,
-         key: "theMountainOfFire",
-      },
-      "theRingMaker":
-      {
-         name: "The Ring-Maker",
-         number: 8,
+         name: "Angmar Awakened",
+         number: 10,
          typeKey: CardSetType.CYCLE,
-         key: "theRingMaker",
+         key: "angmarAwakened",
+      },
+      "theGreyHavens":
+      {
+         name: "The Grey Havens",
+         number: 11,
+         shortName: "MEC47",
+         typeKey: CardSetType.DELUXE,
+         key: "theGreyHavens",
+      },
+      "dreamChaser":
+      {
+         name: "Dream-chaser",
+         number: 12,
+         typeKey: CardSetType.CYCLE,
+         key: "dreamChaser",
+      },
+      "theSandsOfHarad":
+      {
+         name: "The Sands of Harad",
+         number: 13,
+         typeKey: CardSetType.DELUXE,
+         key: "theSandsOfHarad",
+      },
+      "haradrim":
+      {
+         name: "Haradrim",
+         number: 14,
+         typeKey: CardSetType.CYCLE,
+         key: "haradrim",
+      },
+
+      // Saga.
+      "overHillAndUnderHill":
+      {
+         name: "Over Hill and Under Hill",
+         number: 101,
+         shortName: "OHaUH",
+         typeKey: CardSetType.SAGA,
+         key: "overHillAndUnderHill",
+      },
+      "onTheDoorstep":
+      {
+         name: "On the Doorstep",
+         number: 102,
+         shortName: "OtD",
+         typeKey: CardSetType.SAGA,
+         key: "onTheDoorstep",
+      },
+      "theBlackRiders":
+      {
+         name: "The Black Riders",
+         number: 103,
+         shortName: "TBR",
+         typeKey: CardSetType.SAGA,
+         key: "theBlackRiders",
       },
       "theRoadDarkens":
       {
@@ -173,13 +172,6 @@ var CardSet = {
          typeKey: CardSetType.SAGA,
          key: "theRoadDarkens",
       },
-      "theSandsOfHarad":
-      {
-         name: "The Sands of Harad",
-         number: 13,
-         typeKey: CardSetType.DELUXE,
-         key: "theSandsOfHarad",
-      },
       "theTreasonOfSaruman":
       {
          name: "The Treason of Saruman",
@@ -188,13 +180,27 @@ var CardSet = {
          typeKey: CardSetType.SAGA,
          key: "theTreasonOfSaruman",
       },
-      "theVoiceOfIsengard":
+      "theLandOfShadow":
       {
-         name: "The Voice of Isengard",
-         number: 7,
-         shortName: "VoI",
-         typeKey: CardSetType.DELUXE,
-         key: "theVoiceOfIsengard",
+         name: "The Land of Shadow",
+         number: 106,
+         shortName: "MEC46",
+         typeKey: CardSetType.SAGA,
+         key: "theLandOfShadow",
+      },
+      "theFlameOfTheWest":
+      {
+         name: "The Flame of the West",
+         number: 107,
+         typeKey: CardSetType.SAGA,
+         key: "theFlameOfTheWest",
+      },
+      "theMountainOfFire":
+      {
+         name: "The Mountain of Fire",
+         number: 108,
+         typeKey: CardSetType.SAGA,
+         key: "theMountainOfFire",
       },
    },
 

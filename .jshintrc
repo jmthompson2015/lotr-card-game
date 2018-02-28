@@ -16,6 +16,7 @@
       "Reactable": false,
       "setTimeout": false,
       "window": false,
+      "XMLHttpRequest": false,
 
       "createReactClass": false,
       "Immutable": false,
