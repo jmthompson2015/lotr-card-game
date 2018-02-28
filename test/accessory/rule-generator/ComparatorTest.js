@@ -28,7 +28,7 @@ const cardGloin = {
 const partsGloin = Parser.parse(cardGloin);
 const interpretationGloin = Interpreter.interpret(cardGloin, partsGloin);
 
-QUnit.test("interpret() Hero Aragorn", function(assert)
+QUnit.test("Interpretation()", function(assert)
 {
    // Setup.
 
