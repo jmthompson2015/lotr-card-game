@@ -16,24 +16,24 @@ Parser.parse = function(card)
    text = text.replace(/[\(\)]/g, "");
    text = text.toLowerCase();
 
-   return this.parseSections(text);
+   return this.parseBlocks(text);
 };
 
-Parser.parseSections = function(text)
+Parser.parseBlocks = function(text)
 {
    InputValidator.validateNotNull("text", text);
 
-   let sections = text.split(/\n/);
-   sections = sections.map(section => section.trim());
+   let blocks = text.split(/\n/);
+   blocks = blocks.map(block => block.trim());
    let answer = [];
 
-   sections.forEach(section =>
+   blocks.forEach(block =>
    {
-      let sentenceObjects = this.parseSentences(section);
+      let sentenceObjects = this.parseSentences(block);
 
       answer.push(
       {
-         text: section,
+         text: block,
          sentences: sentenceObjects,
       });
    });
@@ -41,11 +41,11 @@ Parser.parseSections = function(text)
    return answer;
 };
 
-Parser.parseSentences = function(section)
+Parser.parseSentences = function(block)
 {
-   InputValidator.validateNotNull("section", section);
+   InputValidator.validateNotNull("block", block);
 
-   let sentences = section.trim().split(/[\.\!\?]/);
+   let sentences = block.trim().split(/[\.\!\?]/);
    sentences = sentences.filter(sentence => sentence !== "");
    sentences = sentences.map(sentence => sentence.trim());
    let answer = [];
@@ -151,11 +151,11 @@ Parser.print = function(parts)
 
    let content = "";
 
-   parts.forEach((section, i) =>
+   parts.forEach((block, i) =>
    {
-      content += i + " section: " + section.text + "\n";
+      content += i + " block: " + block.text + "\n";
 
-      section.sentences.forEach((sentence, j) =>
+      block.sentences.forEach((sentence, j) =>
       {
          content += j + " sentence: " + sentence.text + "\n";
 

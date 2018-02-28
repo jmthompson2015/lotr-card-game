@@ -204,7 +204,7 @@ Interpreter.determineEventOrPhaseKey = function(card, parts)
 
    let eventOrPhaseKey, eventOrPhaseKeyName;
 
-   parts.some(section =>
+   parts.some(block =>
    {
       // Breadth-first.
 
@@ -213,10 +213,10 @@ Interpreter.determineEventOrPhaseKey = function(card, parts)
 
    if (eventOrPhaseKeyName === undefined)
    {
-      parts.some(section =>
+      parts.some(block =>
       {
          // Next level.
-         let result = this.determineEventOrPhaseKeyForSentences(card, section);
+         let result = this.determineEventOrPhaseKeyForSentences(card, block);
          eventOrPhaseKey = result.eventOrPhaseKey;
          eventOrPhaseKeyName = result.eventOrPhaseKeyName;
 
@@ -231,14 +231,14 @@ Interpreter.determineEventOrPhaseKey = function(card, parts)
    });
 };
 
-Interpreter.determineEventOrPhaseKeyForSentences = function(card, section)
+Interpreter.determineEventOrPhaseKeyForSentences = function(card, block)
 {
    InputValidator.validateNotNull("card", card);
-   InputValidator.validateNotNull("section", section);
+   InputValidator.validateNotNull("block", block);
 
    let eventOrPhaseKey, eventOrPhaseKeyName;
 
-   section.sentences.some(sentence =>
+   block.sentences.some(sentence =>
    {
       // Breadth-first.
 
@@ -247,7 +247,7 @@ Interpreter.determineEventOrPhaseKeyForSentences = function(card, section)
 
    if (eventOrPhaseKeyName === undefined)
    {
-      section.sentences.some(sentence =>
+      block.sentences.some(sentence =>
       {
          // Next level.
          let result = this.determineEventOrPhaseKeyForClauses(card, sentence);
