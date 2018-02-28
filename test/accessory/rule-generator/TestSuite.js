@@ -1,5 +1,6 @@
 import Logger from "../../../src/common/js/Logger.js";
 
+import ComparatorTest from "./ComparatorTest.js";
 import InterpreterTest from "./InterpreterTest.js";
 import ParserTest from "./ParserTest.js";
 

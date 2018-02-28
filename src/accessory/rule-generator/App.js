@@ -3,7 +3,7 @@ import Logger from "../../common/js/Logger.js";
 
 import Parser from "./Parser.js";
 import Interpreter from "./Interpreter.js";
-import InterpretationComparator from "./InterpretationComparator.js";
+import Comparator from "./Comparator.js";
 import CodeGenerator from "./CodeGenerator.js";
 
 window.LOGGER = new Logger();
@@ -46,7 +46,7 @@ App.loadFile(function(data)
       interpretations.push(interpretation);
    }
 
-   interpretations.sort(InterpretationComparator);
+   interpretations.sort(Comparator.Interpretation);
    // interpretations.forEach((interpretation, i) =>
    // {
    //    console.log(i + " " + interpretation.abilityClassName + " " + interpretation.eventOrPhaseKeyName + " " + interpretation.cardKeyName);

@@ -1,4 +1,6 @@
-export default function InterpretationComparator(a, b)
+var Comparator = {};
+
+Comparator.Interpretation = function(a, b)
 {
    let answer = compare(a.abilityClassName, b.abilityClassName);
 
@@ -13,7 +15,7 @@ export default function InterpretationComparator(a, b)
    }
 
    return answer;
-}
+};
 
 function compare(a, b)
 {
@@ -42,3 +44,5 @@ function compare(a, b)
 
    return answer;
 }
+
+export default Comparator;
