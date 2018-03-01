@@ -8,7 +8,7 @@ Lexicon.adjectives = ["back", "dead", "east", "left", "right"];
 
 Lexicon.adverbs = ["back", "east", "here", "left", "right", "south", "there"];
 
-Lexicon.pronouns = ["it", "you"];
+Lexicon.pronouns = ["he", "her", "him", "it", "she", "they"];
 
 Lexicon.names = ["aragorn", "glóin", "théodred"];
 
@@ -17,8 +17,6 @@ Lexicon.articles = ["a", "an", "the"];
 Lexicon.prepositions = ["as", "by", "during", "from", "in", "of", "on", "to", "with"];
 
 Lexicon.conjunctions = ["and", "but", "or"];
-
-Lexicon.digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 Lexicon.determineType = function(word)
 {
@@ -62,9 +60,9 @@ Lexicon.determineType = function(word)
    {
       type = "conjunction";
    }
-   else if (Lexicon.digits.includes(word))
+   else if (!isNaN(word) && isFinite(word))
    {
-      type = "digit";
+      type = "number";
    }
 
    return type;

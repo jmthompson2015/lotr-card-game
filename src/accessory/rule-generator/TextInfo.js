@@ -22,6 +22,7 @@ let files = [
   "../../../../lotr-lcg-data/data/treachery.js"
 ];
 let fileIndex = 0;
+let cardCount = 0;
 let words = {};
 
 TextInfo.loadFile = function(callback)
@@ -29,6 +30,7 @@ TextInfo.loadFile = function(callback)
    let myCallback = (data) =>
    {
       console.log(data[0].type_code + " data.length = " + data.length);
+      cardCount += data.length;
       processWords(data);
 
       if (fileIndex < files.length)
@@ -51,6 +53,7 @@ function processWords(data)
       if (card.text !== undefined)
       {
          let text = card.text;
+         text = text.replace(new RegExp(card.name, "g"), "this-card-name");
 
          // Cleanup.
          text = text.replace(/\u00A0/g, " "); // non-breaking space
@@ -68,13 +71,13 @@ function processWords(data)
          // Reformat.
          text = text.replace(/<(?:.|\n)*?>/gm, " "); // html
          text = text.replace(/\[/g, " ");
+         text = text.replace(/\r/g, " ");
          text = text.replace(/\n/g, " ");
          text = text.replace(/\./g, " ");
+         text = text.replace(/[,\/#!$%\^&\*;:{}=_`~\"\[\]]/g, " "); // punctuation
          text = text.replace(/[()]/g, "");
          text = text.replace(/'s/g, "");
          text = text.replace(/[']/g, "");
-         text = text.replace(/[,\/#!$%\^&\*;:{}=_`~\"\[\]]/g, " "); // punctuation
-         text = text.replace(/\r/g, " ");
          text = text.replace(/\s{2,}/g, " "); // extra spaces
          text = text.trim().toLowerCase();
          // console.log("text = " + text);
@@ -102,6 +105,8 @@ function processWords(data)
 
 TextInfo.loadFile(function()
 {
+   document.getElementById("countPanel").innerHTML = "Card count: " + cardCount + "<br/><br/>";
+
    let keys = Object.keys(words);
    keys.sort();
    keys.sort((a, b) => words[b].count - words[a].count);
