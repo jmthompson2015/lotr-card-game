@@ -58,19 +58,8 @@ function processWords(data)
          text = text.replace(new RegExp(card.name, "g"), "this-card-name");
 
          // Cleanup.
-         text = text.replace(/\u00A0/g, " "); // non-breaking space
-         text = text.replace(/\u2013/g, "-"); // en-dash
-         text = text.replace(/\u2022/g, ""); // bullet
-         text = text.replace(/\u2019/g, "'"); // right single quotation mark
-         text = text.replace(/&#39;/g, "'"); // html apostrophe
          text = text.replace("snow-an Elf.\"\n-Legolas,", "snow an elf. legolas,");
          text = text.replace(/non-<b>/g, "non-");
-         text = text.replace("<b><i>Heale</i>r</b>", "healer");
-         text = text.replace("D\u00FAnadan", "d\u00FAnedain");
-         text = text.replace("Dunedain", "d\u00FAnedain");
-         text = text.replace("Resonse:", "response");
-         text = text.replace(/resouce/g, "resource");
-         text = text.replace(/Suffle/g, "shuffle");
 
          // Reformat.
          text = text.replace(/<(?:.|\n)*?>/gm, " "); // html
