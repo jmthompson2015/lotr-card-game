@@ -13,11 +13,13 @@ var TextInfo = {};
 let files = [
   "../../../../lotr-lcg-data/data/ally.js",
   "../../../../lotr-lcg-data/data/attachment.js",
+  "../../../../lotr-lcg-data/data/encounter-side-quest.js",
   "../../../../lotr-lcg-data/data/enemy.js",
   "../../../../lotr-lcg-data/data/event.js",
   "../../../../lotr-lcg-data/data/hero.js",
   "../../../../lotr-lcg-data/data/location.js",
   "../../../../lotr-lcg-data/data/objective.js",
+  "../../../../lotr-lcg-data/data/player-side-quest.js",
   "../../../../lotr-lcg-data/data/quest.js",
   "../../../../lotr-lcg-data/data/treachery.js"
 ];
@@ -67,6 +69,8 @@ function processWords(data)
          text = text.replace("D\u00FAnadan", "d\u00FAnedain");
          text = text.replace("Dunedain", "d\u00FAnedain");
          text = text.replace("Resonse:", "response");
+         text = text.replace(/resouce/g, "resource");
+         text = text.replace(/Suffle/g, "shuffle");
 
          // Reformat.
          text = text.replace(/<(?:.|\n)*?>/gm, " "); // html
