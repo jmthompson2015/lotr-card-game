@@ -56,7 +56,7 @@ function processWords(data)
 {
    data.forEach(card =>
    {
-      if (card.text !== undefined)
+      if (![undefined, ""].includes(card.text))
       {
          allCards.push(
          {
