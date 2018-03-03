@@ -1,6 +1,6 @@
 var Lexicon = {};
 
-Lexicon.nouns = ["ally", "area", "attachment", "card", "character", "damage", "deck", "dwarf", "east", "effect", "elf", "enemy", "ent", "event", "flagship", "fleet", "fog", "forest", "game", "goblin", "grass", "grotto", "guardian", "hand", "harbor", "heading", "hero", "hobbit", "huorn", "location", "monument", "mountain", "nazgûl", "orc", "phase", "pile", "pipe", "pit", "player", "ploughman", "pool", "quest", "ranged", "resource", "round", "sentinel", "stage", "surge", "threat", "token", "trait", "vale", "valour", "value", "villain", "villager", "warg", "willpower", "you"];
+Lexicon.nouns = ["ally", "area", "attachment", "card", "character", "damage", "deck", "dwarf", "east", "effect", "elf", "enemy", "ent", "event", "flagship", "fleet", "fog", "forest", "game", "goblin", "grass", "grotto", "guardian", "hand", "harbor", "heading", "hero", "hobbit", "huorn", "location", "marsh-dweller", "monument", "mountain", "nazgûl", "orc", "phase", "pile", "pipe", "pit", "player", "ploughman", "pool", "quest", "ranged", "resource", "ring-bearer", "round", "sentinel", "stage", "surge", "threat", "token", "trait", "vale", "valour", "value", "villain", "villager", "warg", "willpower", "wose", "you"];
 
 Lexicon.verbs = ["attach", "deal", "exhaust", "go", "has", "have", "is", "place", "raise", "ready", "see", "shuffle", "travel", "turn"];
 
@@ -10,11 +10,11 @@ Lexicon.adverbs = ["back", "east", "here", "left", "right", "south", "there"];
 
 Lexicon.pronouns = ["he", "her", "him", "it", "she", "that", "they", "this"];
 
-Lexicon.names = ["alcaron", "amarthiúl", "angmar", "aragorn", "arwen", "baggins", "belegaer", "belfalas", "bellach", "berúthiel", "bilbo", "caradhras", "celebrimbor", "círdan", "durin", "elladan", "elrohir", "elrond", "ettenmoors", "fili", "fornost", "frodo", "galadriel", "gandalf", "gimli", "glóin", "glorfindel", "gollum", "gondor", "gornákh", "grimbeorn", "gríma", "imrahil", "iârchon", "iârion", "ithilien", "khazad-dûm", "legolas", "mazarbul", "mindolluin", "mordor", "morgoth", "noldor", "nárelenya", "osgiliath", "ost-in-edhil", "rhosgobel", "sahír", "théoden", "théodred", "umbar", "undómiel", "wilyador", "éomer", "éowyn"];
+Lexicon.names = ["alcaron", "amarthiúl", "amon hen", "amon lhaw", "amon forn", "angmar", "aragorn", "arwen", "baggins", "belegaer", "belfalas", "bellach", "berúthiel", "bilbo baggins", "caradhras", "carn dûm", "celebrimbor", "círdan", "daechanar", "dol amroth", "dol guldur", "dream-chaser", "drû-buri-drû", "durin", "elladan", "elrohir", "elrond", "emyn muil", "ettenmoors", "fangorn", "fili", "fornost", "frodo baggins", "galadriel", "gandalf", "gimli", "glóin", "glorfindel", "gollum", "gondor", "gornákh", "grimbeorn", "gríma", "imrahil", "iârchon", "iârion", "ithilien", "kahliel", "khazad-dûm", "legolas", "mazarbul", "minas morgul", "mindolluin", "mordor", "morgoth", "noldor", "nárelenya", "osgiliath", "ost-in-edhil", "rhosgobel", "sahír", "sam gamgee", "stormcaller", "thaurdir", "théoden", "théodred", "umbar", "undómiel", "wilyador", "éomer", "éowyn"];
 
 Lexicon.articles = ["a", "an", "the"];
 
-Lexicon.prepositions = ["as", "at", "by", "during", "from", "in", "into", "of", "on", "to", "with"];
+Lexicon.prepositions = ["above", "across", "after", "against", "among", "as", "at", "before", "below", "between", "beyond", "by", "down", "during", "except", "for", "from", "in", "into", "of", "on", "onto", "out", "over", "through", "to", "under", "underneath", "until", "up", "with", "without"];
 
 Lexicon.conjunctions = ["and", "but", "or"];
 
@@ -44,7 +44,7 @@ Lexicon.determineType = function(word)
    {
       type = "pronoun";
    }
-   else if (Lexicon.names.includes(word))
+   else if (Lexicon.names.includes(word) || Lexicon.names.includes(word.replace(/\+/g, " ")))
    {
       type = "name";
    }

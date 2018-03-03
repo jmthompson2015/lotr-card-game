@@ -2,8 +2,10 @@ import JSONFileLoader from "../../common/js/JSONFileLoader.js";
 import Logger from "../../common/js/Logger.js";
 
 import DataTable from "../../view/js/DataTable.js";
+import Select from "../../view/js/Select.js";
 
 import Lexicon from "./Lexicon.js";
+import Parser from "./Parser.js";
 
 window.LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
@@ -25,7 +27,9 @@ let files = [
 ];
 let fileIndex = 0;
 let cardCount = 0;
-let words = {};
+let allCards = [];
+let selectedLevel = "text";
+let rowDataMap = {};
 
 TextInfo.loadFile = function(callback)
 {
@@ -54,80 +58,194 @@ function processWords(data)
    {
       if (card.text !== undefined)
       {
-         let text = card.text;
-         text = text.replace(new RegExp(card.name, "g"), "this-card-name");
-
-         // Cleanup.
-         text = text.replace("snow-an Elf.\"\n-Legolas,", "snow an elf. legolas,");
-         text = text.replace(/non-<b>/g, "non-");
-
-         // Reformat.
-         text = text.replace(/<(?:.|\n)*?>/gm, " "); // html
-         text = text.replace(/\[/g, " ");
-         text = text.replace(/\r/g, " ");
-         text = text.replace(/\n/g, " ");
-         text = text.replace(/\./g, " ");
-         text = text.replace(/[,\/#!$%\^&\*;:{}=_`~\"\[\]]/g, " "); // punctuation
-         text = text.replace(/[()]/g, "");
-         text = text.replace(/'s/g, "");
-         text = text.replace(/[']/g, "");
-         text = text.replace(/\s{2,}/g, " "); // extra spaces
-         text = text.trim().toLowerCase();
-         // console.log("text = " + text);
-
-         let myWords = text.split(/ /);
-         myWords.forEach(word =>
+         allCards.push(
          {
-            word = word.trim();
-            if (word !== "")
-            {
-               if (words[word] === undefined)
-               {
-                  words[word] = {
-                     word: word,
-                     count: 0,
-                     type: Lexicon.determineType(word),
-                  };
-               }
-               words[word].count = words[word].count + 1;
-            }
+            pack_code: card.pack_code,
+            type_code: card.type_code,
+            name: card.name,
+            text: card.text,
+            blocks: Parser.parse(card),
          });
       }
    });
 }
 
-TextInfo.loadFile(function()
+TextInfo.renderSelect = function()
+{
+   let values = ["text", "block", "sentence", "clause", "phrase", "word"];
+
+   let select = React.createElement(Select,
+   {
+      values: values,
+      onChange: TextInfo.handleLevelChanged,
+   });
+
+   ReactDOM.render(select, document.getElementById("selectPanel"));
+};
+
+TextInfo.handleLevelChanged = function(event)
+{
+   var selected = event.target.value;
+   LOGGER.debug("handleLevelChanged() selected = " + selected + " " + (typeof selected));
+   selectedLevel = selected;
+   TextInfo.renderTable();
+};
+
+TextInfo.renderTable = function()
 {
    document.getElementById("countPanel").innerHTML = "Card count: " + cardCount + "<br/><br/>";
 
-   let keys = Object.keys(words);
-   keys.sort();
-   keys.sort((a, b) => words[b].count - words[a].count);
-
    const TableColumns = [
       {
-         key: "word",
-         label: "Word",
+         key: "item",
+         label: "Item",
          className: "tl",
-      },
+     },
       {
          key: "count",
          label: "Count",
          className: "tr",
-      },
+     },
       {
          key: "type",
          label: "Type",
          className: "tl",
-      }
-   ];
-   const myRowData = keys.map(word => words[word]);
+     }
+  ];
 
-   let table = React.createElement(DataTable,
+   let myRowData2 = rowDataMap[selectedLevel];
+
+   if (myRowData2 === undefined)
+   {
+      const myRowData = TextInfo.createRowData();
+      const myRowDataMap = TextInfo.countItems(myRowData);
+      myRowData2 = Object.values(myRowDataMap);
+      rowDataMap[selectedLevel] = myRowData2;
+   }
+
+   const table = React.createElement(DataTable,
    {
       columns: TableColumns,
-      rowData: myRowData,
+      rowData: myRowData2,
    });
 
    ReactDOM.render(table, document.getElementById("mainPanel"));
+};
+
+TextInfo.countItems = function(myRowData)
+{
+   const answer = {};
+
+   myRowData.forEach(data =>
+   {
+      if (answer[data.item] === undefined)
+      {
+         answer[data.item] = TextInfo.createRow(data.item, data.type);
+      }
+
+      answer[data.item].count += 1;
+   });
+
+   return answer;
+};
+
+TextInfo.createRowData = function()
+{
+   let answer;
+
+   switch (selectedLevel)
+   {
+      case "text":
+         answer = allCards.reduce((accumulator, card) =>
+         {
+            accumulator.push(TextInfo.createRow(card.text));
+            return accumulator;
+         }, []);
+         break;
+      case "block":
+         answer = allCards.reduce((accumulator, card) =>
+         {
+            card.blocks.forEach(block =>
+            {
+               accumulator.push(TextInfo.createRow(block.text));
+            });
+            return accumulator;
+         }, []);
+         break;
+      case "sentence":
+         answer = allCards.reduce((accumulator, card) =>
+         {
+            card.blocks.forEach(block =>
+               block.sentences.forEach(sentence =>
+               {
+                  accumulator.push(TextInfo.createRow(sentence.text));
+               }));
+            return accumulator;
+         }, []);
+         break;
+      case "clause":
+         answer = allCards.reduce((accumulator, card) =>
+         {
+            card.blocks.forEach(block =>
+               block.sentences.forEach(sentence =>
+                  sentence.clauses.forEach(clause =>
+                  {
+                     accumulator.push(TextInfo.createRow(clause.text));
+                  })));
+            return accumulator;
+         }, []);
+         break;
+      case "phrase":
+         answer = allCards.reduce((accumulator, card) =>
+         {
+            card.blocks.forEach(block =>
+               block.sentences.forEach(sentence =>
+                  sentence.clauses.forEach(clause =>
+                     clause.phrases.forEach(phrase =>
+                     {
+                        accumulator.push(TextInfo.createRow(phrase.text));
+                     }))));
+            return accumulator;
+         }, []);
+         break;
+      case "word":
+         answer = allCards.reduce((accumulator, card) =>
+         {
+            card.blocks.forEach(block =>
+               block.sentences.forEach(sentence =>
+                  sentence.clauses.forEach(clause =>
+                     clause.phrases.forEach(phrase =>
+                        phrase.words.forEach(word =>
+                        {
+                           // if (["dûv", "dûm"].includes(word.text))
+                           // {
+                           //    console.log("word = " + word.text);
+                           //    console.log(card.type_code);
+                           //    console.log(card.name);
+                           //    console.log(card.text);
+                           // }
+                           accumulator.push(TextInfo.createRow(word.text, Lexicon.determineType(word.text)));
+                        })))));
+            return accumulator;
+         }, []);
+         break;
+   }
+
+   return answer;
+};
+
+TextInfo.createRow = function(item, type)
+{
+   return (
+   {
+      item: item,
+      count: 0,
+      type: type,
+   });
+};
+
+TextInfo.renderSelect();
+TextInfo.loadFile(function()
+{
+   TextInfo.renderTable();
 });

@@ -38,7 +38,7 @@ class Select extends React.Component
 
       var selectProps = {
          disabled: this.props.disabled,
-         onChange: this.handleChange,
+         onChange: this.handleChange.bind(this),
          value: this.state.selectedValue,
       };
 

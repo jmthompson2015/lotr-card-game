@@ -1,3 +1,13 @@
+/*
+ * Parse card text into a hierarchy.
+ *
+ * text: the card raw text
+ * block: a text block, separated by /\n/
+ * sentence: separated by /.!?/
+ * clause: separated by /:,/
+ * phrase: separated by preposition
+ * word: separated by / /
+ */
 import InputValidator from "../../common/js/InputValidator.js";
 
 import Lexicon from "./Lexicon.js";
@@ -9,12 +19,32 @@ Parser.parse = function(card)
    InputValidator.validateNotNull("card", card);
 
    let text = card.text;
-   text = text.replace(/<b>/g, "");
-   text = text.replace(/<\/b>/g, "");
-   text = text.replace(/<i>/g, "");
-   text = text.replace(/<\/i>/g, "");
-   text = text.replace(/[\(\)]/g, "");
-   text = text.toLowerCase();
+   text = text.replace(new RegExp(card.name, "g"), "this-card-name");
+
+   // Cleanup.
+   text = text.replace(/\r\n|\r/g, "\n");
+   text = text.replace(/<br\/>/g, "\n");
+   text = text.replace(/\u2013/g, "-"); // en-dash
+   text = text.replace(/\u2022/g, ""); // bullet
+   text = text.replace("snow-an Elf.\"\n-Legolas,", "snow an elf. legolas,");
+   text = text.replace(/non-<b>/g, "non-");
+
+   // Reformat.
+   text = text.replace(/<(?:.|\n)*?>/gm, " "); // remove html tags
+   text = text.replace(/\[/g, " ");
+   text = text.replace(/[\/#$%\^&\*;{}=_`~\"\[\]]/g, " "); // remove punctuation
+   text = text.replace(/[()]/g, "");
+   text = text.replace(/'s/g, "");
+   text = text.replace(/'/g, "");
+   text = text.replace(/\s{2,}/g, " "); // remove extra spaces
+   text = text.trim().toLowerCase();
+
+   Lexicon.names.filter(name => name.indexOf(" ") >= 0).forEach(name =>
+   {
+      text = text.replace(new RegExp(name, "g"), name.replace(/ /g, "+"));
+   });
+
+   text = text.replace(/this-card-name/g, "${cardName}");
 
    return this.parseBlocks(text);
 };
@@ -29,13 +59,16 @@ Parser.parseBlocks = function(text)
 
    blocks.forEach(block =>
    {
-      let sentenceObjects = this.parseSentences(block);
-
-      answer.push(
+      if (block !== "")
       {
-         text: block,
-         sentences: sentenceObjects,
-      });
+         let sentenceObjects = this.parseSentences(block);
+
+         answer.push(
+         {
+            text: block,
+            sentences: sentenceObjects,
+         });
+      }
    });
 
    return answer;
@@ -52,13 +85,16 @@ Parser.parseSentences = function(block)
 
    sentences.forEach(sentence =>
    {
-      let clauses = this.parseClauses(sentence);
-
-      answer.push(
+      if (sentence !== "")
       {
-         text: sentence,
-         clauses: clauses,
-      });
+         let clauses = this.parseClauses(sentence);
+
+         answer.push(
+         {
+            text: sentence,
+            clauses: clauses,
+         });
+      }
    });
 
    return answer;
@@ -74,13 +110,16 @@ Parser.parseClauses = function(sentence)
 
    clauses.forEach(clause =>
    {
-      let phrases = this.parsePhrases(clause);
-
-      answer.push(
+      if (clause !== "")
       {
-         text: clause,
-         phrases: phrases,
-      });
+         let phrases = this.parsePhrases(clause);
+
+         answer.push(
+         {
+            text: clause,
+            phrases: phrases,
+         });
+      }
    });
 
    return answer;
@@ -114,13 +153,16 @@ Parser.parsePhrases = function(clause)
 
    phrases.forEach(phrase =>
    {
-      let words = this.parseWords(phrase);
-
-      answer.push(
+      if (phrase !== "")
       {
-         text: phrase,
-         words: words,
-      });
+         let words = this.parseWords(phrase);
+
+         answer.push(
+         {
+            text: phrase,
+            words: words,
+         });
+      }
    });
 
    return answer;
@@ -136,10 +178,13 @@ Parser.parseWords = function(phrase)
 
    words.forEach(word =>
    {
-      answer.push(
+      if (word !== "")
       {
-         text: word,
-      });
+         answer.push(
+         {
+            text: word,
+         });
+      }
    });
 
    return answer;
