@@ -34,11 +34,11 @@ QUnit.test("parse() Hero Aragorn", function(assert)
    }
    {
       const block = result[1];
-      assert.equal(block.text, "response: after aragorn commits to a quest, spend 1 resource from his resource pool to ready him.");
-      assert.equal(ArrayIsEqual(block.sentences.map(sentence => sentence.text), ["response: after aragorn commits to a quest, spend 1 resource from his resource pool to ready him"]), true);
+      assert.equal(block.text, "response: after ${cardName} commits to a quest, spend 1 resource from his resource pool to ready him.");
+      assert.equal(ArrayIsEqual(block.sentences.map(sentence => sentence.text), ["response: after ${cardName} commits to a quest, spend 1 resource from his resource pool to ready him"]), true);
       {
          const sentence = block.sentences[0];
-         assert.equal(ArrayIsEqual(sentence.clauses.map(clause => clause.text), ["response", "after aragorn commits to a quest", "spend 1 resource from his resource pool to ready him"]), true);
+         assert.equal(ArrayIsEqual(sentence.clauses.map(clause => clause.text), ["response", "after ${cardName} commits to a quest", "spend 1 resource from his resource pool to ready him"]), true);
          {
             const clause = sentence.clauses[0];
             assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["response"]), true);
@@ -47,10 +47,10 @@ QUnit.test("parse() Hero Aragorn", function(assert)
          }
          {
             const clause = sentence.clauses[1];
-            assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["after aragorn commits", "to a quest"]), true);
+            assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["after ${cardName} commits", "to a quest"]), true);
             {
                const phrase = clause.phrases[0];
-               assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["after", "aragorn", "commits"]), true);
+               assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["after", "${cardName}", "commits"]), true);
             }
             {
                const phrase = clause.phrases[1];
@@ -96,11 +96,11 @@ QUnit.test("parse() Hero Boromir", function(assert)
    assert.equal(result.length, 2);
    {
       const block = result[0];
-      assert.equal(block.text, "action: raise your threat by 1 to ready boromir. limit once per phase.");
-      assert.equal(ArrayIsEqual(block.sentences.map(sentence => sentence.text), ["action: raise your threat by 1 to ready boromir", "limit once per phase"]), true);
+      assert.equal(block.text, "action: raise your threat by 1 to ready ${cardName}. limit once per phase.");
+      assert.equal(ArrayIsEqual(block.sentences.map(sentence => sentence.text), ["action: raise your threat by 1 to ready ${cardName}", "limit once per phase"]), true);
       {
          const sentence = block.sentences[0];
-         assert.equal(ArrayIsEqual(sentence.clauses.map(clause => clause.text), ["action", "raise your threat by 1 to ready boromir"]), true);
+         assert.equal(ArrayIsEqual(sentence.clauses.map(clause => clause.text), ["action", "raise your threat by 1 to ready ${cardName}"]), true);
          {
             const clause = sentence.clauses[0];
             assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["action"]), true);
@@ -109,7 +109,7 @@ QUnit.test("parse() Hero Boromir", function(assert)
          }
          {
             const clause = sentence.clauses[1];
-            assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["raise your threat", "by 1", "to ready boromir"]), true);
+            assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["raise your threat", "by 1", "to ready ${cardName}"]), true);
             {
                const phrase = clause.phrases[0];
                assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["raise", "your", "threat"]), true);
@@ -120,7 +120,7 @@ QUnit.test("parse() Hero Boromir", function(assert)
             }
             {
                const phrase = clause.phrases[2];
-               assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["to", "ready", "boromir"]), true);
+               assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["to", "ready", "${cardName}"]), true);
             }
          }
       }
@@ -135,11 +135,11 @@ QUnit.test("parse() Hero Boromir", function(assert)
    }
    {
       const block = result[1];
-      assert.equal(block.text, "action: discard boromir to deal 2 damage to each enemy engaged with a single player.");
-      assert.equal(ArrayIsEqual(block.sentences.map(sentence => sentence.text), ["action: discard boromir to deal 2 damage to each enemy engaged with a single player"]), true);
+      assert.equal(block.text, "action: discard ${cardName} to deal 2 damage to each enemy engaged with a single player.");
+      assert.equal(ArrayIsEqual(block.sentences.map(sentence => sentence.text), ["action: discard ${cardName} to deal 2 damage to each enemy engaged with a single player"]), true);
       {
          const sentence = block.sentences[0];
-         assert.equal(ArrayIsEqual(sentence.clauses.map(clause => clause.text), ["action", "discard boromir to deal 2 damage to each enemy engaged with a single player"]), true);
+         assert.equal(ArrayIsEqual(sentence.clauses.map(clause => clause.text), ["action", "discard ${cardName} to deal 2 damage to each enemy engaged with a single player"]), true);
          {
             const clause = sentence.clauses[0];
             assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["action"]), true);
@@ -148,10 +148,10 @@ QUnit.test("parse() Hero Boromir", function(assert)
          }
          {
             const clause = sentence.clauses[1];
-            assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["discard boromir", "to deal 2 damage", "to each enemy engaged", "with a single player"]), true);
+            assert.equal(ArrayIsEqual(clause.phrases.map(phrase => phrase.text), ["discard ${cardName}", "to deal 2 damage", "to each enemy engaged", "with a single player"]), true);
             {
                const phrase = clause.phrases[0];
-               assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["discard", "boromir"]), true);
+               assert.equal(ArrayIsEqual(phrase.words.map(word => word.text), ["discard", "${cardName}"]), true);
             }
             {
                const phrase = clause.phrases[1];
@@ -203,7 +203,7 @@ QUnit.test("print()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.replace(/\n/g, " "), "0 block: sentinel. 0 sentence: sentinel 0 clause: sentinel 0 phrase: sentinel 0 word: sentinel 1 block: response: after aragorn commits to a quest, spend 1 resource from his resource pool to ready him. 0 sentence: response: after aragorn commits to a quest, spend 1 resource from his resource pool to ready him 0 clause: response 0 phrase: response 0 word: response 1 clause: after aragorn commits to a quest 0 phrase: after aragorn commits 0 word: after 1 word: aragorn 2 word: commits 1 phrase: to a quest 0 word: to 1 word: a 2 word: quest 2 clause: spend 1 resource from his resource pool to ready him 0 phrase: spend 1 resource 0 word: spend 1 word: 1 2 word: resource 1 phrase: from his resource pool 0 word: from 1 word: his 2 word: resource 3 word: pool 2 phrase: to ready him 0 word: to 1 word: ready 2 word: him ");
+   assert.equal(result.replace(/\n/g, " "), "0 block: sentinel. 0 sentence: sentinel 0 clause: sentinel 0 phrase: sentinel 0 word: sentinel 1 block: response: after ${cardName} commits to a quest, spend 1 resource from his resource pool to ready him. 0 sentence: response: after ${cardName} commits to a quest, spend 1 resource from his resource pool to ready him 0 clause: response 0 phrase: response 0 word: response 1 clause: after ${cardName} commits to a quest 0 phrase: after ${cardName} commits 0 word: after 1 word: ${cardName} 2 word: commits 1 phrase: to a quest 0 word: to 1 word: a 2 word: quest 2 clause: spend 1 resource from his resource pool to ready him 0 phrase: spend 1 resource 0 word: spend 1 word: 1 2 word: resource 1 phrase: from his resource pool 0 word: from 1 word: his 2 word: resource 3 word: pool 2 phrase: to ready him 0 word: to 1 word: ready 2 word: him ");
 });
 
 function ArrayIsEqual(array, other)

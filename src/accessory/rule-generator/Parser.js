@@ -36,7 +36,7 @@ Parser.parse = function(card)
    text = text.replace(/[()]/g, "");
    text = text.replace(/'s/g, "");
    text = text.replace(/'/g, "");
-   text = text.replace(/\s{2,}/g, " "); // remove extra spaces
+   text = text.replace(/ {2,}/g, " "); // remove extra spaces
    text = text.trim().toLowerCase();
 
    Lexicon.names.filter(name => name.indexOf(" ") >= 0).forEach(name =>

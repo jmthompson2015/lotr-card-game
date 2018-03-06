@@ -270,7 +270,6 @@ Interpreter.determineEventOrPhaseKeyForClauses = function(card, sentence)
    InputValidator.validateNotNull("card", card);
    InputValidator.validateNotNull("sentence", sentence);
 
-   let cardName = card.name.toLowerCase();
    let eventOrPhaseKey, eventOrPhaseKeyName;
 
    sentence.clauses.some(clause =>
@@ -278,17 +277,17 @@ Interpreter.determineEventOrPhaseKeyForClauses = function(card, sentence)
       // Breadth-first.
       switch (clause.text)
       {
-         case `after ${cardName} is declared as an attacker`:
+         case "after ${cardName} is declared as an attacker":
             eventOrPhaseKey = GameEvent.ATTACKERS_DECLARED;
             eventOrPhaseKeyName = "GameEvent.ATTACKERS_DECLARED";
             break;
-         case `after ${cardName} enters play`:
-         case `after you play ${cardName}`:
-         case `after you play ${cardName} from your hand`:
+         case "after ${cardName} enters play":
+         case "after you play ${cardName}":
+         case "after you play ${cardName} from your hand":
             eventOrPhaseKey = GameEvent.CARD_PLAYED;
             eventOrPhaseKeyName = "GameEvent.CARD_PLAYED";
             break;
-         case `after ${cardName} changes control`:
+         case "after ${cardName} changes control":
             eventOrPhaseKey = GameEvent.CHARACTER_CHANGES_CONTROL;
             eventOrPhaseKeyName = "GameEvent.CHARACTER_CHANGES_CONTROL";
             break;
@@ -303,7 +302,7 @@ Interpreter.determineEventOrPhaseKeyForClauses = function(card, sentence)
          case "after a character leaves play":
          case "after a dwarf hero you control leaves play":
          case "after another eagle character leaves play":
-         case `after ${cardName} leaves play`:
+         case "after ${cardName} leaves play":
             eventOrPhaseKey = GameEvent.CHARACTER_LEAVES_PLAY;
             eventOrPhaseKeyName = "GameEvent.CHARACTER_LEAVES_PLAY";
             break;
@@ -311,23 +310,23 @@ Interpreter.determineEventOrPhaseKeyForClauses = function(card, sentence)
             eventOrPhaseKey = GameEvent.CHARACTER_READIES;
             eventOrPhaseKeyName = "GameEvent.CHARACTER_READIES";
             break;
-         case `after ${cardName} is declared as a defender`:
+         case "after ${cardName} is declared as a defender":
             eventOrPhaseKey = GameEvent.DEFENDER_DECLARED;
             eventOrPhaseKeyName = "GameEvent.DEFENDER_DECLARED";
             break;
-         case `after ${cardName} attacks and defeats an enemy engaged with another player`:
-         case `after ${cardName} attacks and destroys an orc enemy`:
-         case `after ${cardName} participates in an attack that destroys an enemy`:
+         case "after ${cardName} attacks and defeats an enemy engaged with another player":
+         case "after ${cardName} attacks and destroys an orc enemy":
+         case "after ${cardName} participates in an attack that destroys an enemy":
             eventOrPhaseKey = GameEvent.ENEMY_DESTROYED;
             eventOrPhaseKeyName = "GameEvent.ENEMY_DESTROYED";
             break;
-         case `after ${cardName} commits to a quest`:
-         case `after ${cardName} exhausts to commit to a quest`:
+         case "after ${cardName} commits to a quest":
+         case "after ${cardName} exhausts to commit to a quest":
             eventOrPhaseKey = GameEvent.QUEST_COMMITTED;
             eventOrPhaseKeyName = "GameEvent.QUEST_COMMITTED";
             break;
-         case `after ${cardName} is damaged`:
-         case `after ${cardName} suffers damage`:
+         case "after ${cardName} is damaged":
+         case "after ${cardName} suffers damage":
             eventOrPhaseKey = GameEvent.WOUNDED;
             eventOrPhaseKeyName = "GameEvent.WOUNDED";
             break;

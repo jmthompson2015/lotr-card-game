@@ -18,7 +18,22 @@ Lexicon.prepositions = ["above", "across", "after", "against", "among", "as", "a
 
 Lexicon.conjunctions = ["and", "but", "or"];
 
-Lexicon.determineType = function(word)
+Lexicon.determinePhraseType = phrase =>
+{
+   let type;
+
+   const words = phrase.words;
+   const word0 = words[0].text;
+
+   if (Lexicon.isPreposition(word0))
+   {
+      type = "PP";
+   }
+
+   return type;
+};
+
+Lexicon.determineWordType = word =>
 {
    let type;
 
@@ -67,5 +82,11 @@ Lexicon.determineType = function(word)
 
    return type;
 };
+
+Lexicon.isNoun = word => Lexicon.nouns.includes(word);
+
+Lexicon.isPreposition = word => Lexicon.prepositions.includes(word);
+
+Lexicon.isVerb = word => Lexicon.verbs.includes(word);
 
 export default Lexicon;

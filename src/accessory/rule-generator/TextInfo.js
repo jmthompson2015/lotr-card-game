@@ -203,7 +203,7 @@ TextInfo.createRowData = function()
                   sentence.clauses.forEach(clause =>
                      clause.phrases.forEach(phrase =>
                      {
-                        accumulator.push(TextInfo.createRow(phrase.text));
+                        accumulator.push(TextInfo.createRow(phrase.text, Lexicon.determinePhraseType(phrase)));
                      }))));
             return accumulator;
          }, []);
@@ -224,7 +224,7 @@ TextInfo.createRowData = function()
                            //    console.log(card.name);
                            //    console.log(card.text);
                            // }
-                           accumulator.push(TextInfo.createRow(word.text, Lexicon.determineType(word.text)));
+                           accumulator.push(TextInfo.createRow(word.text, Lexicon.determineWordType(word.text)));
                         })))));
             return accumulator;
          }, []);
