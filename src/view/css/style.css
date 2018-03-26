@@ -33,6 +33,16 @@ table {
   background-color: #8FBC8F;
 }
 
+.dataTable th {
+  background-color: #555555;
+  border: 1px solid LightGray;
+  color: White;
+}
+
+.dataTable td {
+  border: 1px solid LightGray;
+}
+
 .lotr-light {
   /* Beige */
   color: #F5F5DC;

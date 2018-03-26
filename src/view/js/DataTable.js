@@ -4,6 +4,7 @@ import InputValidator from "../../common/js/InputValidator.js";
 let Table = React.createFactory(Reactable.Table);
 let Tr = React.createFactory(Reactable.Tr);
 let Td = React.createFactory(Reactable.Td);
+let Tfoot = React.createFactory(Reactable.Tfoot);
 
 class DataTable extends React.Component
 {
@@ -38,6 +39,56 @@ class DataTable extends React.Component
       return ReactDOMFactories.table(
       {}, ReactDOMFactories.tbody(
       {}, rows));
+   }
+
+   createFooterRow(rowData)
+   {
+      let firstData = rowData[0];
+      let keys = Object.keys(firstData);
+      let myData = {};
+      keys.forEach(key =>
+      {
+         if (Number.isInteger(firstData[key]))
+         {
+            myData[key] = 0;
+            rowData.forEach(data =>
+            {
+               myData[key] += (Number.isInteger(data[key]) ? data[key] : 0);
+            });
+         }
+      });
+
+      return Tfoot(
+      {
+         key: "footer",
+         className: "ba bg-lotr-medium",
+      }, this.createRow0(myData, rowData.length));
+   }
+
+   createRow0(data, key)
+   {
+      InputValidator.validateNotNull("data", data);
+      InputValidator.validateNotNull("key", key);
+
+      var columns = this.props.columns;
+      var cells = [];
+      columns.forEach(function(column)
+      {
+         var value = this.determineValue(column, data);
+         var cell = this.determineCell(column, data, value);
+         cells.push(ReactDOMFactories.td(
+         {
+            key: cells.length,
+            className: column.className,
+            value: value,
+         }, (cell === undefined ? "" : cell)));
+      }, this);
+
+      return ReactDOMFactories.tr(
+      {
+         key: key,
+         className: "ba bg-silver",
+      }, cells);
    }
 
    createRow(data, key)
@@ -78,6 +129,11 @@ class DataTable extends React.Component
       {
          rows.push(this.createRow(data, i));
       }.bind(this));
+
+      if (this.props.showFooter && rowData.length > 0)
+      {
+         rows.push(this.createFooterRow(rowData));
+      }
 
       return Table(
       {
@@ -133,7 +189,12 @@ DataTable.propTypes = {
    rowData: PropTypes.array.isRequired,
 
    cellFunctions: PropTypes.object,
+   showFooter: PropTypes.bool,
    valueFunctions: PropTypes.object,
+};
+
+DataTable.defaultProps = {
+   showFooter: false,
 };
 
 export default DataTable;
