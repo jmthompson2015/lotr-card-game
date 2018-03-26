@@ -1,5 +1,5 @@
 import Logger from "../../common/js/Logger.js";
-import MathAugments from "../../common/js/MathAugments.js";
+import MathUtilities from "../../common/js/MathUtilities.js";
 import CardTableContainer from "./CardTableContainer.js";
 import Reducer from "./Reducer.js";
 
@@ -11,7 +11,7 @@ var resourceBase = "../../../src/view/resource/";
 var store = Redux.createStore(Reducer.root);
 var implementedCount = determineImplementedCount();
 var cardCount = determineCardCount();
-var ratio = Math.lotrRound(100.0 * implementedCount / cardCount, 0);
+var ratio = MathUtilities.round(100.0 * implementedCount / cardCount, 0);
 document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " + cardCount + " = " + ratio + "%";
 
 var element = React.createElement(ReactRedux.Provider,

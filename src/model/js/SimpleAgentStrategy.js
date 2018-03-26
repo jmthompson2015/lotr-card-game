@@ -1,4 +1,4 @@
-import ArrayAugments from "../../common/js/ArrayAugments.js";
+import ArrayUtilities from "../../common/js/ArrayUtilities.js";
 import InputValidator from "../../common/js/InputValidator.js";
 
 var SimpleAgentStrategy = {
@@ -9,7 +9,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateIsArray("possibleCards", possibleCards);
       InputValidator.validateIsFunction("callback", callback);
 
-      var cardToPlay = possibleCards.lotrRandomElement();
+      var cardToPlay = ArrayUtilities.randomElement(possibleCards);
 
       callback(cardToPlay);
    },
@@ -21,7 +21,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateNotNull("defender", defender);
       InputValidator.validateIsFunction("callback", callback);
 
-      var attackers = [characters.lotrRandomElement()];
+      var attackers = [ArrayUtilities.randomElement(characters)];
 
       callback(attackers);
    },
@@ -33,7 +33,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateIsArray("characters", characters);
       InputValidator.validateIsFunction("callback", callback);
 
-      var defender = characters.lotrRandomElement();
+      var defender = ArrayUtilities.randomElement(characters);
 
       callback(defender);
    },
@@ -45,7 +45,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateIsArray("characters", characters);
       InputValidator.validateIsFunction("callback", callback);
 
-      var character = characters.lotrRandomElement();
+      var character = ArrayUtilities.randomElement(characters);
 
       callback(character);
    },
@@ -56,7 +56,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateIsArray("enemies", enemies);
       InputValidator.validateIsFunction("callback", callback);
 
-      var defender = enemies.lotrRandomElement();
+      var defender = ArrayUtilities.randomElement(enemies);
 
       callback(defender);
    },
@@ -68,7 +68,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateIsArray("enemies", enemies);
       InputValidator.validateIsFunction("callback", callback);
 
-      var enemy = enemies.lotrRandomElement();
+      var enemy = ArrayUtilities.randomElement(enemies);
 
       callback(enemy);
    },
@@ -80,7 +80,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateIsArray("heroes", heroes);
       InputValidator.validateIsFunction("callback", callback);
 
-      var hero = heroes.lotrRandomElement();
+      var hero = ArrayUtilities.randomElement(heroes);
 
       callback(hero);
    },
@@ -92,7 +92,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateNotEmpty("locations", locations);
       InputValidator.validateIsFunction("callback", callback);
 
-      var location = locations.lotrRandomElement();
+      var location = ArrayUtilities.randomElement(locations);
 
       callback(location);
    },
@@ -118,7 +118,7 @@ var SimpleAgentStrategy = {
 
       if (characters.length > 0)
       {
-         questers = [characters.lotrRandomElement()];
+         questers = [ArrayUtilities.randomElement(characters)];
       }
 
       callback(questers);
@@ -132,7 +132,7 @@ var SimpleAgentStrategy = {
       InputValidator.validateNotEmpty("heroes", heroes);
       InputValidator.validateIsFunction("callback", callback);
 
-      var hero = heroes.lotrRandomElement();
+      var hero = ArrayUtilities.randomElement(heroes);
 
       callback(hero);
    },

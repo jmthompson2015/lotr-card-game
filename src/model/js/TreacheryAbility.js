@@ -1,4 +1,3 @@
-import ArrayAugments from "../../common/js/ArrayAugments.js";
 import InputValidator from "../../common/js/InputValidator.js";
 import CardType from "../../artifact/js/CardType.js";
 import GameEvent from "../../artifact/js/GameEvent.js";

@@ -1,6 +1,6 @@
-import ArrayAugments from "../../common/js/ArrayAugments.js";
+import ArrayUtilities from "../../common/js/ArrayUtilities.js";
 import InputValidator from "../../common/js/InputValidator.js";
-import ObjectAugments from "../../common/js/ObjectAugments.js";
+import ObjectUtilities from "../../common/js/ObjectUtilities.js";
 
 class InputPanel extends React.Component
 {
@@ -25,13 +25,13 @@ class InputPanel extends React.Component
          switch (this.props.type)
          {
             case InputPanel.Type.CHECKBOX:
-               selected.lotrAddAll(this.props.initialValues);
+               selected = selected.concat(this.props.initialValues);
                break;
             case InputPanel.Type.RADIO:
                selected = this.props.initialValues;
                break;
             case InputPanel.Type.TEXT:
-               Object.lotrMerge(selected, this.props.initialValues);
+               selected = ObjectUtilities.merge(selected, this.props.initialValues);
                break;
             default:
                throw "Unknown input type: " + this.props.type;
@@ -76,7 +76,7 @@ class InputPanel extends React.Component
 
       if (clientProps)
       {
-         Object.lotrMerge(answer, clientProps);
+         answer = ObjectUtilities.merge(answer, clientProps);
       }
 
       return answer;
@@ -157,7 +157,7 @@ class InputPanel extends React.Component
             }
             else
             {
-               selected.lotrRemove(mySelected);
+               selected = ArrayUtilities.remove(selected, mySelected);
             }
             break;
          case InputPanel.Type.RADIO:

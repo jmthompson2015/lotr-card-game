@@ -1,4 +1,4 @@
-import ArrayAugments from "../../common/js/ArrayAugments.js";
+import ArrayUtilities from "../../common/js/ArrayUtilities.js";
 import InputValidator from "../../common/js/InputValidator.js";
 import GameEvent from "../../artifact/js/GameEvent.js";
 import LocationCard from "../../artifact/js/LocationCard.js";
@@ -33,7 +33,7 @@ LocationAbility[GameEvent.TRAVELED][LocationCard.NECROMANCERS_PASS] = {
 
          if (hand.size > 0)
          {
-            var cardInstance = hand.toJS().lotrRandomElement();
+            var cardInstance = ArrayUtilities.randomElement(hand.toJS());
             store.dispatch(AgentAction.discardFromHand(firstAgent, cardInstance));
          }
       }
@@ -96,7 +96,7 @@ LocationAbility[GameEvent.TRAVELED][LocationCard.OLD_FOREST_ROAD] = {
       if (characters.size > 0)
       {
          // FIXME: agent needs to choose a character.
-         var character = characters.toJS().lotrRandomElement();
+         var character = ArrayUtilities.randomElement(characters.toJS());
          store.dispatch(CardAction.setReady(character, true));
       }
 

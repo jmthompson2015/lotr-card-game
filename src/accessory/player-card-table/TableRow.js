@@ -1,5 +1,5 @@
 import InputValidator from "../../common/js/InputValidator.js";
-import MathAugments from "../../common/js/MathAugments.js";
+import MathUtilities from "../../common/js/MathUtilities.js";
 import CardType from "../../artifact/js/CardType.js";
 
 var TableRow = {};
@@ -11,7 +11,7 @@ TableRow.computeRatioSumStatsCost = function(card)
    var sumStats = TableRow.computeSumStats(card);
    var cost = (card.cardTypeKey === CardType.HERO ? card.threatCost : card.cost);
 
-   return (cost !== 0 ? Math.lotrRound(sumStats / cost, 4) : "");
+   return (cost !== 0 ? MathUtilities.round(sumStats / cost, 4) : "");
 };
 
 TableRow.computeSumStats = function(card)

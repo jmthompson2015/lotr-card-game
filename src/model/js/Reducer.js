@@ -1,3 +1,4 @@
+import ArrayUtilities from "../../common/js/ArrayUtilities.js";
 import InputValidator from "../../common/js/InputValidator.js";
 import GameEvent from "../../artifact/js/GameEvent.js";
 import Phase from "../../artifact/js/Phase.js";
@@ -206,7 +207,7 @@ Reducer.root = function(state, action)
             return Object.assign(
             {}, state,
             {
-               encounterDeck: Immutable.List(state.encounterDiscard.toJS().lotrShuffle()),
+               encounterDeck: Immutable.List(ArrayUtilities.shuffle(state.encounterDiscard.toJS())),
                encounterDiscard: new Immutable.List(),
             });
          case Action.SET_ACTIVE_AGENT:

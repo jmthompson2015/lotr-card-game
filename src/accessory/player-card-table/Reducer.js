@@ -1,4 +1,5 @@
 import InputValidator from "../../common/js/InputValidator.js";
+import ObjectUtilities from "../../common/js/ObjectUtilities.js";
 import Action from "./Action.js";
 import DefaultFilters from "./DefaultFilters.js";
 import InitialState from "./InitialState.js";
@@ -20,7 +21,7 @@ Reducer.root = function(state, action)
    {
       case Action.REMOVE_FILTERS:
          newFilteredTableRow = [];
-         newFilteredTableRow.lotrAddAll(state.tableRows);
+         newFilteredTableRow = newFilteredTableRow.concat(state.tableRows);
          return Object.assign(
          {}, state,
          {
@@ -41,7 +42,7 @@ Reducer.root = function(state, action)
          });
          newFilters = Object.assign(
          {}, state.filters);
-         Object.lotrMerge(newFilters, action.filters);
+         newFilters = ObjectUtilities.merge(newFilters, action.filters);
          newFilteredTableRow = Reducer.filterTableRow(state.tableRows, newFilters);
          Reducer.saveToLocalStorage(newFilters);
          return Object.assign(

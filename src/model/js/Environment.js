@@ -1,4 +1,4 @@
-import ArrayAugments from "../../common/js/ArrayAugments.js";
+import ArrayUtilities from "../../common/js/ArrayUtilities.js";
 import InputValidator from "../../common/js/InputValidator.js";
 import CardType from "../../artifact/js/CardType.js";
 import GameEvent from "../../artifact/js/GameEvent.js";
@@ -22,14 +22,14 @@ function Environment(store, scenarioDeck, playerData)
 
    // Save the decks.
    store.dispatch(Action.setQuestDeck(scenarioDeck.questInstances));
-   scenarioDeck.encounterInstances.lotrShuffle();
+   scenarioDeck.encounterInstances = ArrayUtilities.shuffle(scenarioDeck.encounterInstances);
    store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
 
    playerData.forEach(function(player)
    {
       var agent = player.agent;
       store.dispatch(AgentAction.setTableau(agent, player.playerDeck.heroInstances));
-      player.playerDeck.playerInstances.lotrShuffle();
+      player.playerDeck.playerInstances = ArrayUtilities.shuffle(player.playerDeck.playerInstances);
       store.dispatch(AgentAction.setPlayerDeck(agent, player.playerDeck.playerInstances));
    });
 }
@@ -73,7 +73,7 @@ Environment.prototype.agentQueue = function()
    var firstAgentId = (store.getState().firstAgentId ? store.getState().firstAgentId : agents.get(0).id());
    var index = agentIds.indexOf(firstAgentId);
 
-   return agents.toJS().lotrRotate(index);
+   return ArrayUtilities.rotate(agents.toJS(), index);
 };
 
 Environment.prototype.agentWhoControls = function(cardInstance)
@@ -389,7 +389,7 @@ Environment.prototype.setAsideToEncounterDeck = function(cardKey)
 Environment.prototype.shuffleEncounterDeck = function()
 {
    var encounterDeck = this.encounterDeck().toJS();
-   encounterDeck.lotrShuffle();
+   encounterDeck = ArrayUtilities.shuffle(encounterDeck);
    var store = this.store();
    store.dispatch(Action.setEncounterDeck(encounterDeck));
 };

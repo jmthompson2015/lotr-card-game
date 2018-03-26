@@ -1,4 +1,4 @@
-import ArrayAugments from "../../common/js/ArrayAugments.js";
+import ArrayUtilities from "../../common/js/ArrayUtilities.js";
 import InputValidator from "../../common/js/InputValidator.js";
 import CardResolver from "../../artifact/js/CardResolver.js";
 import CardType from "../../artifact/js/CardType.js";
@@ -19,8 +19,8 @@ var PassageThroughMirkwoodDeckBuilder = new ScenarioDeckBuilder(Scenario.PASSAGE
       var questKeys = QuestCard.keysByScenario(Scenario.PASSAGE_THROUGH_MIRKWOOD);
 
       // Choose one of the 3B paths randomly.
-      var removeMe = [QuestCard.PTM3B1_BEORNS_PATH, QuestCard.PTM3B2_DONT_LEAVE_THE_PATH].lotrRandomElement();
-      questKeys.lotrRemove(removeMe);
+      var removeMe = ArrayUtilities.randomElement([QuestCard.PTM3B1_BEORNS_PATH, QuestCard.PTM3B2_DONT_LEAVE_THE_PATH]);
+      questKeys = ArrayUtilities.remove(questKeys, removeMe);
 
       return questKeys.map(function(cardKey)
       {

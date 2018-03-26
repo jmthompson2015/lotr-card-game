@@ -158,7 +158,7 @@ class FilterUI extends React.Component
 
          if (oldFilter)
          {
-            initialValues.lotrAddAll(oldFilter.values());
+            initialValues = initialValues.concat(oldFilter.values());
          }
 
          var label = ReactDOMFactories.span(
@@ -278,19 +278,19 @@ class FilterUI extends React.Component
          switch (column.key)
          {
             case "sphereKey":
-               values.lotrAddAll(this.state.sphereValues);
+               values = values.concat(this.state.sphereValues);
                break;
             case "cardTypeKey":
-               values.lotrAddAll(this.state.cardTypeValues);
+               values = values.concat(this.state.cardTypeValues);
                break;
             case "cardSetKey":
-               values.lotrAddAll(this.state.cardSetValues);
+               values = values.concat(this.state.cardSetValues);
                break;
             case "cardSubsetKey":
-               values.lotrAddAll(this.state.cardSubsetValues);
+               values = values.concat(this.state.cardSubsetValues);
                break;
             case "isImplemented":
-               values.lotrAddAll(this.state.isImplementedValues);
+               values = values.concat(this.state.isImplementedValues);
                break;
             default:
                throw "Unknown entity column: " + column.key;
@@ -323,7 +323,7 @@ class FilterUI extends React.Component
       var entityType = event.target.dataset.entitytype;
       LOGGER.debug("entityType = " + entityType);
       var values = [];
-      values.lotrAddAll(selected);
+      values = values.concat(selected);
 
       switch (entityType)
       {

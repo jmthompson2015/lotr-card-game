@@ -1,4 +1,4 @@
-import MathAugments from "../../common/js/MathAugments.js";
+import MathUtilities from "../../common/js/MathUtilities.js";
 
 import CardSet from "../../artifact/js/CardSet.js";
 import CardSubset from "../../artifact/js/CardSubset.js";
@@ -57,7 +57,7 @@ PlayerDeckUI.createRowData = (card) =>
    let isImplemented = (card.isImplemented !== undefined ? card.isImplemented : false);
    let sumStats = ["willpower", "attack", "defense", "hitPoints"].reduce((accumulator, key) => accumulator + (card[key] !== undefined ? card[key] : 0), 0);
    let cost = (card.cardTypeKey === CardType.HERO ? card.threatCost : card.cost);
-   let ratioSumStatsCost = (cost !== 0 ? Math.lotrRound(sumStats / cost, 4) : "");
+   let ratioSumStatsCost = (cost !== 0 ? MathUtilities.round(sumStats / cost, 4) : "");
 
    return (
    {

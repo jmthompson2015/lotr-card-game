@@ -1,8 +1,9 @@
 import Logger from "../../../src/common/js/Logger.js";
 
-import ArrayAugmentsTest from "../js/ArrayAugmentsTest.js";
+import ArrayUtilitiesTest from "../js/ArrayUtilitiesTest.js";
 import InputValidatorTest from "../js/InputValidatorTest.js";
-import MathAugmentsTest from "../js/MathAugmentsTest.js";
+import MathUtilitiesTest from "../js/MathUtilitiesTest.js";
+import ObjectUtilitiesTest from "../js/ObjectUtilitiesTest.js";
 import TimePrinterTest from "../js/TimePrinterTest.js";
 
 window.LOGGER = new Logger();
