@@ -27,16 +27,16 @@ QUnit.test("doIt()", function(assert)
    store.dispatch(Action.drawEncounterCard(dolGuldurOrcsIndex));
    var blackForestBatsIndex = findIndex(environment, EnemyCard.BLACK_FOREST_BATS_PTM);
    store.dispatch(Action.drawEncounterCard(blackForestBatsIndex));
-   assert.equal(environment.stagingArea().size, 6);
-   assert.equal(store.getState().agentEngagementArea.get(agent1.id()), undefined);
-   assert.equal(store.getState().agentEngagementArea.get(agent2.id()), undefined);
+   assert.equal(environment.stagingArea().length, 6);
+   assert.equal(store.getState().agentEngagementArea[agent1.id()], undefined);
+   assert.equal(store.getState().agentEngagementArea[agent2.id()], undefined);
    var task = new EncounterTask(store, delay);
    var callback = function()
    {
       // Verify.
-      assert.equal(environment.stagingArea().size, 3);
-      assert.equal(store.getState().agentEngagementArea.get(agent1.id()).size, 2);
-      assert.equal(store.getState().agentEngagementArea.get(agent2.id()).size, 1);
+      assert.equal(environment.stagingArea().length, 3);
+      assert.equal(store.getState().agentEngagementArea[agent1.id()].length, 2);
+      assert.equal(store.getState().agentEngagementArea[agent2.id()].length, 1);
       done();
    };
 

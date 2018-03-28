@@ -17,14 +17,14 @@ QUnit.test("doIt()", function(assert)
    var environment = game.engine().environment();
    var store = environment.store();
    var agent1 = environment.agentQueue()[0];
-   var cardInstance = environment.stagingArea().get(0);
+   var cardInstance = environment.stagingArea()[0];
    store.dispatch(Action.agentEngageCard(agent1, cardInstance));
-   assert.equal(store.getState().agentEngagementArea.get(agent1.id()).size, 1);
+   assert.equal(store.getState().agentEngagementArea[agent1.id()].length, 1);
    var task = new CombatTask(store, delay);
    var callback = function()
    {
       // Verify.
-      assert.equal(store.getState().agentEngagementArea.get(agent1.id()).size, 1);
+      assert.equal(store.getState().agentEngagementArea[agent1.id()].length, 1);
       done();
    };
 

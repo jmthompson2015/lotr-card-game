@@ -7,180 +7,240 @@ CardReducer.reduce = function(state, action)
    LOGGER.debug("CardReducer.root() type = " + action.type);
 
    var cardId;
+   var newCardIsFaceUp, newCardIsQuesting, newCardIsReady, newCardIsUsed, newCardProgress, newCardResources, newCardWounds;
+   var newCardPhaseBonusAttack, newCardPhaseBonusDefense, newCardPhaseBonusHitPoints, newCardPhaseBonusThreat, newCardPhaseBonusWillpower;
    var oldAttachments, oldBonus, oldProgress, oldResources, oldWounds;
 
    switch (action.type)
    {
       case CardAction.ADD_PHASE_BONUS_ATTACK:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardPhaseBonusAttack.get(cardId) !== undefined ? state.cardPhaseBonusAttack.get(cardId) : 0);
+         oldBonus = (state.cardPhaseBonusAttack[cardId] !== undefined ? state.cardPhaseBonusAttack[cardId] : 0);
+         newCardPhaseBonusAttack = Object.assign(
+         {}, state.cardPhaseBonusAttack);
+         newCardPhaseBonusAttack[cardId] = oldBonus + action.value;
          return Object.assign(
          {}, state,
          {
-            cardPhaseBonusAttack: state.cardPhaseBonusAttack.set(cardId, oldBonus + action.value),
+            cardPhaseBonusAttack: newCardPhaseBonusAttack,
          });
       case CardAction.ADD_PHASE_BONUS_DEFENSE:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardPhaseBonusDefense.get(cardId) !== undefined ? state.cardPhaseBonusDefense.get(cardId) : 0);
+         oldBonus = (state.cardPhaseBonusDefense[cardId] !== undefined ? state.cardPhaseBonusDefense[cardId] : 0);
+         newCardPhaseBonusDefense = Object.assign(
+         {}, state.cardPhaseBonusDefense);
+         newCardPhaseBonusDefense[cardId] = oldBonus + action.value;
          return Object.assign(
          {}, state,
          {
-            cardPhaseBonusDefense: state.cardPhaseBonusDefense.set(cardId, oldBonus + action.value),
+            cardPhaseBonusDefense: newCardPhaseBonusDefense,
          });
       case CardAction.ADD_PHASE_BONUS_HIT_POINTS:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardPhaseBonusHitPoints.get(cardId) !== undefined ? state.cardPhaseBonusHitPoints.get(cardId) : 0);
+         oldBonus = (state.cardPhaseBonusHitPoints[cardId] !== undefined ? state.cardPhaseBonusHitPoints[cardId] : 0);
+         newCardPhaseBonusHitPoints = Object.assign(
+         {}, state.cardPhaseBonusHitPoints);
+         newCardPhaseBonusHitPoints[cardId] = oldBonus + action.value;
          return Object.assign(
          {}, state,
          {
-            cardPhaseBonusHitPoints: state.cardPhaseBonusHitPoints.set(cardId, oldBonus + action.value),
+            cardPhaseBonusHitPoints: newCardPhaseBonusHitPoints,
          });
       case CardAction.ADD_PHASE_BONUS_THREAT:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardPhaseBonusThreat.get(cardId) !== undefined ? state.cardPhaseBonusThreat.get(cardId) : 0);
+         oldBonus = (state.cardPhaseBonusThreat[cardId] !== undefined ? state.cardPhaseBonusThreat[cardId] : 0);
+         newCardPhaseBonusThreat = Object.assign(
+         {}, state.cardPhaseBonusThreat);
+         newCardPhaseBonusThreat[cardId] = oldBonus + action.value;
          return Object.assign(
          {}, state,
          {
-            cardPhaseBonusThreat: state.cardPhaseBonusThreat.set(cardId, oldBonus + action.value),
+            cardPhaseBonusThreat: newCardPhaseBonusThreat,
          });
       case CardAction.ADD_PHASE_BONUS_WILLPOWER:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardPhaseBonusWillpower.get(cardId) !== undefined ? state.cardPhaseBonusWillpower.get(cardId) : 0);
+         oldBonus = (state.cardPhaseBonusWillpower[cardId] !== undefined ? state.cardPhaseBonusWillpower[cardId] : 0);
+         newCardPhaseBonusWillpower = Object.assign(
+         {}, state.cardPhaseBonusWillpower);
+         newCardPhaseBonusWillpower[cardId] = oldBonus + action.value;
          return Object.assign(
          {}, state,
          {
-            cardPhaseBonusWillpower: state.cardPhaseBonusWillpower.set(cardId, oldBonus + action.value),
+            cardPhaseBonusWillpower: newCardPhaseBonusWillpower,
          });
       case CardAction.ADD_PROGRESS:
          cardId = action.cardInstance.id();
-         oldProgress = (state.cardProgress.get(cardId) !== undefined ? state.cardProgress.get(cardId) : 0);
+         oldProgress = (state.cardProgress[cardId] !== undefined ? state.cardProgress[cardId] : 0);
+         newCardProgress = Object.assign(
+         {}, state.cardProgress);
+         newCardProgress[cardId] = Math.max(oldProgress + action.value, 0);
          return Object.assign(
          {}, state,
          {
-            cardProgress: state.cardProgress.set(cardId, Math.max(oldProgress + action.value, 0)),
+            cardProgress: newCardProgress,
          });
       case CardAction.ADD_RESOURCES:
          cardId = action.cardInstance.id();
-         oldResources = (state.cardResources.get(cardId) !== undefined ? state.cardResources.get(cardId) : 0);
+         oldResources = (state.cardResources[cardId] !== undefined ? state.cardResources[cardId] : 0);
+         newCardResources = Object.assign(
+         {}, state.cardResources);
+         newCardResources[cardId] = Math.max(oldResources + action.value, 0);
          return Object.assign(
          {}, state,
          {
-            cardResources: state.cardResources.set(cardId, Math.max(oldResources + action.value, 0)),
+            cardResources: newCardResources,
          });
       case CardAction.ADD_ROUND_BONUS_ATTACK:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardRoundBonusAttack.get(cardId) !== undefined ? state.cardRoundBonusAttack.get(cardId) : 0);
+         oldBonus = (state.cardRoundBonusAttack[cardId] !== undefined ? state.cardRoundBonusAttack[cardId] : 0);
          return Object.assign(
          {}, state,
          {
-            cardRoundBonusAttack: state.cardRoundBonusAttack.set(cardId, oldBonus + action.value),
+            cardRoundBonusAttack: Object.assign(
+            {}, state.cardRoundBonusAttack)[cardId] = oldBonus + action.value,
          });
       case CardAction.ADD_ROUND_BONUS_DEFENSE:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardRoundBonusDefense.get(cardId) !== undefined ? state.cardRoundBonusDefense.get(cardId) : 0);
+         oldBonus = (state.cardRoundBonusDefense[cardId] !== undefined ? state.cardRoundBonusDefense[cardId] : 0);
          return Object.assign(
          {}, state,
          {
-            cardRoundBonusDefense: state.cardRoundBonusDefense.set(cardId, oldBonus + action.value),
+            cardRoundBonusDefense: Object.assign(
+            {}, state.cardRoundBonusDefense)[cardId] = oldBonus + action.value,
          });
       case CardAction.ADD_ROUND_BONUS_HIT_POINTS:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardRoundBonusHitPoints.get(cardId) !== undefined ? state.cardRoundBonusHitPoints.get(cardId) : 0);
+         oldBonus = (state.cardRoundBonusHitPoints[cardId] !== undefined ? state.cardRoundBonusHitPoints[cardId] : 0);
          return Object.assign(
          {}, state,
          {
-            cardRoundBonusHitPoints: state.cardRoundBonusHitPoints.set(cardId, oldBonus + action.value),
+            cardRoundBonusHitPoints: Object.assign(
+            {}, state.cardRoundBonusHitPoints)[cardId] = oldBonus + action.value,
          });
       case CardAction.ADD_ROUND_BONUS_THREAT:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardRoundBonusThreat.get(cardId) !== undefined ? state.cardRoundBonusThreat.get(cardId) : 0);
+         oldBonus = (state.cardRoundBonusThreat[cardId] !== undefined ? state.cardRoundBonusThreat[cardId] : 0);
          return Object.assign(
          {}, state,
          {
-            cardRoundBonusThreat: state.cardRoundBonusThreat.set(cardId, oldBonus + action.value),
+            cardRoundBonusThreat: Object.assign(
+            {}, state.cardRoundBonusThreat)[cardId] = oldBonus + action.value,
          });
       case CardAction.ADD_ROUND_BONUS_WILLPOWER:
          cardId = action.cardInstance.id();
-         oldBonus = (state.cardRoundBonusWillpower.get(cardId) !== undefined ? state.cardRoundBonusWillpower.get(cardId) : 0);
+         oldBonus = (state.cardRoundBonusWillpower[cardId] !== undefined ? state.cardRoundBonusWillpower[cardId] : 0);
          return Object.assign(
          {}, state,
          {
-            cardRoundBonusWillpower: state.cardRoundBonusWillpower.set(cardId, oldBonus + action.value),
+            cardRoundBonusWillpower: Object.assign(
+            {}, state.cardRoundBonusWillpower)[cardId] = oldBonus + action.value,
          });
       case CardAction.ADD_WOUNDS:
          cardId = action.cardInstance.id();
-         oldWounds = (state.cardWounds.get(cardId) !== undefined ? state.cardWounds.get(cardId) : 0);
+         oldWounds = (state.cardWounds[cardId] !== undefined ? state.cardWounds[cardId] : 0);
+         newCardWounds = Object.assign(
+         {}, state.cardWounds);
+         newCardWounds[cardId] = Math.max(oldWounds + action.value, 0);
          return Object.assign(
          {}, state,
          {
-            cardWounds: state.cardWounds.set(cardId, Math.max(oldWounds + action.value, 0)),
+            cardWounds: newCardWounds,
          });
       case CardAction.ATTACH:
          LOGGER.info("Attach: " + action.attachmentInstance + " to " + action.cardInstance);
          cardId = action.cardInstance.id();
-         oldAttachments = (state.cardAttachments.get(cardId) !== undefined ? state.cardAttachments.get(cardId) : Immutable.List());
+         oldAttachments = (state.cardAttachments[cardId] !== undefined ? state.cardAttachments[cardId] : []);
          return Object.assign(
          {}, state,
          {
-            cardAttachments: state.cardAttachments.set(cardId, oldAttachments.push(action.attachmentInstance.id())),
+            cardAttachments: Object.assign(
+            {}, state.cardAttachments)[cardId] = oldAttachments.push(action.attachmentInstance.id()),
          });
       case CardAction.CLEAR_PHASE_BONUSES:
          // LOGGER.info("CLEAR_PHASE_BONUSES");
          return Object.assign(
          {}, state,
          {
-            cardPhaseBonusThreat: Immutable.Map(),
-            cardPhaseBonusWillpower: Immutable.Map(),
-            cardPhaseBonusAttack: Immutable.Map(),
-            cardPhaseBonusDefense: Immutable.Map(),
-            cardPhaseBonusHitPoints: Immutable.Map(),
+            cardPhaseBonusThreat:
+            {},
+            cardPhaseBonusWillpower:
+            {},
+            cardPhaseBonusAttack:
+            {},
+            cardPhaseBonusDefense:
+            {},
+            cardPhaseBonusHitPoints:
+            {},
          });
       case CardAction.CLEAR_ROUND_BONUSES:
          // LOGGER.info("CLEAR_ROUND_BONUSES");
          return Object.assign(
          {}, state,
          {
-            cardRoundBonusThreat: Immutable.Map(),
-            cardRoundBonusWillpower: Immutable.Map(),
-            cardRoundBonusAttack: Immutable.Map(),
-            cardRoundBonusDefense: Immutable.Map(),
-            cardRoundBonusHitPoints: Immutable.Map(),
+            cardRoundBonusThreat:
+            {},
+            cardRoundBonusWillpower:
+            {},
+            cardRoundBonusAttack:
+            {},
+            cardRoundBonusDefense:
+            {},
+            cardRoundBonusHitPoints:
+            {},
          });
       case CardAction.DELETE_FACE_UP:
+         newCardIsFaceUp = Object.assign(
+         {}, state.cardIsFaceUp);
+         delete newCardIsFaceUp[action.cardInstance.id()];
          return Object.assign(
          {}, state,
          {
-            cardIsFaceUp: state.cardIsFaceUp.delete(action.cardInstance.id()),
+            cardIsFaceUp: newCardIsFaceUp,
          });
       case CardAction.DELETE_PROGRESS:
+         newCardProgress = Object.assign(
+         {}, state.cardProgress);
+         delete newCardProgress[action.cardInstance.id()];
          return Object.assign(
          {}, state,
          {
-            cardProgress: state.cardProgress.delete(action.cardInstance.id()),
+            cardProgress: newCardProgress,
          });
       case CardAction.DELETE_QUESTING:
+         newCardIsQuesting = Object.assign(
+         {}, state.cardIsQuesting);
+         delete newCardIsQuesting[action.cardInstance.id()];
          return Object.assign(
          {}, state,
          {
-            cardIsQuesting: state.cardIsQuesting.delete(action.cardInstance.id()),
+            cardIsQuesting: newCardIsQuesting,
          });
       case CardAction.DELETE_READY:
+         newCardIsReady = Object.assign(
+         {}, state.cardIsReady);
+         delete newCardIsReady[action.cardInstance.id()];
          return Object.assign(
          {}, state,
          {
-            cardIsReady: state.cardIsReady.delete(action.cardInstance.id()),
+            cardIsReady: newCardIsReady,
          });
       case CardAction.DELETE_RESOURCES:
+         newCardResources = Object.assign(
+         {}, state.cardResources);
+         delete newCardResources[action.cardInstance.id()];
          return Object.assign(
          {}, state,
          {
-            cardResources: state.cardResources.delete(action.cardInstance.id()),
+            cardResources: newCardResources,
          });
       case CardAction.DELETE_WOUNDS:
+         newCardWounds = Object.assign(
+         {}, state.cardWounds);
+         delete newCardWounds[action.cardInstance.id()];
          return Object.assign(
          {}, state,
          {
-            cardWounds: state.cardWounds.delete(action.cardInstance.id()),
+            cardWounds: newCardWounds,
          });
       case CardAction.INCREMENT_NEXT_CARD_ID:
          return Object.assign(
@@ -189,46 +249,67 @@ CardReducer.reduce = function(state, action)
             nextCardId: state.nextCardId + 1,
          });
       case CardAction.SET_FACE_UP:
+         newCardIsFaceUp = Object.assign(
+         {}, state.cardIsFaceUp);
+         newCardIsFaceUp[action.cardInstance.id()] = action.isFaceUp;
          return Object.assign(
          {}, state,
          {
-            cardIsFaceUp: state.cardIsFaceUp.set(action.cardInstance.id(), action.isFaceUp),
+            cardIsFaceUp: newCardIsFaceUp,
          });
       case CardAction.SET_PROGRESS:
+         newCardProgress = Object.assign(
+         {}, state.cardProgress);
+         newCardProgress[action.cardInstance.id()] = action.value;
          return Object.assign(
          {}, state,
          {
-            cardProgress: state.cardProgress.set(action.cardInstance.id(), action.value),
+            cardProgress: newCardProgress,
          });
       case CardAction.SET_QUESTING:
+         newCardIsQuesting = Object.assign(
+         {}, state.cardIsQuesting);
+         newCardIsQuesting[action.cardInstance.id()] = action.isQuesting;
          return Object.assign(
          {}, state,
          {
-            cardIsQuesting: state.cardIsQuesting.set(action.cardInstance.id(), action.isQuesting),
+            cardIsQuesting: newCardIsQuesting,
          });
       case CardAction.SET_READY:
+         newCardIsReady = Object.assign(
+         {}, state.cardIsReady);
+         newCardIsReady[action.cardInstance.id()] = action.isReady;
          return Object.assign(
          {}, state,
          {
-            cardIsReady: state.cardIsReady.set(action.cardInstance.id(), action.isReady),
+            cardIsReady: newCardIsReady,
          });
       case CardAction.SET_RESOURCES:
+         newCardResources = Object.assign(
+         {}, state.cardResources);
+         newCardResources[action.cardInstance.id()] = action.value;
          return Object.assign(
          {}, state,
          {
-            cardResources: state.cardResources.set(action.cardInstance.id(), action.value),
+            cardResources: newCardResources,
          });
       case CardAction.SET_USED:
+         newCardIsUsed = Object.assign(
+         {}, state.cardIsUsed);
+         newCardIsUsed[action.cardInstance.id()] = action.isUsed;
          return Object.assign(
          {}, state,
          {
-            cardIsUsed: state.cardIsUsed.set(action.cardInstance.id(), action.isUsed),
+            cardIsUsed: newCardIsUsed,
          });
       case CardAction.SET_WOUNDS:
+         newCardWounds = Object.assign(
+         {}, state.cardWounds);
+         newCardWounds[action.cardInstance.id()] = action.value;
          return Object.assign(
          {}, state,
          {
-            cardWounds: state.cardWounds.set(action.cardInstance.id(), action.value),
+            cardWounds: newCardWounds,
          });
       default:
          LOGGER.warn("CardReducer.root: Unhandled action type: " + action.type);

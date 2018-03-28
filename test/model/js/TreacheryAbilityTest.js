@@ -54,7 +54,7 @@ QUnit.test("consequent() Old Wives' Tales", function(assert)
    var environment = createEnvironment(scenarioKey);
    var store = environment.store();
    var agent1 = environment.firstAgent();
-   var cardInstance = agent1.tableauHeroes().get(0);
+   var cardInstance = agent1.tableauHeroes()[0];
    store.dispatch(CardAction.addResources(cardInstance));
    assert.equal(cardInstance.resources(), 1);
    var context = {

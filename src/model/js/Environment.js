@@ -70,10 +70,10 @@ Environment.prototype.agentQueue = function()
       return agent.id();
    });
 
-   var firstAgentId = (store.getState().firstAgentId ? store.getState().firstAgentId : agents.get(0).id());
+   var firstAgentId = (store.getState().firstAgentId ? store.getState().firstAgentId : agents[0].id());
    var index = agentIds.indexOf(firstAgentId);
 
-   return ArrayUtilities.rotate(agents.toJS(), index);
+   return ArrayUtilities.rotate(agents, index);
 };
 
 Environment.prototype.agentWhoControls = function(cardInstance)
@@ -85,7 +85,7 @@ Environment.prototype.agentWhoControls = function(cardInstance)
    for (var i = 0; i < agents.length && answer === undefined; i++)
    {
       var agent = agents[i];
-      var tableau = store.getState().agentTableau.get(agent.id());
+      var tableau = store.getState().agentTableau[agent.id()];
 
       if (tableau.includes(cardInstance.id()))
       {
@@ -95,7 +95,7 @@ Environment.prototype.agentWhoControls = function(cardInstance)
 
       if (answer === undefined)
       {
-         var engagementArea = store.getState().agentEngagementArea.get(agent.id());
+         var engagementArea = store.getState().agentEngagementArea[agent.id()];
 
          if (engagementArea && engagementArea.includes(cardInstance.id()))
          {
@@ -112,9 +112,9 @@ Environment.prototype.agents = function()
    var store = this.store();
    var agentValues = store.getState().agents;
 
-   return agentValues.valueSeq().map(function(values)
+   return Object.values(agentValues).map(function(values)
    {
-      var id = values.get("id");
+      var id = parseInt(values.id);
 
       return Agent.get(store, id);
    });
@@ -138,14 +138,14 @@ Environment.prototype.cardsInPlay = function()
       answer.push(activeLocation);
    }
 
-   answer = answer.concat(this.stagingArea().toJS());
+   answer = answer.concat(this.stagingArea());
 
    var agents = this.agents();
 
    agents.forEach(function(agent)
    {
-      answer = answer.concat(agent.tableau().toJS());
-      answer = answer.concat(agent.engagementArea().toJS());
+      answer = answer.concat(agent.tableau());
+      answer = answer.concat(agent.engagementArea());
    });
 
    return answer;
@@ -158,7 +158,7 @@ Environment.prototype.charactersInPlay = function()
 
    agents.forEach(function(agent)
    {
-      answer = answer.concat(agent.tableauCharacters().toJS());
+      answer = answer.concat(agent.tableauCharacters());
    });
 
    return answer;
@@ -187,7 +187,7 @@ Environment.prototype.engagedEnemies = function()
 
    agents.forEach(function(agent)
    {
-      answer = answer.concat(agent.engagementArea().toJS());
+      answer = answer.concat(agent.engagementArea());
    });
 
    return answer;
@@ -208,17 +208,17 @@ Environment.prototype.firstCardInstance = function(cardKey)
    var answer;
    var store = this.store();
    var cardInstances = store.getState().cardInstances;
-   var keys = cardInstances.keySeq().toArray();
+   var keys = Object.keys(cardInstances);
    var cardCount = keys.length;
 
    for (var i = 0; i < cardCount; i++)
    {
       var key = keys[i];
-      var values = cardInstances.get(key);
+      var values = cardInstances[key];
 
-      if (values.get("cardKey") === cardKey)
+      if (values.cardKey === cardKey)
       {
-         answer = CardInstance.get(store, values.get("id"));
+         answer = CardInstance.get(store, values.id);
          break;
       }
    }
@@ -237,11 +237,11 @@ Environment.prototype.questDeck = function()
 Environment.prototype.questers = function()
 {
    var store = this.store();
-   var allIds = Immutable.List(store.getState().cardIsQuesting.keySeq().toArray());
+   var allIds = Object.keys(store.getState().cardIsQuesting).map(id => parseInt(id));
 
    var ids = allIds.filter(function(id)
    {
-      return store.getState().cardIsQuesting.get(id) === true;
+      return store.getState().cardIsQuesting[id] === true;
    });
 
    return CardInstance.idsToCardInstances(store, ids);
@@ -308,6 +308,7 @@ Environment.prototype.advanceTheQuest = function(callback)
 
    store.dispatch(Action.drawQuestCard());
    questInstance = this.activeQuest();
+   LOGGER.debug("Environment.advanceTheQuest() questInstance = " + questInstance);
    store.dispatch(Action.enqueueEvent(GameEvent.QUEST_CARD_DRAWN,
    {
       cardInstance: questInstance,
@@ -325,7 +326,7 @@ Environment.prototype.drawEncounterCard = function(cardKey)
 
    if (index >= 0)
    {
-      var cardInstance = encounterDeck.get(index);
+      var cardInstance = encounterDeck[index];
       store.dispatch(Action.drawEncounterCard(index));
       store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED,
       {
@@ -349,7 +350,7 @@ Environment.prototype.encounterToAgentTableau = function(agent, cardKey)
 
    if (index >= 0)
    {
-      var cardInstance = encounterDeck.get(index);
+      var cardInstance = encounterDeck[index];
       store.dispatch(Action.encounterToAgentTableau(agent, cardInstance));
    }
 };
@@ -365,7 +366,7 @@ Environment.prototype.encounterToSetAside = function(cardKey)
 
    if (index >= 0)
    {
-      var cardInstance = encounterDeck.get(index);
+      var cardInstance = encounterDeck[index];
       store.dispatch(Action.encounterToSetAside(cardInstance));
    }
 };
@@ -381,14 +382,14 @@ Environment.prototype.setAsideToEncounterDeck = function(cardKey)
 
    if (index >= 0)
    {
-      var cardInstance = encounterSetAside.get(index);
+      var cardInstance = encounterSetAside[index];
       store.dispatch(Action.setAsideToEncounterDeck(cardInstance));
    }
 };
 
 Environment.prototype.shuffleEncounterDeck = function()
 {
-   var encounterDeck = this.encounterDeck().toJS();
+   var encounterDeck = this.encounterDeck();
    encounterDeck = ArrayUtilities.shuffle(encounterDeck);
    var store = this.store();
    store.dispatch(Action.setEncounterDeck(encounterDeck));

@@ -27,11 +27,11 @@ CombatAttackTask.prototype.doIt = function(callback)
    var enemies = agent.engagementArea();
    LOGGER.debug("CombatAttackTask enemies = " + enemies);
 
-   if (enemies.size === 1)
+   if (enemies.length === 1)
    {
-      this.declareAttackers(enemies.first(), callback);
+      this.declareAttackers(enemies[0], callback);
    }
-   else if (enemies.size > 1)
+   else if (enemies.length > 1)
    {
       var declareAttackersFunction = this.declareAttackers.bind(this);
       var myCallback = function(defender)
@@ -39,7 +39,7 @@ CombatAttackTask.prototype.doIt = function(callback)
          declareAttackersFunction(defender, callback);
       };
 
-      agent.chooseEnemyDefender(enemies.toJS(), myCallback);
+      agent.chooseEnemyDefender(enemies, myCallback);
    }
    else
    {
@@ -58,7 +58,7 @@ CombatAttackTask.prototype.declareAttackers = function(defender, callback)
       var characters = agent.attackers();
       LOGGER.debug("CombatAttackTask characters = " + characters);
 
-      if (characters.size > 0)
+      if (characters.length > 0)
       {
          var determineAttackStrengthFunction = this.determineAttackStrength.bind(this);
          var myCallback = function(attackers)
@@ -66,7 +66,7 @@ CombatAttackTask.prototype.declareAttackers = function(defender, callback)
             determineAttackStrengthFunction(attackers, defender, callback);
          };
 
-         agent.chooseCharacterAttackers(characters.toJS(), defender, myCallback);
+         agent.chooseCharacterAttackers(characters, defender, myCallback);
       }
       else
       {

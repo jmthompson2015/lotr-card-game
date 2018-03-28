@@ -14,9 +14,9 @@ QUnit.test("doIt()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent1 = environment.agents().get(0);
+   var agent1 = environment.agents()[0];
    var enemies = environment.stagingEnemies();
-   var enemy = enemies.first();
+   var enemy = enemies[0];
    store.dispatch(Action.agentEngageCard(agent1, enemy));
    store.dispatch(Action.dealShadowCard(enemy));
    var task = new CombatDefendTask(store, agent1);
@@ -24,8 +24,8 @@ QUnit.test("doIt()", function(assert)
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(store.getState().encounterDiscard.size, 0);
-      assert.ok(store.getState().cardShadowCards.size > 0);
+      assert.equal(store.getState().encounterDiscard.length, 0);
+      assert.ok(Object.keys(store.getState().cardShadowCards).length > 0);
       done();
    };
 
@@ -42,13 +42,13 @@ function createGame()
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    return new Game(store, scenarioDeck, playerData);

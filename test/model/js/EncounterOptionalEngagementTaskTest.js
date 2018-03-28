@@ -15,19 +15,19 @@ QUnit.test("doIt()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent1 = environment.agents().get(0);
-   var agent2 = environment.agents().get(1);
-   assert.equal(environment.stagingArea().size, 2);
-   assert.equal(agent1.engagementArea().size, 0);
-   assert.equal(agent2.engagementArea().size, 0);
+   var agent1 = environment.agents()[0];
+   var agent2 = environment.agents()[1];
+   assert.equal(environment.stagingArea().length, 2);
+   assert.equal(agent1.engagementArea().length, 0);
+   assert.equal(agent2.engagementArea().length, 0);
    var task = new EncounterOptionalEngagementTask(store, agent1);
    var callback = function()
    {
       // Verify.
       // Agent doesn't optionally engage.
-      assert.equal(environment.stagingArea().size, 2);
-      assert.equal(agent1.engagementArea().size, 0);
-      assert.equal(agent2.engagementArea().size, 0);
+      assert.equal(environment.stagingArea().length, 2);
+      assert.equal(agent1.engagementArea().length, 0);
+      assert.equal(agent2.engagementArea().length, 0);
    };
 
    // Run.

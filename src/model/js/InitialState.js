@@ -8,60 +8,60 @@ function InitialState()
    this.delay = 1000;
    this.environment = undefined;
    this.eventData = undefined;
-   this.eventQueue = Immutable.List();
+   this.eventQueue = [];
    this.firstAgentId = undefined;
    this.nextAgentId = 1;
    this.nextCardId = 1;
    this.phaseData = undefined;
    this.phaseKey = Phase.SETUP;
-   this.phaseQueue = Immutable.List();
+   this.phaseQueue = [];
    this.resourceBase = "view/resource/";
    this.round = 0;
    this.scenarioKey = undefined;
    this.userMessage = "";
 
    // cardInstance IDs.
-   this.encounterDeck = Immutable.List();
-   this.encounterDiscard = Immutable.List();
-   this.encounterSetAside = Immutable.List();
-   this.questDeck = Immutable.List();
-   this.questDiscard = Immutable.List();
-   this.stagingArea = Immutable.List();
+   this.encounterDeck = [];
+   this.encounterDiscard = [];
+   this.encounterSetAside = [];
+   this.questDeck = [];
+   this.questDiscard = [];
+   this.stagingArea = [];
 
    // id: agent
-   this.agents = Immutable.Map();
+   this.agents = {};
 
    // agent id: cardInstances
-   this.agentEngagementArea = Immutable.Map();
-   this.agentHand = Immutable.Map();
-   this.agentPlayerDeck = Immutable.Map();
-   this.agentPlayerDiscard = Immutable.Map();
-   this.agentTableau = Immutable.Map();
-   this.agentThreat = Immutable.Map();
+   this.agentEngagementArea = {};
+   this.agentHand = {};
+   this.agentPlayerDeck = {};
+   this.agentPlayerDiscard = {};
+   this.agentTableau = {};
+   this.agentThreat = {};
 
    // id: cardInstance
-   this.cardInstances = Immutable.Map();
+   this.cardInstances = {};
 
    // cardInstance IDs.
-   this.cardAttachments = Immutable.Map();
-   this.cardIsFaceUp = Immutable.Map();
-   this.cardIsQuesting = Immutable.Map();
-   this.cardIsReady = Immutable.Map();
-   this.cardIsUsed = Immutable.Map();
-   this.cardPhaseBonusAttack = Immutable.Map();
-   this.cardPhaseBonusDefense = Immutable.Map();
-   this.cardPhaseBonusHitPoints = Immutable.Map();
-   this.cardPhaseBonusThreat = Immutable.Map();
-   this.cardPhaseBonusWillpower = Immutable.Map();
-   this.cardProgress = Immutable.Map();
-   this.cardResources = Immutable.Map();
-   this.cardRoundBonusAttack = Immutable.Map();
-   this.cardRoundBonusDefense = Immutable.Map();
-   this.cardRoundBonusHitPoints = Immutable.Map();
-   this.cardRoundBonusThreat = Immutable.Map();
-   this.cardRoundBonusWillpower = Immutable.Map();
-   this.cardShadowCards = Immutable.Map();
-   this.cardWounds = Immutable.Map();
+   this.cardAttachments = {};
+   this.cardIsFaceUp = {};
+   this.cardIsQuesting = {};
+   this.cardIsReady = {};
+   this.cardIsUsed = {};
+   this.cardPhaseBonusAttack = {};
+   this.cardPhaseBonusDefense = {};
+   this.cardPhaseBonusHitPoints = {};
+   this.cardPhaseBonusThreat = {};
+   this.cardPhaseBonusWillpower = {};
+   this.cardProgress = {};
+   this.cardResources = {};
+   this.cardRoundBonusAttack = {};
+   this.cardRoundBonusDefense = {};
+   this.cardRoundBonusHitPoints = {};
+   this.cardRoundBonusThreat = {};
+   this.cardRoundBonusWillpower = {};
+   this.cardShadowCards = {};
+   this.cardWounds = {};
 }
 
 if (Object.freeze)

@@ -20,7 +20,6 @@ Play the game: [LotR Card Game](https://rawgit.com/jmthompson2015/lotr-card-game
 * [Treachery Card Gallery](https://rawgit.com/jmthompson2015/lotr-card-game/master/src/accessory/treachery-card-gallery/TreacheryCardGallery.html)
 
 ## Built With
-* [Immutable](https://facebook.github.io/immutable-js/) - Immutable collections for JavaScript.
 * [QUnit](https://qunitjs.com/) - JavaScript unit testing.
 * [React](http://facebook.github.io/react/) - A JavaScript library for building user interfaces.
 * [ReactRedux](https://github.com/reactjs/react-redux) - Official React bindings for Redux.

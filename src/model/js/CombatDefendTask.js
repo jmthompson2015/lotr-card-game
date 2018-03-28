@@ -38,7 +38,7 @@ CombatDefendTask.prototype.doIt = function(callback)
 
    // 1. Choose an enemy.
    var agent = this.agent();
-   this.queue(agent.engagementArea().toJS());
+   this.queue(agent.engagementArea());
    this.processQueue(callback);
 };
 
@@ -77,7 +77,7 @@ CombatDefendTask.prototype.declareDefender = function(attacker, callback)
    var characters = agent.defenders();
    LOGGER.debug("CombatDefendTask characters = " + characters);
 
-   if (characters.size > 0)
+   if (characters.length > 0)
    {
       var resolveShadowEffectFunction = this.resolveShadowEffect.bind(this);
       var myCallback = function(defender)
@@ -85,7 +85,7 @@ CombatDefendTask.prototype.declareDefender = function(attacker, callback)
          resolveShadowEffectFunction(attacker, defender, callback);
       };
 
-      agent.chooseCharacterDefender(attacker, characters.toJS(), myCallback);
+      agent.chooseCharacterDefender(attacker, characters, myCallback);
    }
    else
    {
@@ -107,7 +107,7 @@ CombatDefendTask.prototype.resolveShadowEffect = function(attacker, defender, ca
    // 3. Resolve shadow effect, if any.
    var shadowCards = attacker.shadowCards();
 
-   if (shadowCards.size > 0)
+   if (shadowCards.length > 0)
    {
       var determineCombatDamage = this.determineCombatDamage.bind(this);
       var myCallback = function()
@@ -125,7 +125,7 @@ CombatDefendTask.prototype.resolveShadowEffect = function(attacker, defender, ca
       };
       var delay = store.getState().delay;
 
-      var queueProcessor = new QueueProcessor(shadowCards.toJS(), myCallback, elementFunction, undefined, delay);
+      var queueProcessor = new QueueProcessor(shadowCards, myCallback, elementFunction, undefined, delay);
       queueProcessor.processQueue();
    }
    else
@@ -156,7 +156,7 @@ CombatDefendTask.prototype.determineCombatDamage = function(attacker, defender, 
    else
    {
       // Undefended.
-      var heroes = agent.tableauHeroes().toJS();
+      var heroes = agent.tableauHeroes();
       if (heroes.length > 0)
       {
          var finishUndefendedDamageFunction = this.finishUndefendedDamage.bind(this);

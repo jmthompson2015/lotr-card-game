@@ -34,7 +34,7 @@ QUnit.test("CardInstance()", function(assert)
    assert.ok(result);
    assert.equal(result.id(), 1);
    assert.equal(result.card().key, cardKey);
-   assert.equal(store.getState().cardInstances.size, 1);
+   assert.equal(Object.keys(store.getState().cardInstances).length, 1);
 });
 
 QUnit.test("attack() Chieftain Ufthak", function(assert)
@@ -112,7 +112,7 @@ QUnit.test("bonusAttack() Gimli + Dwarven Axe", function(assert)
    var agent4 = environment.agentQueue()[3];
    var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
    agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
-   var attachmentInstance = agent4.hand().last();
+   var attachmentInstance = agent4.hand()[agent4.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
@@ -139,7 +139,7 @@ QUnit.test("bonusDefense() Gimli + Dwarven Axe", function(assert)
    var agent4 = environment.agentQueue()[3];
    var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
    agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
-   var attachmentInstance = agent4.hand().last();
+   var attachmentInstance = agent4.hand()[agent4.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
@@ -159,7 +159,7 @@ QUnit.test("bonusHitPoints() Gimli + Dwarven Axe", function(assert)
    var agent4 = environment.agentQueue()[3];
    var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
    agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
-   var attachmentInstance = agent4.hand().last();
+   var attachmentInstance = agent4.hand()[agent4.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
@@ -179,7 +179,7 @@ QUnit.test("bonusWillpower() Gimli + Dwarven Axe", function(assert)
    var agent4 = environment.agentQueue()[3];
    var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
    agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
-   var attachmentInstance = agent4.hand().last();
+   var attachmentInstance = agent4.hand()[agent4.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
 
@@ -197,7 +197,7 @@ QUnit.test("get()", function(assert)
    var cardKey = HeroCard.ARAGORN_CORE;
    var card = HeroCard.properties[cardKey];
    var cardInstance = new CardInstance(store, card);
-   assert.equal(store.getState().cardInstances.size, 1);
+   assert.equal(Object.keys(store.getState().cardInstances).length, 1);
 
    // Run.
    var result = CardInstance.get(store, cardInstance.id());
@@ -206,7 +206,7 @@ QUnit.test("get()", function(assert)
    assert.ok(result);
    assert.equal(result.id(), 1);
    assert.equal(result.card().key, cardKey);
-   assert.equal(store.getState().cardInstances.size, 1);
+   assert.equal(Object.keys(store.getState().cardInstances).length, 1);
 });
 
 QUnit.test("hasAttachment() Gimli + Dwarven Axe", function(assert)
@@ -226,7 +226,7 @@ QUnit.test("hasAttachment() Gimli + Dwarven Axe", function(assert)
 
    // Run.
    agent4.drawPlayerCard(AttachmentCard.DWARVEN_AXE);
-   var attachmentInstance = agent4.hand().last();
+   var attachmentInstance = agent4.hand()[agent4.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent4, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent4, cardInstance, attachmentInstance));
    result = cardInstance.hasAttachment(AttachmentCard.DWARVEN_AXE);
@@ -292,7 +292,7 @@ QUnit.test("shadowCards()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 0);
+   assert.equal(result.length, 0);
 
    store.dispatch(Action.dealShadowCard(cardInstance));
 
@@ -301,7 +301,7 @@ QUnit.test("shadowCards()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 1);
+   assert.equal(result.length, 1);
 });
 
 QUnit.test("sphereKeys() Aragorn", function(assert)
@@ -328,7 +328,7 @@ QUnit.test("sphereKeys() Aragorn with Celebrian's Stone", function(assert)
    var agent1 = environment.agentQueue()[0];
    var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
    agent1.drawPlayerCard(AttachmentCard.CELEBRIANS_STONE);
-   var attachmentInstance = agent1.hand().last();
+   var attachmentInstance = agent1.hand()[agent1.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent1, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent1, cardInstance, attachmentInstance));
 
@@ -351,7 +351,7 @@ QUnit.test("sphereKeys() Gimli with Celebrian's Stone", function(assert)
    var agent1 = environment.agentQueue()[0];
    var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.GIMLI]);
    agent1.drawPlayerCard(AttachmentCard.CELEBRIANS_STONE);
-   var attachmentInstance = agent1.hand().last();
+   var attachmentInstance = agent1.hand()[agent1.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent1, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent1, cardInstance, attachmentInstance));
 
@@ -372,7 +372,7 @@ QUnit.test("threat() The Hunt for Gollum", function(assert)
    var store = environment.store();
    var agent1 = environment.firstAgent();
    agent1.drawPlayerCard(AllyCard.FARAMIR);
-   var cardInstance = agent1.hand().last();
+   var cardInstance = agent1.hand()[agent1.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent1, cardInstance));
    assert.equal(environment.cardsInPlay().length, 14);
    var cardInstance0 = environment.firstCardInstance(LocationCard.THE_OLD_FORD);
@@ -388,9 +388,9 @@ QUnit.test("threat() A Journey to Rhosgobel", function(assert)
    var scenarioKey = Scenario.A_JOURNEY_TO_RHOSGOBEL;
    var environment = createEnvironment(scenarioKey);
    environment.drawEncounterCard(LocationCard.RHOSGOBEL);
-   var cardInstance0 = environment.stagingArea().last();
+   var cardInstance0 = environment.stagingArea()[environment.stagingArea().length - 1];
    environment.drawEncounterCard(ObjectiveCard.ATHELAS);
-   var cardInstance1 = environment.stagingArea().last();
+   var cardInstance1 = environment.stagingArea()[environment.stagingArea().length - 1];
 
    // Run.
    assert.ok(cardInstance0);

@@ -6,7 +6,7 @@ function mapStateToProps(state, ownProps)
    InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
 
    var agent = ownProps.agent;
-   var cardInstances = agent.engagementArea().toJS();
+   var cardInstances = agent.engagementArea();
 
    return (
    {

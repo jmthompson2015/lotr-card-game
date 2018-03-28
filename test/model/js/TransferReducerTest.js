@@ -12,16 +12,16 @@ QUnit.test("drawEncounterCard()", function(assert)
    var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
    var encounterInstance = scenarioDeck.encounterInstances[0];
    store.dispatch(Action.setEncounterDeck(scenarioDeck.encounterInstances));
-   assert.equal(store.getState().encounterDeck.size, 36);
-   assert.equal(store.getState().stagingArea.size, 0);
+   assert.equal(store.getState().encounterDeck.length, 36);
+   assert.equal(store.getState().stagingArea.length, 0);
 
    // Run.
    var result = TransferReducer.reduce(store.getState(), "encounterDeck", undefined, encounterInstance.id(), "stagingArea");
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.encounterDeck.size, 35);
-   assert.equal(result.stagingArea.size, 1);
+   assert.equal(result.encounterDeck.length, 35);
+   assert.equal(result.stagingArea.length, 1);
 });
 
 var TransferReducerTest = {};

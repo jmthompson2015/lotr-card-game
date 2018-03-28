@@ -16,7 +16,7 @@ var game = createGame();
 var store = game.store();
 store.dispatch(Action.setResourceBase(resourceBase));
 var environment = game.engine().environment();
-var cardInstance = environment.stagingArea().get(1);
+var cardInstance = environment.stagingArea()[1];
 store.dispatch(Action.setActiveLocation(cardInstance));
 
 var element = React.createElement(ReactRedux.Provider,

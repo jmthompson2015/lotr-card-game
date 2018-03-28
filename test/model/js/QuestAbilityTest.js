@@ -21,10 +21,10 @@ QUnit.test("consequent() A Journey to Rhosgobel 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.A_JOURNEY_TO_RHOSGOBEL;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 29);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 29);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
-   var agent1 = environment.agents().get(0);
+   var agent1 = environment.agents()[0];
    var context = {
       cardInstance: CardInstance.get(store, 1),
    };
@@ -32,9 +32,9 @@ QUnit.test("consequent() A Journey to Rhosgobel 1A", function(assert)
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 27);
-      assert.equal(environment.stagingArea().size, 1);
-      assert.equal(agent1.tableau().size, 4);
+      assert.equal(environment.encounterDeck().length, 27);
+      assert.equal(environment.stagingArea().length, 1);
+      assert.equal(agent1.tableau().length, 4);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.AJTR1A_THE_WOUNDED_EAGLE];
@@ -49,9 +49,9 @@ QUnit.test("consequent() Conflict at the Carrock 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.CONFLICT_AT_THE_CARROCK;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 53);
-   assert.equal(environment.encounterSetAside().size, 0);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 53);
+   assert.equal(environment.encounterSetAside().length, 0);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
    var context = {
       cardInstance: CardInstance.get(store, 1),
@@ -61,9 +61,9 @@ QUnit.test("consequent() Conflict at the Carrock 1A", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       // 1 location + 4 troll + 4 sacked - 2 sacked = 7 removed
-      assert.equal(environment.encounterDeck().size, 46);
-      assert.equal(environment.encounterSetAside().size, 6);
-      assert.equal(environment.stagingArea().size, 1);
+      assert.equal(environment.encounterDeck().length, 46);
+      assert.equal(environment.encounterSetAside().length, 6);
+      assert.equal(environment.stagingArea().length, 1);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.CATC1A_GRIMBEORNS_QUEST];
@@ -78,9 +78,9 @@ QUnit.test("consequent() Escape from Dol Guldur 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.ESCAPE_FROM_DOL_GULDUR;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 41);
-   assert.equal(environment.encounterSetAside().size, 0);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 41);
+   assert.equal(environment.encounterSetAside().length, 0);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
    var context = {
       cardInstance: CardInstance.get(store, 1),
@@ -89,23 +89,23 @@ QUnit.test("consequent() Escape from Dol Guldur 1A", function(assert)
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 34);
+      assert.equal(environment.encounterDeck().length, 34);
 
       var encounterSetAside = environment.encounterSetAside();
-      assert.equal(encounterSetAside.size, 1);
-      assert.equal(encounterSetAside.first().card().key, EnemyCard.NAZGUL_OF_DOL_GULDUR);
+      assert.equal(encounterSetAside.length, 1);
+      assert.equal(encounterSetAside[0].card().key, EnemyCard.NAZGUL_OF_DOL_GULDUR);
 
       var stagingArea = environment.stagingArea();
-      assert.equal(stagingArea.size, 3);
-      var dungeonTorchInstance = stagingArea.first();
-      var gandalfsMapInstance = stagingArea.get(1);
-      var shadowKeyInstance = stagingArea.last();
+      assert.equal(stagingArea.length, 3);
+      var dungeonTorchInstance = stagingArea[0];
+      var gandalfsMapInstance = stagingArea[1];
+      var shadowKeyInstance = stagingArea[stagingArea.length - 1];
       assert.equal(dungeonTorchInstance.card().key, ObjectiveCard.DUNGEON_TORCH);
-      assert.equal(dungeonTorchInstance.attachments().size, 1);
+      assert.equal(dungeonTorchInstance.attachments().length, 1);
       assert.equal(gandalfsMapInstance.card().key, ObjectiveCard.GANDALFS_MAP);
-      assert.equal(gandalfsMapInstance.attachments().size, 1);
+      assert.equal(gandalfsMapInstance.attachments().length, 1);
       assert.equal(shadowKeyInstance.card().key, ObjectiveCard.SHADOW_KEY);
-      assert.equal(shadowKeyInstance.attachments().size, 1);
+      assert.equal(shadowKeyInstance.attachments().length, 1);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.EFDG1A_THE_NECROMANCERS_TOWER];
@@ -120,16 +120,16 @@ QUnit.test("consequent() Journey Along the Anduin 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.JOURNEY_ALONG_THE_ANDUIN;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 47);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 47);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 45);
-      assert.equal(environment.stagingArea().size, 2);
+      assert.equal(environment.encounterDeck().length, 45);
+      assert.equal(environment.stagingArea().length, 2);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.JATA1A_TO_THE_RIVER];
@@ -151,11 +151,11 @@ QUnit.test("consequent() Passage through Mirkwood 1A", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var encounterDeck = environment.encounterDeck();
-      assert.equal(encounterDeck.size, 34);
+      assert.equal(encounterDeck.length, 34);
       var stagingArea = environment.stagingArea();
-      assert.equal(stagingArea.size, 2);
-      assert.equal(stagingArea.first().card().key, EnemyCard.FOREST_SPIDER);
-      assert.equal(stagingArea.last().card().key, LocationCard.OLD_FOREST_ROAD);
+      assert.equal(stagingArea.length, 2);
+      assert.equal(stagingArea[0].card().key, EnemyCard.FOREST_SPIDER);
+      assert.equal(stagingArea[stagingArea.length - 1].card().key, LocationCard.OLD_FOREST_ROAD);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.PTM1A_FLIES_AND_SPIDERS];
@@ -170,20 +170,20 @@ QUnit.test("consequent() Return to Mirkwood 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.RETURN_TO_MIRKWOOD;
    var environment = createEnvironment(scenarioKey);
-   var agent1 = environment.agents().get(0);
+   var agent1 = environment.agents()[0];
    assert.ok(agent1);
-   assert.equal(environment.encounterDeck().size, 54);
-   assert.equal(environment.stagingArea().size, 0);
-   assert.equal(agent1.tableau().size, 3);
+   assert.equal(environment.encounterDeck().length, 54);
+   assert.equal(environment.stagingArea().length, 0);
+   assert.equal(agent1.tableau().length, 3);
    var store = environment.store();
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 51);
-      assert.equal(environment.stagingArea().size, 2);
-      assert.equal(agent1.tableau().size, 4);
+      assert.equal(environment.encounterDeck().length, 51);
+      assert.equal(environment.stagingArea().length, 2);
+      assert.equal(agent1.tableau().length, 4);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.RTM1A_THROUGH_THE_FOREST];
@@ -198,16 +198,16 @@ QUnit.test("consequent() The Dead Marshes 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.THE_DEAD_MARSHES;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 54);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 54);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 51);
-      assert.equal(environment.stagingArea().size, 3);
+      assert.equal(environment.encounterDeck().length, 51);
+      assert.equal(environment.stagingArea().length, 3);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.TDM1A_INTO_THE_MARSHES];
@@ -222,16 +222,16 @@ QUnit.test("consequent() The Hills of Emyn Muil 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.THE_HILLS_OF_EMYN_MUIL;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 55);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 55);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 53);
-      assert.equal(environment.stagingArea().size, 2);
+      assert.equal(environment.encounterDeck().length, 53);
+      assert.equal(environment.stagingArea().length, 2);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THOEM1A_THE_HILLS_OF_EMYN_MUIL];
@@ -246,16 +246,16 @@ QUnit.test("consequent() The Hunt for Gollum 1A", function(assert)
    // Setup.
    var scenarioKey = Scenario.THE_HUNT_FOR_GOLLUM;
    var environment = createEnvironment(scenarioKey);
-   assert.equal(environment.encounterDeck().size, 48);
-   assert.equal(environment.stagingArea().size, 0);
+   assert.equal(environment.encounterDeck().length, 48);
+   assert.equal(environment.stagingArea().length, 0);
    var store = environment.store();
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(environment.encounterDeck().size, 46);
-      assert.equal(environment.stagingArea().size, 2);
+      assert.equal(environment.encounterDeck().length, 46);
+      assert.equal(environment.stagingArea().length, 2);
       done();
    };
    var ability = QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THFG1A_THE_HUNT_BEGINS];
@@ -274,13 +274,13 @@ function createEnvironment(scenarioKey)
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    var environment = new Environment(store, scenarioDeck, playerData);

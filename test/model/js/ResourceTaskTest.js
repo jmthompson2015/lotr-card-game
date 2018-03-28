@@ -13,22 +13,22 @@ QUnit.test("doIt()", function(assert)
    // Setup.
    var environment = createEnvironment();
    var store = environment.store();
-   var agent = environment.agents().get(0);
+   var agent = environment.agents()[0];
    var task = new ResourceTask(store);
-   var cardResources = store.getState().cardResources.get(agent.id());
+   var cardResources = store.getState().cardResources[agent.id()];
    assert.equal(cardResources, undefined);
-   var agentHand = store.getState().agentHand.get(agent.id());
+   var agentHand = store.getState().agentHand[agent.id()];
    assert.equal(agentHand, undefined);
    var callback = function()
    {
       // Verify.
       agent.tableauHeroes().forEach(function(cardInstance)
       {
-         cardResources = store.getState().cardResources.get(cardInstance.id());
+         cardResources = store.getState().cardResources[cardInstance.id()];
          assert.equal(cardResources, 1);
       });
-      agentHand = store.getState().agentHand.get(agent.id());
-      assert.equal(agentHand.size, 1);
+      agentHand = store.getState().agentHand[agent.id()];
+      assert.equal(agentHand.length, 1);
    };
 
    // Run.
@@ -41,9 +41,9 @@ function createEnvironment()
    var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store, GameMode.EASY);
    var agent = new Agent(store, "agent");
    var playerData = [
-   {
-      agent: agent,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     }, ];
 
    return new Environment(store, scenarioDeck, playerData);

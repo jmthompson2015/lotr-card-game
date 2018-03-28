@@ -3,7 +3,7 @@ import CardInstancesArea from "../../view/js/CardInstancesArea.js";
 function mapStateToProps(state)
 {
    var environment = state.environment;
-   var cardInstances = environment.stagingArea().toJS();
+   var cardInstances = environment.stagingArea();
    var threat = environment.stagingThreat();
 
    return (

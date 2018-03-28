@@ -18,7 +18,7 @@ QUnit.test("doIt()", function(assert)
    store.dispatch(Action.drawEncounterCard());
    store.dispatch(Action.drawEncounterCard());
    store.dispatch(Action.drawEncounterCard());
-   var locationCount = environment.stagingArea(CardType.LOCATION).size;
+   var locationCount = environment.stagingArea(CardType.LOCATION).length;
    var task = new TravelTask(store);
    var callback = function()
    {

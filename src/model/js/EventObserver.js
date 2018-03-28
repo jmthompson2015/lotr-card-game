@@ -44,7 +44,7 @@ EventObserver.observeStore = function(store)
 
 EventObserver.prototype.onChange = function(eventQueue)
 {
-   if (eventQueue.size > 0)
+   if (eventQueue.length > 0)
    {
       var store = this.store();
       store.dispatch(Action.dequeueEvent());
@@ -63,8 +63,8 @@ EventObserver.prototype.chooseAbility = function(eventData)
 {
    InputValidator.validateNotNull("eventData", eventData);
 
-   var eventKey = eventData.get("eventKey");
-   var eventContext = eventData.get("eventContext");
+   var eventKey = eventData.eventKey;
+   var eventContext = eventData.eventContext;
    var store = this.store();
    var cardInstance = (eventContext ? eventContext.cardInstance : undefined);
    var card = (cardInstance ? cardInstance.card() : undefined);
@@ -136,7 +136,7 @@ EventObserver.prototype.finishOnChange = function(eventData)
    var store = this.store();
    store.dispatch(Action.clearEvent());
 
-   var callback = eventData.get("eventCallback");
+   var callback = eventData.eventCallback;
 
    if (callback !== undefined)
    {

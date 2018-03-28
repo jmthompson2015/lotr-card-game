@@ -27,14 +27,14 @@ EncounterOptionalEngagementTask.prototype.doIt = function(callback)
    var environment = store.getState().environment;
    var enemies = environment.stagingArea(CardType.ENEMY);
 
-   if (enemies.size > 0)
+   if (enemies.length > 0)
    {
       var myFinishFunction = this.finish.bind(this);
       var finishCallback = function(enemy)
       {
          myFinishFunction(callback, enemy);
       };
-      agent.chooseOptionalEngagementEnemy(enemies.toJS(), finishCallback);
+      agent.chooseOptionalEngagementEnemy(enemies, finishCallback);
    }
    else
    {

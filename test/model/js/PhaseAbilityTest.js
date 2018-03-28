@@ -19,27 +19,27 @@ QUnit.test("consequent() Quest End", function(assert)
    var environment = createEnvironment(scenarioKey);
    var store = environment.store();
    var agent1 = environment.agentQueue()[0];
-   var cardInstance = agent1.tableau().get(0);
+   var cardInstance = agent1.tableau()[0];
    store.dispatch(CardAction.addPhaseBonusAttack(cardInstance));
    store.dispatch(CardAction.addPhaseBonusDefense(cardInstance));
    store.dispatch(CardAction.addPhaseBonusHitPoints(cardInstance));
    store.dispatch(CardAction.addPhaseBonusThreat(cardInstance));
    store.dispatch(CardAction.addPhaseBonusWillpower(cardInstance));
-   assert.equal(store.getState().cardPhaseBonusAttack.size, 1);
-   assert.equal(store.getState().cardPhaseBonusDefense.size, 1);
-   assert.equal(store.getState().cardPhaseBonusHitPoints.size, 1);
-   assert.equal(store.getState().cardPhaseBonusThreat.size, 1);
-   assert.equal(store.getState().cardPhaseBonusWillpower.size, 1);
+   assert.equal(Object.keys(store.getState().cardPhaseBonusAttack).length, 1);
+   assert.equal(Object.keys(store.getState().cardPhaseBonusDefense).length, 1);
+   assert.equal(Object.keys(store.getState().cardPhaseBonusHitPoints).length, 1);
+   assert.equal(Object.keys(store.getState().cardPhaseBonusThreat).length, 1);
+   assert.equal(Object.keys(store.getState().cardPhaseBonusWillpower).length, 1);
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(store.getState().cardPhaseBonusAttack.size, 0);
-      assert.equal(store.getState().cardPhaseBonusDefense.size, 0);
-      assert.equal(store.getState().cardPhaseBonusHitPoints.size, 0);
-      assert.equal(store.getState().cardPhaseBonusThreat.size, 0);
-      assert.equal(store.getState().cardPhaseBonusWillpower.size, 0);
+      assert.equal(Object.keys(store.getState().cardPhaseBonusAttack).length, 0);
+      assert.equal(Object.keys(store.getState().cardPhaseBonusDefense).length, 0);
+      assert.equal(Object.keys(store.getState().cardPhaseBonusHitPoints).length, 0);
+      assert.equal(Object.keys(store.getState().cardPhaseBonusThreat).length, 0);
+      assert.equal(Object.keys(store.getState().cardPhaseBonusWillpower).length, 0);
       done();
    };
    var ability = PhaseAbility[Phase.QUEST_END][Phase.QUEST_END];

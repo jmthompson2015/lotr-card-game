@@ -6,8 +6,8 @@ function mapStateToProps(state, ownProps)
    InputValidator.validateNotNull("ownProps.cardInstance", ownProps.cardInstance);
 
    var cardInstance = ownProps.cardInstance;
-   var isFaceUp = state.cardIsFaceUp.get(cardInstance.id());
-   var isReady = state.cardIsReady.get(cardInstance.id());
+   var isFaceUp = state.cardIsFaceUp[cardInstance.id()];
+   var isReady = state.cardIsReady[cardInstance.id()];
 
    return (
    {

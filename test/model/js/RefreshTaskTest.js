@@ -17,8 +17,8 @@ QUnit.test("doIt()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent1 = environment.agents().get(0);
-   var agent2 = environment.agents().get(1);
+   var agent1 = environment.agents()[0];
+   var agent2 = environment.agents()[1];
    store.dispatch(AgentAction.drawPlayerCard(agent1));
    store.dispatch(AgentAction.drawPlayerCard(agent1));
    store.dispatch(AgentAction.drawPlayerCard(agent1));

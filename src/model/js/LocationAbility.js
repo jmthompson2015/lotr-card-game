@@ -31,9 +31,9 @@ LocationAbility[GameEvent.TRAVELED][LocationCard.NECROMANCERS_PASS] = {
       {
          var hand = firstAgent.hand();
 
-         if (hand.size > 0)
+         if (hand.length > 0)
          {
-            var cardInstance = ArrayUtilities.randomElement(hand.toJS());
+            var cardInstance = ArrayUtilities.randomElement(hand);
             store.dispatch(AgentAction.discardFromHand(firstAgent, cardInstance));
          }
       }
@@ -93,10 +93,10 @@ LocationAbility[GameEvent.TRAVELED][LocationCard.OLD_FOREST_ROAD] = {
          return cardInstance.isExhausted();
       });
 
-      if (characters.size > 0)
+      if (characters.length > 0)
       {
          // FIXME: agent needs to choose a character.
-         var character = ArrayUtilities.randomElement(characters.toJS());
+         var character = ArrayUtilities.randomElement(characters);
          store.dispatch(CardAction.setReady(character, true));
       }
 

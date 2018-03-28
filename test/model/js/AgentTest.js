@@ -29,70 +29,70 @@ QUnit.test("attackers()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent0 = environment.agents().get(0);
-   var agent1 = environment.agents().get(1);
+   var agent0 = environment.agents()[0];
+   var agent1 = environment.agents()[1];
 
    // Run.
    var result = agent0.attackers();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
+   assert.equal(result.length, 3);
    var i = 0;
-   assert.equal(result.get(i++).card().key, HeroCard.ARAGORN_CORE);
-   assert.equal(result.get(i++).card().key, HeroCard.GLOIN);
-   assert.equal(result.get(i++).card().key, HeroCard.THEODRED);
+   assert.equal(result[i++].card().key, HeroCard.ARAGORN_CORE);
+   assert.equal(result[i++].card().key, HeroCard.GLOIN);
+   assert.equal(result[i++].card().key, HeroCard.THEODRED);
 
    // Run.
    result = agent1.attackers();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
+   assert.equal(result.length, 3);
    i = 0;
-   assert.equal(result.get(i++).card().key, HeroCard.GLORFINDEL_CORE);
-   assert.equal(result.get(i++).card().key, HeroCard.BERAVOR);
-   assert.equal(result.get(i++).card().key, HeroCard.DENETHOR);
+   assert.equal(result[i++].card().key, HeroCard.GLORFINDEL_CORE);
+   assert.equal(result[i++].card().key, HeroCard.BERAVOR);
+   assert.equal(result[i++].card().key, HeroCard.DENETHOR);
 });
 
 QUnit.test("defenders()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent0 = environment.agents().get(0);
-   var agent1 = environment.agents().get(1);
+   var agent0 = environment.agents()[0];
+   var agent1 = environment.agents()[1];
 
    // Run.
    var result = agent0.defenders();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
+   assert.equal(result.length, 3);
    var i = 0;
-   assert.equal(result.get(i++).card().key, HeroCard.ARAGORN_CORE);
-   assert.equal(result.get(i++).card().key, HeroCard.GLOIN);
-   assert.equal(result.get(i++).card().key, HeroCard.THEODRED);
+   assert.equal(result[i++].card().key, HeroCard.ARAGORN_CORE);
+   assert.equal(result[i++].card().key, HeroCard.GLOIN);
+   assert.equal(result[i++].card().key, HeroCard.THEODRED);
 
    // Run.
    result = agent1.defenders();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
+   assert.equal(result.length, 3);
    i = 0;
-   assert.equal(result.get(i++).card().key, HeroCard.DENETHOR);
-   assert.equal(result.get(i++).card().key, HeroCard.BERAVOR);
-   assert.equal(result.get(i++).card().key, HeroCard.GLORFINDEL_CORE);
+   assert.equal(result[i++].card().key, HeroCard.DENETHOR);
+   assert.equal(result[i++].card().key, HeroCard.BERAVOR);
+   assert.equal(result[i++].card().key, HeroCard.GLORFINDEL_CORE);
 });
 
 QUnit.test("hand()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent1 = environment.agents().get(0);
+   var agent1 = environment.agents()[0];
    var store = environment.store();
    store.dispatch(AgentAction.drawPlayerCard(agent1));
-   var agent2 = environment.agents().get(1);
+   var agent2 = environment.agents()[1];
    store.dispatch(AgentAction.drawPlayerCard(agent2));
 
    // Run.
@@ -100,24 +100,24 @@ QUnit.test("hand()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 1);
-   assert.equal(result.get(0).card().sphereKey, Sphere.LEADERSHIP);
+   assert.equal(result.length, 1);
+   assert.equal(result[0].card().sphereKey, Sphere.LEADERSHIP);
 
    // Run.
    result = agent2.hand();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 1);
-   assert.equal(result.get(0).card().sphereKey, Sphere.LORE);
+   assert.equal(result.length, 1);
+   assert.equal(result[0].card().sphereKey, Sphere.LORE);
 });
 
 QUnit.test("playerDeck()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent1 = environment.agents().get(0);
-   var agent2 = environment.agents().get(1);
+   var agent1 = environment.agents()[0];
+   var agent2 = environment.agents()[1];
 
    // Run.
    var result = agent1.playerDeck();
@@ -125,11 +125,11 @@ QUnit.test("playerDeck()", function(assert)
    // Verify.
    assert.ok(result);
    var length = 45;
-   assert.equal(result.size, length);
+   assert.equal(result.length, length);
    var i;
    for (i = 0; i < length; i++)
    {
-      assert.equal(result.get(i).card().sphereKey, Sphere.LEADERSHIP);
+      assert.equal(result[i].card().sphereKey, Sphere.LEADERSHIP);
    }
 
    // Run.
@@ -138,10 +138,10 @@ QUnit.test("playerDeck()", function(assert)
    // Verify.
    assert.ok(result);
    length = 45;
-   assert.equal(result.size, length);
+   assert.equal(result.length, length);
    for (i = 0; i < length; i++)
    {
-      assert.equal(result.get(i).card().sphereKey, Sphere.LORE);
+      assert.equal(result[i].card().sphereKey, Sphere.LORE);
    }
 });
 
@@ -149,80 +149,80 @@ QUnit.test("questers()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent0 = environment.agents().get(0);
-   var agent1 = environment.agents().get(1);
+   var agent0 = environment.agents()[0];
+   var agent1 = environment.agents()[1];
 
    // Run.
    var result = agent0.questers();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
+   assert.equal(result.length, 3);
    var i = 0;
-   assert.equal(result.get(i++).card().key, HeroCard.ARAGORN_CORE);
-   assert.equal(result.get(i++).card().key, HeroCard.GLOIN);
-   assert.equal(result.get(i++).card().key, HeroCard.THEODRED);
+   assert.equal(result[i++].card().key, HeroCard.ARAGORN_CORE);
+   assert.equal(result[i++].card().key, HeroCard.GLOIN);
+   assert.equal(result[i++].card().key, HeroCard.THEODRED);
 
    // Run.
    result = agent1.questers();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
+   assert.equal(result.length, 3);
    i = 0;
-   assert.equal(result.get(i++).card().key, HeroCard.GLORFINDEL_CORE);
-   assert.equal(result.get(i++).card().key, HeroCard.BERAVOR);
-   assert.equal(result.get(i++).card().key, HeroCard.DENETHOR);
+   assert.equal(result[i++].card().key, HeroCard.GLORFINDEL_CORE);
+   assert.equal(result[i++].card().key, HeroCard.BERAVOR);
+   assert.equal(result[i++].card().key, HeroCard.DENETHOR);
 });
 
 QUnit.test("resourceMap()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent1 = environment.agents().get(0);
+   var agent1 = environment.agents()[0];
    var store = environment.store();
    var heroes = agent1.tableauHeroes();
-   store.dispatch(CardAction.addResources(heroes.get(0), 1));
-   store.dispatch(CardAction.addResources(heroes.get(1), 2));
-   store.dispatch(CardAction.addResources(heroes.get(2), 3));
+   store.dispatch(CardAction.addResources(heroes[0], 1));
+   store.dispatch(CardAction.addResources(heroes[1], 2));
+   store.dispatch(CardAction.addResources(heroes[2], 3));
 
    // Run.
    var result = agent1.resourceMap();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.get(Sphere.LEADERSHIP), 6);
-   assert.equal(result.get(Sphere.LORE), 0);
-   assert.equal(result.get(Sphere.SPIRIT), 0);
-   assert.equal(result.get(Sphere.TACTICS), 0);
+   assert.equal(result[Sphere.LEADERSHIP], 6);
+   assert.equal(result[Sphere.LORE], 0);
+   assert.equal(result[Sphere.SPIRIT], 0);
+   assert.equal(result[Sphere.TACTICS], 0);
 });
 
 QUnit.test("tableauHeroes()", function(assert)
 {
    // Setup.
    var environment = createEnvironment();
-   var agent1 = environment.agents().get(0);
-   var agent2 = environment.agents().get(1);
+   var agent1 = environment.agents()[0];
+   var agent2 = environment.agents()[1];
 
    // Run.
    var result = agent1.tableauHeroes();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
-   assert.equal(result.get(0).card().name, "Aragorn");
-   assert.equal(result.get(1).card().name, "Glóin");
-   assert.equal(result.get(2).card().name, "Théodred");
+   assert.equal(result.length, 3);
+   assert.equal(result[0].card().name, "Aragorn");
+   assert.equal(result[1].card().name, "Glóin");
+   assert.equal(result[2].card().name, "Théodred");
 
    // Run.
    result = agent2.tableauHeroes();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 3);
-   assert.equal(result.get(0).card().name, "Beravor");
-   assert.equal(result.get(1).card().name, "Denethor");
-   assert.equal(result.get(2).card().name, "Glorfindel");
+   assert.equal(result.length, 3);
+   assert.equal(result[0].card().name, "Beravor");
+   assert.equal(result[1].card().name, "Denethor");
+   assert.equal(result[2].card().name, "Glorfindel");
 });
 
 function createEnvironment()
@@ -232,13 +232,13 @@ function createEnvironment()
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    return new Environment(store, scenarioDeck, playerData);

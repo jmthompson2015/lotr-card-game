@@ -217,16 +217,16 @@ function determineCount(gameModeMap, gameModeKey)
    InputValidator.validateNotNull("gameModeMap", gameModeMap);
    InputValidator.validateNotNull("gameModeKey", gameModeKey);
 
-   var count = gameModeMap.get(GameMode.EASY);
+   var count = gameModeMap[GameMode.EASY];
 
    if (gameModeKey === GameMode.STANDARD || gameModeKey === GameMode.NIGHTMARE)
    {
-      count += gameModeMap.get(GameMode.STANDARD);
+      count += gameModeMap[GameMode.STANDARD];
    }
 
    if (gameModeKey === GameMode.NIGHTMARE)
    {
-      count += gameModeMap.get(GameMode.NIGHTMARE);
+      count += gameModeMap[GameMode.NIGHTMARE];
    }
 
    return count;

@@ -158,7 +158,7 @@ function attachToACharacter(store, context, callback)
    {
       finishAttachToACharacter(heroInstance, store, context, callback);
    };
-   agent.chooseCharacterForAttachment(attachmentInstance, agent.tableauCharacters().toJS(), myCallback);
+   agent.chooseCharacterForAttachment(attachmentInstance, agent.tableauCharacters(), myCallback);
 }
 
 function finishAttachToACharacter(characterInstance, store, context, callback)
@@ -190,7 +190,7 @@ function attachToAHero(store, context, callback)
    {
       finishAttachToAHero(heroInstance, store, context, callback);
    };
-   agent.chooseHeroForAttachment(attachmentInstance, agent.tableauHeroes().toJS(), myCallback);
+   agent.chooseHeroForAttachment(attachmentInstance, agent.tableauHeroes(), myCallback);
 }
 
 function finishAttachToAHero(heroInstance, store, context, callback)

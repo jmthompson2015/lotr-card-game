@@ -32,7 +32,7 @@ QuestTask.prototype.doIt = function(callback)
       store.dispatch(Action.setActiveAgent(agent));
       var environment = store.getState().environment;
       var questInstance = environment.activeQuest();
-      var characters = agent.questers().toJS();
+      var characters = agent.questers();
       var taskCallback = function(questers)
       {
          queueCallback2(questers, queueCallback);
@@ -82,18 +82,18 @@ QuestTask.prototype.resolveQuest = function(callback)
 
    agents.forEach(function()
    {
-      var beforeSize = environment.stagingArea().size;
-      if (store.getState().encounterDeck.size === 0)
+      var beforeSize = environment.stagingArea().length;
+      if (store.getState().encounterDeck.length === 0)
       {
          store.dispatch(Action.refillEncounterDeck());
       }
       store.dispatch(Action.drawEncounterCard());
-      var afterSize = environment.stagingArea().size;
+      var afterSize = environment.stagingArea().length;
       if (afterSize > beforeSize)
       {
          store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED,
          {
-            cardInstance: environment.stagingArea().last(),
+            cardInstance: environment.stagingArea()[environment.stagingArea().length - 1],
          }));
       }
    });

@@ -20,34 +20,30 @@ class NewGamePanel extends React.Component
    {
       super(props);
 
-      var agentNames = Immutable.Map(
-      {
+      var agentNames = {
          1: "Bilbo",
          2: "Frodo",
          3: "Merry",
          4: "Pippin",
-      });
-      var agentTypes = Immutable.Map(
-      {
+      };
+      var agentTypes = {
          1: HumanAgentStrategy,
          2: SimpleAgentStrategy,
          3: SimpleAgentStrategy,
          4: SimpleAgentStrategy,
-      });
-      var playerDeckBuilderTypes = Immutable.Map(
-      {
+      };
+      var playerDeckBuilderTypes = {
          1: AgentDeckUI.PREFABRICATED,
          2: AgentDeckUI.PREFABRICATED,
          3: AgentDeckUI.PREFABRICATED,
          4: AgentDeckUI.PREFABRICATED,
-      });
-      var playerDeckBuilders = Immutable.Map(
-      {
+      };
+      var playerDeckBuilders = {
          1: PlayerDeckBuilder.CoreLeadershipDeckBuilder,
          2: PlayerDeckBuilder.CoreLoreDeckBuilder,
          3: PlayerDeckBuilder.CoreSpiritDeckBuilder,
          4: PlayerDeckBuilder.CoreTacticsDeckBuilder,
-      });
+      };
       var scenarioDeckBuilders = getScenarioDeckBuilders(this.props.cardSetKey);
       LOGGER.debug("NewGamePanel.constructor() scenarioDeckBuilders = " + scenarioDeckBuilders);
 
@@ -125,12 +121,12 @@ NewGamePanel.prototype.createAgentDeckUI = function(agentId, isHidden)
 {
    var element = React.createElement(AgentDeckUI,
    {
-      agentName: this.state.agentNames.get("" + agentId),
+      agentName: this.state.agentNames["" + agentId],
       agentNumber: agentId,
-      agentType: this.state.agentTypes.get("" + agentId),
+      agentType: this.state.agentTypes["" + agentId],
       agentTypes: [SimpleAgentStrategy, HumanAgentStrategy],
-      deckBuilder: this.state.playerDeckBuilders.get("" + agentId),
-      deckBuilderType: this.state.playerDeckBuilderTypes.get("" + agentId),
+      deckBuilder: this.state.playerDeckBuilders["" + agentId],
+      deckBuilderType: this.state.playerDeckBuilderTypes["" + agentId],
       deckBuilders: PlayerDeckBuilder.DeckBuilders,
       inputAreaId: "inputArea",
       isHidden: isHidden,
@@ -230,7 +226,7 @@ NewGamePanel.prototype.handleAgentNameChanged = function(agentId, name)
 
    this.setState(
    {
-      agentNames: this.state.agentNames.set("" + agentId, name),
+      agentNames: this.state.agentNames["" + agentId] = name,
    });
 };
 
@@ -243,7 +239,7 @@ NewGamePanel.prototype.handleAgentTypeChanged = function(agentId, type)
 
    this.setState(
    {
-      agentTypes: this.state.agentTypes.set("" + agentId, type),
+      agentTypes: this.state.agentTypes["" + agentId] = type,
    });
 };
 
@@ -270,7 +266,7 @@ NewGamePanel.prototype.handleDeckBuilderTypeChanged = function(agentId, type)
 
    this.setState(
    {
-      playerDeckBuilderTypes: this.state.playerDeckBuilderTypes.set("" + agentId, type),
+      playerDeckBuilderTypes: this.state.playerDeckBuilderTypes["" + agentId] = type,
    });
 };
 
@@ -283,7 +279,7 @@ NewGamePanel.prototype.handleDeckBuilderChanged = function(agentId, deckBuilder)
 
    this.setState(
    {
-      playerDeckBuilders: this.state.playerDeckBuilders.set("" + agentId, deckBuilder),
+      playerDeckBuilders: this.state.playerDeckBuilders["" + agentId] = deckBuilder,
    });
 };
 
@@ -318,11 +314,11 @@ NewGamePanel.prototype.ok = function()
 
    for (var agentId = 1; agentId <= this.state.agentCount; agentId++)
    {
-      var agentName = this.state.agentNames.get("" + agentId);
-      var agentType = this.state.agentTypes.get("" + agentId);
+      var agentName = this.state.agentNames["" + agentId];
+      var agentType = this.state.agentTypes["" + agentId];
       var agent = new Agent(store, agentName, undefined, agentType);
       LOGGER.debug(agentId + " agent = " + agent + " " + (typeof agent));
-      var playerDeckBuilder = this.state.playerDeckBuilders.get("" + agentId);
+      var playerDeckBuilder = this.state.playerDeckBuilders["" + agentId];
       LOGGER.debug(agentId + " playerDeckBuilder = " + playerDeckBuilder + " " + (typeof playerDeckBuilder));
       var playerDeck = playerDeckBuilder.buildDeck(store);
       playerData.push(

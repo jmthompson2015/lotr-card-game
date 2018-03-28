@@ -17,7 +17,7 @@ var game = createGame();
 var environment = game.engine().environment();
 var store = environment.store();
 store.dispatch(Action.setResourceBase(resourceBase));
-var agent1 = environment.agents().first();
+var agent1 = environment.agents()[0];
 store.dispatch(Action.incrementRound());
 store.dispatch(Action.incrementRound());
 store.dispatch(Action.incrementRound());

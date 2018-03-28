@@ -20,15 +20,15 @@ QUnit.test("consequent() Forest Gate", function(assert)
    var environment = createEnvironment(scenarioKey);
    var store = environment.store();
    var agent1 = environment.firstAgent();
-   assert.equal(agent1.playerDeck().size, 39);
-   assert.equal(agent1.hand().size, 6);
+   assert.equal(agent1.playerDeck().length, 39);
+   assert.equal(agent1.hand().length, 6);
    var context;
    var callback = function()
    {
       // Verify.
       assert.ok(true, "test resumed from async operation");
-      assert.equal(agent1.playerDeck().size, 37);
-      assert.equal(agent1.hand().size, 8);
+      assert.equal(agent1.playerDeck().length, 37);
+      assert.equal(agent1.hand().length, 8);
       done();
    };
    var ability = LocationAbility[GameEvent.TRAVELED][LocationCard.FOREST_GATE];

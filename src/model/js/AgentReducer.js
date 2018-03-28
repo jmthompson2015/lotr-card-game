@@ -9,16 +9,20 @@ AgentReducer.reduce = function(state, action)
    LOGGER.debug("AgentReducer.root() type = " + action.type);
 
    var agentId, attachmentId, cardId, cardInstanceIds;
+   var newAgentPlayerDeck, newAgentTableau, newAgentThreat;
 
    switch (action.type)
    {
       case AgentAction.ADD_THREAT:
          agentId = action.agent.id();
-         var oldThreat = (state.agentThreat.get(agentId) !== undefined ? state.agentThreat.get(agentId) : 0);
+         var oldThreat = (state.agentThreat[agentId] !== undefined ? state.agentThreat[agentId] : 0);
+         newAgentThreat = Object.assign(
+         {}, state.agentThreat);
+         newAgentThreat[agentId] = oldThreat + action.value;
          return Object.assign(
          {}, state,
          {
-            agentThreat: state.agentThreat.set(agentId, oldThreat + action.value),
+            agentThreat: newAgentThreat,
          });
       case AgentAction.ATTACH_CARD:
          LOGGER.info("Attach card: " + action.attachmentInstance + " to " + action.cardInstance);
@@ -56,7 +60,7 @@ AgentReducer.reduce = function(state, action)
       case AgentAction.DRAW_PLAYER_CARD:
          LOGGER.debug("Draw player card");
          agentId = action.agent.id();
-         cardId = (action.index === undefined ? state.agentPlayerDeck.get(agentId).first() : state.agentPlayerDeck.get(agentId).get(action.index));
+         cardId = (action.index === undefined ? state.agentPlayerDeck[agentId][0] : state.agentPlayerDeck[agentId][action.index]);
          return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentHand", agentId);
       case AgentAction.INCREMENT_NEXT_AGENT_ID:
          LOGGER.debug("increment next agent ID: " + state.nextAgentId);
@@ -72,23 +76,32 @@ AgentReducer.reduce = function(state, action)
          return TransferReducer.reduce(state, "agentHand", agentId, cardId, "agentTableau", agentId);
       case AgentAction.SET_PLAYER_DECK:
          cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
+         newAgentPlayerDeck = Object.assign(
+         {}, state.agentPlayerDeck);
+         newAgentPlayerDeck[action.agent.id()] = cardInstanceIds;
          return Object.assign(
          {}, state,
          {
-            agentPlayerDeck: state.agentPlayerDeck.set(action.agent.id(), Immutable.List(cardInstanceIds)),
+            agentPlayerDeck: newAgentPlayerDeck,
          });
       case AgentAction.SET_TABLEAU:
          cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
+         newAgentTableau = Object.assign(
+         {}, state.agentTableau);
+         newAgentTableau[action.agent.id()] = cardInstanceIds;
          return Object.assign(
          {}, state,
          {
-            agentTableau: state.agentTableau.set(action.agent.id(), Immutable.List(cardInstanceIds)),
+            agentTableau: newAgentTableau,
          });
       case AgentAction.SET_THREAT:
+         newAgentThreat = Object.assign(
+         {}, state.agentThreat);
+         newAgentThreat[action.agent.id()] = action.value;
          return Object.assign(
          {}, state,
          {
-            agentThreat: state.agentThreat.set(action.agent.id(), action.value),
+            agentThreat: newAgentThreat,
          });
       default:
          LOGGER.warn("AgentReducer.root: Unhandled action type: " + action.type);

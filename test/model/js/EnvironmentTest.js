@@ -23,13 +23,13 @@ QUnit.test("Environment()", function(assert)
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    // Run.
@@ -38,9 +38,9 @@ QUnit.test("Environment()", function(assert)
    // Verify.
    assert.ok(result);
    assert.ok(result.questDeck());
-   assert.equal(result.questDeck().size, 6);
+   assert.equal(result.questDeck().length, 6);
    assert.ok(result.encounterDeck());
-   assert.equal(result.encounterDeck().size, 27);
+   assert.equal(result.encounterDeck().length, 27);
 });
 
 QUnit.test("agentQueue()", function(assert)
@@ -89,9 +89,9 @@ QUnit.test("agents()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 2);
-   assert.equal(result.get(0).name(), "agent1");
-   assert.equal(result.get(1).name(), "agent2");
+   assert.equal(result.length, 2);
+   assert.equal(result[0].name(), "agent1");
+   assert.equal(result[1].name(), "agent2");
 });
 
 // QUnit.test("cardInstances()", function(assert)
@@ -144,25 +144,25 @@ QUnit.test("drawEncounterCard()", function(assert)
    // Setup.
    var environment = createEnvironment();
    var store = environment.store();
-   assert.equal(store.getState().encounterDeck.size, 27);
-   assert.equal(store.getState().stagingArea.size, 0);
+   assert.equal(store.getState().encounterDeck.length, 27);
+   assert.equal(store.getState().stagingArea.length, 0);
 
    // Run.
    environment.drawEncounterCard(EnemyCard.FOREST_SPIDER);
 
    // Verify.
-   assert.equal(store.getState().encounterDeck.size, 26);
-   assert.equal(store.getState().stagingArea.size, 1);
-   assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
+   assert.equal(store.getState().encounterDeck.length, 26);
+   assert.equal(store.getState().stagingArea.length, 1);
+   assert.equal(environment.stagingArea()[0].card().key, EnemyCard.FOREST_SPIDER);
 
    // Run.
    environment.drawEncounterCard(LocationCard.OLD_FOREST_ROAD);
 
    // Verify.
-   assert.equal(store.getState().encounterDeck.size, 25);
-   assert.equal(store.getState().stagingArea.size, 2);
-   assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
-   assert.equal(environment.stagingArea().get(1).card().key, LocationCard.OLD_FOREST_ROAD);
+   assert.equal(store.getState().encounterDeck.length, 25);
+   assert.equal(store.getState().stagingArea.length, 2);
+   assert.equal(environment.stagingArea()[0].card().key, EnemyCard.FOREST_SPIDER);
+   assert.equal(environment.stagingArea()[1].card().key, LocationCard.OLD_FOREST_ROAD);
 });
 
 QUnit.test("firstCardInstance()", function(assert)
@@ -184,8 +184,8 @@ QUnit.test("questers()", function(assert)
    // Setup.
    var environment = createEnvironment();
    var store = environment.store();
-   var agent0 = environment.agents().get(0);
-   var cardInstance0 = agent0.tableauHeroes().get(0);
+   var agent0 = environment.agents()[0];
+   var cardInstance0 = agent0.tableauHeroes()[0];
    store.dispatch(CardAction.setQuesting(cardInstance0, true));
 
    // Run.
@@ -193,20 +193,20 @@ QUnit.test("questers()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 1);
-   assert.equal(result.get(0).id(), cardInstance0.id());
+   assert.equal(result.length, 1);
+   assert.equal(result[0].id(), cardInstance0.id());
 
    // Run.
-   var agent1 = environment.agents().get(1);
-   var cardInstance1 = agent1.tableauHeroes().get(0);
+   var agent1 = environment.agents()[1];
+   var cardInstance1 = agent1.tableauHeroes()[0];
    store.dispatch(CardAction.setQuesting(cardInstance1, true));
    result = environment.questers();
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 2);
-   assert.equal(result.get(0).id(), cardInstance0.id());
-   assert.equal(result.get(1).id(), cardInstance1.id());
+   assert.equal(result.length, 2);
+   assert.equal(result[0].id(), cardInstance0.id());
+   assert.equal(result[1].id(), cardInstance1.id());
 });
 
 QUnit.test("stagingArea()", function(assert)
@@ -221,7 +221,7 @@ QUnit.test("stagingArea()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 1);
+   assert.equal(result.length, 1);
 
    // Run.
    store.dispatch(Action.drawEncounterCard());
@@ -229,7 +229,7 @@ QUnit.test("stagingArea()", function(assert)
 
    // Verify.
    assert.ok(result);
-   assert.equal(result.size, 2);
+   assert.equal(result.length, 2);
 });
 
 QUnit.test("stagingArea() Location", function(assert)
@@ -302,13 +302,13 @@ function createEnvironment()
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    return new Environment(store, scenarioDeck, playerData);

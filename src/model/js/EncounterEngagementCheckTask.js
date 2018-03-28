@@ -26,11 +26,11 @@ EncounterEngagementCheckTask.prototype.doIt = function(callback)
    var environment = store.getState().environment;
    var enemies = environment.stagingEnemies();
 
-   if (enemies.size > 0)
+   if (enemies.length > 0)
    {
-      for (var i = 0; i < enemies.size; i++)
+      for (var i = 0; i < enemies.length; i++)
       {
-         var enemy = enemies.get(i);
+         var enemy = enemies[i];
 
          if (enemy.card().engagementCost <= agent.threatLevel())
          {

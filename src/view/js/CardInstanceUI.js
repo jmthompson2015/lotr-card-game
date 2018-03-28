@@ -35,7 +35,7 @@ class CardInstanceUI extends React.Component
             className: "dt-row",
          }, tokenPanel));
 
-         var attachments = cardInstance.attachments().toJS();
+         var attachments = cardInstance.attachments();
 
          if (attachments.length > 0)
          {
@@ -50,7 +50,7 @@ class CardInstanceUI extends React.Component
             }
          }
 
-         var shadowCards = cardInstance.shadowCards().toJS();
+         var shadowCards = cardInstance.shadowCards();
 
          if (shadowCards.length > 0)
          {

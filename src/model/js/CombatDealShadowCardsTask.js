@@ -25,7 +25,7 @@ CombatDealShadowCardsTask.prototype.doIt = function(callback)
    var agent = this.agent();
    var engagementArea = agent.engagementArea();
 
-   if (engagementArea.size > 0)
+   if (engagementArea.length > 0)
    {
       engagementArea.forEach(function(cardInstance)
       {

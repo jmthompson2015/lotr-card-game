@@ -17,10 +17,10 @@ var store = Redux.createStore(Reducer.root);
 store.dispatch(Action.setResourceBase(resourceBase));
 var game = createGame();
 var environment = game.engine().environment();
-var cardInstance0 = environment.stagingArea().get(0);
-var agent0 = environment.agents().get(0);
-var cardInstance1 = agent0.tableauHeroes().get(0);
-var cardInstance2 = agent0.tableauHeroes().get(1);
+var cardInstance0 = environment.stagingArea()[0];
+var agent0 = environment.agents()[0];
+var cardInstance1 = agent0.tableauHeroes()[0];
+var cardInstance2 = agent0.tableauHeroes()[1];
 store.dispatch(CardAction.setReady(cardInstance2, false));
 
 var cells = [];

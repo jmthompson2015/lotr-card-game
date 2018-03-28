@@ -46,7 +46,7 @@ PhaseObserver.observeStore = function(store)
 
 PhaseObserver.prototype.onChange = function(phaseQueue)
 {
-   if (phaseQueue.size > 0)
+   if (phaseQueue.length > 0)
    {
       var store = this.store();
       store.dispatch(Action.dequeuePhase());
@@ -65,8 +65,8 @@ PhaseObserver.prototype.chooseAbility = function(phaseData)
 {
    InputValidator.validateNotNull("phaseData", phaseData);
 
-   var phaseKey = phaseData.get("phaseKey");
-   var phaseContext = phaseData.get("phaseContext");
+   var phaseKey = phaseData.phaseKey;
+   var phaseContext = phaseData.phaseContext;
    var store = this.store();
    var environment = store.getState().environment;
    var abilityObjectCount = PhaseObserver.ABILITY_OBJECTS.length;
@@ -143,11 +143,11 @@ PhaseObserver.prototype.performPhaseAbility = function(phaseData)
 {
    InputValidator.validateNotNull("phaseData", phaseData);
 
-   var phaseKey = phaseData.get("phaseKey");
+   var phaseKey = phaseData.phaseKey;
 
    if (PhaseAbility[phaseKey] && PhaseAbility[phaseKey][phaseKey])
    {
-      var phaseContext = phaseData.get("phaseContext");
+      var phaseContext = phaseData.phaseContext;
       var ability = new Ability(Phase, phaseKey, PhaseAbility, phaseKey, phaseContext);
       var store = this.store();
 
@@ -177,7 +177,7 @@ PhaseObserver.prototype.finishOnChange = function(phaseData)
    var store = this.store();
    store.dispatch(Action.clearPhase());
 
-   var callback = phaseData.get("phaseCallback");
+   var callback = phaseData.phaseCallback;
 
    if (callback !== undefined)
    {

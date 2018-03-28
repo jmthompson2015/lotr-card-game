@@ -16,7 +16,7 @@ var game = createGame();
 var store = game.store();
 store.dispatch(Action.setResourceBase(resourceBase));
 var environment = game.engine().environment();
-var cardInstance = environment.stagingArea().get(1);
+var cardInstance = environment.stagingArea()[1];
 store.dispatch(Action.setActiveLocation(cardInstance));
 
 var element = React.createElement(ReactRedux.Provider,
@@ -32,17 +32,17 @@ function createGame(callback)
    var store = Redux.createStore(Reducer.root);
    var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
    var playerData = [
-   {
-      agent: new Agent(store, "agent1"),
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: new Agent(store, "agent1"),
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: new Agent(store, "agent2"),
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: new Agent(store, "agent2"),
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     },
-   {
-      agent: new Agent(store, "agent3"),
-      playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+      {
+         agent: new Agent(store, "agent3"),
+         playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
     }, ];
 
    return new Game(store, scenarioDeck, playerData, 10, callback);

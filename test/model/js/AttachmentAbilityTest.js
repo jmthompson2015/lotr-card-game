@@ -23,9 +23,9 @@ QUnit.test("consequent() Unexpected Courage", function(assert)
    environment.drawEncounterCard(EnemyCard.DOL_GULDUR_ORCS);
    var agent3 = environment.agentQueue()[2];
    agent3.drawPlayerCard(AttachmentCard.UNEXPECTED_COURAGE);
-   var cardInstance = agent3.hand().last();
+   var cardInstance = agent3.hand()[agent3.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent3, cardInstance));
-   assert.equal(agent3.tableau().size, 4);
+   assert.equal(agent3.tableau().length, 4);
    var context = {
       agent: agent3,
       cardInstance: cardInstance,
@@ -38,11 +38,11 @@ QUnit.test("consequent() Unexpected Courage", function(assert)
       heroes.forEach(function(heroInstance)
       {
          var attachments = heroInstance.attachments();
-         if (attachments.size > 0)
+         if (attachments.length > 0)
          {
-            assert.equal(attachments.size, 1);
-            assert.equal(attachments.get(0).id(), cardInstance.id());
-            assert.equal(agent3.tableau().size, 3);
+            assert.equal(attachments.length, 1);
+            assert.equal(attachments[0].id(), cardInstance.id());
+            assert.equal(agent3.tableau().length, 3);
          }
       });
       done();

@@ -52,17 +52,17 @@ PlanningTask.prototype.processAgent = function(agent, callback)
    {
       var sphereKey = cardInstance.card().sphereKey;
       var cost = cardInstance.card().cost;
-      var available = (resourceMap.get(sphereKey) !== undefined ? resourceMap.get(sphereKey) : 0);
+      var available = (resourceMap[sphereKey] !== undefined ? resourceMap[sphereKey] : 0);
 
       if (cost <= available)
       {
-         accumulator = accumulator.push(cardInstance);
+         accumulator.push(cardInstance);
       }
 
       return accumulator;
-   }, Immutable.List());
+   }, []);
 
-   if (possibleCards.size > 0)
+   if (possibleCards.length > 0)
    {
       var queueCallback = this.finishProcessAgent.bind(this);
       var agentCallback = function(cardsToPlay)
@@ -70,7 +70,7 @@ PlanningTask.prototype.processAgent = function(agent, callback)
          queueCallback(agent, cardsToPlay, callback);
       };
 
-      agent.chooseCardToPlay(possibleCards.toJS(), agentCallback);
+      agent.chooseCardToPlay(possibleCards, agentCallback);
    }
    else
    {
@@ -92,9 +92,9 @@ PlanningTask.prototype.finishProcessAgent = function(agent, cardInstance, callba
 
       while (cost > 0)
       {
-         for (var i = 0; i < heroes.size; i++)
+         for (var i = 0; i < heroes.length; i++)
          {
-            var myCardInstance = heroes.get(i);
+            var myCardInstance = heroes[i];
 
             if (cost > 0 && myCardInstance.resources() > 0)
             {

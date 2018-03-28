@@ -22,8 +22,9 @@ Reducer.root = function(state, action)
       return new InitialState();
    }
 
-   var agentId, attachmentId, cardId, cardInstanceIds, index, shadowId;
+   var agentId, attachmentId, cardId, cardInstanceIds, shadowId;
    var newEventData, newEventQueue, newPhaseData, newPhaseQueue;
+   var newAgents, newCardInstances, newEncounterDiscard, newQuestDeck, newQuestDiscard, newStagingArea;
 
    if (isAgentAction(action))
    {
@@ -38,16 +39,22 @@ Reducer.root = function(state, action)
       switch (action.type)
       {
          case Action.ADD_AGENT:
+            newAgents = Object.assign(
+            {}, state.agents);
+            newAgents[action.id] = action.values;
             return Object.assign(
             {}, state,
             {
-               agents: state.agents.set(action.id, action.values),
+               agents: newAgents,
             });
          case Action.ADD_CARD_INSTANCE:
+            newCardInstances = Object.assign(
+            {}, state.cardInstances);
+            newCardInstances[action.id] = action.values;
             return Object.assign(
             {}, state,
             {
-               cardInstances: state.cardInstances.set(action.id, action.values),
+               cardInstances: newCardInstances,
             });
          case Action.AGENT_DISCARD_ENEMY_CARD:
             LOGGER.info("Discard enemy card: " + action.cardInstance);
@@ -80,31 +87,35 @@ Reducer.root = function(state, action)
             });
          case Action.DEAL_SHADOW_CARD:
             LOGGER.info("Deal shadow card to " + action.cardInstance);
-            if (state.encounterDeck.size > 0)
+            if (state.encounterDeck.length > 0)
             {
                cardId = action.cardInstance.id();
-               shadowId = state.encounterDeck.first();
+               shadowId = state.encounterDeck[0];
                var newState = TransferReducer.reduce(state, "encounterDeck", undefined, shadowId, "cardShadowCards", cardId);
+               newState.cardIsFaceUp[shadowId] = false;
                return Object.assign(
                {}, newState,
                {
-                  cardIsFaceUp: newState.cardIsFaceUp.set(shadowId, false),
+                  cardIsFaceUp: newState.cardIsFaceUp,
                });
             }
-            LOGGER.warn("encounterDeck empty; encounterDiscard.size = " + state.encounterDiscard.size);
+            LOGGER.warn("encounterDeck empty; encounterDiscard.length = " + state.encounterDiscard.length);
             return state;
          case Action.DELETE_AGENT:
             LOGGER.info("Delete agent: " + action.agent);
             agentId = action.agent.id();
+            newAgents = Object.assign(
+            {}, state.agents);
+            delete newAgents[agentId];
             return Object.assign(
             {}, state,
             {
-               agents: state.agents.delete(agentId),
+               agents: newAgents,
             });
          case Action.DEQUEUE_EVENT:
             // LOGGER.info("EventQueue: (dequeue)");
-            newEventData = state.eventQueue.first();
-            newEventQueue = state.eventQueue.shift();
+            newEventQueue = state.eventQueue.slice();
+            newEventData = newEventQueue.shift();
             return Object.assign(
             {}, state,
             {
@@ -113,28 +124,32 @@ Reducer.root = function(state, action)
             });
          case Action.DEQUEUE_PHASE:
             // LOGGER.debug("PhaseQueue: (dequeue)");
-            newPhaseData = state.phaseQueue.first();
-            newPhaseQueue = state.phaseQueue.shift();
+            newPhaseQueue = state.phaseQueue.slice();
+            newPhaseData = newPhaseQueue.shift();
             return Object.assign(
             {}, state,
             {
                phaseData: newPhaseData,
-               phaseKey: newPhaseData.get("phaseKey"),
+               phaseKey: newPhaseData.phaseKey,
                phaseQueue: newPhaseQueue,
             });
          case Action.DISCARD_ACTIVE_LOCATION:
+            newEncounterDiscard = state.encounterDiscard.slice();
+            newEncounterDiscard.push(state.activeLocationId);
             return Object.assign(
             {}, state,
             {
                activeLocationId: undefined,
-               encounterDiscard: state.encounterDiscard.push(state.activeLocationId),
+               encounterDiscard: newEncounterDiscard,
             });
          case Action.DISCARD_ACTIVE_QUEST:
+            newQuestDiscard = state.questDiscard.slice();
+            newQuestDiscard.push(state.activeQuestId);
             return Object.assign(
             {}, state,
             {
                activeQuestId: undefined,
-               questDiscard: state.questDiscard.push(state.activeQuestId),
+               questDiscard: newQuestDiscard,
             });
          case Action.DISCARD_SHADOW_CARD:
             LOGGER.info("Discard shadow card: " + action.cardInstance);
@@ -146,22 +161,24 @@ Reducer.root = function(state, action)
             cardId = action.cardInstance.id();
             return TransferReducer.reduce(state, "stagingArea", undefined, cardId, "encounterDiscard");
          case Action.DRAW_ENCOUNTER_CARD:
-            if (state.encounterDeck.size > 0)
+            if (state.encounterDeck.length > 0)
             {
-               cardId = (action.index === undefined ? state.encounterDeck.first() : state.encounterDeck.get(action.index));
+               cardId = (action.index === undefined ? state.encounterDeck[0] : state.encounterDeck[action.index]);
                return TransferReducer.reduce(state, "encounterDeck", undefined, cardId, "stagingArea");
             }
-            LOGGER.warn("encounterDeck empty; encounterDiscard.size = " + state.encounterDiscard.size);
+            LOGGER.warn("encounterDeck empty; encounterDiscard.length = " + state.encounterDiscard.length);
             return state;
          case Action.DRAW_QUEST_CARD:
-            if (state.questDeck.size > 0)
+            if (state.questDeck.length > 0)
             {
-               cardId = state.questDeck.first();
+               cardId = state.questDeck[0];
+               newQuestDeck = state.questDeck.slice();
+               newQuestDeck.shift();
                return Object.assign(
                {}, state,
                {
                   activeQuestId: cardId,
-                  questDeck: state.questDeck.shift(),
+                  questDeck: newQuestDeck,
                });
             }
             LOGGER.warn("questDeck empty");
@@ -172,7 +189,7 @@ Reducer.root = function(state, action)
             return TransferReducer.reduce(state, "encounterDeck", undefined, cardId, "agentTableau", agentId);
          case Action.ENCOUNTER_TO_CARD_ATTACHMENT:
             cardId = action.cardInstance.id();
-            attachmentId = state.encounterDeck.first();
+            attachmentId = state.encounterDeck[0];
             return TransferReducer.reduce(state, "encounterDeck", undefined, attachmentId, "cardAttachments", cardId);
          case Action.ENCOUNTER_TO_SET_ASIDE:
             cardId = action.cardInstance.id();
@@ -180,7 +197,10 @@ Reducer.root = function(state, action)
          case Action.ENQUEUE_EVENT:
             LOGGER.info("EventQueue: " + GameEvent.properties[action.eventKey].name + ", context = " + JSON.stringify(action.eventContext));
             newEventData = createEventData(action.eventKey, action.eventContext, action.eventCallback);
-            newEventQueue = state.eventQueue.push(newEventData);
+            LOGGER.info("EventQueue: newEventData = " + JSON.stringify(newEventData));
+            newEventQueue = state.eventQueue.slice();
+            newEventQueue.push(newEventData);
+            LOGGER.info("EventQueue: newEventQueue.length = " + newEventQueue.length);
             return Object.assign(
             {}, state,
             {
@@ -189,7 +209,8 @@ Reducer.root = function(state, action)
          case Action.ENQUEUE_PHASE:
             LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
             newPhaseData = createPhaseData(action.phaseKey, action.phaseContext, action.phaseCallback);
-            newPhaseQueue = state.phaseQueue.push(newPhaseData);
+            newPhaseQueue = state.phaseQueue.slice();
+            newPhaseQueue.push(newPhaseData);
             return Object.assign(
             {}, state,
             {
@@ -203,12 +224,12 @@ Reducer.root = function(state, action)
                round: state.round + 1,
             });
          case Action.REFILL_ENCOUNTER_DECK:
-            LOGGER.info("Refill encounter deck encounterDeck = " + state.encounterDeck.size + " encounterDiscard.size = " + state.encounterDiscard.size);
+            LOGGER.info("Refill encounter deck encounterDeck = " + state.encounterDeck.length + " encounterDiscard.length = " + state.encounterDiscard.length);
             return Object.assign(
             {}, state,
             {
-               encounterDeck: Immutable.List(ArrayUtilities.shuffle(state.encounterDiscard.toJS())),
-               encounterDiscard: new Immutable.List(),
+               encounterDeck: ArrayUtilities.shuffle(state.encounterDiscard),
+               encounterDiscard: [],
             });
          case Action.SET_ACTIVE_AGENT:
             LOGGER.info("Active Agent: " + action.agent);
@@ -219,9 +240,16 @@ Reducer.root = function(state, action)
             });
          case Action.SET_ACTIVE_LOCATION:
             LOGGER.info("Active Location: " + action.cardInstance);
-            cardId = (action.cardInstance !== undefined ? action.cardInstance.id() : -1);
-            index = state.stagingArea.indexOf(cardId);
-            var newStagingArea = (index >= 0 ? state.stagingArea.delete(index) : state.stagingArea);
+            if (action.cardInstance !== undefined)
+            {
+               cardId = action.cardInstance.id();
+               newStagingArea = state.stagingArea.slice();
+               newStagingArea = ArrayUtilities.remove(newStagingArea, cardId);
+            }
+            else
+            {
+               newStagingArea = state.stagingArea;
+            }
             return Object.assign(
             {}, state,
             {
@@ -242,7 +270,7 @@ Reducer.root = function(state, action)
             return Object.assign(
             {}, state,
             {
-               encounterDeck: Immutable.List(cardInstanceIds),
+               encounterDeck: cardInstanceIds,
             });
          case Action.SET_DELAY:
             return Object.assign(
@@ -267,7 +295,7 @@ Reducer.root = function(state, action)
             return Object.assign(
             {}, state,
             {
-               questDeck: Immutable.List(cardInstanceIds),
+               questDeck: cardInstanceIds,
             });
          case Action.SET_RESOURCE_BASE:
             return Object.assign(
@@ -305,12 +333,11 @@ function createEventData(eventKey, eventContext, eventCallback)
    // eventContext optional.
    // eventCallback optional.
 
-   return Immutable.Map(
-   {
+   return {
       eventKey: eventKey,
       eventContext: eventContext,
       eventCallback: eventCallback,
-   });
+   };
 }
 
 function createPhaseData(phaseKey, phaseContext, phaseCallback)
@@ -319,12 +346,11 @@ function createPhaseData(phaseKey, phaseContext, phaseCallback)
    // phaseContext optional.
    // phaseCallback optional.
 
-   return Immutable.Map(
-   {
+   return {
       phaseKey: phaseKey,
       phaseContext: phaseContext,
       phaseCallback: phaseCallback,
-   });
+   };
 }
 
 function isAgentAction(action)

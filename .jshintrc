@@ -19,7 +19,6 @@
       "XMLHttpRequest": false,
 
       "createReactClass": false,
-      "Immutable": false,
       "PropTypes": false,
       "QUnit": false,
       "React": false,

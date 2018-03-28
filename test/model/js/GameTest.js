@@ -35,11 +35,11 @@ QUnit.test("Game() Passage through Mirkwood Easy", function(assert)
    assert.ok(environment);
    var encounterDeck = store.getState().encounterDeck;
    assert.ok(encounterDeck);
-   assert.equal(encounterDeck.size, 25);
+   assert.equal(encounterDeck.length, 25);
    var stagingArea = store.getState().stagingArea;
-   assert.equal(stagingArea.size, 2);
-   assert.equal(environment.stagingArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
-   assert.equal(environment.stagingArea().get(1).card().key, LocationCard.OLD_FOREST_ROAD);
+   assert.equal(stagingArea.length, 2);
+   assert.equal(environment.stagingArea()[0].card().key, EnemyCard.FOREST_SPIDER);
+   assert.equal(environment.stagingArea()[1].card().key, LocationCard.OLD_FOREST_ROAD);
 });
 
 var GameTest = {};

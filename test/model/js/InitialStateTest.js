@@ -13,7 +13,7 @@ QUnit.test("InitialState()", function(assert)
    assert.equal(result.phaseKey, Phase.SETUP);
    assert.equal(result.round, 0);
    assert.ok(result.cardInstances);
-   assert.equal(result.cardInstances.size, 0);
+   assert.equal(Object.keys(result.cardInstances).length, 0);
 });
 
 var InitialStateTest = {};

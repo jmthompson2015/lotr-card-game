@@ -83,7 +83,7 @@ Agent.prototype.defenders = function()
 Agent.prototype.engagementArea = function()
 {
    var store = this.store();
-   var ids = store.getState().agentEngagementArea.get(this.id());
+   var ids = store.getState().agentEngagementArea[this.id()];
 
    return CardInstance.idsToCardInstances(store, ids);
 };
@@ -91,7 +91,7 @@ Agent.prototype.engagementArea = function()
 Agent.prototype.hand = function(cardTypeKey, sphereKey, maxCost)
 {
    var store = this.store();
-   var ids = store.getState().agentHand.get(this.id());
+   var ids = store.getState().agentHand[this.id()];
 
    var answer = CardInstance.idsToCardInstances(store, ids);
 
@@ -125,7 +125,7 @@ Agent.prototype.hand = function(cardTypeKey, sphereKey, maxCost)
 Agent.prototype.playerDeck = function(cardTypeKey)
 {
    var store = this.store();
-   var ids = store.getState().agentPlayerDeck.get(this.id());
+   var ids = store.getState().agentPlayerDeck[this.id()];
 
    var answer = CardInstance.idsToCardInstances(store, ids);
 
@@ -174,13 +174,13 @@ Agent.prototype.resourceMap = function()
    },
    {});
 
-   return Immutable.Map(answer);
+   return answer;
 };
 
 Agent.prototype.tableau = function(cardTypeKey, isReady, sphereKey)
 {
    var store = this.store();
-   var ids = store.getState().agentTableau.get(this.id());
+   var ids = store.getState().agentTableau[this.id()];
 
    var answer = CardInstance.idsToCardInstances(store, ids);
 
@@ -232,7 +232,7 @@ Agent.prototype.tableauHeroes = function(isReady, sphereKey)
 Agent.prototype.threatLevel = function()
 {
    var store = this.store();
-   var answer = store.getState().agentThreat.get(this.id());
+   var answer = store.getState().agentThreat[this.id()];
 
    return (answer !== undefined ? answer : 0);
 };
@@ -307,7 +307,7 @@ Agent.prototype.addCardWounds = function(cardInstance, damage, callback)
 {
    cardInstance.addWounds(damage, callback);
 
-   if (this.tableauHeroes().size === 0)
+   if (this.tableauHeroes().length === 0)
    {
       // I'm dead.
       LOGGER.warn("Agent " + this.name() + " has no heroes: he's dead.");
@@ -393,12 +393,11 @@ Agent.prototype._save = function()
 {
    var store = this.store();
    var id = this.id();
-   var values = Immutable.Map(
-   {
+   var values = {
       id: id,
       name: this.name(),
       strategy: this._strategy(),
-   });
+   };
 
    store.dispatch(Action.addAgent(id, values));
 };
@@ -411,13 +410,13 @@ Agent.get = function(store, id)
    InputValidator.validateNotNull("store", store);
    InputValidator.validateIsNumber("id", id);
 
-   var values = store.getState().agents.get(id);
+   var values = store.getState().agents[id];
    var answer;
 
    if (values !== undefined)
    {
-      var name = values.get("name");
-      var strategy = values.get("strategy");
+      var name = values.name;
+      var strategy = values.strategy;
       var isNew = false;
 
       answer = new Agent(store, name, id, strategy, isNew);

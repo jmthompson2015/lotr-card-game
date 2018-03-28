@@ -15,8 +15,8 @@ QUnit.test("doIt()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent1 = environment.agents().get(0);
-   var agent2 = environment.agents().get(1);
+   var agent1 = environment.agents()[0];
+   var agent2 = environment.agents()[1];
    var chieftanUfthakIndex = findIndex(environment, EnemyCard.CHIEFTAN_UFTHAK);
    store.dispatch(Action.drawEncounterCard(chieftanUfthakIndex));
    var dolGuldurBeastmasterIndex = findIndex(environment, EnemyCard.DOL_GULDUR_BEASTMASTER);
@@ -25,17 +25,17 @@ QUnit.test("doIt()", function(assert)
    store.dispatch(Action.drawEncounterCard(dolGuldurOrcsIndex));
    var blackForestBatsIndex = findIndex(environment, EnemyCard.BLACK_FOREST_BATS_PTM);
    store.dispatch(Action.drawEncounterCard(blackForestBatsIndex));
-   assert.equal(environment.stagingArea().size, 6);
-   assert.equal(agent1.engagementArea().size, 0);
-   assert.equal(agent2.engagementArea().size, 0);
+   assert.equal(environment.stagingArea().length, 6);
+   assert.equal(agent1.engagementArea().length, 0);
+   assert.equal(agent2.engagementArea().length, 0);
    var task = new EncounterEngagementCheckTask(store, agent1);
    var callback = function()
    {
       // Verify.
-      assert.equal(environment.stagingArea().size, 5);
-      assert.equal(agent1.engagementArea().size, 1, "agent1.engagementArea().size === 1", "agent1.engagementArea().size === 1");
-      assert.equal(agent1.engagementArea().get(0).card().key, EnemyCard.FOREST_SPIDER);
-      assert.equal(agent2.engagementArea().size, 0, "agent2.engagementArea().size === 0");
+      assert.equal(environment.stagingArea().length, 5);
+      assert.equal(agent1.engagementArea().length, 1, "agent1.engagementArea().length === 1", "agent1.engagementArea().length === 1");
+      assert.equal(agent1.engagementArea()[0].card().key, EnemyCard.FOREST_SPIDER);
+      assert.equal(agent2.engagementArea().length, 0, "agent2.engagementArea().length === 0");
    };
 
    // Run.

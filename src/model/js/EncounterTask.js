@@ -80,7 +80,7 @@ EncounterTask.prototype.processEncounterQueue2 = function(callback)
    {
       var environment = store.getState().environment;
       var enemies = environment.stagingEnemies();
-      var minEnemyEngagement = (enemies.size > 0 ? enemies.last().card().engagementCost : 1000);
+      var minEnemyEngagement = (enemies.length > 0 ? enemies[enemies.length - 1].card().engagementCost : 1000);
       var maxAgentThreat = environment.agents().reduce(function(accumulator, agent)
       {
          return Math.max(accumulator, agent.threatLevel());

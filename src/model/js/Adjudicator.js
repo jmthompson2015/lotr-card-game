@@ -28,7 +28,7 @@ Adjudicator.prototype.isGameOver = function()
    var activeQuestId = store.getState().activeQuestId;
    var agents = store.getState().agents;
 
-   return ((questDeck.size === 0 && activeQuestId === undefined) || agents.size === 0);
+   return ((questDeck.length === 0 && activeQuestId === undefined) || Object.keys(agents).length === 0);
 };
 
 export default Adjudicator;

@@ -56,7 +56,7 @@ function CardInstance(store, card, idIn, isNewIn)
 CardInstance.prototype.attachments = function()
 {
    var store = this.store();
-   var ids = store.getState().cardAttachments.get(this.id());
+   var ids = store.getState().cardAttachments[this.id()];
 
    return CardInstance.idsToCardInstances(store, ids);
 };
@@ -98,10 +98,10 @@ CardInstance.prototype.baseThreat = function()
    {
       case LocationCard.AMON_HEN:
       case LocationCard.AMON_LHAW:
-         answer = 2 * environment.agents().size;
+         answer = 2 * environment.agents().length;
          break;
       case LocationCard.RHOSGOBEL:
-         answer = environment.agents().size;
+         answer = environment.agents().length;
          break;
       case LocationCard.THE_OLD_FORD:
          answer = environment.cardsInPlay().filter(function(cardInstance)
@@ -129,10 +129,10 @@ CardInstance.prototype.bonusAttack = function()
    var card = this.card();
    var answer = 0;
 
-   var phaseBonus = store.getState().cardPhaseBonusAttack.get(this.id());
+   var phaseBonus = store.getState().cardPhaseBonusAttack[this.id()];
    answer += (phaseBonus !== undefined ? phaseBonus : 0);
 
-   var roundBonus = store.getState().cardRoundBonusAttack.get(this.id());
+   var roundBonus = store.getState().cardRoundBonusAttack[this.id()];
    answer += (roundBonus !== undefined ? roundBonus : 0);
 
    this.attachments().forEach(function(attachmentInstance)
@@ -168,10 +168,10 @@ CardInstance.prototype.bonusDefense = function()
    var store = this.store();
    var answer = 0;
 
-   var phaseBonus = store.getState().cardPhaseBonusDefense.get(this.id());
+   var phaseBonus = store.getState().cardPhaseBonusDefense[this.id()];
    answer += (phaseBonus !== undefined ? phaseBonus : 0);
 
-   var roundBonus = store.getState().cardRoundBonusDefense.get(this.id());
+   var roundBonus = store.getState().cardRoundBonusDefense[this.id()];
    answer += (roundBonus !== undefined ? roundBonus : 0);
 
    this.attachments().forEach(function(attachmentInstance)
@@ -188,10 +188,10 @@ CardInstance.prototype.bonusHitPoints = function()
    var store = this.store();
    var answer = 0;
 
-   var phaseBonus = store.getState().cardPhaseBonusHitPoints.get(this.id());
+   var phaseBonus = store.getState().cardPhaseBonusHitPoints[this.id()];
    answer += (phaseBonus !== undefined ? phaseBonus : 0);
 
-   var roundBonus = store.getState().cardRoundBonusHitPoints.get(this.id());
+   var roundBonus = store.getState().cardRoundBonusHitPoints[this.id()];
    answer += (roundBonus !== undefined ? roundBonus : 0);
 
    this.attachments().forEach(function(attachmentInstance)
@@ -208,10 +208,10 @@ CardInstance.prototype.bonusThreat = function()
    var store = this.store();
    var answer = 0;
 
-   var phaseBonus = store.getState().cardPhaseBonusThreat.get(this.id());
+   var phaseBonus = store.getState().cardPhaseBonusThreat[this.id()];
    answer += (phaseBonus !== undefined ? phaseBonus : 0);
 
-   var roundBonus = store.getState().cardRoundBonusThreat.get(this.id());
+   var roundBonus = store.getState().cardRoundBonusThreat[this.id()];
    answer += (roundBonus !== undefined ? roundBonus : 0);
 
    this.attachments().forEach(function(attachmentInstance)
@@ -228,10 +228,10 @@ CardInstance.prototype.bonusWillpower = function()
    var store = this.store();
    var answer = 0;
 
-   var phaseBonus = store.getState().cardPhaseBonusWillpower.get(this.id());
+   var phaseBonus = store.getState().cardPhaseBonusWillpower[this.id()];
    answer += (phaseBonus !== undefined ? phaseBonus : 0);
 
-   var roundBonus = store.getState().cardRoundBonusWillpower.get(this.id());
+   var roundBonus = store.getState().cardRoundBonusWillpower[this.id()];
    answer += (roundBonus !== undefined ? roundBonus : 0);
 
    this.attachments().forEach(function(attachmentInstance)
@@ -282,7 +282,7 @@ CardInstance.prototype.isExhausted = function()
 CardInstance.prototype.isFaceUp = function()
 {
    var store = this.store();
-   var answer = store.getState().cardIsFaceUp.get(this.id());
+   var answer = store.getState().cardIsFaceUp[this.id()];
 
    return (answer !== undefined ? answer : true);
 };
@@ -300,7 +300,7 @@ CardInstance.prototype.isQuestType = function()
 CardInstance.prototype.isReady = function()
 {
    var store = this.store();
-   var answer = store.getState().cardIsReady.get(this.id());
+   var answer = store.getState().cardIsReady[this.id()];
 
    return (answer !== undefined ? answer : true);
 };
@@ -308,7 +308,7 @@ CardInstance.prototype.isReady = function()
 CardInstance.prototype.isUsed = function()
 {
    var store = this.store();
-   var answer = store.getState().cardIsUsed.get(this.id());
+   var answer = store.getState().cardIsUsed[this.id()];
 
    return (answer !== undefined ? answer : false);
 };
@@ -316,7 +316,7 @@ CardInstance.prototype.isUsed = function()
 CardInstance.prototype.progress = function()
 {
    var store = this.store();
-   var answer = store.getState().cardProgress.get(this.id());
+   var answer = store.getState().cardProgress[this.id()];
 
    return (answer !== undefined ? answer : 0);
 };
@@ -339,7 +339,7 @@ CardInstance.prototype.remainingHitPoints = function()
 CardInstance.prototype.resources = function()
 {
    var store = this.store();
-   var answer = store.getState().cardResources.get(this.id());
+   var answer = store.getState().cardResources[this.id()];
 
    return (answer !== undefined ? answer : 0);
 };
@@ -347,7 +347,7 @@ CardInstance.prototype.resources = function()
 CardInstance.prototype.shadowCards = function()
 {
    var store = this.store();
-   var ids = store.getState().cardShadowCards.get(this.id());
+   var ids = store.getState().cardShadowCards[this.id()];
 
    return CardInstance.idsToCardInstances(store, ids);
 };
@@ -387,7 +387,7 @@ CardInstance.prototype.willpower = function()
 CardInstance.prototype.wounds = function()
 {
    var store = this.store();
-   var answer = store.getState().cardWounds.get(this.id());
+   var answer = store.getState().cardWounds[this.id()];
 
    return (answer !== undefined ? answer : 0);
 };
@@ -451,7 +451,8 @@ CardInstance.prototype.prepareForDiscard = function(agent)
    store.dispatch(CardAction.deleteProgress(this));
    store.dispatch(CardAction.deleteQuesting(this));
    store.dispatch(CardAction.deleteReady(this));
-   store.dispatch(CardAction.deleteResources(this, Immutable.Map()));
+   store.dispatch(CardAction.deleteResources(this,
+   {}));
    store.dispatch(CardAction.deleteWounds(this));
 };
 
@@ -460,12 +461,11 @@ CardInstance.prototype._save = function()
    var store = this.store();
    var id = this.id();
    var card = this.card();
-   var values = Immutable.Map(
-   {
+   var values = {
       id: id,
       cardKey: card.key,
       cardTypeKey: card.cardTypeKey,
-   });
+   };
 
    store.dispatch(Action.addCardInstance(id, values));
 };
@@ -498,13 +498,13 @@ CardInstance.get = function(store, id)
    InputValidator.validateNotNull("store", store);
    InputValidator.validateIsNumber("id", id);
 
-   var values = store.getState().cardInstances.get(id);
+   var values = store.getState().cardInstances[id];
    var answer;
 
    if (values !== undefined)
    {
-      var cardTypeKey = values.get("cardTypeKey");
-      var cardKey = values.get("cardKey");
+      var cardTypeKey = values.cardTypeKey;
+      var cardKey = values.cardKey;
       var card = CardResolver.get(cardTypeKey, cardKey);
       var isNew = false;
 
@@ -530,7 +530,7 @@ CardInstance.idsToCardInstances = function(store, ids)
    }
    else
    {
-      answer = Immutable.List();
+      answer = [];
    }
 
    return answer;

@@ -7,7 +7,7 @@ function mapStateToProps(state, ownProps)
    InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
 
    var agent = ownProps.agent;
-   var cardInstances = agent.hand().toJS();
+   var cardInstances = agent.hand();
    cardInstances.sort(CardComparator.TypeCostSphereName);
 
    return (

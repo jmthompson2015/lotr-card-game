@@ -16,8 +16,8 @@ var game = createGame();
 var environment = game.engine().environment();
 var store = environment.store();
 store.dispatch(Action.setResourceBase(resourceBase));
-var agent1 = environment.agents().first();
-var enemyInstance = environment.stagingArea().first();
+var agent1 = environment.agents()[0];
+var enemyInstance = environment.stagingArea()[0];
 store.dispatch(Action.agentEngageCard(agent1, enemyInstance));
 var characters = agent1.defenders().toJS();
 

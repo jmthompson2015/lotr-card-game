@@ -106,7 +106,7 @@ QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.CATC1A_GRIMBEORNS_QUEST] = {
          environment.encounterToSetAside(TreacheryCard.SACKED);
       }
 
-      var agentCount = environment.agents().size;
+      var agentCount = environment.agents().length;
 
       for (var j = 0; j < agentCount; j++)
       {
@@ -142,9 +142,9 @@ QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.EFDG1A_THE_NECROMANCERS_TOWER
 
       environment.shuffleEncounterDeck(store);
       var stagingArea = environment.stagingArea();
-      var dungeonTorchInstance = stagingArea.first();
-      var gandalfsMapInstance = stagingArea.get(1);
-      var shadowKeyInstance = stagingArea.last();
+      var dungeonTorchInstance = stagingArea[0];
+      var gandalfsMapInstance = stagingArea[1];
+      var shadowKeyInstance = stagingArea[stagingArea.length - 1];
       store.dispatch(Action.encounterToCardAttachment(dungeonTorchInstance));
       store.dispatch(Action.encounterToCardAttachment(gandalfsMapInstance));
       store.dispatch(Action.encounterToCardAttachment(shadowKeyInstance));
@@ -236,7 +236,7 @@ QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.RTM1A_THROUGH_THE_FOREST] = {
       var environment = store.getState().environment;
 
       // FIXME: how to guard Gollum?
-      var agent1 = environment.agents().get(0);
+      var agent1 = environment.agents()[0];
       environment.encounterToAgentTableau(agent1, ObjectiveCard.GOLLUM_RTM);
 
       environment.shuffleEncounterDeck(store);
@@ -309,7 +309,7 @@ QuestAbility[GameEvent.QUEST_CARD_DRAWN][QuestCard.THFG1A_THE_HUNT_BEGINS] = {
 function encounterToStagingPerPlayer(store)
 {
    var environment = store.getState().environment;
-   var agentCount = environment.agents().size;
+   var agentCount = environment.agents().length;
 
    for (var i = 0; i < agentCount; i++)
    {

@@ -15,19 +15,19 @@ QUnit.test("addThreat()", function(assert)
    // Setup.
    var store = Redux.createStore(Reducer.root);
    var agent = new Agent(store, "agent");
-   assert.equal(store.getState().agentThreat.get(agent.id()), undefined);
+   assert.equal(store.getState().agentThreat[agent.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.addThreat(agent));
 
    // Verify.
-   assert.equal(store.getState().agentThreat.get(agent.id()), 1);
+   assert.equal(store.getState().agentThreat[agent.id()], 1);
 
    // Run.
    store.dispatch(AgentAction.addThreat(agent, 5));
 
    // Verify.
-   assert.equal(store.getState().agentThreat.get(agent.id()), 6);
+   assert.equal(store.getState().agentThreat[agent.id()], 6);
 });
 
 QUnit.test("attachCard()", function(assert)
@@ -36,22 +36,22 @@ QUnit.test("attachCard()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent = environment.agents().first();
-   var cardInstance = agent.tableau().first();
-   var attachmentInstance = agent.hand().first();
+   var agent = environment.agents()[0];
+   var cardInstance = agent.tableau()[0];
+   var attachmentInstance = agent.hand()[0];
    store.dispatch(AgentAction.playCard(agent, attachmentInstance));
-   assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 4);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()), undefined);
+   assert.equal(store.getState().agentHand[agent.id()].length, 5);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 4);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.attachCard(agent, cardInstance, attachmentInstance));
 
    // Verify.
-   assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()).get(0), attachmentInstance.id());
+   assert.equal(store.getState().agentHand[agent.id()].length, 5);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 3);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()].length, 1);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()][0], attachmentInstance.id());
 });
 
 QUnit.test("attachToEngagedEnemy()", function(assert)
@@ -60,24 +60,24 @@ QUnit.test("attachToEngagedEnemy()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent = environment.agents().first();
+   var agent = environment.agents()[0];
    store.dispatch(Action.drawEncounterCard());
-   var cardInstance = environment.stagingArea().first();
+   var cardInstance = environment.stagingArea()[0];
    store.dispatch(Action.agentEngageCard(agent, cardInstance));
-   var attachmentInstance = agent.hand().first();
+   var attachmentInstance = agent.hand()[0];
    store.dispatch(AgentAction.playCard(agent, attachmentInstance));
-   assert.equal(store.getState().agentEngagementArea.get(agent.id()).size, 1);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 4);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()), undefined);
+   assert.equal(store.getState().agentEngagementArea[agent.id()].length, 1);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 4);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.attachToEngagedEnemy(agent, cardInstance, attachmentInstance));
 
    // Verify.
-   assert.equal(store.getState().agentEngagementArea.get(agent.id()).size, 1);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()).get(0), attachmentInstance.id());
+   assert.equal(store.getState().agentEngagementArea[agent.id()].length, 1);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 3);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()].length, 1);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()][0], attachmentInstance.id());
 });
 
 QUnit.test("discardAttachmentCard()", function(assert)
@@ -86,24 +86,24 @@ QUnit.test("discardAttachmentCard()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent = environment.agents().first();
-   var cardInstance = agent.tableau().first();
-   var attachmentInstance = agent.hand().first();
+   var agent = environment.agents()[0];
+   var cardInstance = agent.tableau()[0];
+   var attachmentInstance = agent.hand()[0];
    store.dispatch(AgentAction.playCard(agent, attachmentInstance));
    store.dispatch(AgentAction.attachCard(agent, cardInstance, attachmentInstance));
-   assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
-   assert.equal(store.getState().agentPlayerDiscard.get(agent.id()), undefined);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 1);
+   assert.equal(store.getState().agentHand[agent.id()].length, 5);
+   assert.equal(store.getState().agentPlayerDiscard[agent.id()], undefined);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 3);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()].length, 1);
 
    // Run.
    store.dispatch(AgentAction.discardAttachmentCard(agent, cardInstance, attachmentInstance));
 
    // Verify.
-   assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
-   assert.equal(store.getState().agentPlayerDiscard.get(agent.id()).size, 1);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-   assert.equal(store.getState().cardAttachments.get(cardInstance.id()).size, 0);
+   assert.equal(store.getState().agentHand[agent.id()].length, 5);
+   assert.equal(store.getState().agentPlayerDiscard[agent.id()].length, 1);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 3);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()].length, 0);
 });
 
 QUnit.test("discardFromTableau()", function(assert)
@@ -112,18 +112,18 @@ QUnit.test("discardFromTableau()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent = environment.agents().get(0);
-   var cardInstance = agent.tableau().get(0);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
-   assert.equal(store.getState().agentPlayerDiscard.get(agent.id()), undefined);
+   var agent = environment.agents()[0];
+   var cardInstance = agent.tableau()[0];
+   assert.equal(store.getState().agentTableau[agent.id()].length, 3);
+   assert.equal(store.getState().agentPlayerDiscard[agent.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.discardFromTableau(agent, cardInstance));
 
    // Verify.
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 2);
-   assert.equal(store.getState().agentPlayerDiscard.get(agent.id()).size, 1);
-   assert.equal(store.getState().agentPlayerDiscard.get(agent.id()).get(0), cardInstance.id());
+   assert.equal(store.getState().agentTableau[agent.id()].length, 2);
+   assert.equal(store.getState().agentPlayerDiscard[agent.id()].length, 1);
+   assert.equal(store.getState().agentPlayerDiscard[agent.id()][0], cardInstance.id());
 });
 
 QUnit.test("drawPlayerCard()", function(assert)
@@ -133,15 +133,15 @@ QUnit.test("drawPlayerCard()", function(assert)
    var agent = new Agent(store, "agent");
    var playerDeck = PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store);
    store.dispatch(AgentAction.setPlayerDeck(agent, playerDeck.playerInstances));
-   assert.equal(store.getState().agentPlayerDeck.get(agent.id()).size, 45);
-   assert.equal(store.getState().agentHand.size, 0);
+   assert.equal(store.getState().agentPlayerDeck[agent.id()].length, 45);
+   assert.equal(Object.keys(store.getState().agentHand).length, 0);
 
    // Run.
    store.dispatch(AgentAction.drawPlayerCard(agent));
 
    // Verify.
-   assert.equal(store.getState().agentPlayerDeck.get(agent.id()).size, 44);
-   assert.equal(store.getState().agentHand.size, 1);
+   assert.equal(store.getState().agentPlayerDeck[agent.id()].length, 44);
+   assert.equal(Object.keys(store.getState().agentHand).length, 1);
 });
 
 QUnit.test("incrementNextAgentId()", function(assert)
@@ -169,17 +169,17 @@ QUnit.test("playCard()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent = environment.agents().get(0);
-   var cardInstance = agent.hand().get(0);
-   assert.equal(store.getState().agentHand.get(agent.id()).size, 6);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 3);
+   var agent = environment.agents()[0];
+   var cardInstance = agent.hand()[0];
+   assert.equal(store.getState().agentHand[agent.id()].length, 6);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 3);
 
    // Run.
    store.dispatch(AgentAction.playCard(agent, cardInstance));
 
    // Verify.
-   assert.equal(store.getState().agentHand.get(agent.id()).size, 5);
-   assert.equal(store.getState().agentTableau.get(agent.id()).size, 4);
+   assert.equal(store.getState().agentHand[agent.id()].length, 5);
+   assert.equal(store.getState().agentTableau[agent.id()].length, 4);
 });
 
 QUnit.test("setPlayerDeck()", function(assert)
@@ -190,17 +190,17 @@ QUnit.test("setPlayerDeck()", function(assert)
    var cardInstance0 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
    var cardInstance1 = new CardInstance(store, HeroCard.properties[HeroCard.GLOIN]);
    var playerDeck = [cardInstance0, cardInstance1];
-   assert.equal(store.getState().agentTableau.get(agent.id()), undefined);
+   assert.equal(store.getState().agentTableau[agent.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.setPlayerDeck(agent, playerDeck));
 
    // Verify.
-   var result = store.getState().agentPlayerDeck.get(agent.id());
+   var result = store.getState().agentPlayerDeck[agent.id()];
    assert.ok(result);
-   assert.equal(result.size, 2);
-   assert.equal(result.get(0), 1);
-   assert.equal(result.get(1), 2);
+   assert.equal(result.length, 2);
+   assert.equal(result[0], 1);
+   assert.equal(result[1], 2);
 });
 
 QUnit.test("setTableau()", function(assert)
@@ -211,17 +211,17 @@ QUnit.test("setTableau()", function(assert)
    var cardInstance0 = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
    var cardInstance1 = new CardInstance(store, HeroCard.properties[HeroCard.GLOIN]);
    var tableau = [cardInstance0, cardInstance1];
-   assert.equal(store.getState().agentTableau.get(agent.id()), undefined);
+   assert.equal(store.getState().agentTableau[agent.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.setTableau(agent, tableau));
 
    // Verify.
-   var result = store.getState().agentTableau.get(agent.id());
+   var result = store.getState().agentTableau[agent.id()];
    assert.ok(result);
-   assert.equal(result.size, 2);
-   assert.equal(result.get(0), 1);
-   assert.equal(result.get(1), 2);
+   assert.equal(result.length, 2);
+   assert.equal(result[0], 1);
+   assert.equal(result[1], 2);
 });
 
 QUnit.test("setThreat()", function(assert)
@@ -229,19 +229,19 @@ QUnit.test("setThreat()", function(assert)
    // Setup.
    var store = Redux.createStore(Reducer.root);
    var agent = new Agent(store, "agent");
-   assert.equal(store.getState().agentThreat.get(agent.id()), undefined);
+   assert.equal(store.getState().agentThreat[agent.id()], undefined);
 
    // Run.
    store.dispatch(AgentAction.setThreat(agent));
 
    // Verify.
-   assert.equal(store.getState().agentThreat.get(agent.id()), 0);
+   assert.equal(store.getState().agentThreat[agent.id()], 0);
 
    // Run.
    store.dispatch(AgentAction.setThreat(agent, 5));
 
    // Verify.
-   assert.equal(store.getState().agentThreat.get(agent.id()), 5);
+   assert.equal(store.getState().agentThreat[agent.id()], 5);
 });
 
 function createGame(callback)
@@ -250,17 +250,17 @@ function createGame(callback)
    store.dispatch(Action.setDelay(10));
    var scenarioDeck = ScenarioDeckBuilder.PassageThroughMirkwoodDeckBuilder.buildDeck(store);
    var playerData = [
-   {
-      agent: new Agent(store, "agent1"),
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: new Agent(store, "agent1"),
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: new Agent(store, "agent2"),
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: new Agent(store, "agent2"),
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     },
-   {
-      agent: new Agent(store, "agent3"),
-      playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
+      {
+         agent: new Agent(store, "agent3"),
+         playerDeck: PlayerDeckBuilder.CoreSpiritDeckBuilder.buildDeck(store),
     }, ];
 
    return new Game(store, scenarioDeck, playerData, callback);

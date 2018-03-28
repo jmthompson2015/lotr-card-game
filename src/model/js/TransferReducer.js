@@ -14,7 +14,7 @@ TransferReducer.reduce = function(state, fromName, fromId, transferInstanceId, t
    var oldFromDeck = getDeck(state, fromName, fromId);
    LOGGER.debug("oldFromDeck = " + oldFromDeck);
 
-   if (oldFromDeck.size > 0)
+   if (oldFromDeck.length > 0)
    {
       var oldToDeck = getDeck(state, toName, toId);
       LOGGER.debug("oldToDeck = " + oldToDeck);
@@ -27,14 +27,38 @@ TransferReducer.reduce = function(state, fromName, fromId, transferInstanceId, t
          throw "Can't find transferInstanceId " + transferInstanceId + " in deck " + fromName;
       }
 
-      var newFromDeck = oldFromDeck.delete(index);
+      var newFromDeck = oldFromDeck.slice();
+      newFromDeck.splice(index, 1);
       LOGGER.debug("newFromDeck = " + newFromDeck);
-      var newToDeck = oldToDeck.push(transferInstanceId);
+      var newToDeck = oldToDeck.slice();
+      newToDeck.push(transferInstanceId);
       LOGGER.debug("newToDeck = " + newToDeck);
 
       var newObject = {};
-      newObject[fromName] = (fromId === undefined ? newFromDeck : state[fromName].set(fromId, newFromDeck));
-      newObject[toName] = (toId === undefined ? newToDeck : state[toName].set(toId, newToDeck));
+      if (fromId === undefined)
+      {
+         newObject[fromName] = newFromDeck;
+      }
+      else
+      {
+         newObject[fromName] = Object.assign(
+         {}, state[fromName]);
+         newObject[fromName][fromId] = newFromDeck;
+      }
+      // newObject[fromName] = (fromId === undefined ? newFromDeck : Object.assign(
+      // {}, state[fromName])[fromId] = newFromDeck);
+      if (toId === undefined)
+      {
+         newObject[toName] = newToDeck;
+      }
+      else
+      {
+         newObject[toName] = Object.assign(
+         {}, state[toName]);
+         newObject[toName][toId] = newToDeck;
+      }
+      // newObject[toName] = (toId === undefined ? newToDeck : Object.assign(
+      // {}, state[toName])[toId] = newToDeck);
 
       LOGGER.debug("newObject = " + JSON.stringify(newObject));
 
@@ -42,7 +66,7 @@ TransferReducer.reduce = function(state, fromName, fromId, transferInstanceId, t
       {}, state, newObject);
    }
 
-   LOGGER.warn(fromName + ".get(" + fromId + ") empty");
+   LOGGER.warn(fromName + "[" + fromId + "] empty");
    return state;
 };
 
@@ -52,11 +76,11 @@ function getDeck(state, deckName, id)
 
    if (id === undefined)
    {
-      answer = (state[deckName] ? state[deckName] : Immutable.List());
+      answer = (state[deckName] ? state[deckName] : []);
    }
    else
    {
-      answer = (state[deckName].get(id) ? state[deckName].get(id) : Immutable.List());
+      answer = (state[deckName][id] ? state[deckName][id] : []);
    }
 
    return answer;

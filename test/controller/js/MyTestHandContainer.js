@@ -16,8 +16,8 @@ var game = createGame();
 var store = game.store();
 store.dispatch(Action.setResourceBase(resourceBase));
 var environment = game.engine().environment();
-var agent1 = environment.agents().first();
-var cardInstance = environment.stagingArea().first();
+var agent1 = environment.agents()[0];
+var cardInstance = environment.stagingArea()[0];
 store.dispatch(Action.agentEngageCard(agent1, cardInstance));
 
 var element = React.createElement(ReactRedux.Provider,

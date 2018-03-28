@@ -14,28 +14,27 @@ QUnit.test("onChange()", function(assert)
    // Setup.
    var environment = createEnvironment();
    var store = environment.store();
-   var agent1 = environment.agents().first();
+   var agent1 = environment.agents()[0];
    var eventKey = GameEvent.QUEST_CARD_DRAWN;
    var eventCallback = function(eventData)
    {
       // Verify.
-      assert.equal(store.getState().eventQueue.size, 0);
+      assert.equal(store.getState().eventQueue.length, 0);
       // store.getState().eventQueue.forEach(function(element, i)
       // {
       //    console.log(i + " " + JSON.stringify(element) + " token = " + element.get("eventToken"));
       // });
       assert.ok(eventData);
-      assert.equal(eventData.get("eventKey"), eventKey);
+      assert.equal(eventData.eventKey, eventKey);
       // assert.equal(eventData.get("eventAgent"), agent1);
    };
    store.dispatch(Action.drawQuestCard());
    var questInstance = environment.activeQuest();
-   var eventContext = Immutable.Map(
-   {
+   var eventContext = {
       questInstance: questInstance,
-   });
+   };
    store.dispatch(Action.enqueueEvent(eventKey, agent1, eventCallback, eventContext));
-   assert.equal(store.getState().eventQueue.size, 1);
+   assert.equal(store.getState().eventQueue.length, 1);
 
    // Run.
    EventObserver.observeStore(store);
@@ -48,13 +47,13 @@ function createEnvironment()
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    return new Environment(store, scenarioDeck, playerData);

@@ -23,7 +23,7 @@ QUnit.test("consequent() Longbeard Orc Slayer", function(assert)
    environment.drawEncounterCard(EnemyCard.DOL_GULDUR_ORCS);
    var agent1 = environment.agentQueue()[0];
    agent1.drawPlayerCard(AllyCard.LONGBEARD_ORC_SLAYER);
-   var cardInstance = agent1.hand().last();
+   var cardInstance = agent1.hand()[agent1.hand().length - 1];
    var context = {
       cardInstance: cardInstance,
    };
@@ -62,13 +62,13 @@ function createEnvironment(scenarioKey)
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    var environment = new Environment(store, scenarioDeck, playerData);

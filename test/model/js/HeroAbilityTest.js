@@ -19,7 +19,7 @@ QUnit.test("consequent() Gloin", function(assert)
    var environment = createEnvironment(scenarioKey);
    var store = environment.store();
    var agent1 = environment.agentQueue()[0];
-   var gloinInstance = agent1.tableau().get(1);
+   var gloinInstance = agent1.tableau()[1];
    var context = {
       cardInstance: gloinInstance,
       woundCount: 2,

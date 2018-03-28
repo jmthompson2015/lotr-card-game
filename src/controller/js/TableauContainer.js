@@ -7,7 +7,7 @@ function mapStateToProps(state, ownProps)
    InputValidator.validateNotNull("ownProps.agent", ownProps.agent);
 
    var agent = ownProps.agent;
-   var cardInstances = agent.tableau().toJS();
+   var cardInstances = agent.tableau();
    cardInstances.sort(CardComparator.TypeHitPointsName);
 
    return (

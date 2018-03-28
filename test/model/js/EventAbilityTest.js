@@ -23,7 +23,7 @@ QUnit.test("consequent() For Gondor!", function(assert)
    var store = environment.store();
    var agent1 = environment.agentQueue()[0];
    agent1.drawPlayerCard(EventCard.FOR_GONDOR);
-   var cardInstance = agent1.hand().last();
+   var cardInstance = agent1.hand()[agent1.hand().length - 1];
    assert.ok(cardInstance);
    assert.equal(cardInstance.card().key, EventCard.FOR_GONDOR);
    store.dispatch(AgentAction.playCard(agent1, cardInstance));
@@ -65,7 +65,7 @@ QUnit.test("consequent() Grim Resolve", function(assert)
    var store = environment.store();
    var agent1 = environment.agentQueue()[0];
    agent1.drawPlayerCard(EventCard.GRIM_RESOLVE);
-   var cardInstance = agent1.hand().last();
+   var cardInstance = agent1.hand()[agent1.hand().length - 1];
    assert.ok(cardInstance);
    assert.equal(cardInstance.card().key, EventCard.GRIM_RESOLVE);
    store.dispatch(AgentAction.playCard(agent1, cardInstance));
@@ -104,13 +104,13 @@ function createEnvironment(scenarioKey)
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    var environment = new Environment(store, scenarioDeck, playerData);

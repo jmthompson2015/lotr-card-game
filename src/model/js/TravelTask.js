@@ -24,7 +24,7 @@ TravelTask.prototype.doIt = function(callback)
    {
       // Pick a location from the staging area.
       var environment = store.getState().environment;
-      var locations = environment.stagingArea(CardType.LOCATION).toJS();
+      var locations = environment.stagingArea(CardType.LOCATION);
 
       if (locations.length > 0)
       {

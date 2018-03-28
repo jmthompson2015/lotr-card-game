@@ -14,13 +14,13 @@ QUnit.test("doIt()", function(assert)
    var game = createGame();
    var environment = game.engine().environment();
    var store = environment.store();
-   var agent1 = environment.agents().get(0);
+   var agent1 = environment.agents()[0];
    var task = new CombatAttackTask(store, agent1);
    var callback = function()
    {
       // Verify.
-      assert.ok(store.getState().encounterDiscard.size >= 0);
-      assert.equal(store.getState().cardShadowCards.size, 0);
+      assert.ok(store.getState().encounterDiscard.length >= 0);
+      assert.equal(Object.keys(store.getState().cardShadowCards).length, 0);
    };
 
    // Run.
@@ -35,13 +35,13 @@ function createGame()
    var agent1 = new Agent(store, "agent1");
    var agent2 = new Agent(store, "agent2");
    var playerData = [
-   {
-      agent: agent1,
-      playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
+      {
+         agent: agent1,
+         playerDeck: PlayerDeckBuilder.CoreLeadershipDeckBuilder.buildDeck(store),
     },
-   {
-      agent: agent2,
-      playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
+      {
+         agent: agent2,
+         playerDeck: PlayerDeckBuilder.CoreLoreDeckBuilder.buildDeck(store),
     }, ];
 
    return new Game(store, scenarioDeck, playerData);

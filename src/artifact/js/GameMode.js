@@ -39,7 +39,7 @@ GameMode.createMap = function(easyCountIn, standardCountIn, nightmareCountIn)
    map[GameMode.STANDARD] = standardCount;
    map[GameMode.NIGHTMARE] = nightmareCount;
 
-   return Immutable.Map(map);
+   return map;
 };
 
 if (Object.freeze)

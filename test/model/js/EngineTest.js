@@ -17,8 +17,8 @@ QUnit.test("Engine() A Journey to Rhosgobel", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -43,8 +43,8 @@ QUnit.test("Engine() Conflict at the Carrock", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -69,8 +69,8 @@ QUnit.test("Engine() Escape from Dol Guldur", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -95,8 +95,8 @@ QUnit.test("Engine() Journey Along the Anduin", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -121,8 +121,8 @@ QUnit.test("Engine() Passage through Mirkwood", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -147,8 +147,8 @@ QUnit.test("Engine() Return to Mirkwood", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -173,8 +173,8 @@ QUnit.test("Engine() The Dead Marshes", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -199,8 +199,8 @@ QUnit.test("Engine() The Hills of Emyn Muil", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
@@ -225,8 +225,8 @@ QUnit.test("Engine() The Hunt for Gollum", function(assert)
       // Verify.
       assert.ok(true, "test resumed from async operation");
       var store = engine.store();
-      var agentCount = store.getState().agents.size;
-      var questCount = store.getState().questDeck.size;
+      var agentCount = Object.keys(store.getState().agents).length;
+      var questCount = store.getState().questDeck.length;
       assert.ok(agentCount === 0 || questCount === 0);
       done();
    };
