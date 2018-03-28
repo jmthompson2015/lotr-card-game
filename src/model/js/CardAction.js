@@ -33,198 +33,159 @@ CardAction.SET_RESOURCES = "setResources";
 CardAction.SET_USED = "setUsed";
 CardAction.SET_WOUNDS = "setWounds";
 
-CardAction.addPhaseBonusAttack = function(cardInstance, value)
+CardAction.addPhaseBonusAttack = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_PHASE_BONUS_ATTACK,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addPhaseBonusDefense = function(cardInstance, value)
+CardAction.addPhaseBonusDefense = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_PHASE_BONUS_DEFENSE,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addPhaseBonusHitPoints = function(cardInstance, value)
+CardAction.addPhaseBonusHitPoints = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_PHASE_BONUS_HIT_POINTS,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addPhaseBonusThreat = function(cardInstance, value)
+CardAction.addPhaseBonusThreat = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_PHASE_BONUS_THREAT,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addPhaseBonusWillpower = function(cardInstance, value)
+CardAction.addPhaseBonusWillpower = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_PHASE_BONUS_WILLPOWER,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addProgress = function(cardInstance, value)
+CardAction.addProgress = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_PROGRESS,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addResources = function(cardInstance, value)
+CardAction.addResources = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_RESOURCES,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addRoundBonusAttack = function(cardInstance, value)
+CardAction.addRoundBonusAttack = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_ROUND_BONUS_ATTACK,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addRoundBonusDefense = function(cardInstance, value)
+CardAction.addRoundBonusDefense = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_ROUND_BONUS_DEFENSE,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addRoundBonusHitPoints = function(cardInstance, value)
+CardAction.addRoundBonusHitPoints = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_ROUND_BONUS_HIT_POINTS,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addRoundBonusThreat = function(cardInstance, value)
+CardAction.addRoundBonusThreat = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_ROUND_BONUS_THREAT,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addRoundBonusWillpower = function(cardInstance, value)
+CardAction.addRoundBonusWillpower = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_ROUND_BONUS_WILLPOWER,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
-CardAction.addWounds = function(cardInstance, value)
+CardAction.addWounds = function(cardInstance, value = 1)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: CardAction.ADD_WOUNDS,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
@@ -344,18 +305,15 @@ CardAction.setFaceUp = function(cardInstance, isFaceUp)
    });
 };
 
-CardAction.setProgress = function(cardInstance, value)
+CardAction.setProgress = function(cardInstance, value = 0)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 0
-
-   var myValue = (value !== undefined ? value : 0);
 
    return (
    {
       type: CardAction.SET_PROGRESS,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
@@ -385,18 +343,15 @@ CardAction.setReady = function(cardInstance, isReady)
    });
 };
 
-CardAction.setResources = function(cardInstance, value)
+CardAction.setResources = function(cardInstance, value = 0)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 0
-
-   var myValue = (value !== undefined ? value : 0);
 
    return (
    {
       type: CardAction.SET_RESOURCES,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 
@@ -413,18 +368,15 @@ CardAction.setUsed = function(cardInstance, isUsed)
    });
 };
 
-CardAction.setWounds = function(cardInstance, value)
+CardAction.setWounds = function(cardInstance, value = 0)
 {
    InputValidator.validateNotNull("cardInstance", cardInstance);
-   // value optional. default: 0
-
-   var myValue = (value !== undefined ? value : 0);
 
    return (
    {
       type: CardAction.SET_WOUNDS,
       cardInstance: cardInstance,
-      value: myValue,
+      value: value,
    });
 };
 

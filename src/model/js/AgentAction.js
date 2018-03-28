@@ -16,18 +16,15 @@ AgentAction.SET_PLAYER_DECK = "setPlayerDeck";
 AgentAction.SET_TABLEAU = "setTableau";
 AgentAction.SET_THREAT = "setThreat";
 
-AgentAction.addThreat = function(agent, value)
+AgentAction.addThreat = function(agent, value = 1)
 {
    InputValidator.validateNotNull("agent", agent);
-   // value optional. default: 1
-
-   var myValue = (value !== undefined ? value : 1);
 
    return (
    {
       type: AgentAction.ADD_THREAT,
       agent: agent,
-      value: myValue,
+      value: value,
    });
 };
 
@@ -175,18 +172,15 @@ AgentAction.setTableau = function(agent, deck)
    });
 };
 
-AgentAction.setThreat = function(agent, value)
+AgentAction.setThreat = function(agent, value = 0)
 {
    InputValidator.validateNotNull("agent", agent);
-   // value optional. default: 0
-
-   var myValue = (value !== undefined ? value : 0);
 
    return (
    {
       type: AgentAction.SET_THREAT,
       agent: agent,
-      value: myValue,
+      value: value,
    });
 };
 
