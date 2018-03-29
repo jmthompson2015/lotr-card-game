@@ -301,7 +301,7 @@ CardAction.setFaceUp = function(cardInstance, isFaceUp)
    {
       type: CardAction.SET_FACE_UP,
       cardInstance: cardInstance,
-      isFaceUp: isFaceUp,
+      value: isFaceUp,
    });
 };
 
@@ -326,7 +326,7 @@ CardAction.setQuesting = function(cardInstance, isQuesting)
    {
       type: CardAction.SET_QUESTING,
       cardInstance: cardInstance,
-      isQuesting: isQuesting,
+      value: isQuesting,
    });
 };
 
@@ -339,7 +339,7 @@ CardAction.setReady = function(cardInstance, isReady)
    {
       type: CardAction.SET_READY,
       cardInstance: cardInstance,
-      isReady: isReady,
+      value: isReady,
    });
 };
 
@@ -364,7 +364,7 @@ CardAction.setUsed = function(cardInstance, isUsed)
    {
       type: CardAction.SET_USED,
       cardInstance: cardInstance,
-      isUsed: isUsed,
+      value: isUsed,
    });
 };
 

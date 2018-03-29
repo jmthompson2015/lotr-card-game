@@ -1,3 +1,4 @@
+import AttachmentCard from "../../../src/artifact/js/AttachmentCard.js";
 import HeroCard from "../../../src/artifact/js/HeroCard.js";
 import LocationCard from "../../../src/artifact/js/LocationCard.js";
 import AgentAction from "../../../src/model/js/AgentAction.js";
@@ -7,6 +8,206 @@ import Reducer from "../../../src/model/js/Reducer.js";
 import Agent from "../../../src/model/js/Agent.js";
 
 QUnit.module("CardReducer");
+
+QUnit.test("addPhaseBonusAttack()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardPhaseBonusAttack[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusAttack(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusAttack[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusAttack(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusAttack[cardInstance.id()], 6);
+});
+
+QUnit.test("addPhaseBonusDefense()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardPhaseBonusDefense[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusDefense(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusDefense[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusDefense(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusDefense[cardInstance.id()], 6);
+});
+
+QUnit.test("addPhaseBonusHitPoints()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardPhaseBonusHitPoints[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusHitPoints(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusHitPoints[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusHitPoints(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusHitPoints[cardInstance.id()], 6);
+});
+
+QUnit.test("addPhaseBonusThreat()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardPhaseBonusThreat[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusThreat(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusThreat[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusThreat(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusThreat[cardInstance.id()], 6);
+});
+
+QUnit.test("addPhaseBonusWillpower()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardPhaseBonusWillpower[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusWillpower(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusWillpower[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addPhaseBonusWillpower(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusWillpower[cardInstance.id()], 6);
+});
+
+QUnit.test("addRoundBonusAttack()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardRoundBonusAttack[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusAttack(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusAttack[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusAttack(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusAttack[cardInstance.id()], 6);
+});
+
+QUnit.test("addRoundBonusDefense()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardRoundBonusDefense[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusDefense(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusDefense[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusDefense(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusDefense[cardInstance.id()], 6);
+});
+
+QUnit.test("addRoundBonusHitPoints()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardRoundBonusHitPoints[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusHitPoints(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusHitPoints[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusHitPoints(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusHitPoints[cardInstance.id()], 6);
+});
+
+QUnit.test("addRoundBonusThreat()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardRoundBonusThreat[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusThreat(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusThreat[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusThreat(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusThreat[cardInstance.id()], 6);
+});
+
+QUnit.test("addRoundBonusWillpower()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, LocationCard.properties[LocationCard.OLD_FOREST_ROAD]);
+   assert.equal(store.getState().cardRoundBonusWillpower[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusWillpower(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusWillpower[cardInstance.id()], 1);
+
+   // Run.
+   store.dispatch(CardAction.addRoundBonusWillpower(cardInstance, 5));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusWillpower[cardInstance.id()], 6);
+});
 
 QUnit.test("addProgress()", function(assert)
 {
@@ -71,6 +272,76 @@ QUnit.test("addWounds()", function(assert)
 
    // Verify.
    assert.equal(store.getState().cardWounds[cardInstance.id()], 6);
+});
+
+QUnit.test("attach()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+   let attachmentInstance = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
+   assert.equal(store.getState().cardResources[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.attach(cardInstance, attachmentInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardAttachments[cardInstance.id()].length, 1);
+   assert.equal(store.getState().cardAttachments[cardInstance.id()][0], attachmentInstance.id());
+});
+
+QUnit.test("clearPhaseBonuses()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+   store.dispatch(CardAction.addPhaseBonusAttack(cardInstance));
+   store.dispatch(CardAction.addPhaseBonusDefense(cardInstance, 2));
+   store.dispatch(CardAction.addPhaseBonusHitPoints(cardInstance, 3));
+   store.dispatch(CardAction.addPhaseBonusThreat(cardInstance, 4));
+   store.dispatch(CardAction.addPhaseBonusWillpower(cardInstance, 5));
+   assert.equal(store.getState().cardPhaseBonusAttack[cardInstance.id()], 1);
+   assert.equal(store.getState().cardPhaseBonusDefense[cardInstance.id()], 2);
+   assert.equal(store.getState().cardPhaseBonusHitPoints[cardInstance.id()], 3);
+   assert.equal(store.getState().cardPhaseBonusThreat[cardInstance.id()], 4);
+   assert.equal(store.getState().cardPhaseBonusWillpower[cardInstance.id()], 5);
+
+   // Run.
+   store.dispatch(CardAction.clearPhaseBonuses(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardPhaseBonusAttack[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardPhaseBonusDefense[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardPhaseBonusHitPoints[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardPhaseBonusThreat[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardPhaseBonusWillpower[cardInstance.id()], undefined);
+});
+
+QUnit.test("clearRoundBonuses()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
+   store.dispatch(CardAction.addRoundBonusAttack(cardInstance));
+   store.dispatch(CardAction.addRoundBonusDefense(cardInstance, 2));
+   store.dispatch(CardAction.addRoundBonusHitPoints(cardInstance, 3));
+   store.dispatch(CardAction.addRoundBonusThreat(cardInstance, 4));
+   store.dispatch(CardAction.addRoundBonusWillpower(cardInstance, 5));
+   assert.equal(store.getState().cardRoundBonusAttack[cardInstance.id()], 1);
+   assert.equal(store.getState().cardRoundBonusDefense[cardInstance.id()], 2);
+   assert.equal(store.getState().cardRoundBonusHitPoints[cardInstance.id()], 3);
+   assert.equal(store.getState().cardRoundBonusThreat[cardInstance.id()], 4);
+   assert.equal(store.getState().cardRoundBonusWillpower[cardInstance.id()], 5);
+
+   // Run.
+   store.dispatch(CardAction.clearRoundBonuses(cardInstance));
+
+   // Verify.
+   assert.equal(store.getState().cardRoundBonusAttack[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardRoundBonusDefense[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardRoundBonusHitPoints[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardRoundBonusThreat[cardInstance.id()], undefined);
+   assert.equal(store.getState().cardRoundBonusWillpower[cardInstance.id()], undefined);
 });
 
 QUnit.test("deleteFaceUp()", function(assert)
@@ -314,6 +585,29 @@ QUnit.test("setResources()", function(assert)
 
    // Verify.
    assert.equal(store.getState().cardResources[cardInstance.id()], 5);
+});
+
+QUnit.test("setUsed()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var agent = new Agent(store, "agent");
+   var heroDeck = [new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE])];
+   store.dispatch(AgentAction.setTableau(agent, heroDeck));
+   var cardInstance = heroDeck[0];
+   assert.equal(store.getState().cardIsUsed[cardInstance.id()], undefined);
+
+   // Run.
+   store.dispatch(CardAction.setUsed(cardInstance, true));
+
+   // Verify.
+   assert.equal(store.getState().cardIsUsed[cardInstance.id()], true);
+
+   // Run.
+   store.dispatch(CardAction.setUsed(cardInstance, false));
+
+   // Verify.
+   assert.equal(store.getState().cardIsUsed[cardInstance.id()], false);
 });
 
 QUnit.test("setWounds()", function(assert)
