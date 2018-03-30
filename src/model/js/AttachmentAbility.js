@@ -237,7 +237,7 @@ function finishAttachToAnEngagedEnemy(enemyInstance, store, context, callback)
    {
       var agent = context.agent;
       var attachmentInstance = context.cardInstance;
-      store.dispatch(AgentAction.attachToEngagedEnemy(agent, enemyInstance, attachmentInstance));
+      store.dispatch(AgentAction.attachCard(agent, enemyInstance, attachmentInstance));
    }
 
    callback();

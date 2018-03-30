@@ -15,7 +15,6 @@ CardAction.ADD_ROUND_BONUS_HIT_POINTS = "addRoundBonusHitPoints";
 CardAction.ADD_ROUND_BONUS_THREAT = "addRoundBonusThreat";
 CardAction.ADD_ROUND_BONUS_WILLPOWER = "addRoundBonusWillpower";
 CardAction.ADD_WOUNDS = "addWounds";
-CardAction.ATTACH = "attach";
 CardAction.CLEAR_PHASE_BONUSES = "clearPhaseBonuses";
 CardAction.CLEAR_ROUND_BONUSES = "clearRoundBonuses";
 CardAction.DELETE_FACE_UP = "deleteFaceUp";
@@ -186,19 +185,6 @@ CardAction.addWounds = function(cardInstance, value = 1)
       type: CardAction.ADD_WOUNDS,
       cardInstance: cardInstance,
       value: value,
-   });
-};
-
-CardAction.attach = function(cardInstance, attachmentInstance)
-{
-   InputValidator.validateNotNull("cardInstance", cardInstance);
-   InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
-
-   return (
-   {
-      type: CardAction.ATTACH,
-      cardInstance: cardInstance,
-      attachmentInstance: attachmentInstance,
    });
 };
 

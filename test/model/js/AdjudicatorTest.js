@@ -38,7 +38,7 @@ QUnit.test("canAttack() Forest Spider with Forest Snare", function(assert)
    agent2.drawPlayerCard(AttachmentCard.FOREST_SNARE);
    var attachmentInstance = agent2.hand()[agent2.hand().length - 1];
    store.dispatch(AgentAction.playCard(agent2, attachmentInstance));
-   store.dispatch(AgentAction.attachToEngagedEnemy(agent2, cardInstance, attachmentInstance));
+   store.dispatch(AgentAction.attachCard(agent2, cardInstance, attachmentInstance));
    var adjudicator = new Adjudicator(store);
 
    // Run.

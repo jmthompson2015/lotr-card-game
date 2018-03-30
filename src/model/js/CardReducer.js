@@ -10,33 +10,31 @@ CardReducer.reduce = function(state, action)
    switch (action.type)
    {
       case CardAction.ADD_PHASE_BONUS_ATTACK:
-         return addValue(state, action, "cardPhaseBonusAttack");
+         return ReducerUtilities.addValue(state, action, "cardPhaseBonusAttack", action.cardInstance.id(), action.value);
       case CardAction.ADD_PHASE_BONUS_DEFENSE:
-         return addValue(state, action, "cardPhaseBonusDefense");
+         return ReducerUtilities.addValue(state, action, "cardPhaseBonusDefense", action.cardInstance.id(), action.value);
       case CardAction.ADD_PHASE_BONUS_HIT_POINTS:
-         return addValue(state, action, "cardPhaseBonusHitPoints");
+         return ReducerUtilities.addValue(state, action, "cardPhaseBonusHitPoints", action.cardInstance.id(), action.value);
       case CardAction.ADD_PHASE_BONUS_THREAT:
-         return addValue(state, action, "cardPhaseBonusThreat");
+         return ReducerUtilities.addValue(state, action, "cardPhaseBonusThreat", action.cardInstance.id(), action.value);
       case CardAction.ADD_PHASE_BONUS_WILLPOWER:
-         return addValue(state, action, "cardPhaseBonusWillpower");
+         return ReducerUtilities.addValue(state, action, "cardPhaseBonusWillpower", action.cardInstance.id(), action.value);
       case CardAction.ADD_PROGRESS:
-         return addValue(state, action, "cardProgress");
+         return ReducerUtilities.addValue(state, action, "cardProgress", action.cardInstance.id(), action.value);
       case CardAction.ADD_RESOURCES:
-         return addValue(state, action, "cardResources");
+         return ReducerUtilities.addValue(state, action, "cardResources", action.cardInstance.id(), action.value);
       case CardAction.ADD_ROUND_BONUS_ATTACK:
-         return addValue(state, action, "cardRoundBonusAttack");
+         return ReducerUtilities.addValue(state, action, "cardRoundBonusAttack", action.cardInstance.id(), action.value);
       case CardAction.ADD_ROUND_BONUS_DEFENSE:
-         return addValue(state, action, "cardRoundBonusDefense");
+         return ReducerUtilities.addValue(state, action, "cardRoundBonusDefense", action.cardInstance.id(), action.value);
       case CardAction.ADD_ROUND_BONUS_HIT_POINTS:
-         return addValue(state, action, "cardRoundBonusHitPoints");
+         return ReducerUtilities.addValue(state, action, "cardRoundBonusHitPoints", action.cardInstance.id(), action.value);
       case CardAction.ADD_ROUND_BONUS_THREAT:
-         return addValue(state, action, "cardRoundBonusThreat");
+         return ReducerUtilities.addValue(state, action, "cardRoundBonusThreat", action.cardInstance.id(), action.value);
       case CardAction.ADD_ROUND_BONUS_WILLPOWER:
-         return addValue(state, action, "cardRoundBonusWillpower");
+         return ReducerUtilities.addValue(state, action, "cardRoundBonusWillpower", action.cardInstance.id(), action.value);
       case CardAction.ADD_WOUNDS:
-         return addValue(state, action, "cardWounds");
-      case CardAction.ATTACH:
-         return attach(state, action);
+         return ReducerUtilities.addValue(state, action, "cardWounds", action.cardInstance.id(), action.value);
       case CardAction.CLEAR_PHASE_BONUSES:
          return clearPhaseBonuses(state);
       case CardAction.CLEAR_ROUND_BONUSES:
@@ -56,52 +54,24 @@ CardReducer.reduce = function(state, action)
       case CardAction.INCREMENT_NEXT_CARD_ID:
          return incrementNextCardId(state);
       case CardAction.SET_FACE_UP:
-         return setValue(state, action, "cardIsFaceUp");
+         return ReducerUtilities.setValue(state, action, "cardIsFaceUp", action.cardInstance.id(), action.value);
       case CardAction.SET_PROGRESS:
-         return setValue(state, action, "cardProgress");
+         return ReducerUtilities.setValue(state, action, "cardProgress", action.cardInstance.id(), action.value);
       case CardAction.SET_QUESTING:
-         return setValue(state, action, "cardIsQuesting");
+         return ReducerUtilities.setValue(state, action, "cardIsQuesting", action.cardInstance.id(), action.value);
       case CardAction.SET_READY:
-         return setValue(state, action, "cardIsReady");
+         return ReducerUtilities.setValue(state, action, "cardIsReady", action.cardInstance.id(), action.value);
       case CardAction.SET_RESOURCES:
-         return setValue(state, action, "cardResources");
+         return ReducerUtilities.setValue(state, action, "cardResources", action.cardInstance.id(), action.value);
       case CardAction.SET_USED:
-         return setValue(state, action, "cardIsUsed");
+         return ReducerUtilities.setValue(state, action, "cardIsUsed", action.cardInstance.id(), action.value);
       case CardAction.SET_WOUNDS:
-         return setValue(state, action, "cardWounds");
+         return ReducerUtilities.setValue(state, action, "cardWounds", action.cardInstance.id(), action.value);
       default:
          LOGGER.warn("CardReducer.root: Unhandled action type: " + action.type);
          return state;
    }
 };
-
-function addValue(state, action, name)
-{
-   let cardId = action.cardInstance.id();
-   let oldValue = ReducerUtilities.integerOrZero(state[name][cardId]);
-   let newMap = ReducerUtilities.copyObject(state[name]);
-   newMap[cardId] = oldValue + action.value;
-   let source = {};
-   source[name] = newMap;
-
-   return ReducerUtilities.updateObject(state, source);
-}
-
-function attach(state, action)
-{
-   LOGGER.info("Attach: " + action.attachmentInstance + " to " + action.cardInstance);
-   let cardId = action.cardInstance.id();
-   let oldAttachments = (state.cardAttachments[cardId] !== undefined ? state.cardAttachments[cardId] : []);
-   let newAttachments = oldAttachments.slice();
-   newAttachments.push(action.attachmentInstance.id());
-   let newCardAttachments = ReducerUtilities.copyObject(state.cardAttachments);
-   newCardAttachments[cardId] = newAttachments;
-
-   return ReducerUtilities.updateObject(state,
-   {
-      cardAttachments: newCardAttachments
-   });
-}
 
 function clearPhaseBonuses(state)
 {
@@ -154,17 +124,6 @@ function incrementNextCardId(state)
    {
       nextCardId: state.nextCardId + 1,
    });
-}
-
-function setValue(state, action, name)
-{
-   let cardId = action.cardInstance.id();
-   let newMap = ReducerUtilities.copyObject(state[name]);
-   newMap[cardId] = action.value;
-   let source = {};
-   source[name] = newMap;
-
-   return ReducerUtilities.updateObject(state, source);
 }
 
 if (Object.freeze)

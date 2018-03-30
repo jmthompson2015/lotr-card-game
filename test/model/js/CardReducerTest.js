@@ -1,4 +1,3 @@
-import AttachmentCard from "../../../src/artifact/js/AttachmentCard.js";
 import HeroCard from "../../../src/artifact/js/HeroCard.js";
 import LocationCard from "../../../src/artifact/js/LocationCard.js";
 import AgentAction from "../../../src/model/js/AgentAction.js";
@@ -272,22 +271,6 @@ QUnit.test("addWounds()", function(assert)
 
    // Verify.
    assert.equal(store.getState().cardWounds[cardInstance.id()], 6);
-});
-
-QUnit.test("attach()", function(assert)
-{
-   // Setup.
-   var store = Redux.createStore(Reducer.root);
-   var cardInstance = new CardInstance(store, HeroCard.properties[HeroCard.ARAGORN_CORE]);
-   let attachmentInstance = new CardInstance(store, AttachmentCard.properties[AttachmentCard.STEWARD_OF_GONDOR]);
-   assert.equal(store.getState().cardResources[cardInstance.id()], undefined);
-
-   // Run.
-   store.dispatch(CardAction.attach(cardInstance, attachmentInstance));
-
-   // Verify.
-   assert.equal(store.getState().cardAttachments[cardInstance.id()].length, 1);
-   assert.equal(store.getState().cardAttachments[cardInstance.id()][0], attachmentInstance.id());
 });
 
 QUnit.test("clearPhaseBonuses()", function(assert)

@@ -1,5 +1,16 @@
 var ReducerUtilities = {};
 
+ReducerUtilities.addValue = function(state, action, name, key, value)
+{
+   let oldValue = ReducerUtilities.integerOrZero(state[name][key]);
+   let newMap = ReducerUtilities.copyObject(state[name]);
+   newMap[key] = oldValue + value;
+   let source = {};
+   source[name] = newMap;
+
+   return ReducerUtilities.updateObject(state, source);
+};
+
 ReducerUtilities.copyObject = function(oldObject)
 {
    // Encapsulate the idea of passing a new object as the first parameter
@@ -11,6 +22,16 @@ ReducerUtilities.copyObject = function(oldObject)
 ReducerUtilities.integerOrZero = function(value)
 {
    return (Number.isInteger(value) ? value : 0);
+};
+
+ReducerUtilities.setValue = function(state, action, name, key, value)
+{
+   let newMap = ReducerUtilities.copyObject(state[name]);
+   newMap[key] = value;
+   let source = {};
+   source[name] = newMap;
+
+   return ReducerUtilities.updateObject(state, source);
 };
 
 ReducerUtilities.updateObject = function(oldObject, newValues)

@@ -1,5 +1,6 @@
 import AgentAction from "./AgentAction.js";
 import CardInstance from "./CardInstance.js";
+import ReducerUtilities from "./ReducerUtilities.js";
 import TransferReducer from "./TransferReducer.js";
 
 var AgentReducer = {};
@@ -8,106 +9,87 @@ AgentReducer.reduce = function(state, action)
 {
    LOGGER.debug("AgentReducer.root() type = " + action.type);
 
-   var agentId, attachmentId, cardId, cardInstanceIds;
-   var newAgentPlayerDeck, newAgentTableau, newAgentThreat;
-
    switch (action.type)
    {
       case AgentAction.ADD_THREAT:
-         agentId = action.agent.id();
-         var oldThreat = (state.agentThreat[agentId] !== undefined ? state.agentThreat[agentId] : 0);
-         newAgentThreat = Object.assign(
-         {}, state.agentThreat);
-         newAgentThreat[agentId] = oldThreat + action.value;
-         return Object.assign(
-         {}, state,
-         {
-            agentThreat: newAgentThreat,
-         });
+         return ReducerUtilities.addValue(state, action, "agentThreat", action.agent.id(), action.value);
       case AgentAction.ATTACH_CARD:
-         LOGGER.info("Attach card: " + action.attachmentInstance + " to " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         attachmentId = action.attachmentInstance.id();
-         return TransferReducer.reduce(state, "agentTableau", agentId, attachmentId, "cardAttachments", cardId);
-      case AgentAction.ATTACH_TO_ENGAGED_ENEMY:
-         LOGGER.info("Attach card: " + action.attachmentInstance + " to " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         attachmentId = action.attachmentInstance.id();
-         return TransferReducer.reduce(state, "agentTableau", agentId, attachmentId, "cardAttachments", cardId);
+         return attachCard(state, action, "agentTableau", "cardAttachments");
       case AgentAction.DISCARD_ATTACHMENT_CARD:
-         LOGGER.debug("Discard attachment: " + action.attachmentInstance + " from " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         attachmentId = action.attachmentInstance.id();
-         return TransferReducer.reduce(state, "cardAttachments", cardId, attachmentId, "agentPlayerDiscard", agentId);
+         return discardAttachmentCard(state, action);
       case AgentAction.DISCARD_FROM_HAND:
-         LOGGER.debug("Discard from hand: " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         return TransferReducer.reduce(state, "agentHand", agentId, cardId, "agentPlayerDiscard", agentId);
+         return transferCard(state, action, "agentHand", "agentPlayerDiscard");
       case AgentAction.DISCARD_FROM_PLAYER_DECK:
-         LOGGER.debug("Discard from player deck: " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentPlayerDiscard", agentId);
+         return transferCard(state, action, "agentPlayerDeck", "agentPlayerDiscard");
       case AgentAction.DISCARD_FROM_TABLEAU:
-         LOGGER.debug("Discard from tableau: " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         return TransferReducer.reduce(state, "agentTableau", agentId, cardId, "agentPlayerDiscard", agentId);
+         return transferCard(state, action, "agentTableau", "agentPlayerDiscard");
       case AgentAction.DRAW_PLAYER_CARD:
-         LOGGER.debug("Draw player card");
-         agentId = action.agent.id();
-         cardId = (action.index === undefined ? state.agentPlayerDeck[agentId][0] : state.agentPlayerDeck[agentId][action.index]);
-         return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentHand", agentId);
+         return drawPlayerCard(state, action);
       case AgentAction.INCREMENT_NEXT_AGENT_ID:
-         LOGGER.debug("increment next agent ID: " + state.nextAgentId);
-         return Object.assign(
-         {}, state,
-         {
-            nextAgentId: state.nextAgentId + 1,
-         });
+         return incrementNextAgentId(state);
       case AgentAction.PLAY_CARD:
-         LOGGER.debug("Play card: " + action.cardInstance);
-         agentId = action.agent.id();
-         cardId = action.cardInstance.id();
-         return TransferReducer.reduce(state, "agentHand", agentId, cardId, "agentTableau", agentId);
+         return transferCard(state, action, "agentHand", "agentTableau");
       case AgentAction.SET_PLAYER_DECK:
-         cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
-         newAgentPlayerDeck = Object.assign(
-         {}, state.agentPlayerDeck);
-         newAgentPlayerDeck[action.agent.id()] = cardInstanceIds;
-         return Object.assign(
-         {}, state,
-         {
-            agentPlayerDeck: newAgentPlayerDeck,
-         });
+         return setDeck(state, action, "agentPlayerDeck");
       case AgentAction.SET_TABLEAU:
-         cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
-         newAgentTableau = Object.assign(
-         {}, state.agentTableau);
-         newAgentTableau[action.agent.id()] = cardInstanceIds;
-         return Object.assign(
-         {}, state,
-         {
-            agentTableau: newAgentTableau,
-         });
+         return setDeck(state, action, "agentTableau");
       case AgentAction.SET_THREAT:
-         newAgentThreat = Object.assign(
-         {}, state.agentThreat);
-         newAgentThreat[action.agent.id()] = action.value;
-         return Object.assign(
-         {}, state,
-         {
-            agentThreat: newAgentThreat,
-         });
+         return ReducerUtilities.setValue(state, action, "agentThreat", action.agent.id(), action.value);
       default:
          LOGGER.warn("AgentReducer.root: Unhandled action type: " + action.type);
          return state;
    }
 };
+
+function attachCard(state, action, fromName, toName)
+{
+   let agentId = action.agent.id();
+   let cardId = action.cardInstance.id();
+   let attachmentId = action.attachmentInstance.id();
+
+   return TransferReducer.reduce(state, fromName, agentId, attachmentId, toName, cardId);
+}
+
+function discardAttachmentCard(state, action)
+{
+   let agentId = action.agent.id();
+   let cardId = action.cardInstance.id();
+   let attachmentId = action.attachmentInstance.id();
+
+   return TransferReducer.reduce(state, "cardAttachments", cardId, attachmentId, "agentPlayerDiscard", agentId);
+}
+
+function drawPlayerCard(state, action)
+{
+   let agentId = action.agent.id();
+   let cardId = (action.index === undefined ? state.agentPlayerDeck[agentId][0] : state.agentPlayerDeck[agentId][action.index]);
+
+   return TransferReducer.reduce(state, "agentPlayerDeck", agentId, cardId, "agentHand", agentId);
+}
+
+function incrementNextAgentId(state)
+{
+   return ReducerUtilities.updateObject(state,
+   {
+      nextAgentId: state.nextAgentId + 1,
+   });
+}
+
+function setDeck(state, action, name)
+{
+   let agentId = action.agent.id();
+   let cardInstanceIds = CardInstance.cardInstancesToIds(action.deck);
+
+   return ReducerUtilities.setValue(state, action, name, agentId, cardInstanceIds);
+}
+
+function transferCard(state, action, fromName, toName)
+{
+   let agentId = action.agent.id();
+   let cardId = action.cardInstance.id();
+
+   return TransferReducer.reduce(state, fromName, agentId, cardId, toName, agentId);
+}
 
 if (Object.freeze)
 {

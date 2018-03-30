@@ -4,7 +4,6 @@ var AgentAction = {};
 
 AgentAction.ADD_THREAT = "addThreat";
 AgentAction.ATTACH_CARD = "attachCard";
-AgentAction.ATTACH_TO_ENGAGED_ENEMY = "attachToEngagedEnemy";
 AgentAction.DISCARD_ATTACHMENT_CARD = "discardAttachmentCard";
 AgentAction.DISCARD_FROM_HAND = "discardFromHand";
 AgentAction.DISCARD_FROM_PLAYER_DECK = "discardFromPlayerDeck";
@@ -37,21 +36,6 @@ AgentAction.attachCard = function(agent, cardInstance, attachmentInstance)
    return (
    {
       type: AgentAction.ATTACH_CARD,
-      agent: agent,
-      cardInstance: cardInstance,
-      attachmentInstance: attachmentInstance,
-   });
-};
-
-AgentAction.attachToEngagedEnemy = function(agent, cardInstance, attachmentInstance)
-{
-   InputValidator.validateNotNull("agent", agent);
-   InputValidator.validateNotNull("cardInstance", cardInstance);
-   InputValidator.validateNotNull("attachmentInstance", attachmentInstance);
-
-   return (
-   {
-      type: AgentAction.ATTACH_TO_ENGAGED_ENEMY,
       agent: agent,
       cardInstance: cardInstance,
       attachmentInstance: attachmentInstance,
