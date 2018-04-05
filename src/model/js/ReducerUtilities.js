@@ -24,6 +24,14 @@ ReducerUtilities.integerOrZero = function(value)
    return (Number.isInteger(value) ? value : 0);
 };
 
+ReducerUtilities.set = function(state, key, value)
+{
+   let source = {};
+   source[key] = value;
+
+   return ReducerUtilities.updateObject(state, source);
+};
+
 ReducerUtilities.setValue = function(state, action, name, key, value)
 {
    let newMap = ReducerUtilities.copyObject(state[name]);

@@ -1,4 +1,5 @@
 import InputValidator from "../../common/js/InputValidator.js";
+import ReducerUtilities from "./ReducerUtilities.js";
 
 var TransferReducer = {};
 
@@ -41,29 +42,23 @@ TransferReducer.reduce = function(state, fromName, fromId, transferInstanceId, t
       }
       else
       {
-         newObject[fromName] = Object.assign(
-         {}, state[fromName]);
+         newObject[fromName] = ReducerUtilities.copyObject(state[fromName]);
          newObject[fromName][fromId] = newFromDeck;
       }
-      // newObject[fromName] = (fromId === undefined ? newFromDeck : Object.assign(
-      // {}, state[fromName])[fromId] = newFromDeck);
+
       if (toId === undefined)
       {
          newObject[toName] = newToDeck;
       }
       else
       {
-         newObject[toName] = Object.assign(
-         {}, state[toName]);
+         newObject[toName] = ReducerUtilities.copyObject(state[toName]);
          newObject[toName][toId] = newToDeck;
       }
-      // newObject[toName] = (toId === undefined ? newToDeck : Object.assign(
-      // {}, state[toName])[toId] = newToDeck);
 
       LOGGER.debug("newObject = " + JSON.stringify(newObject));
 
-      return Object.assign(
-      {}, state, newObject);
+      return ReducerUtilities.updateObject(state, newObject);
    }
 
    LOGGER.warn(fromName + "[" + fromId + "] empty");

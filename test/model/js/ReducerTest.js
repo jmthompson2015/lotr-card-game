@@ -1,6 +1,10 @@
 import EnemyCard from "../../../src/artifact/js/EnemyCard.js";
 import GameEvent from "../../../src/artifact/js/GameEvent.js";
+import HeroCard from "../../../src/artifact/js/HeroCard.js";
 import Phase from "../../../src/artifact/js/Phase.js";
+import QuestCard from "../../../src/artifact/js/QuestCard.js";
+import Scenario from "../../../src/artifact/js/Scenario.js";
+
 import Action from "../../../src/model/js/Action.js";
 import CardInstance from "../../../src/model/js/CardInstance.js";
 import Environment from "../../../src/model/js/Environment.js";
@@ -11,6 +15,37 @@ import ScenarioDeckBuilder from "../../../src/model/js/ScenarioDeckBuilder.js";
 import Agent from "../../../src/model/js/Agent.js";
 
 QUnit.module("Reducer");
+
+QUnit.test("addAgent()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+
+   // Run.
+   let agent = new Agent(store, "First");
+
+   // Verify.
+   assert.ok(agent);
+   assert.equal(Object.keys(store.getState().agents).length, 1);
+   assert.equal(store.getState().agents[1].id, 1);
+   assert.equal(store.getState().agents[1].name, "First");
+});
+
+QUnit.test("addCardInstance()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   let card = HeroCard.properties[HeroCard.ARAGORN_CORE];
+
+   // Run.
+   let cardInstance = new CardInstance(store, card);
+
+   // Verify.
+   assert.ok(cardInstance);
+   assert.equal(Object.keys(store.getState().cardInstances).length, 1);
+   assert.equal(store.getState().cardInstances[1].id, 1);
+   assert.equal(store.getState().cardInstances[1].cardKey, HeroCard.ARAGORN_CORE);
+});
 
 QUnit.test("agentEngageCard()", function(assert)
 {
@@ -31,6 +66,42 @@ QUnit.test("agentEngageCard()", function(assert)
    // Verify.
    assert.equal(store.getState().stagingArea.length, 2);
    assert.equal(Object.keys(store.getState().agentEngagementArea).length, 1);
+});
+
+QUnit.test("clearEvent()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   var context;
+   var callback = function() {};
+   store.dispatch(Action.enqueueEvent(GameEvent.QUEST_CARD_DRAWN, context, callback));
+   store.dispatch(Action.enqueueEvent(GameEvent.CARD_PLAYED, context, callback));
+   store.dispatch(Action.dequeueEvent());
+   assert.ok(store.getState().eventData);
+   assert.equal(store.getState().eventData.eventKey, GameEvent.QUEST_CARD_DRAWN);
+
+   // Run.
+   store.dispatch(Action.clearEvent());
+
+   // Verify.
+   assert.equal(store.getState().eventData, undefined);
+});
+
+QUnit.test("clearPhase()", function(assert)
+{
+   // Setup.
+   var store = Redux.createStore(Reducer.root);
+   store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END));
+   store.dispatch(Action.enqueuePhase(Phase.ENCOUNTER_ENGAGEMENT_CHECK_START));
+   store.dispatch(Action.dequeuePhase());
+   assert.ok(store.getState().phaseData);
+   assert.equal(store.getState().phaseData.phaseKey, Phase.ENCOUNTER_OPTIONAL_ENGAGEMENT_END);
+
+   // Run.
+   store.dispatch(Action.clearPhase());
+
+   // Verify.
+   assert.equal(store.getState().phaseData, undefined);
 });
 
 QUnit.test("dealShadowCard() index", function(assert)
@@ -339,6 +410,22 @@ QUnit.test("incrementRound()", function(assert)
    assert.equal(store.getState().round, 2);
 });
 
+QUnit.test("setActiveAgent()", function(assert)
+{
+   // Setup.
+   let game = createGame();
+   let store = game.store();
+   let environment = game.engine().environment();
+   let agent = environment.agents()[1];
+   assert.equal(store.getState().activeAgentId, undefined);
+
+   // Run.
+   store.dispatch(Action.setActiveAgent(agent));
+
+   // Verify.
+   assert.equal(store.getState().activeAgentId, agent.id());
+});
+
 QUnit.test("setActiveLocation()", function(assert)
 {
    // Setup.
@@ -355,6 +442,131 @@ QUnit.test("setActiveLocation()", function(assert)
    // Verify.
    assert.equal(store.getState().stagingArea.length, 1);
    assert.equal(store.getState().activeLocationId, cardInstance.id());
+});
+
+QUnit.test("setAdjudicator()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   let adjudicator = {};
+   assert.equal(store.getState().adjudicator, undefined);
+
+   // Run.
+   store.dispatch(Action.setAdjudicator(adjudicator));
+
+   // Verify.
+   assert.equal(store.getState().adjudicator, adjudicator);
+});
+
+QUnit.test("setEnvironment()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   let environment = {};
+   assert.equal(store.getState().environment, undefined);
+
+   // Run.
+   store.dispatch(Action.setEnvironment(environment));
+
+   // Verify.
+   assert.equal(store.getState().environment, environment);
+});
+
+QUnit.test("setFirstAgent()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   let agent1 = new Agent(store, "First");
+   assert.equal(store.getState().firstAgentId, undefined);
+
+   // Run.
+   store.dispatch(Action.setFirstAgent(agent1));
+
+   // Verify.
+   assert.equal(store.getState().firstAgentId, agent1.id());
+});
+
+QUnit.test("setDelay()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   assert.equal(store.getState().delay, 1000);
+
+   // Run.
+   store.dispatch(Action.setDelay(10));
+
+   // Verify.
+   assert.equal(store.getState().delay, 10);
+});
+
+QUnit.test("setEncounterDeck()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   let deck = [];
+   deck.push(new CardInstance(store, EnemyCard.properties[EnemyCard.FOREST_SPIDER]));
+   assert.equal(store.getState().encounterDeck.join(), [].join());
+
+   // Run.
+   store.dispatch(Action.setEncounterDeck(deck));
+
+   // Verify.
+   assert.equal(store.getState().encounterDeck.join(), deck.map(cardInstance => cardInstance.id()).join());
+});
+
+QUnit.test("setQuestDeck()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   let deck = [];
+   deck.push(new CardInstance(store, QuestCard.properties[QuestCard.PTM1A_FLIES_AND_SPIDERS]));
+   deck.push(new CardInstance(store, QuestCard.properties[QuestCard.PTM1B_FLIES_AND_SPIDERS]));
+   assert.equal(store.getState().questDeck.join(), [].join());
+
+   // Run.
+   store.dispatch(Action.setQuestDeck(deck));
+
+   // Verify.
+   assert.equal(store.getState().questDeck.join(), deck.map(cardInstance => cardInstance.id()).join());
+});
+
+QUnit.test("setResourceBase()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   assert.equal(store.getState().resourceBase, "view/resource/");
+
+   // Run.
+   store.dispatch(Action.setResourceBase("/path/to/resource/"));
+
+   // Verify.
+   assert.equal(store.getState().resourceBase, "/path/to/resource/");
+});
+
+QUnit.test("setScenarioKey()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   assert.equal(store.getState().scenarioKey, undefined);
+
+   // Run.
+   store.dispatch(Action.setScenarioKey(Scenario.PASSAGE_THROUGH_MIRKWOOD));
+
+   // Verify.
+   assert.equal(store.getState().scenarioKey, Scenario.PASSAGE_THROUGH_MIRKWOOD);
+});
+
+QUnit.test("setUserMessage()", function(assert)
+{
+   // Setup.
+   let store = Redux.createStore(Reducer.root);
+   assert.equal(store.getState().userMessage, "");
+
+   // Run.
+   store.dispatch(Action.setUserMessage("this is a message"));
+
+   // Verify.
+   assert.equal(store.getState().userMessage, "this is a message");
 });
 
 function createEnvironment()
